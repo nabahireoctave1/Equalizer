@@ -1,0 +1,29 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import './App.css';
+import Setting from './pages/Settings';
+import Adminsetting from './pages/adminsetting';
+import Agents_company_portal from './pages/agents_company_portal';
+import Billing from './pages/Billing';
+import Display from './pages/Display';
+
+
+
+
+
+
+
+function App() {
+  return (
+          <div>
+            <Dashboard/>
+            {/* <Billing/> */}
+            {/* <Display/> */}
+            {/* <Adminsetting/> */}
+            {/* <Agents_company_portal/> */}
+            
+    </div>
+  );
+}
+
+export default App;

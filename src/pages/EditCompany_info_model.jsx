@@ -1,0 +1,148 @@
+import React, { useState } from 'react';
+import { Building2, X, ShieldAlert, Calendar, MapPin, User, Hash, Camera } from 'lucide-react';
+
+function EditCompany_info_model({ onclose }) {
+  const [logo, setLogo] = useState(null);
+
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setLogo(URL.createObjectURL(file));
+    }
+  };
+
+  return (
+    <div 
+      onClick={onclose} 
+      className='fixed inset-0 z-50 flex justify-center items-center bg-black/40 backdrop-blur-sm p-4'
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()} 
+        className='bg-white border-none rounded-2xl animate-bounce-once shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in duration-200'
+      >
+        <div className='relative px-6 py-3 border-b border-blue-400 bg-blue-300 flex items-center justify-between'>
+          <div className='flex items-center gap-3'>
+            <div className='p-1.5 bg-blue-500  rounded-full'>
+              <Building2 size={20} className='text-white' />
+            </div>
+            <h1 className='text-sm font-bold text-blue-950 uppercase tracking-tight'>Edit Company Information</h1>
+          </div>
+          
+          <button 
+            onClick={onclose}
+            className="p-1 rounded-full bg-blue-500 text-white hover:bg-blue-400/50 transition-colors"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className='flex flex-row divide-x divide-gray-100'>
+          <div className='w-1/4 bg-gray-50/50 p-6 flex flex-col items-center justify-center gap-3'>
+            <div className='relative group'>
+              <div className='w-24 h-24 rounded-full bg-white border border-gray-200 flex items-center 
+              justify-center overflow-hidden shadow-sm'>
+                {logo ? (
+                  <img src={logo} alt="Company Logo" className="w-full h-full object-cover" />
+                ) : (
+                  <Building2 size={30} className="text-gray-200" />
+                )}
+              </div>
+              <label 
+                htmlFor="logo-upload" 
+                className='absolute inset-0 bg-blue-600/60 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white gap-1'
+              >
+                <Camera size={18} />
+                <span className='text-[10px] font-bold uppercase'>Upload</span>
+              </label>
+              <input type="file" id="logo-upload" accept="image/*" className="hidden" onChange={handleLogoChange} />
+            </div>
+            <div className='text-center'>
+                <p className='text-[10px] font-bold text-gray-500 uppercase tracking-widest'>Company Logo</p>
+                
+            </div>
+          </div>
+
+          <div className='flex-1 p-6 bg-white'>
+            <div className='grid grid-cols-2 gap-x-6 gap-y-4'>
+              <div>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                  <User size={12} /> Company Name
+                </label>
+                <input 
+                  type="text" 
+                  className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
+                  defaultValue='Musanze akea service' 
+                />
+              </div>
+
+              <div>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                  <MapPin size={12} /> Location
+                </label>
+                <input 
+                  type="text" 
+                  className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
+                  defaultValue='Kampala, Uganda' 
+                />
+              </div>
+
+              <div>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                  <ShieldAlert size={12} /> Admin Representative
+                </label>
+                <input 
+                  type="text" 
+                  className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
+                  defaultValue='James Willlock' 
+                />
+              </div>
+
+              <div>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                  Registration Number
+                </label>
+                <input 
+                  type="text" 
+                  readOnly
+                  className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-100 bg-gray-100 text-gray-500 cursor-not-allowed outline-none' 
+                  defaultValue='0987565345' 
+                />
+              </div>
+            </div>
+
+            <div className='mt-6 flex items-center justify-between p-3 bg-gray-100 rounded-xl'>
+                <div className='flex items-center gap-4'>
+                    <div>
+                        <span className='text-[9px] font-bold text-gray-500 uppercase block'>Status</span>
+                        <div className='flex items-center gap-1.5 text-red-600 font-bold text-[10px] uppercase tracking-wider mt-0.5'>
+                            <span className='w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse'></span>
+                            Suspended
+                        </div>
+                    </div>
+                    <div className='h-8 w-1px bg-gray-200'></div>
+                    <div>
+                        <span className='text-[9px] font-bold text-gray-500 uppercase block'>Joined</span>
+                        <p className='text-[11px] font-bold text-gray-700 mt-0.5'>Jan 14, 2026</p>
+                    </div>
+                </div>
+
+                <div className='flex gap-2'>
+                    <button 
+                        onClick={onclose}
+                        className='px-4 py-3 cursor-pointer text-gray-600 font-bold rounded-md hover:bg-gray-200 transition-all text-[10px] uppercase'
+                    >
+                        Cancel
+                    </button>
+                    <button className='px-6 py-3 cursor-pointer bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-sm transition-all text-[10px] uppercase tracking-wide'>
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default EditCompany_info_model;
