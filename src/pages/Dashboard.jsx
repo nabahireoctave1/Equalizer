@@ -4,6 +4,7 @@ import {
   ChevronRight, ChevronLeft, TrendingDown, CreditCard, DollarSign, PieChart, X,
   User2
 } from "lucide-react";
+
 import { useState } from "react";
 import AdminList from "./AdminList";
 import Companies from "./Companies";
@@ -12,17 +13,22 @@ import Setting from "./Settings";
 import Transactionlog_model from "./Transactionlog_model";
 import User_info_model from "./User_info_model";
 import Agents from "./Agents";
+import Notification from "./Notification";
 
 let Dashboard = () => {
   const [activePage, setactivepage] = useState('overview');
   const [isopentransactionmodel, setisopened] = useState(false);
   const [isopenusermodel, setopenusermodel] = useState(false);
   const [issidebaropen, setissidebaropen] = useState(false);
+  const  [isnotificationopen,setisnotificatonopen]=useState(false)
+   
 
   const transactionmodelopened = (e) => { e.preventDefault(); setisopened(true); };
   const openuserinformodel = (e) => { e.preventDefault(); setopenusermodel(true); };
+  const opennotification=(e)=>{e.preventDefault();setisnotificatonopen(true)}
   const closemodel = () => setisopened(false);
   const closeusermodel = () => setopenusermodel(false);
+  const closenotificationmodel= ()=>setisnotificatonopen(false)
 
   const navigateTo = (page) => {
     setactivepage(page);
@@ -35,7 +41,7 @@ let Dashboard = () => {
       <header className="flex justify-between bg-gradient-to-r from-blue-300 to-blue-600 p-4 sticky top-0 z-50 shrink-0 shadow-md">
         <h2 className="text-white font-extrabold text-4xl tracking-tighter">Equalizer</h2>
         <div className="flex gap-5 text-white items-center">
-          <Bell className="cursor-pointer w-5 h-5" />
+          <Bell className="cursor-pointer w-5 h-5"  onClick={opennotification}/>
           <span 
             className="cursor-pointer w-6 h-6 md:hidden transition-transform active:scale-90" 
             onClick={() => setissidebaropen(true)}
@@ -45,7 +51,9 @@ let Dashboard = () => {
           <div className="w-8 h-8 rounded-full bg-blue-400 border border-white/30 flex items-center justify-center text-xs font-bold">AD</div>
         </div>
       </header>
-
+{ isnotificationopen &&(
+  <Notification onClose={closenotificationmodel}/>
+) }
       <div className="flex flex-1 overflow-hidden relative">
         
         
