@@ -8,6 +8,8 @@ import Billing from './pages/Billing';
 import Display from './pages/Display';
 import About from './pages/about';
 import Notification from './pages/Notification';
+import AdDashboard from './pages/AdDashboard';
+
 
 
 
@@ -18,13 +20,14 @@ import Notification from './pages/Notification';
 function App() {
   return (
           <div>
-            <Dashboard/>
+            {/* <Dashboard/> */}
             {/* <Billing/> */}
             {/* <About/> */}
             {/* <Display/> */}
             {/* <Adminsetting/> */}
             {/* <Agents_company_portal/> */}
             {/* <Notification/> */}
+            <AdDashboard/>
             
     </div>
   );

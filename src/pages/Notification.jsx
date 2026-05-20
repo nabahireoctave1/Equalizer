@@ -1,7 +1,7 @@
-import { BellDot, CircleCheck, XIcon } from 'lucide-react'
+import { Bell, BellDot, CircleCheck, XIcon } from 'lucide-react'
 import React, { useState } from 'react'
 
-function Notification({onClose,title='service activation',message="payment completed wait for sytem confirmation!! "}) {
+function Notification({onClose,title='service activation',message="Payment completed wait for sytem confirmation!! "}) {
     const [isreaded,setisreaded]=useState(true)
   return (
     <div className='flex justify-center  md:justify-end'>
@@ -15,8 +15,10 @@ function Notification({onClose,title='service activation',message="payment compl
 
            <div>
 
-            <h1 className='text-xs font-bold first-letter:uppercase py-2 '>{isreaded ? <span className='flex gap-2 items-center'><CircleCheck size={18} className='text-blue-400'/>notification readed</span> :'New notification'}</h1>
-            <p className='text-xs first-letter:uppercase'>{message}</p>
+            <h1 className='text-xs font-bold first-letter:uppercase py-2 '>
+                {isreaded ? <span className='flex gap-2 items-center'><CircleCheck 
+                size={18} className='text-blue-400'/>Notification readed</span> :'New notification'}</h1>
+            <p className='text-xs  flex gap-3'><Bell size={20}/>{message}</p>
             </div>
             <div  >
              {isreaded ? <div className='p-2 bg-green-500 rounded-full cursor-pointer'></div>
