@@ -1,4 +1,4 @@
-import { ActivityIcon, Bell, BellDot, CircleCheck, Edit2, PlusCircle, Settings, ToggleLeft, ToggleRight, Save, CreditCard, Clock, BarChart3 } from 'lucide-react'
+import { ActivityIcon, Bell, BellDot, CircleCheck, SaveIcon,Edit2, PlusCircle, Settings, ToggleLeft, ToggleRight, Save, CreditCard, Clock, BarChart3, Languages, AlertCircle, MonitorCog } from 'lucide-react'
 import React, { useState } from 'react'
 import EditCompany_info_model from './EditCompany_info_model'
 
@@ -12,31 +12,24 @@ function AdminSetting() {
     let closecompanyinfomodel= ()=>setiscompanyinfoopen(false)
 
     const iconSize = 27
-    const cardStyle = 'bg-white border border-blue-300 p-6 rounded-xl mb-6 shadow-sm transition-all hover:border-blue-400'
+    const cardStyle = 'bg-white border border-gray-200 p-6 rounded-lg mb-6  transition-all hover:border-blue-300'
     const inputStyle = 'w-full bg-white border border-gray-200 rounded-sm p-2 text-sm text-gray-700 outline-none focus:border-blue-400 transition-all'
     const sectionHeading = 'flex items-center gap-3 text-lg font-extrabold text-gray-700'
 
     return (
-        <div className='min-h-screen bg-white text-gray-700 pb-12'>
-            <div className='sticky top-0 z-50 bg-blue-300 p-4'>
-                <div className='flex items-center gap-3'>
-                    <Settings size={30} className='animate-spin' />
-                    <h1 className='text-2xl font-black  tracking-wide'>Setting Panel</h1>
-                </div>
-               
-            </div>
+        <div className='min-h-screen bg-gray-50 text-gray-700 pb-12'>
+          
+           
 
             <div className='max-w-5xl mx-auto mt-10 px-6'>
                 
                 <div className={cardStyle}>
-                    <div className='flex justify-between items-center mb-6 border-b border-gray-100 pb-4'>
+                    <div className='mb-6  '>
                         <h2 className={sectionHeading}>
                             <ActivityIcon size={iconSize} className="text-blue-400" />
                             Manage Company Activity
                         </h2>
-                        <button className='flex items-center gap-1 text-gray-700 border cursor-pointer border-gray-200 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-blue-50 transition-colors'>
-                            <PlusCircle size={18} className='text-blue-800 md:text-gray-700 ' /> <span className='hidden md:block'>Add Office</span>
-                        </button>
+                       
                     </div>
 
                     <div className='grid md:grid-cols-2 gap-6'>
@@ -46,21 +39,22 @@ function AdminSetting() {
                                     <CircleCheck size={18} className="text-blue-300" /> Force Logout & block company access
                                 </p>
                                 <button onClick={() => setForceLogoutOpen(!isForceLogoutOpen)} className="transition-transform active:scale-90">
-                                    {isForceLogoutOpen ? <ToggleRight size={iconSize} className="text-blue-400 cursor-pointer" /> : <ToggleLeft size={iconSize} className="text-gray-400 cursor-pointer" />}
+                                    {isForceLogoutOpen ? <ToggleRight size={iconSize} className="text-red-400 cursor-pointer" /> : <ToggleLeft size={iconSize} className="text-gray-400 cursor-pointer" />}
                                 </button>
                             </div>
-                            <div className='flex justify-between items-center p-3 rounded-lg border border-gray-100'>
+                            <div className='p-3 rounded-lg border border-gray-100'>
                                 <p className='text-sm font-bold flex items-center gap-2 text-gray-600'>
-                                    <CircleCheck size={18} className="text-blue-300" /> Disable Loans Application
+                                    <CircleCheck size={18} className="text-blue-300" />
+                                     Disable Loans Application
                                 </p>
-                                <input type="checkbox" className='w-4 h-4  cursor-pointer' />
+                                <button  className=' px-3 py-1 w-45 mt-2 text-white rounded-md font-semibold mx-6  bg-red-400 cursor-pointer'>Disable</button>
                             </div>
                         </div>
 
-                        <div className='border-2 border-gray-100  p-4 rounded-xl flex justify-between items-center '>
+                        <div className='border-2 border-gray-50  p-4 rounded-xl flex justify-between items-center '>
                             <div>
                                 <span className='text-[10px] font-black text-gray-400 uppercase tracking-widest'>Company Entity</span>
-                                <p className='text-lg font-black text-gray-800'>Akea Finance</p>
+                                <p className='text-lg font-extrabold text-gray-800 uppercase'>Akea Finance</p>
                             </div>
                             <div className="p-2 rounded-full hover:bg-gray-100 transition-colors">
                                 <Edit2 size={22} onClick={opencompanyinfomodel} className='text-blue-400 cursor-pointer' />
@@ -71,16 +65,25 @@ function AdminSetting() {
 
                 <div className='grid md:grid-cols-2 gap-6 mb-6'>
                     <div className={cardStyle}>
-                        <h2 className='flex items-center gap-3 font-extrabold text-gray-700 mb-6'>
-                            <CreditCard size={iconSize} className="text-blue-400" /> Payment Methods
+                        <h2 className='flex items-center gap-3 font-extrabold text-gray-700 mb-6 capitalize'>
+                            <MonitorCog className='text-blue-400'/> Work space configuration
                         </h2>
-                        <div className='space-y-1'>
-                            {['Crypto', 'Other payments (Momo , Card , Bank)'].map((m) => (
-                                <label key={m} className='flex justify-between items-center p-2.5 rounded-lg border border-transparent hover:border-gray-200 hover:bg-gray-50 cursor-pointer transition-all'>
-                                    <span className='text-sm font-semibold text-gray-600'>{m}</span>
-                                    <input type="checkbox" name="payment" className='w-4 h-4' />
-                                </label>
-                            ))}
+                        <div className='space-y-1 pb-2'>
+                            <h2 className='font-bold uppercase text-xs'>Report generation time </h2>
+                            <input type='text' value={'6:08 PM'} name="" id="" className='w-full border border-gray-100 rounded-md outline-none focus:ring-1 focus:ring-blue-300 text-sm text-gray-700 p-2'/>
+                        
+                        </div>
+                        <div className='space-y-1 py-2'>
+                            <h2 className='font-bold uppercase text-xs'>Enable notification </h2>
+                               <button className='bg-blue-400 w-30 text-sm cursor-pointer text-white rounded-md p-2'>
+                                Enable 
+                               </button>
+                        </div>
+                        <div className='space-y-1 py-6'>
+                            <h2 className='font-bold uppercase text-xs'>add Branch </h2>
+                               <button className='bg-blue-400 w-30 flex gap-2 text-sm cursor-pointer text-white rounded-md p-2'>
+                                <PlusCircle size={17}/> Branch
+                               </button>
                         </div>
                     </div>
 
@@ -167,8 +170,13 @@ function AdminSetting() {
                         <option>Monthly</option>
                     </select>
                     </div>
+                     <div className='flex justify-end p-4'>
+                    <button className='bg-blue-400 py-2 px-8 text-white cursor-pointer text-sm  flex  gap-2 rounded-md'><SaveIcon size={20}/>save all </button>
+                </div>
                    
                 </div>
+
+               
              {iscompanyinfoopened &&(
                 <div className='fixed inset-0 z-50 '>
                    <EditCompany_info_model onclose={closecompanyinfomodel}/> 

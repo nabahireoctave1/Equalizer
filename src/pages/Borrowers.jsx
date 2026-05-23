@@ -3,16 +3,19 @@ import React from 'react'
 
 function Borrowers() {
   const borrowers = [
-    { BNid: 1234567857487475, names: "james willlock", amount: 3000000, cashier: 'ishimwe precious', branch: 'Kigali tech', phoneno: "263456789678" },
-    { BNid: 1234567857487475, names: "james willlock", amount: 3000000, cashier: 'ishimwe precious', branch: 'Kigali tech', phoneno: "263456789678" },
-    {  BNid: 1234567857487475, names: "james willlock", amount: 3000000, cashier: 'ishimwe precious', branch: 'Kigali tech', phoneno: "263456789678" },
+    { BNid: 1234567857487475, names: "james willlock", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Bunyoro" },
+    { BNid: 1234567857487475, names: "Nabahire octave", amount: 3000000, branch:"akea service", phoneno: "263456789678",locaction:"Kampala" },
+    {  BNid: 1234567857487475, names: "Mutoniwase M denyse ", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Hoima" },
+    {  BNid: 1234567857487475, names: "Mugabo Emma", amount: 3000000, branch: 'Rubavu live stock hub', phoneno: "263456789678",locaction:"Hoima" },
+    {  BNid: 1234567857487475, names: "cyusa Eddy", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Hoima" },
+    {  BNid: 1234567857487475, names: "stev alern lorent", amount: 3000000,  branch: 'Kigali tech', phoneno: "263456789678",locaction:"Hoima" },
   ]
 
   return (
     <div className='min-h-screen bg-gray-50 p-6'>
       <div className='bg-white rounded-md   flex flex-col sm:flex-row justify-between p-5 items-center gap-4 mb-6'>
         <div className='flex gap-3 items-center'>
-          <span className='bg-blue-600 text-white p-2.5 rounded-lg shadow-sm shadow-blue-100'>
+          <span className='bg-blue-400 text-white p-2.5 rounded-full shadow-sm shadow-blue-100'>
             <HandCoins size={22} />
           </span>
           <div>
@@ -43,7 +46,9 @@ function Borrowers() {
                 <th className='py-4 px-4'>Names</th>
                 <th className='py-4 px-4'>Branch Name</th>
                 <th className='py-4 px-4'>Phone No</th>
+                       <th className='py-4 px-4'>Location</th>
                 <th className='py-4 px-5 text-center'>Actions</th>
+                <th>maker</th>
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100'>
@@ -53,17 +58,20 @@ function Borrowers() {
                     {index + 1}
                   </td>
                  
-                  <td className='py-3.5 px-4 font-sans text-sm text-gray-800'>
+                  <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800'>
                     {b.BNid}
                   </td>
-                  <td className='py-3.5 px-4 font-medium text-sm text-gray-900 capitalize'>
+                  <td className='py-3.5 px-4 text-[14px] capitalize text-gray-900 '>
                     {b.names}
                   </td>
-                  <td className='py-3.5 px-4 text-gray-800'>
+                  <td className='py-3.5 px-4 font-semibold  text-gray-800 capitalize'>
                     {b.branch}
                   </td>
-                  <td className='py-3.5 px-4 font-medium text-gray-800'>
+                  <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800'>
                     {b.phoneno}
+                  </td>
+                   <td className='py-3.5 px-4 font-sans text-[14px] first-letter:uppercase text-gray-800'>
+                    {b.locaction}
                   </td>
                   <td className='py-3.5 px-5'>
                     <div className='flex items-center justify-center gap-2'>
@@ -79,6 +87,10 @@ function Borrowers() {
                       >
                         <RefreshCcw size={16} />
                       </button>
+                    </div>
+                  </td>
+                  <td className='flex items-center justify-end p-4'>
+                    <div className='bg-green-600 p-2 w-fit rounded-full'>
                     </div>
                   </td>
                 </tr>

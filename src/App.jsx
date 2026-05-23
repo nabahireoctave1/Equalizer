@@ -9,7 +9,7 @@ import Display from './pages/Display';
 import About from './pages/about';
 import Notification from './pages/Notification';
 import AdDashboard from './pages/AdDashboard';
-
+import AdReport from './pages/AdReport';
 
 
 

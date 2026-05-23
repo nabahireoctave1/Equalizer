@@ -30,7 +30,7 @@ function EditCompany_info_model({ onclose }) {
           
           <button 
             onClick={onclose}
-            className="p-1 rounded-full bg-blue-500 text-white hover:bg-blue-400/50 transition-colors"
+            className="p-1 rounded-full bg-blue-500 cursor-pointer text-white hover:bg-blue-400/50 transition-colors"
           >
             <X size={18} />
           </button>

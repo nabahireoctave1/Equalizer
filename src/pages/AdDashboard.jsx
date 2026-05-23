@@ -1,13 +1,19 @@
 import React, { Activity, useState } from 'react'
 import logo from '../assets/image.jpeg'
 import { 
-  BellDot, Users, BarChart3, ChevronDown, LayoutDashboardIcon, Wallet,
-  CreditCard, Receipt,Settings, HandCoins, Banknote, ActivityIcon,
-  MessageCircle, AlertTriangle, WalletCards, AwardIcon, TrendingUp, MoreHorizontal,PlusCircle,ChevronLeftIcon,ChevronRightIcon
+  BellDot, Users, BarChart3, ChevronDown, LayoutDashboardIcon, 
+  CreditCard, Receipt,Settings, HandCoins, Banknote, ActivityIcon,HelpCircle,BadgeDollarSign,
+  MessageCircle, AlertTriangle, WalletCards, AwardIcon, TrendingUp, MoreHorizontal,PlusCircle,
+  ChevronLeftIcon,ChevronRightIcon
   
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import Borrowers from './Borrowers'
+import AdReport from './AdReport'
+import AdminSetting from './adminsetting'
+import BranchLoan from './BranchLoan'
+import Cashiers from './Cashiers'
+
 
 function AdDashboard() {
   const [currentPages, setCurrentPage] = useState('Dashboard')
@@ -46,7 +52,7 @@ function AdDashboard() {
               { id: 'borrowers', label: 'Borrowers', icon: <HandCoins size={18} /> },
               { id: 'loans', label: 'Loans', icon: <Banknote size={18} /> },
               { id: 'repayment', label: 'Repayments', icon: <CreditCard size={18} /> },
-              { id: 'cashiers', label: 'Cashiers', icon: <Wallet size={18} /> },
+              { id: 'cashiers', label: 'Cashiers', icon: <BadgeDollarSign size={18} /> },
               { id: 'reports', label: 'Reports', icon: <BarChart3 size={18} /> },
               { id: 'settings', label: 'Settings', icon: <Settings size={18} /> },
             ].map((item) => (
@@ -65,7 +71,7 @@ function AdDashboard() {
 
         <div className='p-4 m-4 border border-gray-100 rounded-xl text-center'>
           <div className='w-10 h-10 bg-blue-600/10 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-3 shadow-inner'>
-            <WalletCards size={20} />
+            <HelpCircle size={20} />
           </div>
           <h3 className='text-gray-700 font-semibold text-sm'>Need Help?</h3>
           <p className='text-xs text-slate-500 mt-1 mb-4 px-2 leading-relaxed'>Contact our support team for any assistance.</p>
@@ -434,6 +440,22 @@ function AdDashboard() {
 
      {currentPages==='borrowers'&&(
       <Borrowers/>
+     )}
+
+     {currentPages==='reports'&&(
+      <AdReport/>
+     )}
+     {currentPages==='settings'&&(
+      <AdminSetting/>
+     )}
+
+
+     {currentPages==='loans'&&(
+      <BranchLoan/>
+     )}
+
+     {currentPages==='cashiers'&&(
+      <Cashiers/>
      )}
 
       </div>

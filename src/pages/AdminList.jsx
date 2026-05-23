@@ -110,7 +110,6 @@ function AdminList() {
                       </span>
                     </td>
 
-                    {/* Actions */}
                     <td className='px-6 py-4'>
                       <div className='flex items-center justify-center gap-1'>
                         
