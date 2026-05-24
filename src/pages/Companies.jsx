@@ -80,7 +80,6 @@ const Companies = () => {
   return (
     <div className='w-full h-screen bg-gray-50 flex flex-col font-sans overflow-hidden'>
       
-      {/* Sticky Top Header Section */}
       <div className='bg-white border-b border-gray-200 p-4 shrink-0'>
         <div className='max-w-5xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4'>
           

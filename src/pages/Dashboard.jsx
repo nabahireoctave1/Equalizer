@@ -197,7 +197,6 @@ let Dashboard = () => {
                     </div>
                   </div>
 
-                  {/* CASHIER MANAGEMENT TABLE */}
                   <div className="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
                     <div className="p-5 border-b border-gray-50 flex items-center justify-between">
                       <div className="flex items-center gap-3">
