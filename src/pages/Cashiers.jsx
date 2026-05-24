@@ -1,6 +1,6 @@
 import { BadgeDollarSign, Ban, Edit, Pencil, PlusIcon, RefreshCcw, Search, Trash } from "lucide-react";
 import React, { useState } from "react";
-
+import Newcashiermodel from "./Newcashiermodel";
 function Cashiers() {
  
   const [searchterm,setsearchterm]=useState('')
@@ -31,7 +31,6 @@ function Cashiers() {
     <div className="p-2 sm:p-4 md:p-6 bg-gray-100 min-h-screen">
       <div className="bg-white rounded-md border border-gray-200 p-3 sm:p-5">
         
-        {/* Header container adjusts to columns on mobile and stacks cleanly */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           
           <div className="flex items-center gap-3">
@@ -49,7 +48,6 @@ function Cashiers() {
             </div>
           </div>
 
-          {/* Search bar and Add Cashier button adjust weights contextually */}
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
             <div className="relative w-full sm:w-72 md:w-80">
               <Search
@@ -72,7 +70,6 @@ function Cashiers() {
           </div>
         </div>
 
-        {/* Responsive wrapper using hidden overflow rules preserves data integrity on mobile via horizontal swipe */}
         <div className="mt-6 overflow-x-auto w-full">
           <table className="w-full border-collapse whitespace-nowrap">
             <thead>

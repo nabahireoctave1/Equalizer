@@ -137,7 +137,6 @@ function AdDashboard() {
           </div>
         </div>
 
-        {/* Dashboard inner panels layout */}
         {currentPages === 'Dashboard' && (
           <div className='p-4 sm:p-8 flex-1 space-y-6 w-full mx-auto min-w-0'>
             
