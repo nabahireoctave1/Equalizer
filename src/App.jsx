@@ -10,6 +10,7 @@ import About from './pages/about';
 import Notification from './pages/Notification';
 import AdDashboard from './pages/AdDashboard';
 import AdReport from './pages/AdReport';
+import Newcashiermodel from './pages/Newcashiermodel';
 
 
 
@@ -28,6 +29,7 @@ function App() {
             {/* <Agents_company_portal/> */}
             {/* <Notification/> */}
             <AdDashboard/>
+
             
     </div>
   );

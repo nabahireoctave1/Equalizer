@@ -75,7 +75,7 @@ function AdReport() {
         </div>
       </div>
 
-      <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
         <div className='bg-white p-4 rounded-md border border-gray-100  flex items-center gap-3'>
           <div className='p-2.5 bg-blue-50 text-blue-500 rounded-full'><ArrowBigUp size={18}/></div>
           <div>

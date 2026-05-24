@@ -34,7 +34,7 @@ function BranchLoan() {
 
   return (
     <div className='w-full min-h-screen bg-gray-50 pb-10 overflow-y-auto'>
-      <div className='px-4 py-5 border-b border-gray-100  items-center   flex  rounded-md justify-between  m-4 bg-white '>
+      <div className='px-4 py-5 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-start sm:items-center rounded-md justify-between m-4 bg-white'>
         <div className='flex gap-2 items-center'>
          <span className='bg-blue-400 p-1 rounded-2xl text-white'><Activity size={25}></Activity></span>
          <h2 className='font-extrabold text-2xl text-gray-700'>Branch Loans</h2>
@@ -52,7 +52,7 @@ function BranchLoan() {
           />
          </div>
       </div>
-     
+      
 
       <div className="p-4 space-y-8">
         {filteredData.map((company) => (
@@ -65,30 +65,30 @@ function BranchLoan() {
 
 const CompaniesLoanTable = ({ company }) => {
   return (
-    <div className="bg-white rounded-md  border border-gray-200 overflow-hidden">
-      <div className='bg-white p-4 border-b border-gray-100 flex justify-between items-center'>  
-        <h2 className='text-md font-extrabold text-gray-800 uppercase whitespace-nowrap'>{company.name}</h2>
-        <p className='text-md font-bold text-gray-800 uppercase whitespace-nowrap'>{company.id}</p>
+    <div className="bg-white rounded-md border border-gray-200 overflow-hidden">
+      <div className='bg-white p-4 border-b border-gray-100 flex flex-wrap gap-2 justify-between items-center'>  
+        <h2 className='text-sm md:text-md font-extrabold text-gray-800 uppercase text-wrap max-w-xs sm:max-w-none'>{company.name}</h2>
+        <p className='text-sm md:text-md font-bold text-gray-500 uppercase whitespace-nowrap'>{company.id}</p>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left ">
+      <div className="overflow-x-auto w-full">
+        <table className="w-full text-left whitespace-nowrap">
           <thead>
-            <tr className=" text-gray-600 uppercase text-[10px] font-bold">
-              <th className="p-4 border-b border-gray-200 white">Client ID</th>
-              <th className="p-4 border-b border-gray-200 whitespace-nowrap">Client Name</th>
-              <th className="p-4 border-b border-gray-200 whitespace-nowrap">Amount</th>
-              <th className="p-4 border-b border-gray-200 whitespace-nowrap">Status</th>
-              <th className="p-4 border-b border-gray-200 whitespace-nowrap">Total Pay</th>
-              <th className="p-4 border-b border-gray-200 whitespace-nowrap">Fees</th>
+            <tr className="text-gray-600 uppercase text-[10px] font-bold border-b border-gray-200">
+              <th className="p-4">Client ID</th>
+              <th className="p-4">Client Name</th>
+              <th className="p-4">Amount</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Total Pay</th>
+              <th className="p-4">Fees</th>
             </tr>
           </thead>
           <tbody className="text-sm text-gray-800 ">
             {company.loans.map((loan, index) => (
-              <tr key={index} className=" cursor-pointer transition-colors border-b border-gray-100 last:border-0">
+              <tr key={index} className="cursor-pointer transition-colors border-b border-gray-100 last:border-0 hover:bg-gray-50/50">
                 <td className="p-4">{loan.id}</td>
-                <td className="p-4 font-semibold text-[13px] text-gray-700 whitespace-nowrap">{loan.name}</td>
-                <td className="p-4 font-bold text-[13px] whitespace-nowrap">{loan.amount} UGX</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700">{loan.name}</td>
+                <td className="p-4 font-bold text-[13px]">{loan.amount} UGX</td>
                 <td className="p-4">
                   <span className={`px-2 py-1 rounded-full text-[11px] font-bold uppercase ${
                     loan.status === 'Paid' ? 'bg-blue-500 text-white' : 'bg-red-400 text-white'
@@ -96,30 +96,30 @@ const CompaniesLoanTable = ({ company }) => {
                     {loan.status}
                   </span>
                 </td>
-                <td className="p-4 font-bold text-[13px] whitespace-nowrap">{loan.total} UGX</td>
-                <td className="p-4 whitespace-nowrap text-xs font-bold">{loan.fee}</td>
+                <td className="p-4 font-bold text-[13px]">{loan.total} UGX</td>
+                <td className="p-4 text-xs font-bold">{loan.fee}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="p-4 border-t border-gray-200 flex justify-between items-center">
-        <div>
-          <p className="text-[10px] text-gray-700 uppercase font-bold tracking-wider">Total Loaned</p>
-          <p className="text-lg font-black text-gray-800">{company.totalLoan} UGX</p>
+      <div className="p-4 border-t border-gray-200 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+        <div className="flex justify-between items-center sm:block">
+          <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Total Loaned</p>
+          <p className="text-base md:text-lg font-black text-gray-800">{company.totalLoan} UGX</p>
         </div>
-        <div>
-          <p className="text-[10px] text-gray-700 uppercase font-bold tracking-wider">Total Loans</p>
-          <p className="text-md font-black text-gray-800">{30} <span className='text-sm text-gray-700'>Loans</span></p>
+        <div className="flex justify-between items-center sm:block border-t border-b sm:border-0 py-2 sm:py-0 border-gray-100">
+          <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Total Loans</p>
+          <p className="text-sm md:text-md font-black text-gray-800">{30} <span className='text-xs text-gray-500 font-medium'>Loans</span></p>
         </div>
-        <div className="">
-          <p className="text-[10px] text-gray-700 uppercase font-bold tracking-wider">Total Unpaid</p>
-          <p className="text-lg font-black text-red-400">{company.unpaidLoan} UGX</p>
+        <div className="flex justify-between items-center sm:block">
+          <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Total Unpaid</p>
+          <p className="text-base md:text-lg font-black text-red-400">{company.unpaidLoan} UGX</p>
         </div>
       </div>
     </div>
   );
 }
 
-export default BranchLoan
+export default BranchLoan;

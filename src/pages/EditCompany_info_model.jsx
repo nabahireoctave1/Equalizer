@@ -14,15 +14,16 @@ function EditCompany_info_model({ onclose }) {
   return (
     <div 
       onClick={onclose} 
-      className='fixed inset-0 z-50 flex justify-center items-center bg-black/40 backdrop-blur-sm p-4'
+      className='fixed inset-0 z-50 flex justify-center items-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto'
     >
       <div 
         onClick={(e) => e.stopPropagation()} 
-        className='bg-white border-none rounded-2xl animate-bounce-once shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in duration-200'
+        className='bg-white border-none rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in duration-200 my-auto'
       >
-        <div className='relative px-6 py-3 border-b border-blue-400 bg-blue-300 flex items-center justify-between'>
+        {/* Header */}
+        <div className='relative px-6 py-4 border-b border-blue-400 bg-blue-300 flex items-center justify-between'>
           <div className='flex items-center gap-3'>
-            <div className='p-1.5 bg-blue-500  rounded-full'>
+            <div className='p-1.5 bg-blue-500 rounded-full'>
               <Building2 size={20} className='text-white' />
             </div>
             <h1 className='text-sm font-bold text-blue-950 uppercase tracking-tight'>Edit Company Information</h1>
@@ -36,11 +37,13 @@ function EditCompany_info_model({ onclose }) {
           </button>
         </div>
 
-        <div className='flex flex-row divide-x divide-gray-100'>
-          <div className='w-1/4 bg-gray-50/50 p-6 flex flex-col items-center justify-center gap-3'>
+        {/* Responsive Content Container */}
+        <div className='flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-gray-100'>
+          
+          {/* Logo Section - Top on Mobile, Left Sidebar on Desktop */}
+          <div className='w-full md:w-1/4 bg-gray-50/50 p-6 flex flex-col items-center justify-center gap-3'>
             <div className='relative group'>
-              <div className='w-24 h-24 rounded-full bg-white border border-gray-200 flex items-center 
-              justify-center overflow-hidden shadow-sm'>
+              <div className='w-24 h-24 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden shadow-sm'>
                 {logo ? (
                   <img src={logo} alt="Company Logo" className="w-full h-full object-cover" />
                 ) : (
@@ -57,18 +60,20 @@ function EditCompany_info_model({ onclose }) {
               <input type="file" id="logo-upload" accept="image/*" className="hidden" onChange={handleLogoChange} />
             </div>
             <div className='text-center'>
-                <p className='text-[10px] font-bold text-gray-500 uppercase tracking-widest'>Company Logo</p>
-                
+              <p className='text-[10px] font-bold text-gray-500 uppercase tracking-widest'>Company Logo</p>
             </div>
           </div>
 
-          <div className='flex-1 p-6 bg-white'>
-            <div className='grid grid-cols-2 gap-x-6 gap-y-4'>
+          {/* Form Content Section */}
+          <div className='flex-1 p-6 bg-white space-y-6'>
+            {/* Responsive Grid Setup */}
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4'>
               <div>
-                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1' htmlFor="company-name">
                   <User size={12} /> Company Name
                 </label>
                 <input 
+                  id="company-name"
                   type="text" 
                   className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
                   defaultValue='Musanze akea service' 
@@ -76,10 +81,11 @@ function EditCompany_info_model({ onclose }) {
               </div>
 
               <div>
-                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1' htmlFor="location">
                   <MapPin size={12} /> Location
                 </label>
                 <input 
+                  id="location"
                   type="text" 
                   className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
                   defaultValue='Kampala, Uganda' 
@@ -87,10 +93,11 @@ function EditCompany_info_model({ onclose }) {
               </div>
 
               <div>
-                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1' htmlFor="admin-rep">
                   <ShieldAlert size={12} /> Admin Representative
                 </label>
                 <input 
+                  id="admin-rep"
                   type="text" 
                   className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
                   defaultValue='James Willlock' 
@@ -98,10 +105,11 @@ function EditCompany_info_model({ onclose }) {
               </div>
 
               <div>
-                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1'>
+                <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1' htmlFor="reg-num">
                   Registration Number
                 </label>
                 <input 
+                  id="reg-num"
                   type="text" 
                   readOnly
                   className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-100 bg-gray-100 text-gray-500 cursor-not-allowed outline-none' 
@@ -110,34 +118,40 @@ function EditCompany_info_model({ onclose }) {
               </div>
             </div>
 
-            <div className='mt-6 flex items-center justify-between p-3 bg-gray-100 rounded-xl'>
-                <div className='flex items-center gap-4'>
-                    <div>
-                        <span className='text-[9px] font-bold text-gray-500 uppercase block'>Status</span>
-                        <div className='flex items-center gap-1.5 text-red-600 font-bold text-[10px] uppercase tracking-wider mt-0.5'>
-                            <span className='w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse'></span>
-                            Suspended
-                        </div>
-                    </div>
-                    <div className='h-8 w-1px bg-gray-200'></div>
-                    <div>
-                        <span className='text-[9px] font-bold text-gray-500 uppercase block'>Joined</span>
-                        <p className='text-[11px] font-bold text-gray-700 mt-0.5'>Jan 14, 2026</p>
-                    </div>
+            {/* Bottom Status Banner & Buttons */}
+            <div className='flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between p-3 bg-gray-100 rounded-xl'>
+              <div className='flex items-center gap-4 justify-start pl-1'>
+                <div>
+                  <span className='text-[9px] font-bold text-gray-500 uppercase block'>Status</span>
+                  <div className='flex items-center gap-1.5 text-red-600 font-bold text-[10px] uppercase tracking-wider mt-0.5'>
+                    <span className='w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse'></span>
+                    Suspended
+                  </div>
                 </div>
+                <div className='h-8 w-1 bg-gray-200'></div>
+                <div>
+                  <span className='text-[9px] font-bold text-gray-500 uppercase block'>Joined</span>
+                  <p className='text-[11px] font-bold text-gray-700 mt-0.5'>Jan 14, 2026</p>
+                </div>
+              </div>
 
-                <div className='flex gap-2'>
-                    <button 
-                        onClick={onclose}
-                        className='px-4 py-3 cursor-pointer text-gray-600 font-bold rounded-md hover:bg-gray-200 transition-all text-[10px] uppercase'
-                    >
-                        Cancel
-                    </button>
-                    <button className='px-6 py-3 cursor-pointer bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-sm transition-all text-[10px] uppercase tracking-wide'>
-                        Save Changes
-                    </button>
-                </div>
+              <div className='flex gap-2 justify-end'>
+                <button 
+                  type="button"
+                  onClick={onclose}
+                  className='flex-1 sm:flex-none px-4 py-2.5 cursor-pointer text-gray-600 font-bold rounded-md hover:bg-gray-200 transition-all text-[10px] uppercase'
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  className='flex-1 sm:flex-none px-5 py-2.5 cursor-pointer bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-sm transition-all text-[10px] uppercase tracking-wide whitespace-nowrap'
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
       </div>

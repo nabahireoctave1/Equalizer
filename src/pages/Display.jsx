@@ -34,7 +34,7 @@ export default function WalletModal() {
       </nav>
 
       <main className=" flex items-center justify-center p-4  lg:py-7">
-        <div className="w-full max-w-[1200px] grid md:grid-cols-2 bg-white rounded-xl overflow-hidden border border-slate-100">
+        <div className="w-full max-w-full grid md:grid-cols-2 bg-white rounded-xl overflow-hidden border border-slate-100">
           
           <div className="p-8 md:p-12 bg-slate-50 border-r border-slate-100 flex flex-col justify-center">
             <div className="flex items-center justify-center  gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 w-fit">

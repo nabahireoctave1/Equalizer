@@ -111,7 +111,7 @@ function Agents_company_portal() {
               )}
             </div>
 
-            <button className="w-full  bg-gradient-to-r from-blue-300 to-blue-400 text-white
+            <button className="w-full  bg-blue-300  text-white
              font-bold py-2 rounded-lg shadow-sm shadow-blue-50 transition-all duration-300 uppercase 
              tracking-wide cursor-pointer mt-6  border-blue-400 active:border-b-0 active:translate-y-1">
               Submit Registration
