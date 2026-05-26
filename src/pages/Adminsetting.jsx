@@ -36,7 +36,7 @@ function AdminSetting() {
                         <div className='space-y-4'>
                             <div className={`flex justify-between items-center p-3 rounded-lg border border-gray-100 ${isForceLogoutOpen ? '':'bg-gray-50 border-gray-100 border'}`} >
                                 <p className='text-sm font-bold flex items-center gap-2 text-gray-600'>
-                                    <CircleCheck size={18} className="text-blue-300" /> Force Logout & block company access
+                                    <CircleCheck size={18} className="text-blue-300" /> Force Logout 
                                 </p>
                                 <button onClick={() => setForceLogoutOpen(!isForceLogoutOpen)} className="transition-transform active:scale-90">
                                     {isForceLogoutOpen ? <ToggleRight size={iconSize} className="text-red-400 cursor-pointer" /> : <ToggleLeft size={iconSize} className="text-gray-400 cursor-pointer" />}

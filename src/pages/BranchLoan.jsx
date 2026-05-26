@@ -34,7 +34,8 @@ function BranchLoan() {
 
   return (
     <div className='w-full min-h-screen bg-gray-50 pb-10 overflow-y-auto'>
-      <div className='px-4 py-5 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-start sm:items-center rounded-md justify-between m-4 bg-white'>
+      <div className='px-4 py-5 border-b border-gray-100 flex flex-col sm:flex-row gap-4 
+      items-start sm:items-center rounded-md justify-between m-4 bg-white'>
         <div className='flex gap-2 items-center'>
          <span className='bg-blue-400 p-1 rounded-2xl text-white'><Activity size={25}></Activity></span>
          <h2 className='font-extrabold text-2xl text-gray-700'>Branch Loans</h2>
@@ -66,7 +67,7 @@ function BranchLoan() {
 const CompaniesLoanTable = ({ company }) => {
   return (
     <div className="bg-white rounded-md border border-gray-200 overflow-hidden">
-      <div className='bg-white p-4 border-b border-gray-100 flex flex-wrap gap-2 justify-between items-center'>  
+      <div className='bg-white p-2 border-b border-gray-100 flex flex-wrap gap-2 justify-between items-center'>  
         <h2 className='text-sm md:text-md font-extrabold text-gray-800 uppercase text-wrap max-w-xs sm:max-w-none'>{company.name}</h2>
         <p className='text-sm md:text-md font-bold text-gray-500 uppercase whitespace-nowrap'>{company.id}</p>
       </div>

@@ -4,7 +4,8 @@ import {
   BellDot, Users, BarChart3, ChevronDown, LayoutDashboardIcon, 
   CreditCard, Receipt,Settings, HandCoins, Banknote, ActivityIcon,HelpCircle,BadgeDollarSign,
   MessageCircle, AlertTriangle, WalletCards, AwardIcon, TrendingUp, MoreHorizontal,PlusCircle,
-  ChevronLeftIcon,ChevronRightIcon, Menu, X
+  ChevronLeftIcon,ChevronRightIcon, Menu, X,
+  ReceiptTextIcon
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import Borrowers from './Borrowers'
@@ -13,6 +14,7 @@ import AdminSetting from './adminsetting'
 import BranchLoan from './BranchLoan'
 import Cashiers from './Cashiers'
 import Repayments from './Repayments'
+import Billing from './Billing'
 
 
 function AdDashboard() {
@@ -72,6 +74,8 @@ function AdDashboard() {
               { id: 'cashiers', label: 'Cashiers', icon: <BadgeDollarSign size={18} /> },
               { id: 'reports', label: 'Reports', icon: <BarChart3 size={18} /> },
               { id: 'settings', label: 'Settings', icon: <Settings size={18} /> },
+              { id: 'Billing', label: 'Billing', icon: <ReceiptTextIcon size={18} /> },
+
             ].map((item) => (
               <button 
                 key={item.id}
@@ -456,6 +460,9 @@ function AdDashboard() {
         {currentPages==='loans'&&( <BranchLoan/> )}
         {currentPages==='cashiers'&&( <Cashiers/> )}
         {currentPages==='repayment'&&( <Repayments/> )}
+        {currentPages ==='Billing'&&(
+          <Billing/>
+        )}
 
       </div>
     </div>

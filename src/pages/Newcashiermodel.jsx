@@ -1,7 +1,7 @@
 import { GemIcon, GitBranchIcon, Mail, MapPin, Phone, User2, XIcon } from 'lucide-react'
 import React from 'react'
 
-function Newcashiermodel() {
+function Newcashiermodel({onClose}) {
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'>
 
@@ -10,7 +10,7 @@ function Newcashiermodel() {
         
         <div className='flex justify-between items-center bg-blue-300 px-6 py-4 text-white'>
           <h1 className='text-lg font-extrabold  uppercase '>Add New Cashier</h1>
-          <button className='bg-blue-500 cursor-pointer p-1.5 rounded-full transition-colors duration-150'>
+          <button onClick={onClose} className='bg-blue-500 cursor-pointer p-1.5 rounded-full transition-colors duration-150'>
             <XIcon className='w-5 h-5' />
           </button>
         </div>

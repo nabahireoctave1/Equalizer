@@ -17,7 +17,11 @@ function Cashiers() {
    fd.email.toLocaleLowerCase().includes(searchterm.toLocaleUpperCase())
   })
 
-  console.log(filtereddata)
+
+  const [isnewCashierModelopen,setisnewcashierModelopen]=useState(false)
+  console.log(isnewCashierModelopen)
+  const opencashiermodel=(e)=>{e.preventDefault();setisnewcashierModelopen(true)}
+  const closecashiermodel=()=>setisnewcashierModelopen(false)
 
   const statusbadge=(status)=>{
       switch(status){
@@ -63,7 +67,7 @@ function Cashiers() {
               />
             </div>
 
-            <button className="flex items-center justify-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-md text-sm cursor-pointer w-full sm:w-auto whitespace-nowrap">
+            <button onClick={opencashiermodel} className="flex gap-2 bg-blue-400 text-white px-4 py-2 rounded-md text-sm cursor-pointer w-full  sm:w-auto whitespace-nowrap">
               <PlusIcon size={18} />
               <span>Cashier</span>
             </button>
@@ -118,8 +122,11 @@ function Cashiers() {
             </tbody>
           </table>
         </div>
-
+         
       </div>
+       {isnewCashierModelopen &&
+            <Newcashiermodel  onClose={closecashiermodel}/>
+          }
     </div>
   );
 }
