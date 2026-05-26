@@ -137,30 +137,30 @@ function Billing() {
                     Pay with Crypto
                   </h2>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     Secure payment using USDT on Binance Smart Chain
                   </p>
                 </div>
               </div>
 
               <div className="space-y-3 mt-5">
-                <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   Currency: USDT
                 </p>
 
-                <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   Network: BSC
                 </p>
 
-                <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   Instant verification
                 </p>
 
-                <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   Fast & secure transaction
                 </p>
               </div>
@@ -181,29 +181,29 @@ function Billing() {
                     Other Method
                   </h2>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     Pay using MTN MoMo,Airtel Money,Visa card and etc
                   </p>
                 </div>
               </div>
 
               <div className="space-y-3 mt-5">
-                <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   MTN Mobile Money
                 </p>
 
-                <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   Airtel Money
                 </p>
 
-                <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   Visa card
                 </p>
-                 <p className="flex items-center gap-2 text-sm text-gray-600">
-                  <CircleCheck size={18} className="text-green-500" />
+                 <p className="flex items-center gap-2 text-xs text-gray-600">
+                  <CircleCheck size={18} className="text-blue-500" />
                   bank transfer
                 </p>
 
