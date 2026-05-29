@@ -5,7 +5,8 @@ import {
   CreditCard, Receipt,Settings, HandCoins, Banknote, ActivityIcon,HelpCircle,BadgeDollarSign,
   MessageCircle, AlertTriangle, WalletCards, AwardIcon, TrendingUp, MoreHorizontal,PlusCircle,
   ChevronLeftIcon,ChevronRightIcon, Menu, X,
-  ReceiptTextIcon
+  ReceiptTextIcon,
+  MessageSquare
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import Borrowers from './Borrowers'
@@ -15,6 +16,7 @@ import BranchLoan from './BranchLoan'
 import Cashiers from './Cashiers'
 import Repayments from './Repayments'
 import Billing from './Billing'
+import Sms from './Sms'
 
 
 function AdDashboard() {
@@ -49,7 +51,7 @@ function AdDashboard() {
       )}
 
       {/* Sidebar */}
-      <div className={`w-64 bg-white h-screen fixed top-0 left-0 z-50 flex flex-col justify-between text-gray-700 shadow-sm transition-transform duration-300 transform 
+      <div className={`w-64 bg-white h-screen fixed top-0 left-0 z-50 flex flex-col overflow-auto justify-between text-gray-700 shadow-sm transition-transform duration-300 transform 
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
       >
         <div>
@@ -75,6 +77,7 @@ function AdDashboard() {
               { id: 'reports', label: 'Reports', icon: <BarChart3 size={18} /> },
               { id: 'settings', label: 'Settings', icon: <Settings size={18} /> },
               { id: 'Billing', label: 'Billing', icon: <ReceiptTextIcon size={18} /> },
+              { id: 'message', label: 'Messages', icon: <MessageSquare size={18} /> },
 
             ].map((item) => (
               <button 
@@ -94,7 +97,7 @@ function AdDashboard() {
           </div>
         </div>
 
-        <div className='p-4 m-4 border border-gray-100 rounded-xl text-center hidden md:block'>
+        <div className='p-2 m-2 border border-gray-100 rounded-xl text-center hidden md:block'>
           <div className='w-10 h-10 bg-blue-600/10 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-3 shadow-inner'>
             <HelpCircle size={20} />
           </div>
@@ -135,6 +138,7 @@ function AdDashboard() {
               <ChevronDown size={14} className='text-gray-400 transition-transform group-hover:translate-y-0.5' />
               <select className='absolute inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
                 <option value="profile">Profile </option>
+                <option value="about">about Equalizer </option>
                 <option value="signout">Log Out</option>
               </select>
             </div>
@@ -149,7 +153,8 @@ function AdDashboard() {
                 <h1 className='text-xl sm:text-2xl font-bold text-gray-800 tracking-tight flex items-center gap-2'>Welcome back, Admin</h1>
                 <p className='text-xs text-gray-500 mt-0.5'>Here's what's happening with your company today.</p>
               </div>
-              <div className='bg-white border border-gray-200 px-4 py-2 rounded-md text-xs text-gray-600 flex items-center gap-2 shadow-sm shadow-gray-100/50 cursor-pointer self-stretch sm:self-auto justify-between sm:justify-start'>
+              <div className='bg-white border border-gray-200 px-4 py-2 rounded-md 
+              text-xs text-gray-600 flex items-center gap-2 shadow-sm shadow-gray-100/50 cursor-pointer self-stretch sm:self-auto justify-between sm:justify-start'>
                 <span>May 20, 2025</span>
                 <ChevronDown size={14} />
               </div>
@@ -463,6 +468,7 @@ function AdDashboard() {
         {currentPages ==='Billing'&&(
           <Billing/>
         )}
+        {currentPages==='message'&&<Sms/>}
 
       </div>
     </div>
