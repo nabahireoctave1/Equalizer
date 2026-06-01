@@ -20,7 +20,6 @@ function EditCompany_info_model({ onclose }) {
         onClick={(e) => e.stopPropagation()} 
         className='bg-white border-none rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in duration-200 my-auto'
       >
-        {/* Header */}
         <div className='relative px-6 py-4 border-b border-blue-400 bg-blue-300 flex items-center justify-between'>
           <div className='flex items-center gap-3'>
             <div className='p-1.5 bg-blue-500 rounded-full'>
@@ -37,10 +36,8 @@ function EditCompany_info_model({ onclose }) {
           </button>
         </div>
 
-        {/* Responsive Content Container */}
         <div className='flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-gray-100'>
           
-          {/* Logo Section - Top on Mobile, Left Sidebar on Desktop */}
           <div className='w-full md:w-1/4 bg-gray-50/50 p-6 flex flex-col items-center justify-center gap-3'>
             <div className='relative group'>
               <div className='w-24 h-24 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden shadow-sm'>

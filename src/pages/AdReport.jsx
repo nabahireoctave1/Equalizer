@@ -18,7 +18,7 @@ function AdReport() {
     { metric: "Overdue Amount", today: "1850000 ", week: "1850000 ", month: "1,850,000 ", year: "12450000",icon: <TriangleAlert className="text-rose-500" size={16}/>, bg: "bg-rose-50" },
   ]
 
- 
+   
   const topCashiers = [
     { id: 1, name: "Rubavu service ", amount: "2450000 UGX" },
     { id: 2, name: "Musanze akea", amount: "1850000 UGX " },
@@ -48,7 +48,12 @@ function AdReport() {
             <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>Date</span>
             <div className='relative flex items-center'>
               <Calendar size={14} className='absolute left-3 text-gray-400' />
-              <input type='text' readOnly value='May 01, 2025' className='pl-9 pr-4 py-1.5 border border-gray-200 rounded-md text-xs font-semibold text-gray-700 bg-gray-50/50 outline-none w-full sm:w-52'/>
+              <select  className='pl-7 pr-4 py-1.5 border border-gray-200 rounded-md text-xs font-semibold
+               text-gray-700 bg-gray-50/50 outline-none w-full sm:w-52'>
+                <option value="">02-03-2026</option>
+                <option value="">06-01-2026</option>
+                <option value="">06-01-2026</option>
+               </select>
             </div>
           </div>
           <div>
@@ -128,20 +133,20 @@ function AdReport() {
             <tbody className='divide-y divide-gray-100 text-xs font-medium text-gray-700'>
               {details.map((d, index) => (
                 <tr key={index} className='hover:bg-slate-50/40 transition-colors'>
-                  <td className='p-3.5 pl-5 flex items-center gap-2.5 font-semibold text-gray-900'>
-                    <span className={`p-1.5 rounded-lg ${d.bg}`}>{d.icon}</span>
+                  <td className='p-3.5 whitespace-nowrap  pl-5 flex items-center gap-2.5 font-semibold text-gray-900'>
+                    <span className={`p-1.5  rounded-lg   ${d.bg}`}>{d.icon}</span>
                     {d.metric}
                   </td>
-                  <td className='p-3.5'>
+                  <td className='p-3.5 whitespace-nowrap '>
                     <div>{d.today} UGX</div>
                   </td>
-                  <td className='p-3.5'>
+                  <td className='p-3.5 whitespace-nowrap '>
                     <div>{d.week} UGX</div>
                   </td>
-                  <td className='p-3.5'>
+                  <td className='p-3.5 whitespace-nowrap '>
                     <div>{d.month} UGX</div>
                   </td>
-                  <td className='p-3.5'>
+                  <td className='p-3.5 whitespace-nowrap '>
                     <div>{d.year} UGX</div>
                   </td>
                  

@@ -42,11 +42,11 @@ function Borrowers() {
             <thead>
               <tr className='bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-700 uppercase tracking-wider'>
                 <th className='py-4 px-5 w-16 text-center'>No</th>
-                <th className='py-4 px-4'>B N ID</th>
-                <th className='py-4 px-4'>Names</th>
-                <th className='py-4 px-4'>Branch Name</th>
-                <th className='py-4 px-4'>Phone No</th>
-                       <th className='py-4 px-4'>Location</th>
+                <th className='py-4 px-4 whitespace-nowrap'>B N ID</th>
+                <th className='py-4 px-4 whitespace-nowrap'>Names</th>
+                <th className='py-4 px-4 whitespace-nowrap'>Branch Name</th>
+                <th className='py-4 px-4 whitespace-nowrap'>Phone No</th>
+                       <th className='py-4 px-4 whitespace-nowrap'>Location</th>
                 <th className='py-4 px-5 text-center'>Actions</th>
                 <th>maker</th>
               </tr>
@@ -58,19 +58,19 @@ function Borrowers() {
                     {index + 1}
                   </td>
                  
-                  <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800'>
+                  <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800 whitespace-nowrap'>
                     {b.BNid}
                   </td>
-                  <td className='py-3.5 px-4 text-[14px] capitalize text-gray-900 '>
+                  <td className='py-3.5 px-4 text-[14px] capitalize text-gray-900 whitespace-nowrap '>
                     {b.names}
                   </td>
-                  <td className='py-3.5 px-4 font-semibold  text-gray-800 capitalize'>
+                  <td className='py-3.5 px-4 font-semibold  text-gray-800 capitalize whitespace-nowrap'>
                     {b.branch}
                   </td>
-                  <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800'>
+                  <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800 whitespace-nowrap'>
                     {b.phoneno}
                   </td>
-                   <td className='py-3.5 px-4 font-sans text-[14px] first-letter:uppercase text-gray-800'>
+                   <td className='py-3.5 px-4 font-sans text-[14px] first-letter:uppercase text-gray-800 whitespace-nowrap'>
                     {b.locaction}
                   </td>
                   <td className='py-3.5 px-5'>

@@ -39,8 +39,8 @@ function Sms() {
       <div className="bg-white py-4 ">
           <div>
           
-            <h1 className="text-3xl px-4 uppercase font-black text-gray-800">
-              Buy SMS
+            <h1 className="text-2xl px-4 uppercase font-black text-gray-800">
+            Monitor & Buy SMS
             </h1>
 
            
@@ -120,7 +120,7 @@ function Sms() {
                       </p>
 
                       <h3 className="text-xl font-black text-gray-800 mt-1">
-                        2,340 SMS
+                        240 SMS
                       </h3>
 
                       <p className="text-[11px] text-gray-700 uppercase mt-1">
@@ -223,27 +223,27 @@ function Sms() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-100">
-                <th className="text-left py-3 text-gray-600 text-xs uppercase">
+                <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
                   Date
                 </th>
 
-                <th className="text-left py-3 text-gray-600 text-xs uppercase">
+                <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap px-1">
                   Transaction ID
                 </th>
 
-                <th className="text-left py-3 text-gray-600 text-xs uppercase">
+                <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
                   SMS
                 </th>
 
-                <th className="text-left py-3 text-gray-600 text-xs uppercase">
+                <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
                   Amount
                 </th>
 
-                <th className="text-left py-3 text-gray-600 text-xs uppercase">
+                <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
                   Payment
                 </th>
 
-                <th className="text-left py-3 text-gray-600 text-xs uppercase">
+                <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
                   Status
                 </th>
               </tr>
@@ -255,23 +255,23 @@ function Sms() {
                   key={index}
                   className="border-b border-gray-50 hover:bg-gray-50 duration-200"
                 >
-                  <td className="py-4 text-xs text-gray-700">
+                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
                     {item.date}
                   </td>
 
-                  <td className="py-4 text-xs uppercase text-gray-800">
+                  <td className="py-4 text-xs uppercase text-gray-800 whitespace-nowrap px-2">
                     {item.id}
                   </td>
 
-                  <td className="py-4 text-xs text-gray-700">
+                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
                     {item.sms}
                   </td>
 
-                  <td className="py-4 text-xs text-gray-700">
+                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
                     {item.amount}
                   </td>
 
-                  <td className="py-4 text-xs text-gray-700">
+                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
                     {item.method}
                   </td>
 

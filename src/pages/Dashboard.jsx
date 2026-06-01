@@ -39,7 +39,7 @@ let Dashboard = () => {
     <div className="flex flex-col h-screen overflow-hidden bg-gray-50">
       
       <header className="flex justify-between bg-gradient-to-r from-blue-300 to-blue-600 p-4 sticky top-0 z-50 shrink-0 shadow-md">
-        <h2 className="text-white font-extrabold text-4xl tracking-tighter">Equalizer</h2>
+        <h2 className="text-white font-extrabold text-2xl tracking-tighter uppercase">Equalizer</h2>
         <div className="flex gap-5 text-white items-center">
           <Bell className="cursor-pointer w-5 h-5"  onClick={opennotification}/>
           <span 

@@ -1,4 +1,4 @@
-import { BadgeDollarSign, Ban, Edit, Pencil, PlusIcon, RefreshCcw, Search, Trash } from "lucide-react";
+import { BadgeDollarSign, Ban, Edit, Pencil, PlusCircle, PlusIcon, RefreshCcw, Search, Trash } from "lucide-react";
 import React, { useState } from "react";
 import Newcashiermodel from "./Newcashiermodel";
 function Cashiers() {
@@ -63,12 +63,13 @@ function Cashiers() {
                 type="text"
                 onChange={(e)=>setsearchterm(e.target.value)}
                 placeholder="Search cashier..."
-                className="w-full border border-gray-200 rounded-md py-2 text-sm pl-10 pr-4 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent transition"
+                className="w-full  border border-gray-200 rounded-md py-2 text-sm pl-10 pr-4 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent transition"
               />
             </div>
 
-            <button onClick={opencashiermodel} className="flex gap-2 bg-blue-400 text-white px-4 py-2 rounded-md text-sm cursor-pointer w-full  sm:w-auto whitespace-nowrap">
-              <PlusIcon size={18} />
+            <button onClick={opencashiermodel} className="flex justify-start gap-2 bg-blue-400 text-white px-9 py-2
+             rounded-md text-sm cursor-pointer  w-fit  sm:w-auto whitespace-nowrap">
+              <PlusCircle size={18} />
               <span>Cashier</span>
             </button>
           </div>

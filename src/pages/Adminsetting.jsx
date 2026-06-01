@@ -121,7 +121,6 @@ function AdminSetting() {
                          border-gray-200 text-gray-700 text-xs font-bold p-2 px-4 rounded-full
                           outline-none cursor-pointer hover:border-blue-300 transition-colors'>
                             <option>SMS</option>
-                            <option>Email</option>
                             <option>WhatsApp </option>
                         </select>
                     </div>
@@ -156,7 +155,7 @@ function AdminSetting() {
                     </div>
                 </div>
 
-                <div className='border border-blue-300 p-6 rounded-2xl flex items-center justify-between bg-white shadow-sm'>
+                <div className='border border-blue-300 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between bg-white shadow-sm'>
                       
                                               <div>
                             <p className='font-black uppercase tracking-tight text-gray-800 flex gap-2'><BarChart3 className='text-blue-500'/>Audit Generation Period</p>
@@ -164,7 +163,7 @@ function AdminSetting() {
                         </div>
 
                         
-                         <select  className='bg-white  text-gray-700 border border-gray-100  p-2  text-sm m-2 rounded-full  outline-none cursor-pointer'>
+                         <select  className='bg-white  w-full md:w-fit  text-gray-700 border border-gray-100  p-2  text-xs m-2 rounded-full  outline-none cursor-pointer'>
                         <option>Daily</option>
                         <option>Weekly</option>
                         <option>Monthly</option>

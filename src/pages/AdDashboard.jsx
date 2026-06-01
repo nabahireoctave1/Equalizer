@@ -6,7 +6,9 @@ import {
   MessageCircle, AlertTriangle, WalletCards, AwardIcon, TrendingUp, MoreHorizontal,PlusCircle,
   ChevronLeftIcon,ChevronRightIcon, Menu, X,
   ReceiptTextIcon,
-  MessageSquare
+  MessageSquare,
+  ShieldAlert,
+  LogOut
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import Borrowers from './Borrowers'
@@ -17,10 +19,13 @@ import Cashiers from './Cashiers'
 import Repayments from './Repayments'
 import Billing from './Billing'
 import Sms from './Sms'
+import ReportedBorrowers from './ReportedBorrowers'
+import About from './About'
+import Adprofile from './Adprofile'
 
 
 function AdDashboard() {
-  const [currentPages, setCurrentPage] = useState('Dashboard')
+  const [currentPages, setCurrentPage] = useState('about')
   const [activeTab, setActiveTab] = useState('loans') 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false) 
 
@@ -50,7 +55,6 @@ function AdDashboard() {
         />
       )}
 
-      {/* Sidebar */}
       <div className={`w-64 bg-white h-screen fixed top-0 left-0 z-50 flex flex-col overflow-auto justify-between text-gray-700 shadow-sm transition-transform duration-300 transform 
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
       >
@@ -78,6 +82,7 @@ function AdDashboard() {
               { id: 'settings', label: 'Settings', icon: <Settings size={18} /> },
               { id: 'Billing', label: 'Billing', icon: <ReceiptTextIcon size={18} /> },
               { id: 'message', label: 'Messages', icon: <MessageSquare size={18} /> },
+              { id: 'Reported', label: 'Borrowers Flag', icon: <ShieldAlert size={18} /> },
 
             ].map((item) => (
               <button 
@@ -86,24 +91,27 @@ function AdDashboard() {
                   setCurrentPage(item.id);
                   setIsSidebarOpen(false); 
                 }} 
-                className={`w-full flex gap-3.5 px-4 py-3 text-sm text-gray-600 rounded-md cursor-pointer items-center transition-all hover:bg-gray-50
-                  ${currentPages === item.id ? 'bg-blue-50 text-blue-600 font-semibold' : ''}
+                className={`w-full flex gap-2 px-4 py-2 text-sm text-gray-600 rounded-md cursor-pointer 
+                  items-center transition-all 
                 `}
               >
                 {item.icon}
                 <span>{item.label}</span>
               </button>
             ))}
+            <button className='flex justify-center text-sm w-40 gap-1 hover:cursor-pointer bg-red-400 mx-3  py-2  rounded-sm text-white'>
+              <span><LogOut size={18}/></span>Logout</button>
           </div>
         </div>
 
-        <div className='p-2 m-2 border border-gray-100 rounded-xl text-center hidden md:block'>
-          <div className='w-10 h-10 bg-blue-600/10 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-3 shadow-inner'>
+        <div className='p-2 m-1 border border-gray-100 rounded-xl text-center hidden md:block'>
+          <div className='h-fit w-fit p-2 bg-blue-600/10 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-3 shadow-inner'>
             <HelpCircle size={20} />
           </div>
           <h3 className='text-gray-700 font-semibold text-sm'>Need Help?</h3>
-          <p className='text-xs text-slate-500 mt-1 mb-4 px-2 leading-relaxed'>Contact our support team for any assistance.</p>
-          <button className='w-full flex justify-center items-center gap-2 text-xs font-semibold text-white bg-blue-400 py-2.5 px-4 rounded-lg transition-colors cursor-pointer'>
+          <p className='text-xs text-slate-500  px-2 leading-relaxed'>Contact our support team </p>
+          <button className='w-full flex justify-center items-center gap-2 text-xs font-semibold text-white
+           bg-blue-400 py-2.5 px-4 rounded-sm transition-colors cursor-pointer'>
             <MessageCircle size={14}/> Contact Support
           </button>
         </div>
@@ -135,11 +143,10 @@ function AdDashboard() {
                 <span className='text-sm font-semibold text-gray-800'>Admin</span>
                 <span className='text-[11px] text-gray-400 font-medium'>Company Admin</span>
               </div>
-              <ChevronDown size={14} className='text-gray-400 transition-transform group-hover:translate-y-0.5' />
-              <select className='absolute inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
+              <ChevronDown size={14} className='text-gray-400 transition-transform  group-hover:translate-y-0.5' />
+              <select onChange={(e)=>setCurrentPage(e.target.value)} className='absolute cursor-pointer inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
                 <option value="profile">Profile </option>
-                <option value="about">about Equalizer </option>
-                <option value="signout">Log Out</option>
+                <option value="about" className='uppercase text-xs'>About Equalizer </option>
               </select>
             </div>
           </div>
@@ -194,7 +201,7 @@ function AdDashboard() {
 
               <div className='p-5 bg-white border border-gray-100 rounded-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-all'>
                 <div className='flex gap-4 items-start'>
-                  <span className='p-3 rounded-xl bg-violet-50 text-violet-600'><Banknote size={22}/></span>
+                  <span className='p-3 rounded-xl bg-yellow-100 text-yellow-400'><Banknote size={22}/></span>
                   <div>
                     <h2 className='text-xs font-bold text-gray-700 capitalize'>Pending Loans</h2>
                     <p className='text-lg font-bold text-gray-800 mt-1'>245</p> 
@@ -202,7 +209,7 @@ function AdDashboard() {
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
-                  <span className='inline-flex items-center text-[11px] font-bold text-violet-600 bg-violet-50 px-2 py-0.5 rounded-md'> 5.4%</span>
+                  <span className='inline-flex items-center text-[11px] font-bold text-white bg-yellow-500 px-2 py-0.5 rounded-md'> 5.4%</span>
                   <span className='text-[11px] text-gray-400 font-medium'>Percentage rate</span>
                 </div>
               </div>
@@ -316,8 +323,8 @@ function AdDashboard() {
                 <div className='flex flex-wrap gap-2 pt-2'>
                   {[
                     { id: 'loans', label: 'Recent Loans' },
-                    { id: 'repayments', label: 'Recent Repayments' },
-                    { id: 'overdue', label: 'Overdue Borrowers' }
+                    { id: 'repayments', label: 'Repayments' },
+                    { id: 'overdue', label: 'Overdue ' }
                   ].map((tab) => (
                     <button 
                       key={tab.id}
@@ -339,11 +346,11 @@ function AdDashboard() {
                   <table className='w-full text-left border-collapse '>
                     <thead>
                       <tr className='border-b border-gray-100 text-xs font-extrabold text-gray-700 capitalize bg-gray-50/50'>
-                        <th className='py-4 px-6 font-semibold'>Borrower</th>
-                        <th className='py-4 px-6 font-semibold'>Currency</th>
-                        <th className='py-4 px-6 font-semibold'>Cashier</th>
-                        <th className='py-4 px-6 font-semibold'>Date</th>
-                        <th className='py-4 px-6 font-semibold'>Due Date</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Borrower</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cash</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cashier</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Date</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Due Date</th>
                         <th className='py-4 px-6 text-center'>Status</th>
                         <th className='py-4 px-6 text-center'></th>
                       </tr>
@@ -355,12 +362,12 @@ function AdDashboard() {
                             <div className='w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold flex items-center justify-center uppercase '>
                               {row.name.split(' ').map(n => n[0]).join('')}
                             </div>
-                            <span className='font-semibold text-xs text-gray-700'>{row.name}</span>
+                            <span className='font-semibold text-xs text-gray-700 whitespace-nowrap'>{row.name}</span>
                           </td>
-                          <td className='py-4 px-6 text-xs font-extrabold text-gray-800'>{row.amount}</td>
-                          <td className='py-4 px-6 text-xs font-extrabold text-gray-700 '>{row.cashier}</td>
-                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold'>{row.date}</td>
-                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold'>{row.due}</td>
+                          <td className='py-4 px-6 text-xs font-extrabold text-gray-800 whitespace-nowrap'>{row.amount}</td>
+                          <td className='py-4 px-6 text-xs font-extrabold text-gray-700 whitespace-nowrap '>{row.cashier}</td>
+                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold whitespace-nowrap'>{row.date}</td>
+                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold whitespace-nowrap'>{row.due}</td>
                           <td className='py-4 px-6 text-center'>
                             <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full ${
                               row.status === 'Pending' 
@@ -370,7 +377,6 @@ function AdDashboard() {
                               {row.status}
                             </span>
                           </td>
-                          <td className='py-4 px-6 text-center text-gray-400 hover:text-gray-600 cursor-pointer'><MoreHorizontal size={16}/></td>
                         </tr>
                       ))}
                     </tbody>
@@ -383,11 +389,11 @@ function AdDashboard() {
                   <table className='w-full text-left border-collapse '>
                     <thead>
                       <tr className='border-b border-gray-100 text-xs font-extrabold text-gray-700 capitalize bg-gray-50/50'>
-                        <th className='py-4 px-6 font-semibold'>Payer</th>
-                        <th className='py-4 px-6 font-semibold'>paid currency</th>
-                        <th className='py-4 px-6 font-semibold'>Cashier</th>
-                        <th className='py-4 px-6 font-semibold'>Date</th>
-                        <th className='py-4 px-6 text-center'>Status</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Payer</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cash</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cashier</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Date</th>
+                        <th className='py-4 px-6 text-center whitespace-nowrap'>Status</th>
                       </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-50 text-sm font-medium text-gray-700'>
@@ -397,13 +403,13 @@ function AdDashboard() {
                             <div className='w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold flex items-center justify-center uppercase '>
                               {row.name.split(' ').map(n => n[0]).join('')}
                             </div>
-                            <span className='font-semibold text-xs text-gray-700'>{row.name}</span>
+                            <span className='font-semibold text-xs text-gray-700 whitespace-nowrap'>{row.name}</span>
                           </td>
-                          <td className='py-4 px-6 text-xs font-extrabold text-gray-800'>{row.amount}</td>
-                          <td className='py-4 px-6 text-xs font-extrabold text-gray-700 '>{row.cashier}</td>
-                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold'>{row.due}</td>
+                          <td className='py-4 px-6 text-xs font-extrabold text-gray-800 whitespace-nowrap'>{row.amount}</td>
+                          <td className='py-4 px-6 text-xs font-extrabold text-gray-700 whitespace-nowrap '>{row.cashier}</td>
+                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold whitespace-nowrap'>{row.due}</td>
                           <td className='py-4 px-6 text-center'>
-                            <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full ${
+                            <span className={`inline-block px-3 py-1 text-[11px] whitespace-nowrap font-bold rounded-full ${
                               row.status === 'Pending' 
                                 ? 'bg-blue-500 text-white' 
                                 : 'bg-rose-50 text-rose-600'
@@ -423,11 +429,11 @@ function AdDashboard() {
                   <table className='w-full text-left border-collapse'>
                     <thead>
                       <tr className='border-b border-gray-100 text-xs font-extrabold text-gray-700 capitalize bg-gray-50/50'>
-                        <th className='py-4 px-6 font-semibold'>Payer</th>
-                        <th className='py-4 px-6 font-semibold'>paid currency</th>
-                        <th className='py-4 px-6 font-semibold'>Cashier</th>
-                        <th className='py-4 px-6 font-semibold'>penalities</th>
-                        <th className='py-4 px-6 font-semibold'>Date</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Borrower</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cash</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cashier</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>penalities</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Date</th>
                       </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-50 text-sm font-medium text-gray-700'>
@@ -437,12 +443,12 @@ function AdDashboard() {
                             <div className='w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold flex items-center justify-center uppercase'>
                               {row.name.split(' ').map(n => n[0]).join('')}
                             </div>
-                            <span className='font-semibold text-xs text-gray-700'>{row.name}</span>
+                            <span className='font-semibold text-xs text-gray-700 whitespace-nowrap'>{row.name}</span>
                           </td>
-                          <td className='py-4 px-6 text-xs font-extrabold text-gray-800'>{row.amount}</td>
-                          <td className='py-4 px-6 text-xs font-extrabold text-gray-700 '>{row.cashier}</td>
-                          <td className='py-4 px-6 text-gray-800 text-xs font-extrabold'>20000 UGX</td>
-                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold'>{row.due}</td>
+                          <td className='py-4 px-6 text-xs font-extrabold text-gray-800 whitespace-nowrap'>{row.amount}</td>
+                          <td className='py-4 px-6 text-xs font-extrabold text-gray-700  whitespace-nowrap'>{row.cashier}</td>
+                          <td className='py-4 px-6 text-gray-800 text-xs font-extrabold whitespace-nowrap'>20000 UGX</td>
+                          <td className='py-4 px-6 text-gray-800 text-xs font-semibold whitespace-nowrap'>{row.due}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -469,6 +475,9 @@ function AdDashboard() {
           <Billing/>
         )}
         {currentPages==='message'&&<Sms/>}
+        {currentPages==='Reported'&&<ReportedBorrowers/>}
+        {currentPages==='about'&&<About/>}
+        {currentPages==='profile'&&<Adprofile/>}
 
       </div>
     </div>
