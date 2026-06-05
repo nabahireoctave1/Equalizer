@@ -1,7 +1,11 @@
 import { BanIcon, HandCoins, RefreshCcw, Search } from 'lucide-react'
-import React from 'react'
-
+import React, { useState } from 'react'
+import BurnuserModel from './BurnuserModel'
+import Reactivateborrowermodel from './ReactivateBorrower'
 function Borrowers() {
+  const [ismodelopen,setismodelopen]=useState(false)
+  const [isreativateopened,setisreactivateopened]=useState(false)
+  
   const borrowers = [
     { BNid: 1234567857487475, names: "james willlock", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Bunyoro" },
     { BNid: 1234567857487475, names: "Nabahire octave", amount: 3000000, branch:"akea service", phoneno: "263456789678",locaction:"Kampala" },
@@ -11,6 +15,10 @@ function Borrowers() {
     {  BNid: 1234567857487475, names: "stev alern lorent", amount: 3000000,  branch: 'Kigali tech', phoneno: "263456789678",locaction:"Hoima" },
   ]
 
+  const openburnuser= (e)=>{e.preventDefault();setismodelopen(true)}
+  const closemodel=()=>setismodelopen(false)
+  const openreactivatemodel= ()=>setisreactivateopened(true)
+  const closereactivate= ()=>setisreactivateopened(false)
   return (
     <div className='min-h-screen bg-gray-50 p-6'>
       <div className='bg-white rounded-md   flex flex-col sm:flex-row justify-between p-5 items-center gap-4 mb-6'>
@@ -76,12 +84,13 @@ function Borrowers() {
                   <td className='py-3.5 px-5'>
                     <div className='flex items-center justify-center gap-2'>
                       <button 
+                        onClick={openburnuser}
                         title='Suspend Borrower' 
                         className='p-1.5 rounded-md text-gray-700 hover:text-red-600 cursor-pointer hover:bg-red-50 transition-all duration-150'
                       >
-                        <BanIcon size={16} />
+                        <BanIcon size={16}  />
                       </button>
-                      <button 
+                      <button  onClick={openreactivatemodel}
                         title='Reactivate Borrower' 
                         className='p-1.5 rounded-md text-gray-700 hover:text-green-600 cursor-pointer hover:bg-emerald-50 transition-all duration-150'
                       >
@@ -99,6 +108,10 @@ function Borrowers() {
           </table>
         </div>
       </div>
+
+        {ismodelopen &&<BurnuserModel onClose={closemodel}/>}
+        {isreativateopened &&<Reactivateborrowermodel onClose={closereactivate}/>}
+
     </div>
   )
 }

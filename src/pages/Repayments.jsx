@@ -42,9 +42,9 @@ function Repayments() {
                         <span className='text-sm capitalize block text-gray-500'>Monitor all loan repayments</span>
                     </div>
                 </div>
-                <div className='flex flex-wrap items-center gap-2 w-full md:w-auto'>
-                    <span className='capitalize p-2 px-4 rounded-md text-sm cursor-pointer border border-gray-200 bg-white whitespace-nowrap'>
-                        {selectedDate ? selectedDate : "31,2025"}
+                <div className='flex  justify-between items-center gap-2 w-full md:w-auto'>
+                    <span className='capitalize p-2 px-4 rounded-md text-xs cursor-pointer border border-gray-200 bg-white whitespace-nowrap'>
+                        {selectedDate ? selectedDate : "31-06-2025"}
                     </span>
 
                     <span className='relative flex capitalize gap-2 p-2 px-4 rounded-md text-xs cursor-pointer border border-gray-200 bg-white items-center whitespace-nowrap'>

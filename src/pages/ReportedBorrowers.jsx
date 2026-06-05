@@ -5,7 +5,9 @@ function ReportedBorrowers() {
     const data = [
         {names:"john Eric",reporter:"james willilock",Reason:"Existing loan",date:"05-05-2026",status:"pending"},
         {names:"james traphord",reporter:"jane umutesi",Reason:"Froud suspicion",date:"05-07-2026",status:"rejected"},
-        {names:"bugingo blaise",reporter:"jonh sengo",Reason:"overdue loan",date:"05-015-2026",status:"approved"},
+        {names:"bugingo blaise",reporter:"jonh sengo",Reason:"overdue loan",date:"05-015-2026",status:"approved"},     
+           {names:"bugingo blaise",reporter:"jonh sengo",Reason:"overdue loan",date:"05-015-2026",status:"approved"},
+         {names:"bugingo blaise",reporter:"jonh sengo",Reason:"overdue loan",date:"05-015-2026",status:"approved"},
     ]
 
     const [selectedDate, setSelectedDate] = useState('');

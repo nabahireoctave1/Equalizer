@@ -115,7 +115,6 @@ function EditCompany_info_model({ onclose }) {
               </div>
             </div>
 
-            {/* Bottom Status Banner & Buttons */}
             <div className='flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between p-3 bg-gray-100 rounded-xl'>
               <div className='flex items-center gap-4 justify-start pl-1'>
                 <div>

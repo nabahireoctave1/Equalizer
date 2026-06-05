@@ -3,7 +3,7 @@ import logo from '../assets/image.jpeg'
 import { 
   BellDot, Users, BarChart3, ChevronDown, LayoutDashboardIcon, 
   CreditCard, Receipt,Settings, HandCoins, Banknote, ActivityIcon,HelpCircle,BadgeDollarSign,
-  MessageCircle, AlertTriangle, WalletCards, AwardIcon, TrendingUp, MoreHorizontal,PlusCircle,
+  MessageCircle, AlertTriangle, WalletCards, Trophy, TrendingUp, MoreHorizontal,PlusCircle,
   ChevronLeftIcon,ChevronRightIcon, Menu, X,
   ReceiptTextIcon,
   MessageSquare,
@@ -25,9 +25,15 @@ import Adprofile from './Adprofile'
 
 
 function AdDashboard() {
-  const [currentPages, setCurrentPage] = useState('about')
+  const currenctpage=localStorage.getItem('currentpage')
+  const [currentPages, setCurrentPage] = useState(currenctpage||'Dashboard')
   const [activeTab, setActiveTab] = useState('loans') 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false) 
+
+  const changepage=(itemid)=>{
+       setCurrentPage(itemid)
+       localStorage.setItem('currentpage',itemid)
+  }
 
   const chartData =[
     {Date:'may 01', loaned: 4200000, Collected: 1500000, overdue: 800000 },
@@ -88,7 +94,8 @@ function AdDashboard() {
               <button 
                 key={item.id}
                 onClick={() => {
-                  setCurrentPage(item.id);
+                  changepage(item.id)                  
+
                   setIsSidebarOpen(false); 
                 }} 
                 className={`w-full flex gap-2 px-4 py-2 text-sm text-gray-600 rounded-md cursor-pointer 
@@ -174,7 +181,7 @@ function AdDashboard() {
                   <div>
                     <h2 className='text-xs font-bold text-gray-700 capitalize'>Outstanding Balance</h2>
                     <p className='text-lg font-bold text-gray-800 mt-1'>9,500,000 UGX</p>
-                    <p className='text-[12px] text-gray-400 font-medium mt-1'>Remain amount borrowed</p> 
+                    <p className='text-[12px]  capitalize  text-gray-400 font-medium mt-1'>current Loaned</p> 
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
@@ -269,15 +276,18 @@ function AdDashboard() {
               <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4 w-full'>
                 
                 <div className='bg-white shadow border border-gray-100 rounded-lg p-4 flex flex-col justify-between'>
-                  <div className='flex justify-between items-center'>
-                    <h3 className='text-xs font-bold text-gray-800 capitalize flex items-center gap-1.5'><AwardIcon size={20} className='text-blue-500'/> Top Cashier Today</h3>
-                    <span className='bg-green-50 text-green-600 font-bold text-[10px] capitalize px-2 py-0.5 rounded-full '>Top Performer</span>
+                  <div className='flex flex-col md:flex-row gap-2 justify-between sm:justify-center  items-center'>
+                    <h3 className='text-xs font-bold text-gray-800 capitalize flex  items-center gap-1.5'><Trophy size={20}
+                     className='text-blue-500'/> Top Cashier Today by collection</h3>
+                    <span className='bg-green-50 text-green-600 font-bold text-[10px] capitalize px-2
+                     py-0.5 rounded-full '>Top Performer</span>
                   </div>
                   <div className='flex items-center gap-4 py-2 mt-2'>
                     <div className='w-12 h-12 bg-gray-100 rounded-full overflow-hidden '>
-                      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150" alt="Cashier" className="w-full h-full object-cover"/>
+                      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150"
+                       alt="Cashier" className="w-full h-full object-cover"/>
                     </div>
-                    <div className='leading-normal flex-1 min-w-0'>
+                    <div className='leading-normal flex-1 min-w-0 '>
                       <h4 className='text-sm font-bold text-gray-800 truncate'>Eric Muhire</h4>
                       <p className='text-xs text-gray-700 font-medium mt-0.5 truncate'>
                         <span className='text-gray-700 font-bold'>24</span> Loans Issued 
@@ -301,7 +311,7 @@ function AdDashboard() {
                 </div>
 
                 <div className='bg-white border border-gray-100 rounded-lg p-4 shadow-sm flex items-center gap-5'>
-                  <div className='w-14 h-14 rounded-full bg-orange-500 flex items-center justify-center text-white text-sm font-bold shadow-md relative '>
+                  <div className='w-14 h-14 rounded-full border-5 border-green-500 flex items-center justify-center text-white text-sm font-bold shadow-md relative '>
                     <div className='w-11 h-11 bg-white rounded-full flex items-center justify-center text-gray-800 font-bold text-xs'>100%</div>
                   </div>
                   <div className='leading-tight'>

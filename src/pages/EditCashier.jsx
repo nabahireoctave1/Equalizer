@@ -1,7 +1,8 @@
-import { GemIcon, GitBranchIcon, Mail, MapPin, Phone, User2, XIcon } from 'lucide-react'
 import React from 'react'
+import { GemIcon, GitBranchIcon, Mail, MapPin, Phone, User2, XIcon } from 'lucide-react'
 
-function Newcashiermodel({onClose}) {
+
+function EditCashier({onClose}) {
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'>
 
@@ -9,7 +10,7 @@ function Newcashiermodel({onClose}) {
       animate-in fade-in zoom-in-95 duration-200'>
         
         <div className='flex justify-between items-center bg-blue-300 px-6 py-4 text-white'>
-          <h1 className='text-lg font-extrabold  uppercase '>Add New Cashier</h1>
+          <h1 className='text-lg font-extrabold  uppercase '>Change cashier  information</h1>
           <button onClick={onClose} className='bg-blue-500 cursor-pointer p-1.5 rounded-full transition-colors duration-150'>
             <XIcon className='w-5 h-5' />
           </button>
@@ -88,7 +89,7 @@ function Newcashiermodel({onClose}) {
               Cancel
             </button>
             <button type="submit" className='px-4 py-2 text-sm font-medium text-white cursor-pointer bg-blue-400 rounded-md  shadow-md shadow-blue-200 transition-colors'>
-              add
+              Save changes
             </button>
           </div>
 
@@ -99,4 +100,4 @@ function Newcashiermodel({onClose}) {
   )
 }
 
-export default Newcashiermodel
+export default EditCashier

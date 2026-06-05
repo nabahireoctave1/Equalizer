@@ -3,11 +3,11 @@ import Dashboard from './pages/Dashboard';
 import AdDashboard from './pages/AdDashboard';
 
 import './App.css';
-import UserDash from './pages/userDash';
 import Agents_company_portal from './pages/Agents_company_portal'
 
 
-
+ import Login from './pages/login';
+import EditprofileModel from './pages/EditprofileModel';
 
 
 
@@ -17,11 +17,10 @@ function App() {
   return (
           <div>
           
-    <AdDashboard/>
-    {/* <UserDash/> */}
-    {/* <Agents_company_portal/> */}
+    {/* <AdDashboard/> */}
     {/* <Dashboard/> */}
-  
+   {/* <Login/> */}
+   <EditprofileModel/>
             
     </div>
   );

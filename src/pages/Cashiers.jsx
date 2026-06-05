@@ -1,6 +1,9 @@
 import { BadgeDollarSign, Ban, Edit, Pencil, PlusCircle, PlusIcon, RefreshCcw, Search, Trash } from "lucide-react";
 import React, { useState } from "react";
 import Newcashiermodel from "./Newcashiermodel";
+import EditCashier from "./EditCashier";
+import Burn_cashier from "./Burn_cashier";
+import Reactivatecashiermodel from "./Reactivatecashiermodel";
 function Cashiers() {
  
   const [searchterm,setsearchterm]=useState('')
@@ -19,9 +22,17 @@ function Cashiers() {
 
 
   const [isnewCashierModelopen,setisnewcashierModelopen]=useState(false)
-  console.log(isnewCashierModelopen)
+  const [iseditmodelopen,setopeneditmodel]=useState(false)
+  const [isburncashieropen,setisburncashieropen]=useState(false)
+  const [reactivate,setreactivate]=useState(false)
   const opencashiermodel=(e)=>{e.preventDefault();setisnewcashierModelopen(true)}
   const closecashiermodel=()=>setisnewcashierModelopen(false)
+  const openedit=(e)=>{e.preventDefault(); setopeneditmodel(true)}
+   let oncloseEdit= ()=>setopeneditmodel(false)
+   const openBurncashier= (e)=>{e.preventDefault();setisburncashieropen(true)}
+   let closeBurncashier= ()=>setisburncashieropen(false)
+   const openreactivate= (e)=>{ e.preventDefault(); setreactivate(true)}
+   const closereactivate=()=>setreactivate(false)
 
   const statusbadge=(status)=>{
       switch(status){
@@ -113,10 +124,10 @@ function Cashiers() {
                   </span>
                 </td>
                  <td className="p-3 flex items-center gap-2 text-gray-500 text-sm">
-                   <button title="Edit" className="p-1 rounded-md cursor-pointer"><Pencil size={18} className=" hover:text-blue-400"/></button>
+                   <button onClick={openedit} title="Edit" className="p-1 rounded-md cursor-pointer"><Pencil size={18} className=" hover:text-blue-400"/></button>
                    <button title="Remove" className="p-1 bg-red-50 rounded-md cursor-pointer"><Trash size={18} className="text-red-400"/></button>
-                   <button title="Burn" className="cursor-pointer"><Ban size={18} className=" hover:text-red-400 "/></button>
-                   <button title="Reactivate" className="cursor-pointer"> <RefreshCcw size={18} className="hover:text-green-500"/></button>
+                   <button onClick={openBurncashier} title="Burn" className="cursor-pointer"><Ban size={18} className=" hover:text-red-400 "/></button>
+                   <button onClick={openreactivate} title="Reactivate" className="cursor-pointer"> <RefreshCcw size={18} className="hover:text-green-500"/></button>
                 </td>
               </tr>
               })}
@@ -128,6 +139,9 @@ function Cashiers() {
        {isnewCashierModelopen &&
             <Newcashiermodel  onClose={closecashiermodel}/>
           }
+          {iseditmodelopen && <EditCashier onClose={oncloseEdit}/>}
+          {isburncashieropen && <Burn_cashier onClose={closeBurncashier}/>}
+          {reactivate && <Reactivatecashiermodel onClose={closereactivate}/>}
     </div>
   );
 }

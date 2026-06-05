@@ -62,7 +62,7 @@ function Billing() {
 
               <div className="flex items-center justify-between">
                 <span className="text-gray-500 text-sm">
-                  Activation Fee
+                Monthly  Activation Fee:
                 </span>
 
                 <span className="font-extrabold text-xl text-gray-800">
@@ -230,10 +230,10 @@ function Billing() {
               <div className="  flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <h3 className="text-[12px] font-bold text-gray-700 uppercase tracking-wider">
-                    activation fees
+                   Permanent activation fees
                   </h3>
-                  <h2 className="text-2xl font-black text-gray-800 mt-0.5">
-                    1000000 UGX
+                  <h2 className="text-2xl font-black text-blue-900 mt-0.5">
+                    1000,000 UGX
                   </h2>
                 </div>
                 

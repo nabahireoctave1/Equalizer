@@ -1,12 +1,11 @@
 import React from "react";
-import { Calendar, Camera, Mail, PhoneCall, ShieldCheck } from "lucide-react";
+import { Calendar, Camera, Edit2, Mail, PhoneCall, ShieldCheck } from "lucide-react";
 
 function Adprofile() {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        {/* PROFILE CARD */}
         <div className="bg-white p-6 rounded-xl border border-gray-200 flex flex-col items-center text-center">
 
           <div className="relative">
@@ -16,10 +15,6 @@ function Adprofile() {
               className="w-25 h-25 rounded-full object-cover"
             />
 
-            <label className="absolute bottom-2 right-2 bg-blue-600 p-2 rounded-full text-white cursor-pointer">
-              <Camera size={16} />
-              <input type="file" className="hidden" />
-            </label>
           </div>
 
           <h2 className="mt-4 text-2xl font-bold">Alice Mutesi</h2>
@@ -138,7 +133,6 @@ function Adprofile() {
         </div>
       </div>
 
-      {/* BOTTOM SECTION */}
       <div className="mt-6 bg-white p-6 rounded-xl border border-gray-200">
         <h2 className="text-lg font-semibold mb-2 capitalize">
           Admin Role
@@ -148,6 +142,10 @@ function Adprofile() {
           handling security permissions, and ensuring smooth operation of company
           digital services.
         </p>
+      </div>
+      <div className="justify-end  flex items-center ">
+        <button className="p-2 bg-blue-400 flex gap-2  cursor-pointer items-center text-sm mt-4 text-white rounded-md px-7"> 
+          <span> <Edit2 size={20}/></span>Edit Profile</button>
       </div>
     </div>
   );
