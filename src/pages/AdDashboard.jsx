@@ -8,9 +8,10 @@ import {
   ReceiptTextIcon,
   MessageSquare,
   ShieldAlert,
-  LogOut
+  LogOut,Languages
+
 } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Global } from 'recharts'
 import Borrowers from './Borrowers'
 import AdReport from './AdReport'
 import AdminSetting from './adminsetting'
@@ -22,6 +23,7 @@ import Sms from './Sms'
 import ReportedBorrowers from './ReportedBorrowers'
 import About from './About'
 import Adprofile from './Adprofile'
+import NotificationModal from './NotificationModel'
 
 
 function AdDashboard() {
@@ -29,7 +31,9 @@ function AdDashboard() {
   const [currentPages, setCurrentPage] = useState(currenctpage||'Dashboard')
   const [activeTab, setActiveTab] = useState('loans') 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false) 
-
+  const [isnotificationopen,setisnotificationopen]=useState(false)
+  const opennotif=()=>setisnotificationopen(true)
+   const isnotificationclosed=()=>setisnotificationopen(false)
   const changepage=(itemid)=>{
        setCurrentPage(itemid)
        localStorage.setItem('currentpage',itemid)
@@ -136,7 +140,19 @@ function AdDashboard() {
           </button>
           
           <div className='flex items-center gap-4 ml-auto'>
-            <button className='p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl relative transition-all cursor-pointer'>
+            <nav className='bg-gray-50 relative flex items-center p-1    rounded-full text-gray-700'>
+              <Languages size={23}/>
+                <select className='absolute cursor-pointer border-none text-sm inset-0 opacity-0' name="" id="">
+                  <option value='en'>English</option>
+                  <option value='lg'>Luganda</option>
+                  <option value='fr'>French</option>
+                  <option value='kw'>kiswahili</option>
+                </select>
+
+                <ChevronDown size={14}  />
+              
+            </nav>
+            <button onClick={opennotif} className='p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl relative transition-all cursor-pointer'>
               <BellDot size={20}/>
               <span className='absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white'></span>
             </button>
@@ -490,6 +506,7 @@ function AdDashboard() {
         {currentPages==='profile'&&<Adprofile/>}
 
       </div>
+      {isnotificationopen &&<NotificationModal onClose={isnotificationclosed}/>}
     </div>
   )
 }

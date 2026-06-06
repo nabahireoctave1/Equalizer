@@ -8,6 +8,7 @@ import Agents_company_portal from './pages/Agents_company_portal'
 
  import Login from './pages/login';
 import EditprofileModel from './pages/EditprofileModel';
+import NotificationModel from './pages/NotificationModel';
 
 
 
@@ -17,10 +18,9 @@ function App() {
   return (
           <div>
           
-    {/* <AdDashboard/> */}
+    <AdDashboard/>
     {/* <Dashboard/> */}
-   {/* <Login/> */}
-   <EditprofileModel/>
+   {/* <Login/>  */}
             
     </div>
   );

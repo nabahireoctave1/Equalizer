@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Calendar, Camera, Edit2, Mail, PhoneCall, ShieldCheck } from "lucide-react";
+import EditProfileModal from "./EditprofileModel";
 
 function Adprofile() {
+  const [isopened,setisopened]=useState(false)
+  const openedit= ()=>setisopened(true)
+  const closeedit=()=> setisopened(false)
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -144,9 +149,12 @@ function Adprofile() {
         </p>
       </div>
       <div className="justify-end  flex items-center ">
-        <button className="p-2 bg-blue-400 flex gap-2  cursor-pointer items-center text-sm mt-4 text-white rounded-md px-7"> 
+        <button  onClick={openedit} className="p-2 bg-blue-400 flex gap-2  cursor-pointer items-center text-sm mt-4 text-white rounded-md px-7"> 
           <span> <Edit2 size={20}/></span>Edit Profile</button>
       </div>
+      {isopened &&(
+        <EditProfileModal onClose={closeedit}/>
+      )}
     </div>
   );
 }

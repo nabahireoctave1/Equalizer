@@ -5,6 +5,7 @@ import EditCompany_info_model from './EditCompany_info_model'
 function AdminSetting() {
     const [isForceLogoutOpen, setForceLogoutOpen] = useState(false)
     const [isAutoNotifOpen, setIsAutoNotifOpen] = useState(true)
+    const [isofficechargeopen,setisofficechargeopen]=useState(true)
     
     let [iscompanyinfoopened,setiscompanyinfoopen]=useState(false)
     
@@ -73,11 +74,14 @@ function AdminSetting() {
                             <input type='text' value={'6:08 PM'} name="" id="" className='w-full border border-gray-100 rounded-md outline-none focus:ring-1 focus:ring-blue-300 text-sm text-gray-700 p-2'/>
                         
                         </div>
-                        <div className='space-y-1 py-2'>
+                        <div className='space-y-1 py-2 '>
                             <h2 className='font-bold uppercase text-xs'>Enable notification </h2>
-                               <button className='bg-blue-400 w-30 text-sm cursor-pointer text-white rounded-md p-2'>
-                                Enable 
+                            <div className='flex justify-between'>
+                            <h2 className='text-sm py-2 capitalize'>Enable encoming notifications</h2>
+                               <button className='cursor-pointer   text-blue-400 rounded-full '>
+                                <ToggleLeft/>
                                </button>
+                               </div>
                         </div>
                         <div className='space-y-1 py-6'>
                             <h2 className='font-bold uppercase text-xs'>add Branch </h2>
@@ -150,15 +154,116 @@ function AdminSetting() {
                             <div className='col-span-2'>
                                 <label className='text-[10px] font-black text-gray-700 uppercase block mb-1.5'>Manualy-Notify</label>
                                 <textarea className={`${inputStyle} h-28 resize-none p-3`} placeholder="Message for all users..."></textarea>
+                                 <div className='flex justify-between  mt-2 '>
+
+                                 <button className='bg-blue-400 py-2  rounded-sm text-sm
+                                  text-white  px-4 first-letter:uppercase'>send all</button>
+                                 <div className='flex gap-2 text-sm'>
+
+                                 <button className='bg-blue-400 py-2 gap- rounded-sm text-sm text-white  px-4 first-letter:uppercase'>
+                                    specific user
+                                    </button>
+                                 <select name="" className='border border-gray-200 px-2 rounded-sm focus:ring-1 focus:ring-gray-300' id="">
+                                     <option value="">james</option>
+                                     <option value="">Keza jes</option>
+                                     <option value="">john</option>
+                                    </select>
+                                 </div>
+
+                                 </div>
+                                  
+
                             </div>
                         )}
                     </div>
                 </div>
 
-                <div className='border border-blue-300 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between bg-white shadow-sm'>
+
+                <div className={`${cardStyle} mt-4 border border-gray-200 rounded-2xl p-5 bg-white shadow-sm`}>
+  <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+    <div>
+      <h2 className="font-black uppercase tracking-tight text-gray-800 ">
+        Set Office Charge
+      </h2>
+      <p className="text-xs text-gray-500">
+        Configure office charge ranges
+      </p>
+    </div>
+
+    <div className="flex items-center gap-3">
+      <span className="text-sm font-medium text-gray-500">Off</span>
+
+      <button
+        onClick={() => setisofficechargeopen(!isofficechargeopen)}
+        className={`transition-all cursor-pointer ${
+          isofficechargeopen
+            ? "text-blue-400"
+            : "text-gray-400"
+        }`}
+      >
+        {isofficechargeopen ? (
+          <ToggleRight size={28} />
+        ) : (
+          <ToggleLeft size={28} />
+        )}
+      </button>
+
+      <span className="text-lg font-medium text-blue-500">On</span>
+    </div>
+  </div>
+
+  {isofficechargeopen ? (
+    <div className="mt-5 space-y-4">
+      <div>
+        <label className="block text-[13px] text-gray-700 mb-2">
+          Start Up cash
+        </label>
+        <input
+          type="text"
+          placeholder="1000"
+          className="w-full h-12 px-4 rounded-sm border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
+        />
+      </div>
+
+      <div>
+        <label className="block text-[13px] font-medium text-gray-700 mb-2">
+          Ending  cash
+        </label>
+        <input
+          type="number"
+          placeholder="10000"
+          className="w-full h-12 px-4 rounded-sm border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
+        />
+      </div>
+
+      <div className="flex justify-end gap-3 pt-3">
+        <button
+          className="px-5 py-2 rounded-md border text-sm  cursor-pointer border-gray-300 text-gray-700 bg-gray-100"
+        >
+           New
+        </button>
+
+        <button
+          className="px-4 py-2 rounded-sm text-sm cursor-pointer bg-blue-400 text-white "
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  ) : (
+    <div className="mt-5 bg-gray-50  border-gray-300 rounded-sm p-6 text-center">
+      <p className="text-sm text-red-400">
+        Office charge is currently disabled
+      </p>
+    </div>
+  )}
+</div>
+                <div className={`${cardStyle} flex 
+                flex-col sm:flex-row items-center justify-between bg-white `}>
                       
-                                              <div>
-                            <p className='font-black uppercase tracking-tight text-gray-800 flex gap-2'><BarChart3 className='text-blue-500'/>Audit Generation Period</p>
+                         <div>
+                            <p className='font-black uppercase tracking-tight text-gray-800 flex gap-2'>
+                                <BarChart3 className='text-blue-500'/>Audit Generation Period</p>
                             <p className='text-xs text-gray-700 font-bold tracking-wide'>Manage system report frequency</p>
                         </div>
 
@@ -169,9 +274,13 @@ function AdminSetting() {
                         <option>Monthly</option>
                     </select>
                     </div>
+
+               
                      <div className='flex justify-end p-4'>
                     <button className='bg-blue-400 py-2 px-8 text-white cursor-pointer text-sm  flex  gap-2 rounded-md'><SaveIcon size={20}/>save all </button>
                 </div>
+
+              
                    
                 </div>
 

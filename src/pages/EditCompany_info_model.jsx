@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, X, ShieldAlert, Calendar, MapPin, User, Hash, Camera } from 'lucide-react';
+import { Building2, X, ShieldAlert, Calendar, MapPin, User, Hash,Plus } from 'lucide-react';
 
 function EditCompany_info_model({ onclose }) {
   const [logo, setLogo] = useState(null);
@@ -18,7 +18,7 @@ function EditCompany_info_model({ onclose }) {
     >
       <div 
         onClick={(e) => e.stopPropagation()} 
-        className='bg-white border-none rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in duration-200 my-auto'
+        className='bg-white border-none rounded-sm shadow-2xl w-full max-w-3xl overflow-hidden animate-in fade-in zoom-in duration-200 my-auto'
       >
         <div className='relative px-6 py-4 border-b border-blue-400 bg-blue-300 flex items-center justify-between'>
           <div className='flex items-center gap-3'>
@@ -49,9 +49,9 @@ function EditCompany_info_model({ onclose }) {
               </div>
               <label 
                 htmlFor="logo-upload" 
-                className='absolute inset-0 bg-blue-600/60 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white gap-1'
+                className='absolute inset-0 bg-blue-600/20 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white gap-1'
               >
-                <Camera size={18} />
+                <Plus size={18} />
                 <span className='text-[10px] font-bold uppercase'>Upload</span>
               </label>
               <input type="file" id="logo-upload" accept="image/*" className="hidden" onChange={handleLogoChange} />
@@ -61,9 +61,7 @@ function EditCompany_info_model({ onclose }) {
             </div>
           </div>
 
-          {/* Form Content Section */}
           <div className='flex-1 p-6 bg-white space-y-6'>
-            {/* Responsive Grid Setup */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4'>
               <div>
                 <label className='flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase mb-1' htmlFor="company-name">
