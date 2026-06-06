@@ -25,6 +25,11 @@ import About from './About'
 import Adprofile from './Adprofile'
 import NotificationModal from './NotificationModel'
 
+import i18n from 'i18next'
+import { useTranslation } from 'react-i18next'
+
+
+
 
 function AdDashboard() {
   const currenctpage=localStorage.getItem('currentpage')
@@ -39,20 +44,23 @@ function AdDashboard() {
        localStorage.setItem('currentpage',itemid)
   }
 
+  const { t, i18n } = useTranslation()
+
+
   const chartData =[
-    {Date:'may 01', loaned: 4200000, Collected: 1500000, overdue: 800000 },
-    {Date:'may 02', loaned: 5200000, Collected: 2500000, overdue: 900000 },
-    {Date:'may 03', loaned: 6000000,Collected: 3000000, overdue: 950000 },
-    {Date:'may 04', loaned: 6800000,Collected: 3800000, overdue: 5000000 },
-    {Date:'may 05', loaned: 7800000,Collected: 4200000, overdue: 1000000 },
-    {Date:'may 07', loaned: 8200000,Collected: 4800000, overdue: 1200000 },
-    {Date:'may 08', loaned: 8500000,Collected: 5500000, overdue: 1150000 },
+    {Date:'01-03-2025', loaned: 4200000, Collected: 1500000, overdue: 800000 },
+    {Date:'02-03-2025', loaned: 5200000, Collected: 2500000, overdue: 900000 },
+    {Date:'03-03-2025', loaned: 6000000,Collected: 3000000, overdue: 950000 },
+    {Date:'04-03-2025', loaned: 6800000,Collected: 3800000, overdue: 5000000 },
+    {Date:'05-05-2025', loaned: 7800000,Collected: 4200000, overdue: 1000000 },
+    {Date:'07-05-2025', loaned: 8200000,Collected: 4800000, overdue: 1200000 },
+    {Date:'08-05-2025', loaned: 8500000,Collected: 5500000, overdue: 1150000 },
   ]
 
   const recentLoans = [
-    { id: 1, name: 'John Sengabo', amount: '100,000 UGX', cashier: 'Eric Muhire', date: 'May 20, 2025', due: 'Jun 20, 2025', status: 'Pending' },
-    { id: 2, name: 'Alice Nyiransabimana', amount: '250,000 UGX', cashier: 'Claudine Uwase', date: 'May 20, 2025', due: 'Jun 20, 2025', status: 'Pending' },
-    { id: 3, name: 'Marie Mukamana', amount: '150,000 UGX', cashier: 'Eric Muhire', date: 'May 19, 2025', due: 'Jun 19, 2025', status: 'Overdue' },
+    { id: 1, name: 'John Sengabo', amount: '100,000 UGX', cashier: 'Eric Muhire', date: '20,03, 2025', due: '20,05, 2025', status: 'Pending' },
+    { id: 2, name: 'Alice Nyiransabimana', amount: '250,000 UGX', cashier: 'Claudine Uwase', date: '20,05, 2025', due: '20,04 2025', status: 'Pending' },
+    { id: 3, name: 'Marie Mukamana', amount: '150,000 UGX', cashier: 'Eric Muhire', date: 'May 19, 03,2025', due: '19,05,2025', status: 'Overdue' },
   ]
 
   return (
@@ -83,16 +91,16 @@ function AdDashboard() {
           
           <div className='p-4 space-y-1'>
             {[
-              { id: 'Dashboard', label: 'Dashboard', icon: <LayoutDashboardIcon size={18} /> },
-              { id: 'borrowers', label: 'Borrowers', icon: <HandCoins size={18} /> },
-              { id: 'loans', label: 'Loans', icon: <Banknote size={18} /> },
-              { id: 'repayment', label: 'Repayments', icon: <CreditCard size={18} /> },
-              { id: 'cashiers', label: 'Cashiers', icon: <BadgeDollarSign size={18} /> },
-              { id: 'reports', label: 'Reports', icon: <BarChart3 size={18} /> },
-              { id: 'settings', label: 'Settings', icon: <Settings size={18} /> },
-              { id: 'Billing', label: 'Billing', icon: <ReceiptTextIcon size={18} /> },
-              { id: 'message', label: 'Messages', icon: <MessageSquare size={18} /> },
-              { id: 'Reported', label: 'Borrowers Flag', icon: <ShieldAlert size={18} /> },
+              { id: 'Dashboard', label: `${t('nav.dashboard')}`, icon: <LayoutDashboardIcon size={18} /> },
+              { id: 'borrowers', label: `${t('nav.borrowers')}`, icon: <HandCoins size={18} /> },
+              { id: 'loans', label: `${t('nav.loans')}`, icon: <Banknote size={18} /> },
+              { id: 'repayment', label: `${t('nav.repayments')}`, icon: <CreditCard size={18} /> },
+              { id: 'cashiers', label: `${t('nav.cashiers')}`, icon: <BadgeDollarSign size={18} /> },
+              { id: 'reports', label: `${t('nav.reports')}`, icon: <BarChart3 size={18} /> },
+              { id: 'settings', label: `${t('nav.settings')}`, icon: <Settings size={18} /> },
+              { id: 'Billing', label: `${t('nav.billing')}`, icon: <ReceiptTextIcon size={18} /> },
+              { id: 'message', label: `${t('nav.messages')}`, icon: <MessageSquare size={18} /> },
+              { id: 'Reported', label: `${t('nav.borrowers_flag')}`, icon: <ShieldAlert size={18} /> },
 
             ].map((item) => (
               <button 
@@ -111,7 +119,7 @@ function AdDashboard() {
               </button>
             ))}
             <button className='flex justify-center text-sm w-40 gap-1 hover:cursor-pointer bg-red-400 mx-3  py-2  rounded-sm text-white'>
-              <span><LogOut size={18}/></span>Logout</button>
+              <span><LogOut size={18}/></span>{t('nav.logout')}</button>
           </div>
         </div>
 
@@ -119,11 +127,11 @@ function AdDashboard() {
           <div className='h-fit w-fit p-2 bg-blue-600/10 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-3 shadow-inner'>
             <HelpCircle size={20} />
           </div>
-          <h3 className='text-gray-700 font-semibold text-sm'>Need Help?</h3>
-          <p className='text-xs text-slate-500  px-2 leading-relaxed'>Contact our support team </p>
+          <h3 className='text-gray-700 font-semibold text-sm'>{t('help.need_help')}</h3>
+          <p className='text-xs text-slate-500  px-2 leading-relaxed'>{t('help.help_text')}</p>
           <button className='w-full flex justify-center items-center gap-2 text-xs font-semibold text-white
            bg-blue-400 py-2.5 px-4 rounded-sm transition-colors cursor-pointer'>
-            <MessageCircle size={14}/> Contact Support
+            <MessageCircle size={14}/> {t('help.contact_support')}
           </button>
         </div>
       </div>
@@ -142,7 +150,11 @@ function AdDashboard() {
           <div className='flex items-center gap-4 ml-auto'>
             <nav className='bg-gray-50 relative flex items-center p-1    rounded-full text-gray-700'>
               <Languages size={23}/>
-                <select className='absolute cursor-pointer border-none text-sm inset-0 opacity-0' name="" id="">
+                <select value={i18n.language}  onChange={(e)=>{
+                  const lang=e.target.value
+                  i18n.changeLanguage(lang)
+                  localStorage.setItem('lang',lang)
+                }} className='absolute cursor-pointer border-none text-sm inset-0 opacity-0' name="" id="">
                   <option value='en'>English</option>
                   <option value='lg'>Luganda</option>
                   <option value='fr'>French</option>
@@ -167,7 +179,7 @@ function AdDashboard() {
                 <span className='text-[11px] text-gray-400 font-medium'>Company Admin</span>
               </div>
               <ChevronDown size={14} className='text-gray-400 transition-transform  group-hover:translate-y-0.5' />
-              <select onChange={(e)=>setCurrentPage(e.target.value)} className='absolute cursor-pointer inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
+              <select onChange={(e)=>setCurrentPage(e.target.value)} className='absolute  inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
                 <option value="profile">Profile </option>
                 <option value="about" className='uppercase text-xs'>About Equalizer </option>
               </select>
@@ -180,13 +192,12 @@ function AdDashboard() {
             
             <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
               <div>
-                <h1 className='text-xl sm:text-2xl font-bold text-gray-800 tracking-tight flex items-center gap-2'>Welcome back, Admin</h1>
-                <p className='text-xs text-gray-500 mt-0.5'>Here's what's happening with your company today.</p>
+                <h1 className='text-xl sm:text-2xl font-bold text-gray-800 tracking-tight flex items-center gap-2'>{t('topbar.welcome_back')}</h1>
+                <p className='text-xs text-gray-500 mt-0.5'>{t('topbar.today_summary')}</p>
               </div>
-              <div className='bg-white border border-gray-200 px-4 py-2 rounded-md 
-              text-xs text-gray-600 flex items-center gap-2 shadow-sm shadow-gray-100/50 cursor-pointer self-stretch sm:self-auto justify-between sm:justify-start'>
-                <span>May 20, 2025</span>
-                <ChevronDown size={14} />
+              <div className='bg-white border border-gray-200 px-5 py-2 rounded-md 
+              text-xs text-gray-600  shadow-sm shadow-gray-100/50 cursor-pointer self-stretch sm:self-auto justify-between sm:justify-start'>
+                <span>20-05-2025</span>
               </div>
             </div>
 
@@ -195,9 +206,9 @@ function AdDashboard() {
                 <div className='flex gap-4 items-start'>
                   <span className='p-3 rounded-xl bg-blue-50 text-blue-600'><WalletCards size={22}/></span>
                   <div>
-                    <h2 className='text-xs font-bold text-gray-700 capitalize'>Outstanding Balance</h2>
+                    <h2 className='text-xs font-bold text-gray-700 capitalize'>{t('cards.outstanding_balance')}</h2>
                     <p className='text-lg font-bold text-gray-800 mt-1'>9,500,000 UGX</p>
-                    <p className='text-[12px]  capitalize  text-gray-400 font-medium mt-1'>current Loaned</p> 
+                    <p className='text-[12px]  capitalize  text-gray-400 font-medium mt-1'>{t('cards.current_loaned')}</p> 
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
@@ -210,9 +221,9 @@ function AdDashboard() {
                 <div className='flex gap-4 items-start'>
                   <span className='p-3 rounded-xl bg-green-50 text-green-600'><HandCoins size={22}/></span>
                   <div>
-                    <h2 className='text-xs font-bold text-gray-700 capitalize '>Collected Today</h2>
+                    <h2 className='text-xs font-bold text-gray-700 capitalize '>{t('cards.collected_today')}</h2>
                     <p className='text-lg font-bold text-gray-800 mt-1'>650,000 UGX</p> 
-                    <p className='text-[12px] text-gray-400 font-medium mt-1'>Total collections today</p> 
+                    <p className='text-[12px] text-gray-400 font-medium mt-1'>{t('cards.total_collections_today')}</p> 
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
@@ -226,9 +237,9 @@ function AdDashboard() {
                 <div className='flex gap-4 items-start'>
                   <span className='p-3 rounded-xl bg-yellow-100 text-yellow-400'><Banknote size={22}/></span>
                   <div>
-                    <h2 className='text-xs font-bold text-gray-700 capitalize'>Pending Loans</h2>
+                    <h2 className='text-xs font-bold text-gray-700 capitalize'>{t('cards.pending_loans')}</h2>
                     <p className='text-lg font-bold text-gray-800 mt-1'>245</p> 
-                    <p className='text-[11px] text-gray-400 font-medium mt-1'> Current Running loans</p> 
+                    <p className='text-[11px] text-gray-400 font-medium mt-1'> {t('cards.running_loans')}</p> 
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
@@ -241,9 +252,9 @@ function AdDashboard() {
                 <div className='flex gap-4 items-start'>
                   <span className='p-3 rounded-xl bg-rose-50 text-rose-600'><AlertTriangle size={22}/></span>
                   <div>
-                    <h2 className='text-xs font-bold text-gray-700 capitalize'>Overdue Loans</h2>
+                    <h2 className='text-xs font-bold text-gray-700 capitalize'>{t('cards.overdue_loans')}</h2>
                     <p className='text-lg font-bold text-gray-800 mt-1'>32</p> 
-                    <p className='text-[11px] text-gray-400 font-medium mt-1'>Loans past due date</p> 
+                    <p className='text-[11px] text-gray-400 font-medium mt-1'>{t('cards.loans_past_due')}</p> 
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
@@ -258,14 +269,15 @@ function AdDashboard() {
               <div className='lg:col-span-2 bg-white overflow-x-auto border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col justify-between h-90'>
                 <div className='flex justify-between items-center mb-6'>
                   <div>
-                    <h3 className='text-lg sm:text-xl font-black text-gray-800 uppercase'>Currency Tracking</h3>
+                    <h3 className='text-lg sm:text-xl font-black text-gray-800 uppercase'>{t('chart.currency_tracking')}</h3>
                     <div className='flex flex-wrap gap-4 text-xs font-semibold mt-2'>
                       <div className='flex items-center gap-1.5'>
-                        <span className='w-2.5 h-2.5 bg-blue-500 rounded-full inline-block'></span><span className='text-gray-400'>Loaned</span></div>
+                        <span className='w-2.5 h-2.5 bg-blue-500 rounded-full inline-block'
+                        ></span><span className='text-gray-400'>{t('chart.loaned')}</span></div>
                       <div className='flex items-center gap-1.5'><span className='w-2.5 h-2.5 bg-emerald-500 rounded-full inline-block'></span>
-                      <span className='text-gray-400'>Collected</span></div>
+                      <span className='text-gray-400'>{t('chart.collected')}</span></div>
                       <div className='flex items-center gap-1.5'><span className='w-2.5 h-2.5 bg-rose-500 rounded-full inline-block'></span>
-                      <span className='text-gray-400'>Overdue</span></div>
+                      <span className='text-gray-400'>{t('chart.overdue')}</span></div>
                     </div>
                   </div>
                 </div>
@@ -294,9 +306,9 @@ function AdDashboard() {
                 <div className='bg-white shadow border border-gray-100 rounded-lg p-4 flex flex-col justify-between'>
                   <div className='flex flex-col md:flex-row gap-2 justify-between sm:justify-center  items-center'>
                     <h3 className='text-xs font-bold text-gray-800 capitalize flex  items-center gap-1.5'><Trophy size={20}
-                     className='text-blue-500'/> Top Cashier Today by collection</h3>
+                     className='text-blue-500'/>{t('cashier.top_cashier_today')}</h3>
                     <span className='bg-green-50 text-green-600 font-bold text-[10px] capitalize px-2
-                     py-0.5 rounded-full '>Top Performer</span>
+                     py-0.5 rounded-full '>{t('cashier.top_performer')}</span>
                   </div>
                   <div className='flex items-center gap-4 py-2 mt-2'>
                     <div className='w-12 h-12 bg-gray-100 rounded-full overflow-hidden '>
@@ -306,7 +318,7 @@ function AdDashboard() {
                     <div className='leading-normal flex-1 min-w-0 '>
                       <h4 className='text-sm font-bold text-gray-800 truncate'>Eric Muhire</h4>
                       <p className='text-xs text-gray-700 font-medium mt-0.5 truncate'>
-                        <span className='text-gray-700 font-bold'>24</span> Loans Issued 
+                        <span className='text-gray-700 font-bold'>24</span> {t('cashier.loans_issued')} 
                         <span className='text-gray-300 mx-1'>•</span> 480,000 UGX</p>
                     </div>
                   </div>
@@ -318,9 +330,9 @@ function AdDashboard() {
                       <div className='w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center '>
                         <PlusCircle size={18} /></div>
                       <div>
-                        <h4 className='text-xs font-bold text-gray-800 first-letter:uppercase'>Loans added today</h4>
+                        <h4 className='text-xs font-bold text-gray-800 first-letter:uppercase'>{t('cashier.loans_added_today')}</h4>
                         <p className='text-xl font-bold text-gray-800 mt-0.5'>27</p>
-                        <p className='text-[11px] text-gray-700 font-medium mt-0.5'>Loans issued by cashiers</p>
+                        <p className='text-[11px] text-gray-700 font-medium mt-0.5'>{t('cashier.issued_by_cashier')}</p>
                       </div>
                     </div>
                   </div>
@@ -331,8 +343,8 @@ function AdDashboard() {
                     <div className='w-11 h-11 bg-white rounded-full flex items-center justify-center text-gray-800 font-bold text-xs'>100%</div>
                   </div>
                   <div className='leading-tight'>
-                    <h4 className='text-xs font-bold text-gray-800'>Repayment Rate</h4>
-                    <p className='text-xs text-green-500 font-semibold mt-0.5 flex items-center gap-1'>Repayment % progress</p>
+                    <h4 className='text-xs font-bold text-gray-800'>{t('repayments.repayment_rate')}</h4>
+                    <p className='text-xs text-green-500 font-semibold mt-0.5 flex items-center gap-1'>{t('repayments.repayment_progress')}</p>
                   </div>
                 </div>
 
@@ -343,14 +355,14 @@ function AdDashboard() {
               <div className='p-4 sm:p-6 border-b border-gray-50 flex flex-col gap-4'>
                 <h3 className='text-base font-extrabold text-gray-700 flex items-center gap-2'> 
                   <ActivityIcon size={30} className='border border-gray-100 bg-gray-100 p-1 rounded-sm text-gray-400'/>
-                  Recent Activity
+                    {t('activity.recent_activity')}
                 </h3>
 
                 <div className='flex flex-wrap gap-2 pt-2'>
                   {[
-                    { id: 'loans', label: 'Recent Loans' },
-                    { id: 'repayments', label: 'Repayments' },
-                    { id: 'overdue', label: 'Overdue ' }
+                    { id: 'loans', label: `${t('activity.recent_loans')}` },
+                    { id: 'repayments', label: `${t('activity.repayments')}` },
+                    { id: 'overdue', label: `${t('activity.overdue')}` }
                   ].map((tab) => (
                     <button 
                       key={tab.id}
@@ -372,12 +384,12 @@ function AdDashboard() {
                   <table className='w-full text-left border-collapse '>
                     <thead>
                       <tr className='border-b border-gray-100 text-xs font-extrabold text-gray-700 capitalize bg-gray-50/50'>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Borrower</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cash</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cashier</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Date</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Due Date</th>
-                        <th className='py-4 px-6 text-center'>Status</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.borrower')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.cash')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.cashier')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.date')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.due_date')}</th>
+                        <th className='py-4 px-6 text-center'>{t('t.status')}</th>
                         <th className='py-4 px-6 text-center'></th>
                       </tr>
                     </thead>
@@ -400,7 +412,7 @@ function AdDashboard() {
                                 ? 'bg-blue-500 text-white' 
                                 : 'bg-rose-50 text-rose-600'
                             }`}>
-                              {row.status}
+                               {t(`status.${row.status.toLocaleLowerCase()}`)}
                             </span>
                           </td>
                         </tr>
@@ -415,11 +427,11 @@ function AdDashboard() {
                   <table className='w-full text-left border-collapse '>
                     <thead>
                       <tr className='border-b border-gray-100 text-xs font-extrabold text-gray-700 capitalize bg-gray-50/50'>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Payer</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cash</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cashier</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Date</th>
-                        <th className='py-4 px-6 text-center whitespace-nowrap'>Status</th>
+            <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.borrower')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.cash')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.cashier')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.date')}</th>
+                        <th className='py-4 px-6 text-center'>{t('t.status')}</th>
                       </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-50 text-sm font-medium text-gray-700'>
@@ -440,7 +452,8 @@ function AdDashboard() {
                                 ? 'bg-blue-500 text-white' 
                                 : 'bg-rose-50 text-rose-600'
                             }`}>
-                              {row.status}
+                             {t(`status.${row.status.toLocaleLowerCase()}`)}
+
                             </span>
                           </td>
                         </tr>
@@ -455,11 +468,12 @@ function AdDashboard() {
                   <table className='w-full text-left border-collapse'>
                     <thead>
                       <tr className='border-b border-gray-100 text-xs font-extrabold text-gray-700 capitalize bg-gray-50/50'>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Borrower</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cash</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Cashier</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>penalities</th>
-                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>Date</th>
+                     <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.borrower')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.cash')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.cashier')}</th>
+                        <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.penalties')}</th>
+                                   <th className='py-4 px-6 font-semibold whitespace-nowrap'>{t('t.date')}</th>
+
                       </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-50 text-sm font-medium text-gray-700'>

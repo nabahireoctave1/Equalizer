@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "borrowers": "Emprunteurs",
+    "loans": "Prêts",
+    "repayments": "Remboursements",
+    "cashiers": "Caissiers",
+    "reports": "Rapports",
+    "settings": "Paramètres",
+    "billing": "Facturation",
+    "messages": "Messages",
+    "borrowers_flag": "Signalement des emprunteurs",
+    "logout": "Déconnexion"
+  },
+
+  "topbar": {
+    "welcome_back": "Bon retour, Admin",
+    "today_summary": "Voici ce qui se passe dans votre entreprise aujourd’hui.",
+    "date": "20 Mai 2025"
+  },
+
+  "cards": {
+    "outstanding_balance": "Solde impayé",
+    "collected_today": "Encaissements du jour",
+    "pending_loans": "Prêts en attente",
+    "overdue_loans": "Prêts en retard",
+    "percentage_rate": "Taux en pourcentage",
+    "current_loaned": "Montant prêté actuel",
+    "total_collections_today": "Total collecté aujourd’hui",
+    "running_loans": "Prêts en cours",
+    "loans_past_due": "Prêts en retard de paiement"
+  },
+
+  "chart": {
+    "currency_tracking": "Suivi des transactions",
+    "loaned": "Prêté",
+    "collected": "Collecté",
+    "overdue": "En retard"
+  },
+
+  "cashier": {
+    "top_performer": "Meilleur employé",
+    "top_cashier_today": "Meilleur caissier du jour",
+    "loans_issued": "Prêts accordés",
+    "loans_added_today": "Prêts ajoutés aujourd’hui",
+   
+      "issued_by_cashier": "Prêts accordés par les caissiers"
+  },
+
+  "repayments":{
+ "repayment_rate": "Taux de remboursement",
+    "repayment_progress": "Progression de remboursement"
+  }
+  ,
+
+  "activity": {
+    "recent_activity": "Activité récente",
+    "recent_loans": "Prêts récents",
+    "repayments": "Remboursements",
+    "overdue": "En retard"
+  },
+
+  "t": {
+    "borrower": "Emprunteur",
+    "cash": "Montant",
+    "cashier": "Caissier",
+    "date": "Date",
+    "due_date": "Date d’échéance",
+    "status": "Statut",
+    "penalties": "Pénalités",
+    "payer": "Payeur"
+  },
+
+  "status": {
+    "pending": "En attente",
+    "overdue": "En retard"
+  },
+
+  "help": {
+    "need_help": "Besoin d’aide ?",
+    "contact_support": "Contacter le support",
+    "help_text": "Contactez notre équipe d’assistance"
+  }
+}

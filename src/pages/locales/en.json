@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "borrowers": "Borrowers",
+    "loans": "Loans",
+    "repayments": "Repayments",
+    "cashiers": "Cashiers",
+    "reports": "Reports",
+    "settings": "Settings",
+    "billing": "Billing",
+    "messages": "Messages",
+    "borrowers_flag": "Borrowers Flag",
+    "logout": "Logout"
+  },
+
+  "topbar": {
+    "welcome_back": "Welcome back, Admin",
+    "today_summary": "Here's what's happening with your company today.",
+    "date": "May 20, 2025"
+  },
+
+  "cards": {
+    "outstanding_balance": "Outstanding Balance",
+    "collected_today": "Collected Today",
+    "pending_loans": "Pending Loans",
+    "overdue_loans": "Overdue Loans",
+    "percentage_rate": "Percentage rate",
+    "current_loaned": "Current Loaned",
+    "total_collections_today": "Total collections today",
+    "running_loans": "Current Running loans",
+    "loans_past_due": "Loans past due date"
+  },
+
+  "chart": {
+    "currency_tracking": "Currency Tracking",
+    "loaned": "Loaned",
+    "collected": "Collected",
+    "overdue": "Overdue"
+  },
+
+  "cashier": {
+    "top_performer": "Top Performer",
+    "top_cashier_today": "Top Cashier Today by collection",
+    "loans_issued": "Loans Issued",
+    "loans_added_today": "Loans added today",
+
+    "issued_by_cashier": "Loan issued by cashiers"
+
+  },
+
+  "repayments":{
+    "repayment_rate": "Repayment Rate",
+    "repayment_progress": "Repayment % progress"
+  },
+
+  "activity": {
+    "recent_activity": "Recent Activity",
+    "recent_loans": "Recent Loans",
+    "repayments": "Repayments",
+    "overdue": "Overdue"
+  },
+
+  "t": {
+    "borrower": "Borrower",
+    "cash": "Cash",
+    "cashier": "Cashier",
+    "date": "Date",
+    "due_date": "Due Date",
+    "status": "Status",
+    "penalties": "Penalties",
+    "payer": "Payer"
+  },
+
+  "status": {
+    "pending": "Pending",
+    "overdue": "Overdue"
+  },
+
+  "help": {
+    "need_help": "Need Help?",
+    "contact_support": "Contact Support",
+    "help_text": "Contact our support team"
+  }
+}

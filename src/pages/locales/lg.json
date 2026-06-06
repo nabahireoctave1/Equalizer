@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "dashboard": "Ddashiboodi",
+    "borrowers": "Abborrowa",
+    "loans": "Ebbwere",
+    "repayments": "Okuzzaayo ssente",
+    "cashiers": "Abakasiya",
+    "reports": "Rapooti",
+    "settings": "Enteekateeka",
+    "billing": "Okulipirisa",
+    "messages": "Obubaka",
+    "borrowers_flag": "Abborrowa abalagiddwa",
+    "logout": "Fuluma"
+  },
+
+  "topbar": {
+    "welcome_back": "Tusanyuse okukulaba, Admin",
+    "today_summary": "Bino bye bibaawo mu kkampuni yo leero.",
+    "date": "20 Mei 2025"
+  },
+
+  "cards": {
+    "outstanding_balance": "Ssente ezitannasasulwa",
+    "collected_today": "Ssente ezifuniddwa leero",
+    "pending_loans": "Ebbwere eziri mu kulindirira",
+    "overdue_loans": "Ebbwere ezisobeddwa",
+    "percentage_rate": "Ebitundu ku kikumi",
+    "current_loaned": "Ssente eziwereddwa kati",
+    "total_collections_today": "Omugatte ogukunguddwa leero",
+    "running_loans": "Ebbwere ezikyagenda mu maaso",
+    "loans_past_due": "Ebbwere ezivudde ku budde"
+  },
+
+  "chart": {
+    "currency_tracking": "Okulondoola ssente",
+    "loaned": "Eziweeredwa",
+    "collected": "Ezifuniddwa",
+    "overdue": "Ezisobeddwa"
+  },
+
+  "cashier": {
+    "top_performer": "Asinga okukola obulungi",
+    "top_cashier_today": "Akasiya asingidde leero",
+    "loans_issued": "Ebbwere eziweereddwa",
+    "loans_added_today": "Ebbwere ezaayongeddwa leero",
+   
+      "issued_by_cashier": "Emyenda eyaweereddwa abasaasaanya ensimbi"
+  },
+
+ "repayments":{
+ "repayment_rate": "Ekipimo ky’okuzzaayo",
+    "repayment_progress": "Embeera y’okuzzaayo"
+ },
+
+  "activity": {
+    "recent_activity": "Ebyakolebwa ebisembyeyo",
+    "recent_loans": "Ebbwere ezaakavaayo",
+    "repayments": "Okuzzaayo",
+    "overdue": "Ezisobeddwa"
+  },
+
+  "t": {
+    "borrower": "Omborrowa",
+    "cash": "Ssente",
+    "cashier": "Akasiya",
+    "date": "Olunaku",
+    "due_date": "Olunaku lw’okumalirako",
+    "status": "Embeera",
+    "penalties": "Ebibonerezo",
+    "payer": "Asasula"
+  },
+
+  "status": {
+    "pending": "Kigenda",
+    "overdue": "Kiyise obudde"
+  },
+
+  "help": {
+    "need_help": "Oyagala obuyambi?",
+    "contact_support": "Tuukirira support",
+    "help_text": "Tuukirira ttiimu yaffe ey’obuyambi"
+  }
+}
