@@ -79,5 +79,53 @@
     "need_help": "Oyagala obuyambi?",
     "contact_support": "Tuukirira support",
     "help_text": "Tuukirira ttiimu yaffe ey’obuyambi"
+  },
+
+"b": {
+    "title": "Abeewola",
+    "subtitle": "Ddukanya abeewola bonna abakola",
+    "search_placeholder": "Noonya omweewola..."
+},
+    "tb": {
+      "no": "No",
+      "bnid": "Namba y'Omweewola",
+      "names": "Amannya",
+      "branch_name": "Erinnya ly'Ettabi",
+      "phone_no": "Namba y'Essimu",
+      "location": "Ekifo",
+      "actions": "Ebikolwa",
+      "maker": "Eyakoze"
+    },
+    "btn": {
+      "suspend": "Yimiriza Omweewola",
+      "reactivate": "Zzaawo Omweewola"
+    
+  },
+
+   "loan": {
+    "title": "Emisolo gy'amabanja g'amatabi",
+    "search_placeholder": "Noonya...",
+    "table": {
+      "client_id": "Namba y'Omukasitoma",
+      "client_name": "Erinnya ly'Omukasitoma",
+      "company_id": "Namba ya Kkampuni",
+      "amount": "Ssente",
+      "status": "Embeera",
+      "total_pay": "Ssente Zonna Ezokusasula",
+      "fees": "Ssente z'obuweereza"
+    },
+    "summary": {
+      "total_loaned": "Zonna Ezaweebwa",
+      "total_unpaid": "Ezitanasasulwa",
+        "total_loans": "Omuwendo gwonna ogw'amabanja",
+          "loans": "Amabanja"
+
+      
+    },
+    
+    "status": {
+      "paid": "Yasasuddwa",
+      "unpaid": "Tannasasulwa"
+    }
   }
 }

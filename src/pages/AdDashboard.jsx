@@ -158,7 +158,6 @@ function AdDashboard() {
                   <option value='en'>English</option>
                   <option value='lg'>Luganda</option>
                   <option value='fr'>French</option>
-                  <option value='kw'>kiswahili</option>
                 </select>
 
                 <ChevronDown size={14}  />
@@ -407,7 +406,7 @@ function AdDashboard() {
                           <td className='py-4 px-6 text-gray-800 text-xs font-semibold whitespace-nowrap'>{row.date}</td>
                           <td className='py-4 px-6 text-gray-800 text-xs font-semibold whitespace-nowrap'>{row.due}</td>
                           <td className='py-4 px-6 text-center'>
-                            <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full ${
+                            <span className={`inline-block px-3 whitespace-nowrap py-1 text-[11px] font-bold rounded-full ${
                               row.status === 'Pending' 
                                 ? 'bg-blue-500 text-white' 
                                 : 'bg-rose-50 text-rose-600'

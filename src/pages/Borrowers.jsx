@@ -2,9 +2,12 @@ import { BanIcon, HandCoins, RefreshCcw, Search } from 'lucide-react'
 import React, { useState } from 'react'
 import BurnuserModel from './BurnuserModel'
 import Reactivateborrowermodel from './ReactivateBorrower'
+import { useTranslation } from 'react-i18next'
 function Borrowers() {
   const [ismodelopen,setismodelopen]=useState(false)
   const [isreativateopened,setisreactivateopened]=useState(false)
+
+const {t}= useTranslation()
   
   const borrowers = [
     { BNid: 1234567857487475, names: "james willlock", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Bunyoro" },
@@ -27,8 +30,8 @@ function Borrowers() {
             <HandCoins size={22} />
           </span>
           <div>
-            <h2 className='text-xl font-extrabold text-gray-800 tracking-wide uppercase'>Borrowers</h2>
-            <p className='text-xs font-bold text-gray-600 mt-0.5'>Manage all active borrowers</p>
+            <h2 className='text-xl font-extrabold text-gray-800 tracking-wide uppercase'>{t('b.title')}</h2>
+            <p className='text-xs font-bold text-gray-600 mt-0.5'>{t('b.subtitle')}</p>
           </div>
         </div>
 
@@ -36,7 +39,7 @@ function Borrowers() {
           <Search className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' size={16} />
           <input 
             type='text' 
-            placeholder='search' 
+            placeholder={`${t('b.search_placeholder')}`} 
             className='border w-full pl-9 pr-4 py-2 text-sm rounded-md border-gray-200
              bg-gray-50/50 outline-none transition-all duration-200 focus:border-blue-500 focus:bg-white
               focus:ring-4 focus:ring-blue-500/10'
@@ -49,14 +52,14 @@ function Borrowers() {
           <table className='w-full border-collapse text-left text-sm text-gray-600'>
             <thead>
               <tr className='bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-700 uppercase tracking-wider'>
-                <th className='py-4 px-5 w-16 text-center'>No</th>
-                <th className='py-4 px-4 whitespace-nowrap'>B N ID</th>
-                <th className='py-4 px-4 whitespace-nowrap'>Names</th>
-                <th className='py-4 px-4 whitespace-nowrap'>Branch Name</th>
-                <th className='py-4 px-4 whitespace-nowrap'>Phone No</th>
-                       <th className='py-4 px-4 whitespace-nowrap'>Location</th>
-                <th className='py-4 px-5 text-center'>Actions</th>
-                <th>maker</th>
+                <th className='py-4 px-5 w-16 text-center'>{t('tb.no')}</th>
+                <th className='py-4 px-4 whitespace-nowrap'>{t('tb.bnid')}</th>
+                <th className='py-4 px-4 whitespace-nowrap'>{t('tb.names')}</th>
+                <th className='py-4 px-4 whitespace-nowrap'>{t('tb.branch_name')}</th>
+                <th className='py-4 px-4 whitespace-nowrap'>{t('tb.phone_no')}</th>
+                       <th className='py-4 px-4 whitespace-nowrap'>{t('tb.location')}</th>
+                <th className='py-4 px-5 text-center'>{t('tb.actions')}</th>
+                <th>{t('tb.maker')}</th>
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100'>
@@ -85,13 +88,13 @@ function Borrowers() {
                     <div className='flex items-center justify-center gap-2'>
                       <button 
                         onClick={openburnuser}
-                        title='Suspend Borrower' 
+                        title={`${t('btn.suspend')}`} 
                         className='p-1.5 rounded-md text-gray-700 hover:text-red-600 cursor-pointer hover:bg-red-50 transition-all duration-150'
                       >
                         <BanIcon size={16}  />
                       </button>
                       <button  onClick={openreactivatemodel}
-                        title='Reactivate Borrower' 
+                        title={`${t('btn.reactivate')}`} 
                         className='p-1.5 rounded-md text-gray-700 hover:text-green-600 cursor-pointer hover:bg-emerald-50 transition-all duration-150'
                       >
                         <RefreshCcw size={16} />

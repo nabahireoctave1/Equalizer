@@ -80,5 +80,62 @@
     "need_help": "Need Help?",
     "contact_support": "Contact Support",
     "help_text": "Contact our support team"
+  },
+
+  "b":{
+ "title": "Borrowers",
+    "subtitle": "Manage all active borrowers",
+    "search_placeholder": "Search borrowers..."
   }
+   ,
+
+  "tb": {
+      "no": "No",
+      "bnid": "B N ID",
+      "names": "Names",
+      "branch_name": "Branch Name",
+      "phone_no": "Phone No",
+      "location": "Location",
+      "actions": "Actions",
+      "maker": "Maker"
+    },
+
+    "btn": {
+      "suspend": "Suspend Borrower",
+      "reactivate": "Reactivate Borrower"
+    },
+  
+
+  "loan": {
+    "title": "Branch Loans",
+   "search_placeholder": "Search...",
+    "table": {
+      "client_id": "Client ID",
+      "client_name": "Client Name",
+      "amount": "Amount",
+      "status": "Status",
+      "total_pay": "Total Pay",
+      "fees": "Monthly Fees"
+    },
+    "summary": {
+      "total_loaned": "Total Loaned",
+      "total_unpaid": "Total Unpaid",
+       "total_loans": "Total Loans",
+       "loans":"loans"
+
+    },
+    "status": {
+      "paid": "Paid",
+      "unpaid": "Unpaid"
+    }
+  }
+
+
+
+
 }
+
+
+
+
+

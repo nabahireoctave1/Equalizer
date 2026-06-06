@@ -80,5 +80,55 @@
     "need_help": "Besoin d’aide ?",
     "contact_support": "Contacter le support",
     "help_text": "Contactez notre équipe d’assistance"
+  },
+
+ "b": {
+    "title": "Emprunteurs",
+    "subtitle": "Gérer tous les emprunteurs actifs",
+    "search_placeholder": "Rechercher un emprunteur..."
+ },
+
+    "tb": {
+      "no": "N°",
+      "bnid": "ID Emprunteur",
+      "names": "Noms",
+      "branch_name": "Nom de l'agence",
+      "phone_no": "Téléphone",
+      "location": "Localisation",
+      "actions": "Actions",
+      "maker": "Créateur"
+    },
+
+    "btn": {
+      "suspend": "Suspendre l'emprunteur",
+      "reactivate": "Réactiver l'emprunteur"
+    },
+
+
+      "loan": {
+    "title": "Prêts des agences",
+    "search_placeholder": "Rechercher...",
+    "table": {
+      "client_id": "ID Client",
+      "client_name": "Nom du Client",
+      "company_id": "ID Société",
+      "amount": "Montant",
+      "status": "Statut",
+      "total_pay": "Paiement Total",
+      "fees": "Frais"
+    },
+    "summary": {
+      "total_loaned": "Total Prêté",
+      "total_unpaid": "Total Impayé",
+       "total_loans": "Total des prêts",
+        "loans": "Prêts"
+    },
+    "status": {
+      "paid": "Payé",
+      "unpaid": "Impayé"
+    }
   }
+  
+
 }
+
