@@ -5,6 +5,7 @@ import {
   CreditCard,
   Activity,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 function Sms() {
   const transactions = [
@@ -34,13 +35,16 @@ function Sms() {
     },
   ];
 
+
+  const {t}=useTranslation()
+
   return (
     <div>
       <div className="bg-white py-4 ">
           <div>
           
             <h1 className="text-2xl px-4 uppercase font-black text-gray-800">
-            Monitor & Buy SMS
+            {t('sms.title')}
             </h1>
 
            
@@ -56,7 +60,7 @@ function Sms() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="uppercase text-gray-700 text-sm font-bold tracking-wider">
-                    Current SMS
+                    {t('sms.current_sms')}
                   </p>
 
                   <h2 className="text-2xl pb-2 font-black text-gray-800 mt-3">
@@ -64,7 +68,7 @@ function Sms() {
                   </h2>
 
                   <p className="text-gray-700 text-xs mt-1 uppercase">
-                    Available SMS remaining
+                    {t('sms.available_sms_remaining')}
                   </p>
                 </div>
 
@@ -75,7 +79,7 @@ function Sms() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-800 text-sm">
-                        Total Purchased
+                      {t('sms.total_purchased')}
                       </p>
 
                       <h3 className="text-xl font-black text-gray-800 mt-1">
@@ -83,7 +87,7 @@ function Sms() {
                       </h3>
 
                       <p className="text-[11px] text-gray-700 uppercase mt-1">
-                        SMS package usage
+                        {t('sms.sms_package_usage')}
                       </p>
                     </div>
 
@@ -98,7 +102,7 @@ function Sms() {
                   <div className="mt-4">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[11px] text-gray-700">
-                        Usage
+                        {t('sms.usage')}
                       </span>
 
                       <span className="text-[11px] font-bold text-gray-700">
@@ -116,7 +120,7 @@ function Sms() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-800 text-sm">
-                        Daily Usage
+                        {t('sms.daily_usage')}
                       </p>
 
                       <h3 className="text-xl font-black text-gray-800 mt-1">
@@ -124,7 +128,7 @@ function Sms() {
                       </h3>
 
                       <p className="text-[11px] text-gray-700 uppercase mt-1">
-                        To day message used
+                        {t('sms.today_message_used')}
                       </p>
                     </div>
 
@@ -139,7 +143,7 @@ function Sms() {
                   <div className="mt-4">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[11px] text-gray-700">
-                        Daily Usage
+                        {t('sms.daily_usage')}
                       </span>
 
                       <span className="text-[11px] font-bold text-gray-700">
@@ -167,11 +171,11 @@ function Sms() {
 
                 <div>
                   <h2 className="font-black text-xl text-gray-800">
-                    Purchase SMS
+                  {t('sms.purchase_sms') }
                   </h2>
 
                   <p className="text-gray-500 text-xs">
-                    Enter payment details
+                    {t('sms.enter_payment_details')}
                   </p>
                 </div>
               </div>
@@ -179,19 +183,19 @@ function Sms() {
               <form className="space-y-4">
                 <div>
                   <label className="text-xs font-semibold text-gray-700 block mb-2">
-                    SMS Package
+                    {t('sms.sms_package')}
                   </label>
 
                   <input
                     type="number"
-                    placeholder="Enter SMS amount"
+                    placeholder={t('sms.enter_sms_amount')}
                     className="w-full bg-gray-50 border border-gray-200 rounded-md px-4 py-3 text-sm outline-none focus:border-blue-600"
                   />
                 </div>
 
                 <div>
                   <label className="text-xs font-semibold text-gray-700 block mb-2">
-                    Phone Number
+                    {t('sms.phone_number')}
                   </label>
 
                   <input
@@ -202,7 +206,7 @@ function Sms() {
                 </div>
 
                 <button className="w-full bg-blue-400 cursor-pointer text-white py-3 rounded-md text-sm font-bold hover:opacity-90 duration-300 shadow-lg">
-                Purchase
+                {t('sms.purchase')}
                 </button>
               </form>
             </div>
@@ -212,11 +216,11 @@ function Sms() {
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 mt-6 p-6 overflow-x-auto">
           <div className="mb-5">
             <h2 className="text-xl font-black text-gray-800">
-              Transaction History
+              {t('sms.transaction_history')}
             </h2>
 
             <p className="text-xs text-gray-500 mt-1">
-              Recent SMS purchase records
+             {t('sms.recent_sms_purchase_records')}
             </p>
           </div>
 
@@ -224,11 +228,11 @@ function Sms() {
             <thead>
               <tr className="border-b border-gray-100">
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
-                  Date
+                  {t('sms.t.date')}
                 </th>
 
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap px-1">
-                  Transaction ID
+                  {t('sms.t.transaction_id')}
                 </th>
 
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
@@ -236,21 +240,22 @@ function Sms() {
                 </th>
 
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
-                  Amount
+                  {t('sms.t.amount')}
                 </th>
 
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
-                  Payment
+                  {t('sms.t.payment')}
                 </th>
 
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
-                  Status
+                  {t('sms.t.status')}
                 </th>
               </tr>
             </thead>
 
             <tbody>
               {transactions.map((item, index) => (
+                
                 <tr
                   key={index}
                   className="border-b border-gray-50 hover:bg-gray-50 duration-200"
@@ -278,12 +283,12 @@ function Sms() {
                   <td className="py-4">
                     <span
                       className={`px-3 py-1 rounded-full text-[11px] font-bold ${
-                        item.status === "Success"
+                        item.status.toLocaleLowerCase() === "success"
                           ? "bg-blue-400 text-white"
                           : "bg-orange-100 text-orange-700"
                       }`}
                     >
-                      {item.status}
+                      {t(`sts.${item.status}`)}
                     </span>
                   </td>
                 </tr>

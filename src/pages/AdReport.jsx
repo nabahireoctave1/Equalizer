@@ -9,6 +9,7 @@ import {
   ChevronLeft
 } from 'lucide-react'
 import photo from '../assets/photo.png'
+import { useTranslation } from 'react-i18next'
 
 function AdReport() {
   const details = [
@@ -32,11 +33,13 @@ function AdReport() {
     { type: "Penalty Added", user: "Jean Bosco", details: "5,000 UGX", date: "May 20, 2026", time: "09:45 AM", icon: <TriangleAlert size={14}/>, color: "text-rose-500 bg-rose-50" },
   ]
 
+  const {t}=useTranslation();
+
   return (
     <div className='p-3   '>
          <div className='bg-white p-6 rounded-md space-y-4'>
             <div className='border-b pb-4 border-gray-50'>
-          <h1 className='text-xl font-extrabold text-gray-900 uppercase'>Company Report Overview</h1>
+          <h1 className='text-xl font-extrabold text-gray-900 uppercase'>{t('rpt.title')}</h1>
             
             </div>
       
@@ -45,7 +48,7 @@ function AdReport() {
         </div>
         <div className='grid grid-cols-2 sm:grid-cols-2 lg:flex items-center gap-3'>
           <div>
-            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>Date</span>
+            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>{t('rpt.date')}</span>
             <div className='relative flex items-center'>
               <Calendar size={14} className='absolute left-3 text-gray-400' />
               <select  className='pl-7 pr-4 py-1.5 border border-gray-200 rounded-md text-xs font-semibold
@@ -57,21 +60,21 @@ function AdReport() {
             </div>
           </div>
           <div>
-            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>Report Type</span>
+            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>{t('rpt.report_type')}</span>
             <select className='px-3 py-1.5 border border-gray-200 rounded-md text-xs font-semibold text-gray-700 bg-white outline-none w-full sm:w-40 cursor-pointer'>
-              <option>All Reports</option>
-              <option>Branch Report</option>
+              <option>{t('rpt.all_reports')}</option>
+              <option>{t('rpt.branch_report')}</option>
             </select>
           </div>
           <div>
-            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>branch</span>
+            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>{t('rpt.branch')}</span>
             <select className='px-3 py-1.5 border border-gray-200 rounded-md text-xs font-semibold text-gray-700 bg-white outline-none w-full sm:w-40 cursor-pointer'>
               <option>Kigali Tech</option>
               <option>Rubavu Limited</option>
             </select>
           </div>
           <div className='sm:col-span-2 lg:col-span-1'>
-            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>Export</span>
+            <span className='block text-[11px] font-bold text-gray-600 uppercase mb-1'>{t('rpt.export')}</span>
             <div className='flex gap-1.5'>
               <button className='flex items-center gap-1.5 px-3 py-1.5 border border-rose-100 text-rose-500 bg-rose-50/40 hover:bg-rose-50 text-xs font-bold rounded-sm cursor-pointer transition-all'><FileText size={13}/>PDF</button>
               <button className='flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 text-gray-600 bg-gray-50 hover:bg-gray-100 text-xs font-bold rounded-sm  cursor-pointer transition-all'><Printer size={13}/>Print</button>
@@ -84,7 +87,7 @@ function AdReport() {
         <div className='bg-white p-4 rounded-md border border-gray-100  flex items-center gap-3'>
           <div className='p-2.5 bg-blue-50 text-blue-500 rounded-full'><ArrowBigUp size={18}/></div>
           <div>
-            <p className='text-[11px] font-bold text-gray-700 uppercase'>Total Loans</p>
+            <p className='text-[11px] font-bold text-gray-700 uppercase'>{t('rpt.total_loans')}</p>
             <h3 className='text-[17px] font-extrabold text-gray-700 mt-0.5'>12450000 UGX</h3>
           </div>
         </div>
@@ -93,21 +96,21 @@ function AdReport() {
         <div className='bg-white p-4 rounded-md border border-gray-100  flex items-center gap-3'>
           <div className='p-2.5 bg-green-50 text-green-600 rounded-full'><ArrowBigDown size={18}/></div>
           <div>
-            <p className='text-[11px] font-bold text-gray-700 uppercase '>Total Repayments</p>
+            <p className='text-[11px] font-bold text-gray-700 uppercase '>{t('rpt.total_repayments')}</p>
             <h3 className='text-[17px] font-extrabold text-gray-800 mt-0.5'>7650000 UGX</h3>
           </div>
         </div>
         <div className='bg-white p-4 rounded-md border border-gray-100  flex items-center gap-3'>
           <div className='p-2.5 bg-violet-50 text-violet-500 rounded-full'><User size={18}/></div>
           <div>
-            <p className='text-[11px] font-bold text-gray-700 uppercase'>Total Borrowers</p>
+            <p className='text-[11px] font-bold text-gray-700 uppercase'>{t('rpt.total_borrowers')}</p>
             <h3 className='text-[17px] font-extrabold text-gray-900 mt-0.5'>1320</h3>
           </div>
         </div>
         <div className='bg-white p-4 rounded-md border border-gray-100  flex items-center gap-3'>
           <div className='p-2.5 bg-red-100 text-red-500 rounded-full'><TriangleAlert size={18}/></div>
           <div>
-            <p className='text-[11px] font-bold text-gray-700 uppercase '>Overdue Amount</p>
+            <p className='text-[11px] font-bold text-gray-700 uppercase '>{t('rpt.overdue_amount')}</p>
             <h3 className='text-[17px] font-extrabold text-gray-800 mt-0.5'>1850000 UGX</h3>
           </div>
         </div>
@@ -117,17 +120,17 @@ function AdReport() {
 
       <div className='bg-white border border-gray-100 rounded-xl  overflow-hidden'>
         <div className='p-4 border-b border-gray-50 bg-gray-50/40'>
-          <h2 className='text-xs font-bold text-gray-700 uppercase'>Detailed Summary</h2>
+          <h2 className='text-xs font-bold text-gray-700 uppercase'>{t('rpt.detailed_summary')}</h2>
         </div>
         <div className='overflow-x-auto'>
           <table className='w-full text-left border-collapse'>
             <thead>
               <tr className='bg-slate-50/70 border-b border-gray-100 text-[10px] font-bold uppercase tracking-wide text-gray-700'>
-                <th className='p-3.5 pl-5'>Metric</th>
-                <th className='p-3.5'>Today</th>
-                <th className='p-3.5'>This Week</th>
-                <th className='p-3.5'>This Month</th>
-                <th className='p-3.5'>This Year</th>
+                <th className='p-3.5 pl-5'>{t('rpt.metric')}</th>
+                <th className='p-3.5'>{t('rpt.today')}</th>
+                <th className='p-3.5'>{t('rpt.this_week')}</th>
+                <th className='p-3.5'>{t('rpt.this_month')}</th>
+                <th className='p-3.5'>{t('rpt.this_year')}</th>
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100 text-xs font-medium text-gray-700'>
@@ -135,7 +138,7 @@ function AdReport() {
                 <tr key={index} className='hover:bg-slate-50/40 transition-colors'>
                   <td className='p-3.5 whitespace-nowrap  pl-5 flex items-center gap-2.5 font-semibold text-gray-900'>
                     <span className={`p-1.5  rounded-lg   ${d.bg}`}>{d.icon}</span>
-                    {d.metric}
+                   {t(`rpt.metrics.${d.metric}`)}
                   </td>
                   <td className='p-3.5 whitespace-nowrap '>
                     <div>{d.today} UGX</div>
@@ -161,7 +164,7 @@ function AdReport() {
         
         <div className='bg-white border border-gray-100 rounded-xl p-5  space-y-4'>
           <div className='flex justify-between items-center border-b border-gray-50 pb-2'>
-            <h2 className='text-xs font-bold text-gray-800 uppercase tracking-wider'>Top Branch by Collections</h2>
+            <h2 className='text-xs font-bold text-gray-800 uppercase tracking-wider'>{t('rpt.top_branch_collections')}</h2>
             <button className='flex'>
                 <span className='p-1 bg-gray-50 cursor-pointer m-1 rounded-md border border-gray-100'><ChevronLeft/></span>
                 <span className='p-1 bg-gray-50 cursor-pointer m-1 rounded-md border border-gray-100'><ChevronRight/></span>
@@ -183,7 +186,7 @@ function AdReport() {
 
         <div className='bg-white border border-gray-100 rounded-xl p-5  space-y-4'>
           <div className='flex justify-between items-center border-b border-gray-50 pb-2'>
-            <h2 className='text-xs font-bold text-gray-700 uppercase tracking-wider'>Recent Transactions</h2>
+            <h2 className='text-xs font-bold text-gray-700 uppercase tracking-wider'>{t('rpt.recent_transactions')}</h2>
             <button className=' flex  text-gray-600'>
                 <span className='p-1 bg-gray-50 cursor-pointer m-1 rounded-md border border-gray-100'><ChevronLeft/></span>
                 <span className='p-1 bg-gray-50 cursor-pointer m-1 rounded-md border border-gray-100'><ChevronRight/></span>
@@ -197,7 +200,7 @@ function AdReport() {
                     {tx.icon}
                   </div>
                   <div>
-                    <p className='font-bold  text-[12px] text-gray-900'>{tx.type}</p>
+                    <p className='font-bold  text-[12px] text-gray-900'>{t(`rpt.trans.${tx.type}`)}</p>
                     <p className='text-[12px] text-gray-700 font-medium mt-0.5'>{tx.user} • <span className='text-gray-900 font-semibold'>{tx.details}</span></p>
                   </div>
                 </div>

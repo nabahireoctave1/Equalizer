@@ -1,19 +1,19 @@
 import { ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Download, Funnel } from 'lucide-react'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
-
 function Repayments() {
 
     const data = [
-        {date:"may 01,2026", paid:50000000},
-        {date:"may 02,2026", paid:70000000},
-        {date:"may 03,2026", paid:20000000},
-        {date:"may 04,2026", paid:40000000},
-        {date:"may 05,2026", paid:9000000},
-        {date:"may 06,2026", paid:4000000},
-        {date:"may 07,2026", paid:0},
-        {date:"may 08,2026", paid:70000000},
+        {date:"01-06-2026", paid:50000000},
+        {date:"02-06-2026", paid:70000000},
+        {date:"03-06-2026", paid:20000000},
+        {date:"04-06-2026", paid:40000000},
+        {date:"05-06-2026", paid:9000000},
+        {date:"06-06-2026", paid:4000000},
+        {date:"07-06-2026", paid:0},
+        {date:"08-06-2026", paid:70000000},
     ]
 
    let payer=[
@@ -28,6 +28,8 @@ function Repayments() {
 
     const uniqueDates = [...new Set(payer.map(p => p.date))];
 
+    const {t}=useTranslation();
+
     const filteredPayers = payer.filter(p => {
         return selectedDate === '' || p.date === selectedDate;
     });
@@ -38,8 +40,8 @@ function Repayments() {
                 <div className='flex items-center gap-2'>
                     <span className='bg-blue-400 p-2 rounded-md text-white shrink-0'><CircleCheck size={30}/></span>
                     <div>
-                        <h2 className='text-xl md:text-2xl font-extrabold text-gray-800'>Review Loan PayBack</h2>
-                        <span className='text-sm capitalize block text-gray-500'>Monitor all loan repayments</span>
+                        <h2 className='text-xl md:text-2xl font-extrabold text-gray-800'>{t('rp.title')}</h2>
+                        <span className='text-sm capitalize block text-gray-500'>{t('rp.subtitle')}</span>
                     </div>
                 </div>
                 <div className='flex  justify-between items-center gap-2 w-full md:w-auto'>
@@ -49,7 +51,7 @@ function Repayments() {
 
                     <span className='relative flex capitalize gap-2 p-2 px-4 rounded-md text-xs cursor-pointer border border-gray-200 bg-white items-center whitespace-nowrap'>
                         <Funnel size={16}/>
-                        <p>{selectedDate ? selectedDate : "filter"}</p>
+                        <p>{selectedDate ? selectedDate : t('rp.filter')}</p>
                         <ChevronDown size={16}/> 
 
                         <select 
@@ -57,29 +59,30 @@ function Repayments() {
                             onChange={(e) => setSelectedDate(e.target.value)}
                             className='absolute inset-0 w-full h-full opacity-0 cursor-pointer font-medium'
                         >
-                            <option value="">All</option>
+                            <option value="">{t('rp.all')}</option>
                             {uniqueDates.map((date, idx) => (
                                 <option key={idx} value={date}>{date}</option>
                             ))}
                         </select>
                     </span>
 
-                    <span className='flex capitalize gap-2 p-2 px-4 rounded-md text-sm cursor-pointer border border-gray-200 bg-white items-center whitespace-nowrap'><Download size={16}/> Export</span>
+                    <span className='flex capitalize gap-2 p-2 px-4 rounded-md text-sm cursor-pointer border
+                     border-gray-200 bg-white items-center whitespace-nowrap'><Download size={16}/> {t('rp.export')}</span>
                 </div>
             </div>
              <div className="mt-6 bg-white shadow rounded-md overflow-hidden">
-                <h2 className='p-4 font-extrabold text-gray-800 text-xl capitalize'>Repayments details</h2>
+                <h2 className='p-4 font-extrabold text-gray-800 text-xl capitalize'>{t('rp.details_title')}</h2>
                 <div className="overflow-x-auto w-full">
                     <table className="w-full border-collapse whitespace-nowrap">
                         <thead>
                           <tr className="bg-gray-50 text-left text-gray-800 uppercase text-[11px] border-b border-gray-200">
-                            <th className="p-3">No</th>
-                            <th className="p-3">payer Names</th>
-                            <th className="p-3">Loan id</th>
-                            <th className="p-3">amount</th>
-                            <th className="p-3">Cahier</th>
-                            <th className="p-3">Date</th>
-                            <th className="p-3">status</th>
+                            <th className="p-3">{t('rp.table.no')}</th>
+                            <th className="p-3">{t('rp.table.payer_names')}</th>
+                            <th className="p-3">{t('rp.table.loan_id')}</th>
+                            <th className="p-3">{t('rp.table.amount')}</th>
+                            <th className="p-3">{t('rp.table.cashier')}</th>
+                            <th className="p-3">{t('rp.table.date')}</th>
+                            <th className="p-3">{t('rp.table.status')}</th>
                           </tr>
                         </thead>
 
@@ -106,7 +109,7 @@ function Repayments() {
                             </td>
                             <td className="p-3">
                               <span className={` ${p.status === 'done' ? 'bg-blue-400 text-white ' : ''} capitalize text-gray-500 px-3 py-1 rounded-full text-xs font-medium`}>
-                                {p.status}
+                                {t(`rp.status.${p.status}`)}
                               </span>
                             </td>
                           </tr>
@@ -122,10 +125,10 @@ function Repayments() {
 
             <div className='shadow p-4 my-4 bg-white rounded-md' >
                 <div className='pb-4 md:mx-4'>
-                    <h2 className='capitalize font-extrabold text-xl md:text-2xl text-gray-800 pb-2'>Repayments trends</h2>
+                    <h2 className='capitalize font-extrabold text-xl md:text-2xl text-gray-800 pb-2'>{t('rp.trends_title')}</h2>
                     <div className='flex gap-2 items-center'>
                         <div className='p-2 h-fit w-fit rounded-full bg-blue-400 '></div>
-                        <p className='text-sm capitalize font-semibold text-gray-600'> repaid currency</p>
+                        <p className='text-sm capitalize font-semibold text-gray-600'>{t('rp.repaid_currency')}</p>
                     </div>
                 </div>
                 <div className='h-64 md:h-80 w-full text-xs capitalize'>

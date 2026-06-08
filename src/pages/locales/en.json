@@ -128,10 +128,224 @@
       "paid": "Paid",
       "unpaid": "Unpaid"
     }
+  },
+
+
+
+   "rpt": {
+    "title": "Company Report Overview",
+    "date": "Date",
+    "report_type": "Report Type",
+    "branch": "Branch",
+    "export": "Export",
+    "all_reports": "All Reports",
+    "branch_report": "Branch Report",
+
+    "total_loans": "Total Loans",
+    "total_repayments": "Total Repayments",
+    "total_borrowers": "Total Borrowers",
+    "overdue_amount": "Overdue Amount",
+
+    "detailed_summary": "Detailed Summary",
+    "metric": "Metric",
+    "today": "Today",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "this_year": "This Year",
+  "metrics":{
+    "Loans Issued": "Loan Issued",
+    "Repayments": "Repayments",
+    "Penalties": "Penalties",
+    "Overdue Amount":"Overdue Amount"
+},
+    "top_branch_collections": "Top Branch by Collections",
+    "recent_transactions": "Recent Transactions",
+   "trans":{
+      "Loan Issued": "Loan Issued",
+    "Payment Received": "Payment Received",
+    "Penalty Added": "Penalty Added"
+   }
+   
+  },
+
+
+
+   "rp": {
+    "title": "Review Loan Payback",
+    "subtitle": "Monitor all loan repayments",
+    "filter": "Filter",
+    "all": "All",
+    "export": "Export",
+
+    "details_title": "Repayment Details",
+
+    "table": {
+      "no": "No",
+      "payer_names": "Payer Names",
+      "loan_id": "Loan ID",
+      "amount": "Amount",
+      "cashier": "Cashier",
+      "date": "Date",
+      "status": "Status"
+    },
+
+    "status": {
+      "done": "Done"
+    },
+
+    "trends_title": "Repayment Trends",
+    "repaid_currency": "Repaid Currency"
   }
+,
+
+  "ads": {
+    "manage_company_activity": "Manage Company Activity",
+    "force_logout": "Force Logout",
+    "disable_loans_application": "Disable Loans Application",
+    "disable": "Disable",
+
+    "company_entity": "Company Entity",
+
+    "workspace_configuration": "Workspace Configuration",
+    "report_generation_time": "Report Generation Time",
+    "enable_notification": "Enable Notification",
+    "enable_incoming_notifications": "Enable Incoming Notifications",
+    "add_branch": "Add Branch",
+    "branch": "Branch",
+
+    "terms_penalties": "Terms & Penalties",
+    "office_name": "Office Name",
+    "default_interest_rate": "Default Interest Rate %",
+    "grace_period": "Grace Period (Days)",
+
+    "notifications": "Notifications",
+    "auto_notify": "Auto Notify",
+    "reminder_message": "Reminder Message",
+    "overdue_message": "Overdue Message",
+    "manual_notify": "Manual Notify",
+
+    "enter_text": "Enter message...",
+
+    "send_all": "Send All",
+    "specific_user": "Specific User",
+
+    "set_office_charge": "Set Office Charge",
+    "configure_office_charge_ranges": "Configure office charge ranges",
+
+    "off": "Off",
+    "on": "On",
+
+    "startup_cash": "Startup Cash",
+    "ending_cash": "Ending Cash",
+
+    "save_changes": "Save Changes",
+    "new": "New",
+
+    "office_charge_disabled": "Office charge is currently disabled",
+
+    "audit_generation_period": "Audit Generation Period",
+    "manage_system_report_frequency": "Manage system report frequency",
+
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+
+    "save_all": "Save All"
+
+    
+  },
+
+   "billing": {
+    "title": "Billing & Instant Activation",
+    "subtitle": "Pay for account activation & company activation",
+
+    "billing_summary": "Billing Summary",
+    "payment_information": "Payment Information",
+
+    "service": "Service",
+    "company_activation": "Company Activation",
+
+    "description": "Description",
+    "activation_description": "Unlock premium business features & secure services",
+
+    "monthly_activation_fee": "Monthly Activation Fee",
+    "total": "Total",
+
+    "instant_receipt": "Instant Receipt",
+    "receipt_description": "Download your receipt instantly after successful payment verification.",
+    "get_receipt": "Get Receipt Now",
+
+    "payment_methods": "Payment Methods",
+    "choose_payment_method": "Choose your preferred payment option",
+
+    "pay_with_crypto": "Pay with Crypto",
+    "crypto_description": "Secure payment using USDT on Binance Smart Chain",
+    "currency_usdt": "Currency: USDT",
+    "network_bsc": "Network: BSC",
+    "instant_verification": "Instant Verification",
+    "fast_secure_transaction": "Fast & Secure Transaction",
+
+    "other_method": "Other Method",
+    "other_method_description": "Pay using MTN MoMo, Airtel Money, Visa Card and more",
+    "mtn_momo": "MTN Mobile Money",
+    "airtel_money": "Airtel Money",
+    "visa_card": "Visa Card",
+    "bank_transfer": "Bank Transfer",
+
+    "pay_now": "Pay Now",
+
+    "permanent_activation": "Permanent Activation",
+    "permanent_activation_description": "Upgrade to lifetime activation and eliminate recurring charges. This one-time payment permanently registers your company on our secure network.",
+    "permanent_activation_fees": "Permanent Activation Fees",
+
+    "receipt": "Receipt"
+  },
 
 
+    "sms": {
+    "title": "Monitor & Buy SMS",
+    "current_sms": "Current SMS",
+    "available_sms_remaining": "Available SMS Remaining",
 
+    "total_purchased": "Total Purchased",
+    "sms_package_usage": "SMS Package Usage",
+    "usage": "Usage",
+
+    "daily_usage": "Daily Usage",
+    "today_message_used": "Today's Messages Used",
+
+    "purchase_sms": "Purchase SMS",
+    "enter_payment_details": "Enter Payment Details",
+
+    "sms_package": "SMS Package",
+    "enter_sms_amount": "Enter SMS Amount",
+
+    "phone_number": "Phone Number",
+
+    "purchase": "Purchase",
+
+    "transaction_history": "Transaction History",
+    "recent_sms_purchase_records": "Recent SMS Purchase Records",
+    "t":{
+    "date": "Date",
+    "transaction_id": "Transaction ID",
+    
+    "amount": "Amount",
+    "payment": "Payment",
+    "status": "Status"
+    }
+   
+   
+
+   
+  },
+
+   "sts":{
+    "Success": "Success",
+    "failed": "failed"
+    }
+
+  
 
 }
 

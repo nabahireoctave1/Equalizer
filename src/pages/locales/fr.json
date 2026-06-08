@@ -127,6 +127,211 @@
       "paid": "Payé",
       "unpaid": "Impayé"
     }
+  },
+
+   "rpt": {
+    "title": "Aperçu du rapport de l'entreprise",
+    "date": "Date",
+    "report_type": "Type de rapport",
+    "branch": "Agence",
+    "export": "Exporter",
+    "all_reports": "Tous les rapports",
+    "branch_report": "Rapport d'agence",
+
+    "total_loans": "Total des prêts",
+    "total_repayments": "Total des remboursements",
+    "total_borrowers": "Nombre total d'emprunteurs",
+    "overdue_amount": "Montant en retard",
+
+    "detailed_summary": "Résumé détaillé",
+    "metric": "Indicateur",
+    "today": "Aujourd'hui",
+    "this_week": "Cette semaine",
+    "this_month": "Ce mois-ci",
+    "this_year": "Cette année",
+   "metrics":{
+    "Loans Issued": "Prêts accordés",
+    "Repayments": "Remboursements",
+    "Penalties": "Pénalités",
+      "Overdue Amount": "Montant impayé"
+},
+    "top_branch_collections": "Agence la plus performante en recouvrement",
+    "recent_transactions": "Transactions récentes",
+    
+    "trans":{
+         "Loan Issued": "Prêt accordé",
+    "Payment Received": "Paiement reçu",
+    "Penalty Added": "Pénalité ajoutée"
+    }
+
+  },
+
+   "rp": {
+    "title": "Examen des remboursements de prêts",
+    "subtitle": "Suivre tous les remboursements de prêts",
+    "filter": "Filtrer",
+    "all": "Tous",
+    "export": "Exporter",
+
+    "details_title": "Détails des remboursements",
+
+    "table": {
+      "no": "N°",
+      "payer_names": "Noms des payeurs",
+      "loan_id": "ID du prêt",
+      "amount": "Montant",
+      "cashier": "Caissier",
+      "date": "Date",
+      "status": "Statut"
+    },
+
+    "status": {
+      "done": "Terminé"
+    },
+
+    "trends_title": "Tendances des remboursements",
+    "repaid_currency": "Montant remboursé"
+  },
+
+  "ads": {
+    "manage_company_activity": "Gérer l'activité de l'entreprise",
+    "force_logout": "Déconnexion forcée",
+    "disable_loans_application": "Désactiver les demandes de prêt",
+    "disable": "Désactiver",
+
+    "company_entity": "Entreprise",
+
+    "workspace_configuration": "Configuration de l'espace de travail",
+    "report_generation_time": "Heure de génération des rapports",
+    "enable_notification": "Activer les notifications",
+    "enable_incoming_notifications": "Activer les notifications entrantes",
+    "add_branch": "Ajouter une agence",
+    "branch": "Agence",
+
+    "terms_penalties": "Conditions et pénalités",
+    "office_name": "Nom du bureau",
+    "default_interest_rate": "Taux d'intérêt par défaut %",
+    "grace_period": "Période de grâce (jours)",
+
+    "notifications": "Notifications",
+    "auto_notify": "Notification automatique",
+    "reminder_message": "Message de rappel",
+    "overdue_message": "Message de retard",
+    "manual_notify": "Notification manuelle",
+
+     "enter_text": "Définir le message...",
+
+    "send_all": "Envoyer à tous",
+    "specific_user": "Utilisateur spécifique",
+
+    "set_office_charge": "Définir les frais de bureau",
+    "configure_office_charge_ranges": "Configurer les plages de frais de bureau",
+
+    "off": "Désactivé",
+    "on": "Activé",
+
+    "startup_cash": "Montant minimum",
+    "ending_cash": "Montant maximum",
+
+    "save_changes": "Enregistrer les modifications",
+    "new": "Nouveau",
+
+    "office_charge_disabled": "Les frais de bureau sont actuellement désactivés",
+
+    "audit_generation_period": "Période de génération des audits",
+    "manage_system_report_frequency": "Gérer la fréquence des rapports système",
+
+    "daily": "Quotidien",
+    "weekly": "Hebdomadaire",
+    "monthly": "Mensuel",
+
+    "save_all": "Tout enregistrer"
+
+    
+  },
+
+  "billing": {
+    "title": "Facturation et Activation Instantanée",
+    "subtitle": "Payez pour l’activation du compte et de l’entreprise",
+
+    "billing_summary": "Résumé de Facturation",
+    "payment_information": "Informations de Paiement",
+
+    "service": "Service",
+    "company_activation": "Activation de l’Entreprise",
+
+    "description": "Description",
+    "activation_description": "Débloquez les fonctionnalités professionnelles premium et les services sécurisés",
+
+    "monthly_activation_fee": "Frais d’Activation Mensuels",
+    "total": "Total",
+
+    "instant_receipt": "Reçu Instantané",
+    "receipt_description": "Téléchargez votre reçu immédiatement après la vérification réussie du paiement.",
+    "get_receipt": "Obtenir le Reçu",
+
+    "payment_methods": "Méthodes de Paiement",
+    "choose_payment_method": "Choisissez votre méthode de paiement préférée",
+
+    "pay_with_crypto": "Payer avec la Crypto",
+    "crypto_description": "Paiement sécurisé en USDT sur Binance Smart Chain",
+    "currency_usdt": "Devise : USDT",
+    "network_bsc": "Réseau : BSC",
+    "instant_verification": "Vérification Instantanée",
+    "fast_secure_transaction": "Transaction Rapide et Sécurisée",
+
+    "other_method": "Autre Méthode",
+    "other_method_description": "Payez avec MTN MoMo, Airtel Money, Carte Visa et plus",
+    "mtn_momo": "MTN Mobile Money",
+    "airtel_money": "Airtel Money",
+    "visa_card": "Carte Visa",
+    "bank_transfer": "Virement Bancaire",
+
+    "pay_now": "Payer Maintenant",
+
+    "permanent_activation": "Activation Permanente",
+    "permanent_activation_description": "Passez à une activation à vie et éliminez les frais récurrents. Ce paiement unique enregistre définitivement votre entreprise sur notre réseau sécurisé.",
+    "permanent_activation_fees": "Frais d’Activation Permanente",
+
+    "receipt": "Reçu"
+  },
+   "sms": {
+    "title": "Surveiller et Acheter des SMS",
+    "current_sms": "SMS Actuels",
+    "available_sms_remaining": "SMS Restants Disponibles",
+
+    "total_purchased": "Total Acheté",
+    "sms_package_usage": "Utilisation du Forfait SMS",
+    "usage": "Utilisation",
+
+    "daily_usage": "Utilisation Quotidienne",
+    "today_message_used": "Messages Utilisés Aujourd'hui",
+
+    "purchase_sms": "Acheter des SMS",
+    "enter_payment_details": "Saisir les Détails du Paiement",
+
+    "sms_package": "Forfait SMS",
+    "enter_sms_amount": "Saisir le Nombre de SMS",
+
+    "phone_number": "Numéro de Téléphone",
+
+    "purchase": "Acheter",
+
+    "transaction_history": "Historique des Transactions",
+    "recent_sms_purchase_records": "Historique Récent des Achats de SMS",
+     "t":{
+       "date": "Date",
+    "transaction_id": "ID de Transaction",
+    "amount": "Montant",
+    "payment": "Paiement",
+    "status": "Statut"
+     },
+   
+   "status":  {
+   "success": "Réussi",
+    "failed": "Échoué"
+    }
+  
   }
   
 

@@ -8,61 +8,63 @@ import {
   Wallet,
 } from "lucide-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 function Billing() {
+  const {t}=useTranslation()
   return (
     <div className="p-4 lg:p-6 shadow-sm h-full m-2 rounded-2xl bg-white">
       <div className="pb-5 border-b border-gray-100">
         <h2 className="font-extrabold text-2xl lg:text-3xl text-gray-800">
-          Billing & Instant Activation
+          {t('billing.title')}
         </h2>
 
         <p className="text-sm text-gray-500 mt-1">
-          Pay for account activation & company activation
+         {t('billing.subtitle')}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 mt-6">
         <div className="lg:col-span-1 space-y-4">
           <div className="border border-gray-200 rounded-2xl p-5 bg-gradient-to-b from-gray-50 to-white">
             <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
               <span className="bg-blue-100 text-blue-700 p-3 rounded-xl">
-                <ReceiptText size={28} />
+                <ReceiptText size={25} />
               </span>
 
               <div>
-                <h2 className="font-extrabold text-xl text-gray-800">
-                  Billing Summary
+                <h2 className="font-extrabold text-lg text-gray-800">
+                  {t('billing.billing_summary')}
                 </h2>
 
                 <p className="text-sm text-gray-500">
-                  Payment information
+                 {t('billing.payment_information')}
                 </p>
               </div>
             </div>
 
             <div className="space-y-4 mt-5">
               <div className="flex items-center justify-between">
-                <span className="text-gray-500 text-sm">Service</span>
+                <span className="text-gray-500 text-sm">{t('billing.service')}</span>
 
                 <span className="font-semibold text-gray-700 text-sm text-right">
-                  Company Activation
+                  {t('billing.company_activation')}
                 </span>
               </div>
 
               <div className="flex items-start justify-between gap-3">
                 <span className="text-gray-500 text-sm">
-                  Description
+                  {t('billing.description')}
                 </span>
 
                 <span className="font-medium text-gray-700 text-sm text-right max-w-[180px]">
-                  Unlock premium business features & secure services
+                  {t('billing.activation_description')}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500 text-sm">
-                Monthly  Activation Fee:
+              <div className="flex items-center   justify-between">
+                <span className="text-gray-500  font-bold text-xs">
+                {t('billing.monthly_activation_fee')}
                 </span>
 
                 <span className="font-extrabold text-xl text-gray-800">
@@ -72,7 +74,7 @@ function Billing() {
 
               <div className="border-t border-dashed pt-4 flex items-center justify-between">
                 <span className="font-extrabold text-gray-700">
-                  Total
+                  {t('billing.total')}
                 </span>
 
                 <span className="font-extrabold text-2xl text-blue-700">
@@ -93,16 +95,15 @@ function Billing() {
               </span>
 
               <h2 className="font-extrabold text-xl mt-4">
-                Instant Receipt
+              {t('billing.instant_receipt')}
               </h2>
 
               <p className="text-sm text-blue-100 mt-1 leading-6">
-                Download your receipt instantly after successful payment
-                verification.
+                {t('billing.receipt_description')}
               </p>
 
               <button className="mt-5 bg-white text-blue-700 font-bold px-4 py-3 rounded-xl text-sm hover:scale-[1.02] transition-all duration-200 cursor-pointer">
-                Get Receipt Now
+              {t('billing.get_receipt')}
               </button>
             </div>
           </div>
@@ -116,11 +117,11 @@ function Billing() {
 
             <div>
               <h2 className="font-extrabold text-2xl text-gray-800">
-                Payment Methods
+                {t('billing.payment_methods')}
               </h2>
 
               <p className="text-sm text-gray-500">
-                Choose your preferred payment option
+                {t('billing.choose_payment_method')}
               </p>
             </div>
           </div>
@@ -134,11 +135,11 @@ function Billing() {
 
                 <div>
                   <h2 className="font-bold text-xl text-gray-800">
-                    Pay with Crypto
+                    {t('billing.pay_with_crypto')}
                   </h2>
 
                   <p className="text-xs text-gray-500 mt-1">
-                    Secure payment using USDT on Binance Smart Chain
+                    {t('billing.crypto_description')}
                   </p>
                 </div>
               </div>
@@ -146,27 +147,27 @@ function Billing() {
               <div className="space-y-3 mt-5">
                 <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  Currency: USDT
+                 {t('billing.currency_usdt')}
                 </p>
 
                 <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  Network: BSC
+                 {t('billing.network_bsc')}
                 </p>
 
                 <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  Instant verification
+                  {t('billing.instant_verification')}
                 </p>
 
                 <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  Fast & secure transaction
+                {t('billing.fast_secure_transaction')}
                 </p>
               </div>
 
               <button className="w-full mt-6 bg-blue-400  cursor-pointer text-white py-3 rounded-md text-sm font-semibold transition-all duration-200">
-                Pay now
+                {t('billing.pay_now')}
               </button>
             </div>
 
@@ -178,11 +179,11 @@ function Billing() {
 
                 <div>
                   <h2 className="font-bold text-xl text-gray-800">
-                    Other Method
+                  {t('billing.other_method')}
                   </h2>
 
                   <p className="text-xs text-gray-500 mt-1">
-                    Pay using MTN MoMo,Airtel Money,Visa card and etc
+                   {t('billing.other_method_description')}
                   </p>
                 </div>
               </div>
@@ -190,26 +191,26 @@ function Billing() {
               <div className="space-y-3 mt-5">
                 <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  MTN Mobile Money
+                  {t('billing.mtn_momo')}
                 </p>
 
                 <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  Airtel Money
+                  {t('billing.airtel_money')}
                 </p>
 
                 <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  Visa card
+                  {t('billing.visa_card')}
                 </p>
                  <p className="flex items-center gap-2 text-xs text-gray-600">
                   <CircleCheck size={18} className="text-blue-500" />
-                  Bank transfer
+                  {t('billing.bank_transfer')}
                 </p>
               </div>
 
               <button className="w-full text-sm mt-6 cursor-pointer bg-blue-400  text-white py-3 rounded-md font-semibold transition-all duration-200">
-                Pay  now
+                {t('billing.pay_now')}
               </button>
             </div>
           </div>
@@ -218,19 +219,18 @@ function Billing() {
             <div className="bg-gray-50 rounded-2xl p-5 border border-gray-200/60 flex flex-col gap-4">
               <div className="space-y-2">
                 <h2 className="text-xl capitalize font-extrabold text-gray-800">
-                  permanent activation
+                  {t('billing.permanent_activation')}
                 </h2>
                 <p className="text-sm text-gray-600 first-letter:uppercase bg-white border
                  p-3 border-gray-100 rounded-md">
-                  Upgrade to lifetime activation and eliminate recurring charges. This one-time payment
-                  permanently registers your company on our secure network
+                  {t('billing.permanent_activation_description')}
                 </p>
               </div>
               
               <div className="  flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <h3 className="text-[12px] font-bold text-gray-700 uppercase tracking-wider">
-                   Permanent activation fees
+                   {t('billing.permanent_activation_fees')}
                   </h3>
                   <h2 className="text-2xl font-black text-blue-900 mt-0.5">
                     1000,000 UGX
@@ -240,7 +240,7 @@ function Billing() {
                 <button className="w-full sm:w-auto bg-blue-400
                  text-white font-semibold text-sm px-8 py-2.5 rounded-md cursor-pointer
                whitespace-nowrap">
-                  Pay now
+                  {t('billing.pay_now')}
                 </button>
               </div>
             </div>

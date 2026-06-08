@@ -127,5 +127,211 @@
       "paid": "Yasasuddwa",
       "unpaid": "Tannasasulwa"
     }
+  },
+
+
+  "rpt": {
+    "title": "Okulaba mu bujjuvu alipoota y'ekitongole",
+    "date": "Olunaku",
+    "report_type": "Ekika kya alipoota",
+    "branch": "Etabi",
+    "export": "Fulumya",
+    "all_reports": "Alipoota zonna",
+    "branch_report": "Alipoota y'etabi",
+
+    "total_loans": "Amabanja gonna",
+    "total_repayments": "Zonna ezazziddwayo",
+    "total_borrowers": "Omuwendo gw'abawola",
+    "overdue_amount": "Ssente ezisusseeko ekiseera",
+
+    "detailed_summary": "Mu bufunze obulambulukufu",
+    "metric": "Ekipimo",
+    "today": "Leero",
+    "this_week": "Wiiki eno",
+    "this_month": "Omwezi guno",
+    "this_year": "Omwaka guno",
+    "metrics":{
+    "Loans Issued": "Amabanja agaweereddwa",
+    "Repayments": "Okusasula amabanja",
+    "Penalties": "Ebibonerezo",
+      "Overdue Amount": "Ssente ezitalisasulwa mu budde"
+},
+    "top_branch_collections": "Etabi erisinga okukungaanya ssente",
+    "recent_transactions": "Enkolagana ezisembyeyo",
+ "trans":{
+ "Loan Issued": "Bbanja liweereddwa",
+    "Payment Received": "Okusasula kufuniddwa",
+    "Penalty Added": "Ekibonerezo kyongeddwako"
+ }
+   
   }
+    ,
+ "rp": {
+    "title": "Okukebera okusasula amabanja",
+    "subtitle": "Londoola okusasula kw'amabanja kwonna",
+    "filter": "Sengejja",
+    "all": "Byonna",
+    "export": "Fulumya",
+
+    "details_title": "Ebikwata ku kusasula amabanja",
+
+    "table": {
+      "no": "No",
+      "payer_names": "Amannya g'abasasula",
+      "loan_id": "Namba y'ebbanga",
+      "amount": "Ssente",
+      "cashier": "Kasooli",
+      "date": "Olunaku",
+      "status": "Embeera"
+    },
+
+    "status": {
+      "done": "Kiwedde"
+    },
+
+    "trends_title": "Enkola y'okusasula amabanja",
+    "repaid_currency": "Ssente ezisasuddwa"
+  },
+
+   "ads": {
+    "manage_company_activity": "Ddukanya emirimu gy'ekitongole",
+    "force_logout": "Ggyaako buli mukozesa",
+    "disable_loans_application": "Ziyiza okusaba amabanja",
+    "disable": "Ziyiza",
+
+    "company_entity": "Ekitongole",
+
+    "workspace_configuration": "Enteekateeka y'ekifo ky'omulimu",
+    "report_generation_time": "Obudde bw'okukola alipoota",
+    "enable_notification": "Ssobozesa obubaka",
+    "enable_incoming_notifications": "Ssobozesa obubaka obuyingira",
+    "add_branch": "Yongeraako ettabi",
+    "branch": "Ettabi",
+
+    "terms_penalties": "Amateeka n'ebibonerezo",
+    "office_name": "Erinnya ly'ofiisi",
+    "default_interest_rate": "Omuwendo gw'amagoba ogusookerwako %",
+    "grace_period": "Ennaku z'okusaasira",
+
+    "notifications": "Obubaka",
+    "auto_notify": "Okutumira mu bwangu",
+    "reminder_message": "Obubaka obujjukiza",
+    "overdue_message": "Obubaka bw'okulwawo okusasula",
+    "manual_notify": "Kutumira n'omukono",
+
+    "enter_text": "Wandiika wano...",
+    
+
+    "send_all": "Sindika eri bonna",
+    "specific_user": "Omukozesa omu",
+
+    "set_office_charge": "Teekawo ssente z'ofiisi",
+    "configure_office_charge_ranges": "Tegeka emitendera gy'ensimbi z'ofiisi",
+
+    "off": "Gyako",
+    "on": "Ssobozesa",
+
+    "startup_cash": "Ssente ezisookerako",
+    "ending_cash": "Ssente ezikoma",
+
+    "save_changes": "Tereka enkyukakyuka",
+    "new": "Kipya",
+
+    "office_charge_disabled": "Ssente z'ofiisi ziggiddwako kati",
+
+    "audit_generation_period": "Ekiseera ky'okukola odiiti",
+    "manage_system_report_frequency": "Ddukanya emirundi alipoota z'ekola",
+
+    "daily": "Buli lunaku",
+    "weekly": "Buli wiiki",
+    "monthly": "Buli mwezi",
+
+    "save_all": "Tereka byonna"
+
+ 
+  },
+
+  "billing": {
+    "title": "Okusasula n'Okukola Akawunti Mangu",
+    "subtitle": "Sasula okukola akawunti n'okukola kampuni",
+
+    "billing_summary": "Muŋŋengeza y'Okusasula",
+    "payment_information": "Amawulire g'Okusasula",
+
+    "service": "Obuweereza",
+    "company_activation": "Okukola Kampuni",
+
+    "description": "Ennyonyola",
+    "activation_description": "Ggulawo eby'obusuubuzi eby'omulembe n'obuweereza obukuumibwa",
+
+    "monthly_activation_fee": "Ssente z'Okukola Buli Mwezi",
+    "total": "Omugatte",
+
+    "instant_receipt": "Lisiiti Mangu",
+    "receipt_description": "Funa lisiiti yo mangu nga okusasula kukakasiddwa.",
+    "get_receipt": "Funa Lisiiti",
+
+    "payment_methods": "Enkola z'Okusasula",
+    "choose_payment_method": "Londa enkola gy'oyagala okukozesa okusasula",
+
+    "pay_with_crypto": "Sasula ne Crypto",
+    "crypto_description": "Okusasula okw'obukuumi nga okozesa USDT ku Binance Smart Chain",
+    "currency_usdt": "Ssente: USDT",
+    "network_bsc": "Omukutu: BSC",
+    "instant_verification": "Okukakasa Mangu",
+    "fast_secure_transaction": "Okutambuza Ssente Mangu era mu Bukuumi",
+
+    "other_method": "Enkola Endala",
+    "other_method_description": "Sasula ng'okozesa MTN MoMo, Airtel Money, Kaadi ya Visa n'endala",
+    "mtn_momo": "MTN Mobile Money",
+    "airtel_money": "Airtel Money",
+    "visa_card": "Kaadi ya Visa",
+    "bank_transfer": "Okuweereza Ssente mu Bbanka",
+
+    "pay_now": "Sasula Kati",
+
+    "permanent_activation": "Okukola Okutaggwaawo",
+    "permanent_activation_description": "Funa okukola okutaggwaawo era olekere awo okusasula buli kiseera. Okusasula kuno okw'omulundi gumu kuwandiisa kampuni yo olubeerera ku mutimbagano gwaffe ogukuumibwa.",
+    "permanent_activation_fees": "Ssente z'Okukola Okutaggwaawo",
+
+    "receipt": "Lisiiti"
+  }
+,
+"sms": {
+    "title": "Londoola era Gula SMS",
+    "current_sms": "SMS Eziriwo Kati",
+    "available_sms_remaining": "SMS Ezikyasigadde",
+
+    "total_purchased": "SMS Zonna Eziguliddwa",
+    "sms_package_usage": "Enkozesa ya Paket ya SMS",
+    "usage": "Enkozesa",
+
+    "daily_usage": "Enkozesa eya Buli Lunaku",
+    "today_message_used": "Obubaka Obukozeseddwa Leero",
+
+    "purchase_sms": "Gula SMS",
+    "enter_payment_details": "Teeka Ebikwata ku Kusasula",
+
+    "sms_package": "Paket ya SMS",
+    "enter_sms_amount": "Teeka Omuwendo gwa SMS",
+
+    "phone_number": "Namba y'Essimu",
+
+    "purchase": "Gula",
+
+    "transaction_history": "Ebyafaayo by'Emisasule",
+    "recent_sms_purchase_records": "Ebyafaayo by'Okugula SMS Ebyasembyeyo",
+ "t":{
+   "date": "Olunaku",
+    "transaction_id": "Namba y'Ensimbi",
+    "amount": "Omuwendo",
+    "payment": "Okusasula",
+    "status": "Embeera"
+},
+  "status": {
+    "success": "Kituuse Bulungi",
+    "failed": "Kigudde"
+    }
+  }
+
 }
