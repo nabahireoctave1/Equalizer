@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
   SearchIcon, 
   Plus, 
@@ -13,8 +13,12 @@ import {
   ChevronRight,
   Map
 } from 'lucide-react'
+import Agent_Portal from './Agent_Portal';
 
 function Agents() {
+  const [agentportalopen,setisopen]=useState(false)
+  const openmodel= ()=>setisopen(true)
+  const closemodel=()=>setisopen(false)
       const admins = [
     { id: "17002010948474655", name: "Jean Paul", email: "jp@akea.com", location: "Kigali", status: "Activated" },
   ];
@@ -43,7 +47,7 @@ function Agents() {
             />
           </div>
 
-          <button className='bg-blue-400 hover:bg-blue-500 cursor-pointer text-white px-5 py-2.5 rounded-md text-sm font-semibold flex items-center gap-2 transition-all shadow-md min-w-fit active:scale-95'>
+          <button onClick={openmodel} className='bg-blue-400 hover:bg-blue-500 cursor-pointer text-white px-5 py-2.5 rounded-md text-sm font-semibold flex items-center gap-2 transition-all shadow-md min-w-fit active:scale-95'>
             <Plus size={18}/> <span className='hidden sm:inline'>agent</span>
           </button>
         </div>
@@ -87,7 +91,6 @@ function Agents() {
 
                    
 
-                    {/* Status */}
                     <td className='px-6 py-4 text-center'>
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         admin.status === 'Activated' ? 'bg-green-100 text-green-700' : 
@@ -98,7 +101,6 @@ function Agents() {
                       </span>
                     </td>
 
-                    {/* Actions */}
                     <td className='px-6 py-4'>
                       <div className='flex items-center justify-center gap-1'>
                         
@@ -144,6 +146,7 @@ function Agents() {
           </div>
         </div>
       </div>
+      {agentportalopen &&<Agent_Portal onClose={closemodel}/>}
     </div>
   )
 }

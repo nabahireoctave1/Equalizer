@@ -9,6 +9,8 @@ import i18n from './pages/i18n';
 import EditprofileModel from './pages/EditprofileModel';
 import NotificationModel from './pages/NotificationModel';
 import Company_portal from './pages/Company_portal';
+import Agent_Portal from './pages/Agent_Portal';
+
 
  
 
@@ -22,6 +24,7 @@ function App() {
     <Dashboard/>
    {/* <Login/>  */}
    {/* <Company_portal/> */}
+   {/* <Agent_Portal/> */}
             
     </div>
   );

@@ -36,7 +36,7 @@ function AdminList() {
             </h1>
           </div>
 
-          <div className='relative flex-1 max-w-2xl'>
+          <div className='relative flex-1 max-w-xs'>
             <span className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
               <SearchIcon className='h-5 w-5 text-gray-400' />
             </span>
@@ -47,9 +47,7 @@ function AdminList() {
             />
           </div>
 
-          <button className='bg-blue-400 hover:bg-blue-500 cursor-pointer text-white px-5 py-2.5 rounded-md text-sm font-semibold flex items-center gap-2 transition-all shadow-md min-w-fit active:scale-95'>
-            <Plus size={18}/> <span className='hidden sm:inline'> admin</span>
-          </button>
+         
         </div>
       </div>
 
