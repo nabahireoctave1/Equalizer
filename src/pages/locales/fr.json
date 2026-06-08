@@ -327,11 +327,151 @@
     "status": "Statut"
      },
    
-   "status":  {
+   "sts":  {
    "success": "Réussi",
     "failed": "Échoué"
     }
+
   
+  
+  },
+
+    "rptb":{
+      "reportedBorrowers": "Emprunteurs Signalés",
+  "filter": "Filtrer",
+  "all": "Tous",
+  "borrowerNames": "Noms des Emprunteurs",
+  "reportedBy": "Signalé par (Caissier)",
+  "reason": "Raison",
+  "reportedDate": "Date du Signalement",
+  "status": "Statut",
+  "decision": "Décision",
+  
+  "approve": "Approuver",
+  "reject": "Rejeter",
+  "pending": "En attente",
+  "approved": "Approuvé",
+  "rejected": "Rejeté"
+ 
+}
+ ,
+
+ "c":{
+  "cashiers": "Caissiers",
+  "manageCashiers": "Gérez facilement tous les caissiers",
+  "searchCashier": "Rechercher un caissier...",
+  "cashier": "Caissier",
+  "no": "N°",
+  "names": "Noms",
+  "email": "E-mail",
+  "phone": "Téléphone",
+  "branch": "Agence",
+  "status": "Statut",
+  "manage": "Gestion",
+  "active": "Actif",
+  "suspended": "Suspendu",
+  "edit": "Modifier",
+  "remove": "Supprimer",
+  "burn": "Suspendre",
+  "reactivate": "Réactiver"
+}
+,
+
+
+  "about": "À Propos",
+  "equalizer": "Equalizer",
+  "aboutDescription": "Equalizer est un système robuste de gestion de prêts développé par ",
+   "aboutnextdesc":" Nous fournissons une infrastructure numérique moderne pour soutenir les institutions de crédit et leurs agences.",
+  "whyChoose": "Pourquoi Choisir Equalizer ?",
+  "feature1": "Gestion complète des relations clients",
+  "feature2": "Mesures avancées de sécurité et de chiffrement des données",
+  "feature3": "Gestion automatisée du personnel et des rôles",
+  "feature4": "Suivi en temps réel des flux de trésorerie (Entrées/Sorties)",
+  "feature5": "Efficacité opérationnelle optimisée",
+
+  "ourMission": "Notre Mission",
+  "missionDescription": "Révolutionner le secteur du crédit grâce à des solutions technologiques transparentes, évolutives et sécurisées reliant les institutions financières à leurs clients.",
+
+  "meetOurTeam": "Notre Équipe",
+
+  "preciousName": "Ishimwe Precious",
+  "preciousRole": "Développeur Full Stack",
+  "preciousBio": "Un développeur passionné qui transforme des idées complexes en solutions concrètes et performantes.",
+
+  "octaveName": "Nabahire Octave",
+  "octaveRole": "Développeur Full Stack",
+  "octaveBio": "Spécialisé dans la création d'architectures backend évolutives et d'expériences frontend intuitives.",
+
+  "getInTouch": "Contactez-Nous",
+  "emailUs": "Envoyez-nous un Email",
+  "callUs": "Appelez-Nous",
+  "location": "Localisation",
+
+
+
+   "adminName": "Alice Mutesi",
+  "adminRole": "Administrateur système",
+  "activated": "Activé",
+  "adminId": "ID Admin",
+  "memberSince": "Membre depuis",
+  "personalInfo": "Informations personnelles",
+  "fullName": "Nom complet",
+  "role": "Rôle",
+  "company": "Entreprise",
+  "loc": "Emplacement",
+  "accountDetails": "Détails du compte",
+  "createdAt": "Créé le",
+  "sts": "Statut",
+  "contactInfo": "Informations de contact",
+  "email": "Email",
+  "phone": "Téléphone",
+  "adminRoleTitle": "Rôle administrateur",
+  "adminRoleDesc": "Responsable de la gestion des utilisateurs, du suivi de la plateforme, des permissions de sécurité et du bon fonctionnement des services numériques.",
+  "editProfile": "Modifier le profil",
+
+
+ "adp": {
+    "editProfile": "Modifier le profil",
+    "updateInfo": "Mettre à jour vos informations personnelles",
+
+    "fullName": "Nom complet",
+    "email": "Adresse email",
+    "phone": "Numéro de téléphone",
+    "location": "Localisation",
+    "company": "Entreprise",
+
+    "fullNamePlaceholder": "Jean Dupont",
+    "emailPlaceholder": "jean@example.com",
+    "phonePlaceholder": "+1 555 000 000",
+    "locationPlaceholder": "New York, USA",
+    "companyPlaceholder": "Acme Corp",
+
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+  
+"nc":{
+   "title": "Ajouter un caissier",
+    "editCashier": "Edit Cashier",
+    "fullName": "Nom complet",
+    "email": "Adresse email",
+    "phone": "Numéro de téléphone",
+    "location": "Localisation",
+    "gender": "Genre",
+    "branch": "Agence",
+
+    "fullNamePlaceholder": "Jean Dupont",
+    "emailPlaceholder": "caissier@entreprise.com",
+    "phonePlaceholder": "+1 555 000 000",
+    "locationPlaceholder": "Nyagatare",
+    "branchPlaceholder": "Rubavu Tech",
+
+    "male": "Homme",
+    "female": "Femme",
+
+    "cancel": "Annuler",
+    "add": "Ajouter",
+     "save": "Enregistrer les modifications"
   }
   
 

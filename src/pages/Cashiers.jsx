@@ -4,6 +4,7 @@ import Newcashiermodel from "./Newcashiermodel";
 import EditCashier from "./EditCashier";
 import Burn_cashier from "./Burn_cashier";
 import Reactivatecashiermodel from "./Reactivatecashiermodel";
+import { useTranslation } from "react-i18next";
 function Cashiers() {
  
   const [searchterm,setsearchterm]=useState('')
@@ -19,6 +20,8 @@ function Cashiers() {
    fd.names.toLocaleLowerCase().includes(searchterm.toLocaleUpperCase())||
    fd.email.toLocaleLowerCase().includes(searchterm.toLocaleUpperCase())
   })
+
+  const {t}=useTranslation()
 
 
   const [isnewCashierModelopen,setisnewcashierModelopen]=useState(false)
@@ -55,10 +58,10 @@ function Cashiers() {
 
             <div>
               <h2 className="text-xl font-semibold text-gray-800">
-                Cashiers
+                {t('c.cashier')}
               </h2>
               <p className="text-sm text-gray-500">
-                Manage all cashiers easily
+                {t('c.manageCashiers')}
               </p>
             </div>
           </div>
@@ -73,7 +76,7 @@ function Cashiers() {
               <input
                 type="text"
                 onChange={(e)=>setsearchterm(e.target.value)}
-                placeholder="Search cashier..."
+                placeholder={t('c.searchCashier')}
                 className="w-full  border border-gray-200 rounded-md py-2 text-sm pl-10 pr-4 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent transition"
               />
             </div>
@@ -81,7 +84,7 @@ function Cashiers() {
             <button onClick={opencashiermodel} className="flex justify-start gap-2 bg-blue-400 text-white px-9 py-2
              rounded-md text-sm cursor-pointer  w-fit  sm:w-auto whitespace-nowrap">
               <PlusCircle size={18} />
-              <span>Cashier</span>
+              <span>{t('c.cashier')}</span>
             </button>
           </div>
         </div>
@@ -90,13 +93,13 @@ function Cashiers() {
           <table className="w-full border-collapse whitespace-nowrap">
             <thead>
               <tr className="bg-gray-50 text-left text-gray-600 uppercase text-[11px] border-b border-gray-200">
-                <th className="p-3">No</th>
-                <th className="p-3">Names</th>
-                <th className="p-3">Email</th>
-                <th className="p-3">Phone</th>
-                <th className="p-3">Branch</th>
-                <th className="p-3">status</th>
-                <th className="p-3">Manage</th>
+                <th className="p-3">{t('c.no')}</th>
+                <th className="p-3">{t('c.names')}</th>
+                <th className="p-3">{t('c.email')}</th>
+                <th className="p-3">{t('c.phone')}</th>
+                <th className="p-3">{t('c.branch')}</th>
+                <th className="p-3">{t('c.status')}</th>
+                <th className="p-3">{t('c.manage')}</th>
               </tr>
             </thead>
 
@@ -120,14 +123,14 @@ function Cashiers() {
                 </td>
                 <td className="p-3">
                   <span className={`${statusbadge(c.status)} text-white px-3 py-1 rounded-full text-xs font-medium`}>
-                  {c.status}
+                  {t(`c.${c.status}`)}
                   </span>
                 </td>
                  <td className="p-3 flex items-center gap-2 text-gray-500 text-sm">
-                   <button onClick={openedit} title="Edit" className="p-1 rounded-md cursor-pointer"><Pencil size={18} className=" hover:text-blue-400"/></button>
-                   <button title="Remove" className="p-1 bg-red-50 rounded-md cursor-pointer"><Trash size={18} className="text-red-400"/></button>
-                   <button onClick={openBurncashier} title="Burn" className="cursor-pointer"><Ban size={18} className=" hover:text-red-400 "/></button>
-                   <button onClick={openreactivate} title="Reactivate" className="cursor-pointer"> <RefreshCcw size={18} className="hover:text-green-500"/></button>
+                   <button onClick={openedit} title={t('c.edit')} className="p-1 rounded-md cursor-pointer"><Pencil size={18} className=" hover:text-blue-400"/></button>
+                   <button title={t('c.remove')} className="p-1 bg-red-50 rounded-md cursor-pointer"><Trash size={18} className="text-red-400"/></button>
+                   <button onClick={openBurncashier} title={t('c.burn')} className="cursor-pointer"><Ban size={18} className=" hover:text-red-400 "/></button>
+                   <button onClick={openreactivate} title={t('c.reactivate')} className="cursor-pointer"> <RefreshCcw size={18} className="hover:text-green-500"/></button>
                 </td>
               </tr>
               })}

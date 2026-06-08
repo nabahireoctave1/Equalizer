@@ -1,102 +1,152 @@
-import { GemIcon, GitBranchIcon, Mail, MapPin, Phone, User2, XIcon } from 'lucide-react'
-import React from 'react'
+import {
+  GitBranchIcon,
+  Mail,
+  MapPin,
+  Phone,
+  User2,
+  XIcon,
+} from "lucide-react";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
-function Newcashiermodel({onClose}) {
+function Newcashiermodel({ onClose }) {
+  const { t } = useTranslation();
+
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
 
-      <div className='w-full max-w-2xl bg-white shadow-md rounded-md  overflow-hidden transform transition-all 
-      animate-in fade-in zoom-in-95 duration-200'>
-        
-        <div className='flex justify-between items-center bg-blue-300 px-6 py-4 text-white'>
-          <h1 className='text-lg font-extrabold  uppercase '>Add New Cashier</h1>
-          <button onClick={onClose} className='bg-blue-500 cursor-pointer p-1.5 rounded-full transition-colors duration-150'>
-            <XIcon className='w-5 h-5' />
+      <div className="w-full max-w-2xl bg-white shadow-md rounded-md overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
+
+        <div className="flex justify-between items-center bg-blue-300 px-6 py-4 text-white">
+          <h1 className="text-lg font-extrabold uppercase">
+            {t("nc.title")}
+          </h1>
+
+          <button
+            onClick={onClose}
+            className="bg-blue-500 cursor-pointer p-1.5 rounded-full transition-colors duration-150"
+          >
+            <XIcon className="w-5 h-5" />
           </button>
         </div>
 
-        <form action="" method="post" className='p-6 space-y-6'>
-          
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4'>
-            
-            <div className='space-y-4'>
+        <form className="p-6 space-y-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+
+            <div className="space-y-4">
+
               <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center' htmlFor="fullname">
-                  <User2 className='w-4 h-4 text-blue-500' /> Full Name
+                <label className="flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center">
+                  <User2 className="w-4 h-4 text-blue-500" />
+                  {t("nc.fullName")}
                 </label>
-                <input id="fullname" type="text" placeholder="John Doe" className="w-full p-2.5 border
-                 border-gray-200 rounded-md focus:shadow-sm shadow-blue-200 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent text-sm transition-all" />
+                <input
+                  type="text"
+                  placeholder={t("nc.fullNamePlaceholder")}
+                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1 focus:ring-blue-400 text-sm"
+                />
               </div>
 
               <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center' htmlFor="email">
-                  <Mail className='w-4 h-4 text-blue-500' /> Email Address
+                <label className="flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center">
+                  <Mail className="w-4 h-4 text-blue-500" />
+                  {t("nc.email")}
                 </label>
-                <input id="email" type="email" placeholder="cashier@company.com" className="w-full p-2.5 
-                border border-gray-200 rounded-md focus:shadow-sm shadow-blue-200 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent text-sm transition-all" />
+                <input
+                  type="email"
+                  placeholder={t("nc.emailPlaceholder")}
+                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1 focus:ring-blue-400 text-sm"
+                />
               </div>
 
               <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center' htmlFor="phone">
-                  <Phone className='w-4 h-4 text-blue-500' /> Phone Number
+                <label className="flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center">
+                  <Phone className="w-4 h-4 text-blue-500" />
+                  {t("nc.phone")}
                 </label>
-                <input id="phone" type="tel" placeholder="+1 (555) 000-0000" className="w-full p-2.5 
-                border border-gray-200 rounded-md focus:shadow-sm shadow-blue-200 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent text-sm transition-all" />
+                <input
+                  type="tel"
+                  placeholder={t("nc.phonePlaceholder")}
+                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1 focus:ring-blue-400 text-sm"
+                />
               </div>
+
             </div>
 
-            <div className='space-y-4'>
+            <div className="space-y-4">
+
               <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center' htmlFor="location">
-                  <MapPin className='w-4 h-4 text-blue-500' /> Location
+                <label className="flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center">
+                  <MapPin className="w-4 h-4 text-blue-500" />
+                  {t("nc.location")}
                 </label>
-                <input id="location" type="text" placeholder=" Nyagatare" className="w-full p-2.5
-                 border border-gray-200 rounded-md focus:shadow-sm shadow-blue-200 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent text-sm transition-all" />
+                <input
+                  type="text"
+                  placeholder={t("nc.locationPlaceholder")}
+                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1 focus:ring-blue-400 text-sm"
+                />
               </div>
 
               <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center'>
-                  Gender
+                <label className="flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center">
+                  {t("nc.gender")}
                 </label>
-                <div className='flex gap-6 p-2.5 bg-gray-50 border border-gray-100 rounded-lg h-5 items-center'>
-                  <label className='flex items-center gap-2 text-sm text-gray-700 cursor-pointer'>
-                    <input type="radio" name="gender" value="male" className="w-4 h-4 text-blue-600
-                     border-gray-300 focus:ring-blue-500" />
-                    Male
+
+                <div className="flex gap-6 p-2.5 bg-gray-50 border border-gray-100 rounded-lg h-5 items-center">
+
+                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                    <input type="radio" name="gender" value="male" />
+                    {t("nc.male")}
                   </label>
-                  <label className='flex items-center gap-2 text-sm text-gray-700 cursor-pointer'>
-                    <input type="radio" name="gender" 
-                    value="female" className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-400" />
-                    Female
+
+                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                    <input type="radio" name="gender" value="female" />
+                    {t("nc.female")}
                   </label>
+
                 </div>
               </div>
 
               <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center' htmlFor="branch">
-                  <GitBranchIcon className='w-4 h-4 text-blue-500' /> Branch
+                <label className="flex gap-2 text-xs font-medium text-gray-600 uppercase tracking-wider mb-1.5 items-center">
+                  <GitBranchIcon className="w-4 h-4 text-blue-500" />
+                  {t("nc.branch")}
                 </label>
-                <input id="branch" type="text" placeholder="Rubavu Tech" className="w-full p-2.5
-                 border border-gray-200 rounded-md focus:shadow-sm shadow-blue-200 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent text-sm transition-all" />
+                <input
+                  type="text"
+                  placeholder={t("nc.branchPlaceholder")}
+                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1 focus:ring-blue-400 text-sm"
+                />
               </div>
+
             </div>
 
           </div>
 
-          <div className='flex justify-end gap-3 pt-4 border-t border-gray-100'>
-            <button  onClick={onClose}  type="button" className='px-4 py-2 text-sm  cursor-pointer font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors'>
-              Cancel
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200"
+            >
+              {t("nc.cancel")}
             </button>
-            <button type="submit" className='px-4 py-2 text-sm font-medium text-white cursor-pointer bg-blue-400 rounded-md  shadow-md shadow-blue-200 transition-colors'>
-              add
+
+            <button
+              type="submit"
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-400 rounded-md shadow-md"
+            >
+              {t("nc.add")}
             </button>
+
           </div>
 
         </form>
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Newcashiermodel
+export default Newcashiermodel;

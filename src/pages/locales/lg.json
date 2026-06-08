@@ -328,10 +328,151 @@
     "payment": "Okusasula",
     "status": "Embeera"
 },
-  "status": {
+  "sts": {
     "success": "Kituuse Bulungi",
     "failed": "Kigudde"
     }
   }
+
+  ,
+  "rptb":{
+  "reportedBorrowers": "Abawolekedwa Abaaloopeddwa",
+  "filter": "Sengejja",
+  "all": "Bonna",
+  "borrowerNames": "Amannya g'Abawolekedwa",
+  "reportedBy": "Yaloopeddwa (Kasasiro)",
+  "reason": "Ensonga",
+  "reportedDate": "Olunaku lw'Okuloopa",
+  "status": "Embeera",
+  "decision": "Okusalawo",
+  "approve": "Kkiriza",
+  "reject": "Gaana",
+  "pending": "Kikyali mu kulindirirwa",
+  "approved": "Kikkiriziddwa",
+  "rejected": "Kigaaniddwa"
+
+}
+
+,
+
+"c":{
+  "cashiers": "Abakungaanya Ssente",
+  "manageCashiers": "Ddukanya abakungaanya ssente bonna mu ngeri ennyangu",
+  "searchCashier": "Noonya omukungaanya ssente...",
+  "cashier": "Omukungaanya Ssente",
+  "no": "Namba",
+  "names": "Amannya",
+  "email": "Email",
+  "phone": "Essimu",
+  "branch": "Ttabi",
+  "status": "Embeera",
+  "manage": "Ddukanya",
+  "active": "Akola",
+  "suspended": "Ayimiriziddwa",
+  "edit": "Kyusa",
+  "remove": "Ggyawo",
+  "burn": "Yimiriza",
+  "reactivate": "Ddamu Okumukola"
+},
+
+
+
+  "about": "Ebikwata Ku",
+  "equalizer": "Equalizer",
+  "aboutDescription": "Equalizer nkola ya maanyi ey'okuddukanya amabanja eyakolebwa.",
+  "aboutnextdesc":" Tuwa ebyuma n'obukodyo bwa digito obuyamba ebitongole by'ensimbi n'amatabi gaabyo.",
+
+  "whyChoose": "Lwaki Olonda Equalizer?",
+  "feature1": "Okuddukanya obulungi enkolagana n'abakasitoma",
+  "feature2": "Okukuuma data n'okugisiba mu ngeri ey'omulembe",
+  "feature3": "Okuddukanya abakozi n'obuvunaanyizibwa mu ngeri ey'otoma",
+  "feature4": "Okulondoola ensimbi eziyingira n'ezifuluma mu kiseera ekituufu",
+  "feature5": "Okwongera ku bulungibwansi bw'emirimu",
+
+  "ourMission": "Obuvunaanyizibwa Bwaffe",
+  "missionDescription": "Okukyusa omulimu gw'okuwola nga tuwa eby'okugonjoola bya tekinologiya ebyesigika, eby'obwerufu era ebigazi.",
+
+  "meetOurTeam": "Mumanye Ttiimu Yaffe",
+
+  "preciousName": "Ishimwe Precious",
+  "preciousRole": "Fullstack Developer",
+  "preciousBio": "Omukugu ayagala okukyusa ebirowoozo ebizibu okubifuula eby'okugonjoola eby'omugaso.",
+
+  "octaveName": "Nabahire Octave",
+  "octaveRole": "Fullstack Developer",
+  "octaveBio": "Akola ku kuzimba backend ezisobola okugaziwa n'enkolagana ennungi ku frontend.",
+
+  "getInTouch": "Tukwatagane",
+  "emailUs": "Tuwe Email",
+  "callUs": "Tukubire Essimu",
+  "location": "Ekifo",
+
+
+
+   "adminName": "Alice Mutesi",
+  "adminRole": "Omuddukanya System",
+  "activated": "Akola",
+  "adminId": "ID ya Admin",
+  "memberSince": "Yatandika mu",
+  "personalInfo": "Ebikwata ku muntu",
+  "fullName": "Erinnya erijjuvu",
+  "role": "Omulimu",
+  "company": "Kampuni",
+  "loc": "Ekifo",
+  "accountDetails": "Ebikwata ku akawunti",
+  "createdAt": "Yakolebwa",
+  "stt": "Embeera",
+  "contactInfo": "Ebikwata ku kutuukirira",
+  "email": "Email",
+  "phone": "Essimu",
+  "adminRoleTitle": "Omulimu gwa Admin",
+  "adminRoleDesc": "Avunaanyizibwa ku kuddukanya bakozesa, okulondoola system, n’okukuuma obukuumi bwa platform.",
+  "editProfile": "Kyusa Profile",
+
+ "adp": {
+    "editProfile": "Kyusa Profile",
+    "updateInfo": "Yongera ku bikwata ku muntu",
+
+    "fullName": "Erinnya erijjuvu",
+    "email": "Email",
+    "phone": "Essimu",
+    "location": "Ekifo",
+    "company": "Kampuni",
+
+    "fullNamePlaceholder": "John Doe",
+    "emailPlaceholder": "johndoe@gmail.com",
+    "phonePlaceholder": "+1 555 000 000",
+    "locationPlaceholder": "New York, USA",
+    "companyPlaceholder": "Acme Corp",
+
+    "cancel": "Sazaamu",
+    "save": "Tereka enkyukakyuka"
+  },
+
+  "nc": {
+    "title": "Yongerako Cashier Omupya",
+     "editCashier": "Edit Cashier",
+    "fullName": "Erinnya erijjuvu",
+    "email": "Email",
+    "phone": "Essimu",
+    "location": "Ekifo",
+    "gender": "Omusajja/Omukazi",
+    "branch": "ETTabi",
+
+    "fullNamePlaceholder": "John Doe",
+    "emailPlaceholder": "cashier@company.com",
+    "phonePlaceholder": "+1 555 000 000",
+    "locationPlaceholder": "Nyagatare",
+    "branchPlaceholder": "Rubavu Tech",
+
+    "male": "Omusajja",
+    "female": "Omukazi",
+
+    "cancel": "Sazaamu",
+    "add": "Yongerako",
+      "save": "Tereka enkyukakyuka"
+  }
+
+
 
 }

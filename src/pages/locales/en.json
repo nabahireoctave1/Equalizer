@@ -333,19 +333,158 @@
     "amount": "Amount",
     "payment": "Payment",
     "status": "Status"
+    },
+   
+   
+"sts":{
+    "success": "Success",
+    "failed": "failed"
     }
-   
-   
 
    
   },
 
-   "sts":{
-    "Success": "Success",
-    "failed": "failed"
-    }
+   
+
+    "rptb":{
+  "reportedBorrowers": "Reported Borrowers",
+  "filter": "Filter",
+  "all": "All",
+  "borrowerNames": "Borrower Names",
+  "reportedBy": "Reported by (Cashier)",
+  "reason": "Reason",
+  "reportedDate": "Reported Date",
+  "status": "Status",
+  "decision": "Decision",
+  "approve": "Approve",
+  "reject": "Reject",
+  "pending": "Pending",
+  "approved": "Approved",
+  "rejected": "Rejected"
+ 
+}
+,
+
+"c":{
+  "cashiers": "Cashiers",
+  "manageCashiers": "Manage all cashiers easily",
+  "searchCashier": "Search cashier...",
+  "cashier": "Cashier",
+  "no": "No",
+  "names": "Names",
+  "email": "Email",
+  "phone": "Phone",
+  "branch": "Branch",
+  "status": "Status",
+  "manage": "Manage",
+  "active": "Active",
+  "suspended": "Suspended",
+  "edit": "Edit",
+  "remove": "Remove",
+  "burn": "Suspend",
+  "reactivate": "Reactivate"
+},
+
+  "about": "About",
+  "equalizer": "Equalizer",
+  "aboutDescription": "Equalizer is a robust loan management system engineered by. ",
+  "aboutnextdesc":"We provide cutting-edge digital infrastructure to empower lending institutions and their branches.",
+
+  "whyChoose": "Why Choose Equalizer?",
+  "feature1": "Comprehensive client relationship management",
+  "feature2": "Advanced data encryption and security measures",
+  "feature3": "Automated staff and role management",
+  "feature4": "Real-time cash flow monitoring (Inflow/Outflow)",
+  "feature5": "Streamlined operational efficiency",
+
+  "ourMission": "Our Mission",
+  "missionDescription": "To revolutionize the lending industry by providing transparent, scalable, and secure technological solutions that bridge the gap between financial institutions and their clients.",
+
+  "meetOurTeam": "Meet Our Team",
+
+  "preciousName": "Ishimwe Precious",
+  "preciousRole": "Fullstack Developer",
+  "preciousBio": "A passionate developer dedicated to transforming complex ideas into seamless real-world solutions across the entire stack.",
+
+  "octaveName": "Nabahire Octave",
+  "octaveRole": "Fullstack Developer",
+  "octaveBio": "Focused on building scalable backend architectures and intuitive frontend experiences that drive business growth.",
+
+  "getInTouch": "Get In Touch",
+  "emailUs": "Email Us",
+  "callUs": "Call Us",
+  "location": "Location",
+
 
   
+
+
+  "adminName": "Alice Mutesi",
+  "adminRole": "System Administrator",
+  "activated": "Activated",
+  "adminId": "Admin ID",
+  "memberSince": "Member Since",
+  "personalInfo": "Personal Information",
+  "fullName": "Full Name",
+  "role": "Role",
+  "company": "Company",
+  "loc": "Location",
+  "accountDetails": "Account Details",
+  "createdAt": "Created At",
+  "sts": "Status",
+  "contactInfo": "Contact Information",
+  "email": "Email",
+  "phone": "Phone",
+  "adminRoleTitle": "Admin Role",
+  "adminRoleDesc": "Responsible for managing system users, monitoring platform activity, handling security permissions, and ensuring smooth operation of company digital services.",
+  "editProfile": "Edit Profile",
+
+
+  "adp": {
+    "editProfile": "Modifier le profil",
+    "updateInfo": "Mettre à jour vos informations personnelles",
+
+    "fullName": "Nom complet",
+    "email": "Adresse email",
+    "phone": "Numéro de téléphone",
+    "location": "Localisation",
+    "company": "Entreprise",
+
+    "fullNamePlaceholder": "Jean Dupont",
+    "emailPlaceholder": "jean@example.com",
+    "phonePlaceholder": "+1 555 000 000",
+    "locationPlaceholder": "New York, USA",
+    "companyPlaceholder": "Acme Corp",
+
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+   "nc": {
+    "title": "Add New Cashier",
+     "editCashier": "Edit Cashier",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "location": "Location",
+    "gender": "Gender",
+    "branch": "Branch",
+
+    "fullNamePlaceholder": "John Doe",
+    "emailPlaceholder": "cashier@company.com",
+    "phonePlaceholder": "+1 (555) 000-0000",
+    "locationPlaceholder": "Nyagatare",
+    "branchPlaceholder": "Rubavu Tech",
+
+    "male": "Male",
+    "female": "Female",
+
+    "cancel": "Cancel",
+    "add": "Add",
+    "save": "Save Changes"
+  }
+
+
+
 
 }
 

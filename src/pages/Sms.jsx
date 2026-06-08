@@ -288,7 +288,7 @@ function Sms() {
                           : "bg-orange-100 text-orange-700"
                       }`}
                     >
-                      {t(`sts.${item.status}`)}
+                      {t(`sms.sts.${item.status.toLowerCase()}`)}
                     </span>
                   </td>
                 </tr>
