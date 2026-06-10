@@ -481,6 +481,31 @@
     "cancel": "Cancel",
     "add": "Add",
     "save": "Save Changes"
+  },
+
+   "bu": {
+    "title": "Burn Borrower",
+    "message": "Are you absolutely sure you want to burn this borrower from the company?",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+    "bc": {
+    "title": "Burn Cashier (John Doe)",
+    "message": "Are you absolutely sure you want to deny this cashier access to the system?",
+    "cancel": "Cancel",
+    "yes": "Yes"
+  },
+   "rb": {
+    "title": "Reactivate Borrower",
+    "message": "Are you absolutely sure you want to reactivate this borrower?",
+    "cancel": "Cancel",
+    "yes": "Yes"
+  },
+   "rc": {
+    "title": "Reactivate Cashier (John Doe)",
+    "message": "Are you absolutely sure you want to reactivate this cashier?",
+    "cancel": "Cancel",
+    "yes": "Yes"
   }
 
 

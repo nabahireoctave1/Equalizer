@@ -472,6 +472,32 @@
     "cancel": "Annuler",
     "add": "Ajouter",
      "save": "Enregistrer les modifications"
+  },
+
+    "bu": {
+    "title": "Supprimer l'emprunteur",
+    "message": "Êtes-vous absolument sûr de vouloir supprimer cet emprunteur de l'entreprise ?",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
+  },
+   "bc": {
+    "title": "Désactiver le caissier (John Doe)",
+    "message": "Êtes-vous absolument sûr de vouloir refuser l'accès de ce caissier au système ?",
+    "cancel": "Annuler",
+    "yes": "Oui"
+  },
+   "rb": {
+    "title": "Réactiver l'emprunteur",
+    "message": "Êtes-vous absolument sûr de vouloir réactiver cet emprunteur ?",
+    "cancel": "Annuler",
+    "yes": "Oui"
+  }
+  ,
+   "rc": {
+    "title": "Réactiver le caissier (John Doe)",
+    "message": "Êtes-vous absolument sûr de vouloir réactiver ce caissier ?",
+    "cancel": "Annuler",
+    "yes": "Oui"
   }
   
 

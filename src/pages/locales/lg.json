@@ -471,6 +471,31 @@
     "cancel": "Sazaamu",
     "add": "Yongerako",
       "save": "Tereka enkyukakyuka"
+  },
+
+    "bu": {
+    "title": "Gyawo Omwewola",
+    "message": "Okakasa ddala nti oyagala okugyawo omwewola ono okuva mu kampuni?",
+    "cancel": "Sazaamu",
+    "confirm": "Kakasa"
+  },
+    "bc": {
+    "title": "Ggala Omukunguzi w'Ebyensimbi (John Doe)",
+    "message": "Okakasa ddala nti oyagala okuggyako omukunguzi w'ebyensimbi ono obuyinza okukozesa sisitemu?",
+    "cancel": "Sazaamu",
+    "yes": "Yee"
+  },
+   "rb": {
+    "title": "Ddamu Okukiriza Omwewola",
+    "message": "Okakasa ddala nti oyagala okuddamu okukiriza omwewola ono?",
+    "cancel": "Sazaamu",
+    "yes": "Yee"
+  },
+    "rc": {
+    "title": "Ddamu Okukiriza Omukunguzi w'Ebyensimbi (John Doe)",
+    "message": "Okakasa ddala nti oyagala okuddamu okukiriza omukunguzi w'ebyensimbi ono?",
+    "cancel": "Sazaamu",
+    "yes": "Yee"
   }
 
 
