@@ -16,7 +16,8 @@
   "topbar": {
     "welcome_back": "Welcome back, Admin",
     "today_summary": "Here's what's happening with your company today.",
-    "date": "May 20, 2025"
+     "about_equalizer": "About Equalizer",
+    "field_officers": "Field Officers"
   },
 
   "cards": {
@@ -369,6 +370,9 @@
   "cashiers": "Cashiers",
   "manageCashiers": "Manage all cashiers easily",
   "searchCashier": "Search cashier...",
+    "field_officers": "field officers",
+  "manage_field_officers_activity": "Here you can manage and view the field officer activity",
+    "activity": "activity",
   "cashier": "Cashier",
   "no": "No",
   "names": "Names",

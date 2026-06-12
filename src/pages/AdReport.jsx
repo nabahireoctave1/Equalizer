@@ -36,7 +36,7 @@ function AdReport() {
   const {t}=useTranslation();
 
   return (
-    <div className='p-3   '>
+    <div className='p-3 min-h-screen  '>
          <div className='bg-white p-6 rounded-md space-y-4'>
             <div className='border-b pb-4 border-gray-50'>
           <h1 className='text-xl font-extrabold text-gray-900 uppercase'>{t('rpt.title')}</h1>

@@ -16,7 +16,8 @@
   "topbar": {
     "welcome_back": "Bon retour, Admin",
     "today_summary": "Voici ce qui se passe dans votre entreprise aujourd’hui.",
-    "date": "20 Mai 2025"
+      "about_equalizer": "À propos d'Equalizer",
+    "field_officers": "Agents de terrain"
   },
 
   "cards": {
@@ -360,6 +361,9 @@
   "cashiers": "Caissiers",
   "manageCashiers": "Gérez facilement tous les caissiers",
   "searchCashier": "Rechercher un caissier...",
+    "field_officers": "agents de terrain",
+  "manage_field_officers_activity": "Ici, vous pouvez gérer et consulter l'activité des agents de terrain",
+    "activity": "activité",
   "cashier": "Caissier",
   "no": "N°",
   "names": "Noms",

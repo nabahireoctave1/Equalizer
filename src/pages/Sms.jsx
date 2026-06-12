@@ -39,7 +39,7 @@ function Sms() {
   const {t}=useTranslation()
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="bg-white py-4 ">
           <div>
           

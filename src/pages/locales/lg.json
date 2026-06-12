@@ -16,7 +16,8 @@
   "topbar": {
     "welcome_back": "Tusanyuse okukulaba, Admin",
     "today_summary": "Bino bye bibaawo mu kkampuni yo leero.",
-    "date": "20 Mei 2025"
+        "about_equalizer": "Ebikwata ku Equalizer",
+    "field_officers": "Abakozi b'omu nnimiro"
   },
 
   "cards": {
@@ -359,6 +360,9 @@
   "cashiers": "Abakungaanya Ssente",
   "manageCashiers": "Ddukanya abakungaanya ssente bonna mu ngeri ennyangu",
   "searchCashier": "Noonya omukungaanya ssente...",
+   "field_officers": "abakozi b'oku ttaka",
+  "manage_field_officers_activity": "Wano osobola okuddukanya n'okulaba emirimu gy'abakozi b'oku ttaka",
+    "activity": "emirimu",
   "cashier": "Omukungaanya Ssente",
   "no": "Namba",
   "names": "Amannya",

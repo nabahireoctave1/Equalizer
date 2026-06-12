@@ -8,7 +8,8 @@ import {
   ReceiptTextIcon,
   MessageSquare,
   ShieldAlert,
-  LogOut,Languages
+  LogOut,Languages,
+  MapPin
 
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Global } from 'recharts'
@@ -27,6 +28,7 @@ import NotificationModal from './NotificationModel'
 
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
+import Field_office from './Field_office'
 
 
 
@@ -41,7 +43,6 @@ function AdDashboard() {
    const isnotificationclosed=()=>setisnotificationopen(false)
   const changepage=(itemid)=>{
        setCurrentPage(itemid)
-       localStorage.setItem('currentpage',itemid)
   }
 
   const { t, i18n } = useTranslation()
@@ -102,12 +103,13 @@ function AdDashboard() {
               { id: 'message', label: `${t('nav.messages')}`, icon: <MessageSquare size={18} /> },
               { id: 'Reported', label: `${t('nav.borrowers_flag')}`, icon: <ShieldAlert size={18} /> },
 
+
             ].map((item) => (
               <button 
                 key={item.id}
                 onClick={() => {
                   changepage(item.id)                  
-
+                   localStorage.setItem('currentpage',item.id)
                   setIsSidebarOpen(false); 
                 }} 
                 className={`w-full flex gap-2 px-4 py-2 text-sm text-gray-600 rounded-md cursor-pointer 
@@ -178,27 +180,57 @@ function AdDashboard() {
                 <span className='text-[11px] text-gray-400 font-medium'>Company Admin</span>
               </div>
               <ChevronDown size={14} className='text-gray-400 transition-transform  group-hover:translate-y-0.5' />
-              <select onChange={(e)=>setCurrentPage(e.target.value)} className='absolute  inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
-                <option value="profile">Profile </option>
-                <option value="about" className='uppercase text-xs'>About Equalizer </option>
+              <select  className='absolute  inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
+                <option onClick={()=>setCurrentPage('profile')} value="profile">Profile </option>
               </select>
             </div>
           </div>
         </div>
 
         {currentPages === 'Dashboard' && (
-          <div className='p-4 sm:p-8 flex-1 space-y-6 w-full mx-auto min-w-0'>
-            
-            <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
-              <div>
-                <h1 className='text-xl sm:text-2xl font-bold text-gray-800 tracking-tight flex items-center gap-2'>{t('topbar.welcome_back')}</h1>
-                <p className='text-xs text-gray-500 mt-0.5'>{t('topbar.today_summary')}</p>
-              </div>
-              <div className='bg-white border border-gray-200 px-5 py-2 rounded-md 
-              text-xs text-gray-600  shadow-sm shadow-gray-100/50 cursor-pointer self-stretch sm:self-auto justify-between sm:justify-start'>
-                <span>20-05-2025</span>
-              </div>
-            </div>
+          <div className=' flex-1 space-y-6 w-full mx-auto min-w-0'>
+      <div className="sticky top-20 z-30 bg-white border-b border-gray-100 shadow-sm px-4 sm:px-6 py-4 mb-6">
+  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+
+    <div>
+      <h1 className="text-2xl font-bold text-gray-800">
+        {t("topbar.welcome_back")}
+      </h1>
+      <p className="text-xs text-gray-500 mt-1">
+        {t("topbar.today_summary")}
+      </p>
+    </div>
+
+    <div className="flex flex-wrap gap-3">
+
+      <div className="px-5 py-2 rounded-sm border border-blue-500 bg-white">
+        <span onClick={()=>setCurrentPage('about')} className="text-sm  cursor-pointer uppercase text-blue-600">
+          {t('topbar.about_equalizer')}
+        </span>
+      </div>
+
+      <div className="px-5 py-2 rounded-sm border cursor-pointer border-gray-200 bg-white">
+        <span onClick={()=>setCurrentPage('field')} className="text-sm text-gray-700">
+          {t(`topbar.field_officers`)}
+        </span>
+      </div>
+
+      <div className="rounded-sm border border-gray-200 bg-white  overflow-hidden">
+        <select
+          defaultValue=""
+          className="px-4 py-2 text-sm  text-gray-700 bg-transparent outline-none cursor-pointer"
+        >
+         
+          <option>20-05-2025</option>
+          <option>21-05-2025</option>
+          <option>22-05-2025</option>
+          <option>23-05-2025</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+</div>
 
             <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5'>
               <div className='p-5 bg-white border border-gray-100 rounded-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-all'>
@@ -283,7 +315,7 @@ function AdDashboard() {
 
                 <div className='flex-1 w-full text-xs min-h-20'>
                   <ResponsiveContainer width='100%' height="100%">
-                    <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <BarChart data={chartData}  margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <CartesianGrid strokeDasharray='3 3' />
                       <XAxis dataKey="Date"/>
                       <YAxis tickFormatter={(value)=>{
@@ -292,9 +324,9 @@ function AdDashboard() {
                         return value
                       }}/>
                       <Tooltip/>
-                      <Bar dataKey="loaned" fill='#3b82f6' radius={[3,3,0,0]}/>
-                      <Bar dataKey="Collected" fill='#22c55e' radius={[3,3,0,0]}/>
-                      <Bar dataKey="overdue" fill='#ef4444' radius={[3,3,0,0]}/>
+                      <Bar dataKey="loaned" barSize={20} fill='#3b82f6' radius={[3,3,0,0]}/>
+                      <Bar dataKey="Collected" barSize={20} fill='#22c55e' radius={[3,3,0,0]}/>
+                      <Bar dataKey="overdue" barSize={20} fill='#ef4444' radius={[3,3,0,0]}/>
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -350,7 +382,7 @@ function AdDashboard() {
               </div>
             </div>
 
-            <div className='bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden'>
+            <div className='bg-white border border-gray-100 rounded-md mb-3 shadow-sm overflow-hidden'>
               <div className='p-4 sm:p-6 border-b border-gray-50 flex flex-col gap-4'>
                 <h3 className='text-base font-extrabold text-gray-700 flex items-center gap-2'> 
                   <ActivityIcon size={30} className='border border-gray-100 bg-gray-100 p-1 rounded-sm text-gray-400'/>
@@ -496,8 +528,10 @@ function AdDashboard() {
               )}
 
               <div className='flex justify-between p-4'>
-                <span className='border hover:bg-gray-100 cursor-pointer p-1 rounded-md text-gray-500 border-gray-100'><ChevronLeftIcon/></span>
-                <span className='border hover:bg-gray-100 cursor-pointer p-1 rounded-md text-gray-500 border-gray-100'><ChevronRightIcon/></span>
+                <span className='border hover:bg-gray-100 cursor-pointer p-1 rounded-md
+                 text-gray-500 border-gray-100'><ChevronLeftIcon/></span>
+                <span className='border hover:bg-gray-100 cursor-pointer p-1 rounded-md
+                 text-gray-500 border-gray-100'><ChevronRightIcon/></span>
               </div>
             </div>
 
@@ -517,9 +551,19 @@ function AdDashboard() {
         {currentPages==='Reported'&&<ReportedBorrowers/>}
         {currentPages==='about'&&<About/>}
         {currentPages==='profile'&&<Adprofile/>}
+        {currentPages==='field'&& <Field_office/>}
+
+        <div className='flex justify-end py-4 pb-3 px-5 border-t border-gray-300'>
+            <p></p>
+         <button className="flex items-center gap-2 rounded-xs cursor-pointer  capitalize bg-green-600 p-2 text-white" >
+        <span><MapPin/></span> borrowers live  tracking 
+         </button>
+      </div>
 
       </div>
       {isnotificationopen &&<NotificationModal onClose={isnotificationclosed}/>}
+
+      
     </div>
   )
 }

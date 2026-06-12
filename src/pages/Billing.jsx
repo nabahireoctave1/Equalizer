@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 function Billing() {
   const {t}=useTranslation()
   return (
-    <div className="p-4 lg:p-6 shadow-sm h-full m-2 rounded-2xl bg-white">
+    <div className="p-4 lg:p-6 shadow-sm h-full min-h-screen m-2 rounded-2xl bg-white">
       <div className="pb-5 border-b border-gray-100">
         <h2 className="font-extrabold text-2xl lg:text-3xl text-gray-800">
           {t('billing.title')}

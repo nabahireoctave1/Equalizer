@@ -48,7 +48,8 @@ let Dashboard = () => {
           >
             <MenuIcon />
           </span>
-          <div className="w-8 h-8 rounded-full bg-blue-400 border border-white/30 flex items-center justify-center text-xs font-bold">AD</div>
+          <div className="w-8 h-8 rounded-full bg-blue-400 border
+           border-white/30 flex items-center justify-center text-xs font-bold cursor-pointer">AD</div>
         </div>
       </header>
 { isnotificationopen &&(

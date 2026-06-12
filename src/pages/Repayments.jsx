@@ -35,7 +35,7 @@ function Repayments() {
     });
 
     return (
-        <div className='p-2 md:p-4'>
+        <div className='min-h-screen p-2 md:p-4'>
             <div className='flex flex-col md:flex-row   gap-4 justify-between items-start md:items-center border-b pb-3 py-2 px-4 border-gray-200'>
                 <div className='flex items-center gap-2'>
                     <span className='bg-blue-400 p-2 rounded-md text-white shrink-0'><CircleCheck size={30}/></span>

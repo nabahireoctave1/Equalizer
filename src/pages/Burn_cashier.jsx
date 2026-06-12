@@ -6,7 +6,7 @@ function Burn_cashier({ onClose, onConfirm }) {
   const { t } = useTranslation()
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4'>
+    <div className='fixed inset-0 z-50 min-h-screen flex items-center justify-center bg-black/60 backdrop-blur-sm p-4'>
 
       <div className='relative w-full max-w-md transform overflow-hidden rounded-md bg-white p-4 shadow-2xl transition-all border border-gray-100'>
 

@@ -19,7 +19,7 @@ function ReportedBorrowers() {
     const {t}=useTranslation()
 
     return (
-    <div>
+    <div className='min-h-screen'>
         <div className='flex flex-col sm:flex-row p-4 justify-between gap-4 sm:gap-2 items-start sm:items-center bg-white'>
             <div className='flex gap-2'>
                 <span className='bg-red-100 rounded-md text-red-600 p-2'><ShieldAlertIcon/></span>
