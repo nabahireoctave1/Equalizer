@@ -244,8 +244,9 @@ function AdDashboard() {
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
-                  <span className='inline-flex items-center text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md'> 8.2%</span>
-                  <span className='text-[11px] text-gray-400 font-medium'>Percentage rate</span>
+                  <span className='inline-flex items-center text-[11px] font-bold text-blue-600
+                   bg-blue-50 px-2 py-0.5 rounded-md'> 8.2</span>
+                  <span className='text-[11px] text-gray-600 font-medium uppercase'>Outstanding Ratio (%)</span>
                 </div>
               </div>
 
@@ -260,8 +261,8 @@ function AdDashboard() {
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
                   <span className='inline-flex items-center text-[11px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md'>
-                     12.5%</span>
-                  <span className='text-[11px] text-gray-400 font-medium first-letter:uppercase'>percentage rate</span>
+                     12.5</span>
+                  <span className='text-[11px] text-gray-600 font-medium uppercase'>Collection Efficiency (%)</span>
                 </div>
               </div>
 
@@ -275,8 +276,9 @@ function AdDashboard() {
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
-                  <span className='inline-flex items-center text-[11px] font-bold text-white bg-yellow-500 px-2 py-0.5 rounded-md'> 5.4%</span>
-                  <span className='text-[11px] text-gray-400 font-medium'>Percentage rate</span>
+                  <span className='inline-flex items-center text-[11px] font-bold text-white
+                   bg-yellow-500 px-2 py-0.5 rounded-md'> 5.4</span>
+                  <span className='text-[11px] text-gray-600 font-medium uppercase'>Open Loan Rate (%)</span>
                 </div>
               </div>
 
@@ -290,8 +292,9 @@ function AdDashboard() {
                   </div>
                 </div>
                 <div className='flex items-center gap-2 pt-3 border-t border-gray-50 mt-3'>
-                  <span className='inline-flex items-center text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md'> 3.1%</span>
-                  <span className='text-[11px] text-gray-400 font-medium'>Percentage rate</span>
+                  <span className='inline-flex items-center text-[11px] font-bold text-rose-600
+                   bg-rose-50 px-2 py-0.5 rounded-md'> 23.1</span>
+                  <span className='text-[11px] text-gray-600 font-medium uppercase'>Delinquency Rate (%)</span>
                 </div>
               </div>
             </div>
