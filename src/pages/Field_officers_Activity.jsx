@@ -43,9 +43,9 @@ const stats = [
 
 
   return (
-    <div className='bg-white min-h-screen overflow-y-auto p-4'>
+    <div className='bg-white min-h-[90vh] rounded-sm p-4 overflow-auto'>
 
-      <div className='flex justify-between  items-center pb-3'>
+      <div className='flex justify-between  items-center pb-3 '>
 
         <div className='flex gap-2 flex-col sm:flex-row items-center'>
           <h2 className='uppercase text-2xl text-gray-800 font-black'>

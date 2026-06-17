@@ -210,7 +210,7 @@ let Dashboard = () => {
                       </div>
                     </div>
                     
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto min-h-70">
                       <table className="w-full text-left">
                         <thead className="bg-gray-50/50 text-gray-400 text-[11px] uppercase font-bold">
                           <tr>
@@ -245,8 +245,7 @@ let Dashboard = () => {
                   </div>
                 </div>
 
-                {/* RIGHT COLUMN */}
-                <div className="lg:w-1/3 space-y-6">
+                <div className="lg:w-1/3 space-y-6 min-h-50">
                   <div className="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
                     <div className="p-5 border-b border-gray-50 flex justify-between items-center">
                       <h1 className="font-bold text-gray-800 text-sm uppercase tracking-wide">Transaction Logs</h1>
@@ -272,13 +271,19 @@ let Dashboard = () => {
                                 <span className="text-[8px] bg-blue-100 tracking-widest text-blue-600 px-2 py-0.5 rounded-full font-bold uppercase">Done</span>
                               </td>
                             </tr>
+                            
                           ))}
+
                         </tbody>
                       </table>
+                      <div className="flex justify-between pb-3 px-3">
+                        <span className="bg-gray-200 p-1 rounded-md cursor-pointer"><ChevronLeft/></span>
+                        <span className="bg-gray-200 p-1 rounded-md cursor-pointer"><ChevronRight/></span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="bg-white shadow-sm rounded-xl border border-gray-100 p-5">
+                  <div className="bg-white shadow-sm rounded-xl border border-gray-100 p-5 min-h-50 overflow-auto">
                     <h1 className="font-bold text-gray-800 text-sm uppercase tracking-wide mb-6">Company Admins</h1>
                     <div className="space-y-4">
                       {[1, 2, 3].map((i) => (

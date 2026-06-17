@@ -160,6 +160,7 @@ function AdDashboard() {
                   <option value='en'>English</option>
                   <option value='lg'>Luganda</option>
                   <option value='fr'>French</option>
+                  <option value='Runy'>Runyankole</option>
                 </select>
 
                 <ChevronDown size={14}  />
@@ -181,7 +182,7 @@ function AdDashboard() {
               </div>
               <ChevronDown size={14} className='text-gray-400 transition-transform  group-hover:translate-y-0.5' />
               <select  className='absolute  inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
-                <option onClick={()=>setCurrentPage('profile')} value="profile">Profile </option>
+                <option value="profile">Profile </option>
               </select>
             </div>
           </div>
@@ -232,7 +233,7 @@ function AdDashboard() {
   </div>
 </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 p-2 gap-5'>
               <div className='p-5 bg-white border border-gray-100 rounded-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-all'>
                 <div className='flex gap-4 items-start'>
                   <span className='p-3 rounded-xl bg-blue-50 text-blue-600'><WalletCards size={22}/></span>
@@ -295,7 +296,7 @@ function AdDashboard() {
               </div>
             </div>
 
-            <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 items-start'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 p-2 gap-6 items-start'>
               
               <div className='lg:col-span-2 bg-white overflow-x-auto border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col justify-between h-90'>
                 <div className='flex justify-between items-center mb-6'>
@@ -382,7 +383,7 @@ function AdDashboard() {
               </div>
             </div>
 
-            <div className='bg-white border border-gray-100 rounded-md mb-3 shadow-sm overflow-hidden'>
+            <div className='bg-white border border-gray-100 rounded-md m-2 mb-3 shadow-sm overflow-hidden'>
               <div className='p-4 sm:p-6 border-b border-gray-50 flex flex-col gap-4'>
                 <h3 className='text-base font-extrabold text-gray-700 flex items-center gap-2'> 
                   <ActivityIcon size={30} className='border border-gray-100 bg-gray-100 p-1 rounded-sm text-gray-400'/>
@@ -454,7 +455,7 @@ function AdDashboard() {
               )}
               
               {activeTab==='repayments'&&(
-                <div className='overflow-x-auto w-full'>
+                <div className='overflow-x-auto w-full m-2'>
                   <table className='w-full text-left border-collapse '>
                     <thead>
                       <tr className='border-b border-gray-100 text-xs font-extrabold text-gray-700 capitalize bg-gray-50/50'>
@@ -555,7 +556,7 @@ function AdDashboard() {
 
         <div className='flex justify-end py-4 pb-3 px-5 border-t border-gray-300'>
             <p></p>
-         <button className="flex items-center gap-2 rounded-xs cursor-pointer  capitalize bg-green-600 p-2 text-white" >
+         <button className="flex items-center text-sm gap-2  cursor-pointer  capitalize bg-green-600 p-2 text-white" >
         <span><MapPin/></span> borrowers live  tracking 
          </button>
       </div>

@@ -25,7 +25,7 @@ function About() {
 
           <p className='text-lg  text-slate-600 max-w-2xl leading-relaxed'>
             <p> {t('aboutDescription')}</p>
-            <p className='text-blue-600 text-2xl font-extrabold'>Turnlake Group</p>
+            <p className='text-blue-600 text-2xl font-extrabold uppercase'>Turnlake Group</p>
             <p>{t('aboutnextdesc')}</p>
             
           </p>
