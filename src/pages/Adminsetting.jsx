@@ -276,7 +276,9 @@ function AdminSetting() {
                         </div>
 
                         
-                         <select  className='bg-white  w-full md:w-fit  text-gray-700 border border-gray-100  p-2  text-xs m-2 rounded-full  outline-none cursor-pointer'>
+                         <select  className='bg-white  w-full md:w-40
+                           text-gray-700 border border-gray-300  p-2  text-xs m-2 rounded-full  
+                           outline-none cursor-pointer'>
                         <option>{t('ads.daily')}</option>
                         <option>{t('ads.weekly')}</option>
                         <option>{t('ads.monthly')}</option>

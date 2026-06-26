@@ -5,7 +5,8 @@ import {
   User2
 } from "lucide-react";
 
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import AdminList from "./AdminList";
 import Companies from "./Companies";
 import Loan from "./Loan";
@@ -14,6 +15,10 @@ import Transactionlog_model from "./Transactionlog_model";
 import User_info_model from "./User_info_model";
 import Agents from "./Agents";
 import Notification from "./Notification";
+
+import {io} from 'socket.io-client'
+import socket from "../socket";
+
 
 let Dashboard = () => {
   const [activePage, setactivepage] = useState('overview');
@@ -29,15 +34,52 @@ let Dashboard = () => {
   const closemodel = () => setisopened(false);
   const closeusermodel = () => setopenusermodel(false);
   const closenotificationmodel= ()=>setisnotificatonopen(false)
+  const [whatsappstatus,setwhatappstatus]=useState('loading...')
+  const [qrcode,setqrcode]=useState(null)
+
 
   const navigateTo = (page) => {
     setactivepage(page);
     setissidebaropen(false);
   };
 
+  useEffect(()=>{
+
+  socket.connect()
+  
+
+    
+  socket.on('whatsapp_gateway_status',(data)=>{
+    setwhatappstatus(data.status);
+    setqrcode(data.qr);
+  })
+
+  return ()=>{
+    socket.disconnect()
+  }
+  })
+
+
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-gray-50">
       
+      {whatsappstatus==='scan_required' && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-100 flex items-center justify-center p-4">
+          <div className="bg-white rounded-md shadow-sm p-6 max-w-1/2 w-full border border-gray-100 flex flex-col items-center relative animate-in fade-in zoom-in-95 duration-200">
+            <h1 className="uppercase font-black text-gray-800 text-lg tracking-wide mb-4 text-center">Scan QR to Link Whatsapp ON system</h1>
+            <div className="shadow-inner bg-gray-50 p-4 rounded-lg border border-gray-100 w-48 h-48 flex items-center justify-center">
+              {qrcode ? (
+                <img src={qrcode} alt="qrcode" className="w-full h-full object-contain" />
+              ) : (
+                <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+              )}
+            </div>
+            <p className="text-[10px] text-gray-800 mt-4 text-center  uppercase">Please open WhatsApp on your phone,
+               adjust Linked Devices and scan this QRcode.</p>
+          </div>
+        </div>
+      )}
+
       <header className="flex justify-between bg-gradient-to-r from-blue-300 to-blue-600 p-4 sticky top-0 z-50 shrink-0 shadow-md">
         <h2 className="text-white font-extrabold text-2xl tracking-tighter uppercase">Equalizer</h2>
         <div className="flex gap-5 text-white items-center">

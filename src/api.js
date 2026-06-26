@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASEAPI = axios.create({
-  baseURL: "https://absgrobalbackend.onrender.com",
+const api = axios.create({
+  baseURL: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,9 +9,9 @@ const BASEAPI = axios.create({
 });
 
 
-BASEAPI.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("absgrobaltkn");
+    const token = localStorage.getItem("tkn");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -24,7 +24,7 @@ BASEAPI.interceptors.request.use(
 
 
 
-BASEAPI.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   (error) => {
 
@@ -49,4 +49,4 @@ BASEAPI.interceptors.response.use(
   }
 );
 
-export default BASEAPI;
+export default api;
