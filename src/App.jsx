@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Routes,
   Route,
@@ -16,6 +16,8 @@ import SetPassword from "./pages/SetPassword";
 
 import "./App.css";
 import "./pages/i18n";
+
+import socket,{connectsocket} from "./socket";
 
 function RedirectIfLoggedIn() {
   const token = localStorage.getItem("token");
@@ -107,6 +109,13 @@ function ProtectedRoutes({ allowedRole }) {
 
 
 function App() {
+ const token=localStorage.getItem('token');
+  useEffect(()=>{
+   
+    if(token){
+      connectsocket();
+    }
+  },[])
   return (
     <Routes>
 

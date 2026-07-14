@@ -24,7 +24,6 @@ function SetPassword() {
     confirmpassword:"",
     tkn
   })
-  console.log(message)
 
 
   const handleChange= (e)=>{

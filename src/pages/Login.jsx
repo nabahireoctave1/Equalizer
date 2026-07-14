@@ -5,6 +5,7 @@ import api from '../api'
 import HandleFormError from './HandleFormError.jsx'
 import {jwtDecode} from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
+import socket, { connectsocket } from '../socket.js'
 
 
 export default function Login() {
@@ -46,15 +47,28 @@ export default function Login() {
          localStorage.setItem('token',res.data?.tkn)
          const token= localStorage.getItem('token')
          const {role}= jwtDecode(token)
+          connectsocket();
 
-         switch(role){
+
+        let  timeout= setTimeout(() => {
+            switch(role){
           case 'superadmin' :navigate('/sp-Dashboard');break;
           case 'subadmin' : navigate('/sb-Dashboard');break;
           case 'cashier' :navigate('/Client-managent');break;
           default:navigate('/');
 
 
+
+
+
          }
+         return ()=> clearTimeout(timeout)
+
+          
+         }, 4000);
+
+
+       
 
         setsuccess(res.data.success)
       setmessage(res.data.message)

@@ -201,7 +201,6 @@
 
   "ads": {
     "manage_company_activity": "Manage Company Activity",
-    "force_logout": "Force Logout",
     "disable_loans_application": "Disable Loans Application",
     "disable": "Disable",
 
@@ -239,19 +238,19 @@
     "startup_cash": "Startup Cash",
     "ending_cash": "Ending Cash",
 
-    "save_changes": "Save Changes",
     "new": "New",
 
     "office_charge_disabled": "Office charge is currently disabled",
 
-    "audit_generation_period": "Audit Generation Period",
-    "manage_system_report_frequency": "Manage system report frequency",
+ "payment_frequency": "Payment Frequency",
+  "set_payment_frequency": "Set Payment Frequency",
 
     "daily": "Daily",
     "weekly": "Weekly",
     "monthly": "Monthly",
 
-    "save_all": "Save All"
+    "save_all": "Save All",
+    "saving":"saving..."
 
     
   },
@@ -332,7 +331,6 @@
     "transaction_id": "Transaction ID",
     
     "amount": "Amount",
-    "payment": "Payment",
     "status": "Status"
     },
    
@@ -445,7 +443,7 @@
 
 
   "adp": {
-    "editProfile": "Modifier le profil",
+    "editProfile": "Edit Profile",
     "updateInfo": "Mettre à jour vos informations personnelles",
 
     "fullName": "Nom complet",

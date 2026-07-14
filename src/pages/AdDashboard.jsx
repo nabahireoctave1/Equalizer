@@ -1,4 +1,4 @@
-import React, { Activity, useState } from 'react'
+import React, { Activity, useEffect, useState } from 'react'
 import logo from '../assets/image.jpeg'
 import { 
   BellDot, Users, BarChart3, ChevronDown, LayoutDashboardIcon, 
@@ -29,6 +29,9 @@ import NotificationModal from './NotificationModel'
 import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
 import Field_office from './Field_office'
+import socket from '../socket'
+import { connect } from 'socket.io-client'
+import Toast from './Toast'
 
 
 
@@ -41,11 +44,15 @@ function AdDashboard() {
   const [isnotificationopen,setisnotificationopen]=useState(false)
   const opennotif=()=>setisnotificationopen(true)
    const isnotificationclosed=()=>setisnotificationopen(false)
+   const [isToastOpen,setisToastOpened]=useState(false);
+   const [toastMessage,settoastmessage]=useState(null);
   const changepage=(itemid)=>{
        setCurrentPage(itemid)
   }
 
   const { t, i18n } = useTranslation()
+ 
+  
 
 
   const chartData =[
@@ -63,6 +70,41 @@ function AdDashboard() {
     { id: 2, name: 'Alice Nyiransabimana', amount: '250,000 UGX', cashier: 'Claudine Uwase', date: '20,05, 2025', due: '20,04 2025', status: 'Pending' },
     { id: 3, name: 'Marie Mukamana', amount: '150,000 UGX', cashier: 'Eric Muhire', date: 'May 19, 03,2025', due: '19,05,2025', status: 'Overdue' },
   ]
+
+ 
+
+useEffect(() => {
+  if (!socket) return;
+  
+  
+
+  const handleManualNotif = (notification) => {
+    if(notification.message){
+    setisToastOpened(true);
+    settoastmessage(notification.message);
+
+     
+    }
+  };
+
+  const handleCompanyNotif = (notification) => {
+    if(notification.notif){
+    setisToastOpened(true)
+    settoastmessage(notification.notif);
+    }
+
+  };
+
+  socket.on('receive-manualynotif', handleManualNotif);
+  socket.on('receive-company-notif', handleCompanyNotif);
+
+  return () => {
+    socket.off('receive-manualynotif', handleManualNotif);
+    socket.off('receive-company-notif', handleCompanyNotif);
+  };
+
+
+}, [socket]); 
 
   return (
     <div className='min-h-screen bg-gray-50 flex font-sans antialiased text-gray-900 relative'>
@@ -173,17 +215,14 @@ function AdDashboard() {
             <div className='h-6 w-px bg-gray-200'></div>
             
             <div className='relative flex items-center gap-3 pl-2 cursor-pointer group'>
-              <div className='w-9 h-9 rounded-full bg-slate-200 overflow-hidden ring-2 ring-gray-100'>
+              <div onClick={()=>setCurrentPage('profile')} className='w-9 h-9 rounded-full bg-slate-200 overflow-hidden ring-2 ring-gray-100'>
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256" alt="Profile" className="w-full h-full object-cover"/>
               </div>
               <div className='flex flex-col text-left leading-tight hidden sm:flex'>
                 <span className='text-sm font-semibold text-gray-800'>Admin</span>
                 <span className='text-[11px] text-gray-400 font-medium'>Company Admin</span>
               </div>
-              <ChevronDown size={14} className='text-gray-400 transition-transform  group-hover:translate-y-0.5' />
-              <select  className='absolute  inset-0 opacity-0 w-full h-full cursor-pointer z-30 text-sm'>
-                <option value="profile">Profile </option>
-              </select>
+
             </div>
           </div>
         </div>
@@ -538,9 +577,16 @@ function AdDashboard() {
                  text-gray-500 border-gray-100'><ChevronRightIcon/></span>
               </div>
             </div>
-
+             <div className='flex justify-end py-4 pb-3 px-5 border-t  border-gray-200'>
+            <p></p>
+         <button className="flex items-center text-sm gap-2  cursor-pointer  capitalize bg-green-600 p-2 text-white" >
+        <span><MapPin/></span> live  tracking 
+         </button>
+      </div>
           </div>
         )}
+
+      
 
         {currentPages==='borrowers'&&( <Borrowers/> )}
         {currentPages==='reports'&&( <AdReport/> )}
@@ -556,16 +602,12 @@ function AdDashboard() {
         {currentPages==='about'&&<About/>}
         {currentPages==='profile'&&<Adprofile/>}
         {currentPages==='field'&& <Field_office/>}
-
-        <div className='flex justify-end py-4 pb-3 px-5 border-t border-gray-300'>
-            <p></p>
-         <button className="flex items-center text-sm gap-2  cursor-pointer  capitalize bg-green-600 p-2 text-white" >
-        <span><MapPin/></span> borrowers live  tracking 
-         </button>
-      </div>
+          
+        
 
       </div>
       {isnotificationopen &&<NotificationModal onClose={isnotificationclosed}/>}
+      {isToastOpen&&<Toast notification={toastMessage}/>}
 
       
     </div>

@@ -15,7 +15,7 @@ function EditProfileModal({ onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex  justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-      <div className="w-full max-w-xl  bg-white rounded-xl border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
+      <div className="w-full max-w-5xl  bg-white rounded-md border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
 
         <div className="px-6 py-2 border-b border-slate-50">
           <div>

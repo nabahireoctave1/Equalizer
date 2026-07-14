@@ -196,7 +196,6 @@
 
   "ads": {
     "manage_company_activity": "Gérer l'activité de l'entreprise",
-    "force_logout": "Déconnexion forcée",
     "disable_loans_application": "Désactiver les demandes de prêt",
     "disable": "Désactiver",
 
@@ -234,19 +233,20 @@
     "startup_cash": "Montant minimum",
     "ending_cash": "Montant maximum",
 
-    "save_changes": "Enregistrer les modifications",
     "new": "Nouveau",
 
     "office_charge_disabled": "Les frais de bureau sont actuellement désactivés",
 
-    "audit_generation_period": "Période de génération des audits",
-    "manage_system_report_frequency": "Gérer la fréquence des rapports système",
+  "payment_frequency": "Fréquence de paiement",
+    "set_payment_frequency": "Définir la fréquence de paiement",
 
     "daily": "Quotidien",
     "weekly": "Hebdomadaire",
     "monthly": "Mensuel",
 
-    "save_all": "Tout enregistrer"
+    "save_all": "Tout enregistrer",
+    "saving":"Enregistrement..."
+
 
     
   },
@@ -324,7 +324,6 @@
        "date": "Date",
     "transaction_id": "ID de Transaction",
     "amount": "Montant",
-    "payment": "Paiement",
     "status": "Statut"
      },
    

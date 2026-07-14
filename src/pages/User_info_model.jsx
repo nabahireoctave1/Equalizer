@@ -1,13 +1,14 @@
 import React from 'react'
 import { Phone, XIcon } from 'lucide-react';
 export default function User_info_model({onClose,title='admin information',
-  status='active',userid='0xx109998345',phonnumber='07897645476',adminname='Nabahire octave',create_at='02-01-2026'}) {
+  status,userid,phonnumber,companyname,create_at}) {
  
 
   const statusStyles = {
     active: 'bg-green-100 text-green-700 border-green-200', 
-    locked: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+    inactivated: 'bg-red-500 text-white border-yellow-200',
     suspended: 'bg-red-100 text-red-700 border-red-200',
+    overdue: 'bg-red-100 text-red-700 border-red-200'
   };
 
 
@@ -17,12 +18,12 @@ export default function User_info_model({onClose,title='admin information',
     >
       
       <div 
-        className='bg-white w-full max-w-md rounded-2xl animate-bounce-once overflow-hidden shadow-2xl border-none transform transition-all'
+        className='bg-white w-full max-w-md rounded-md animate-bounce-once overflow-hidden shadow-2xl border-none transform transition-all'
         onClick={(e) => e.stopPropagation()} 
       >
         
         <div className='flex justify-between items-center bg-blue-400/80 p-4 border-b border-blue-100'>
-          <h2 className='font-bold text-2xl text-white tracking-wide'>Equalizer</h2>
+          <h2 className='font-bold text-2xl text-white tracking-wide uppercase'>Equalizer</h2>
           <button
             onClick={onClose}
             className='bg-blue-700/50 p-1.5 rounded-full transition-colors text-white cursor-pointer'
@@ -45,8 +46,8 @@ export default function User_info_model({onClose,title='admin information',
           <div className='flex justify-between items-start gap-4 mb-2'>
             <div className='space-y-4 flex-1'>
               <div>
-                <p className='text-[12px]  text-gray-800 font-bold mb-1 uppercase'>admin names</p>
-                <p className='text-xs font-semibold  text-gray-800'>{adminname}</p>
+                <p className='text-[12px]  text-gray-800 font-bold mb-1 uppercase'>company names</p>
+                <p className='text-xs font-semibold  text-gray-800'>{companyname}</p>
               </div>
 
               <div>

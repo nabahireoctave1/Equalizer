@@ -2,7 +2,8 @@ import {
   Bell, MenuIcon, Settings, MonitorCheck, LogOut, LayoutDashboard,
   Users, CircleCheck, BarChart3, Banknote, Building2, Edit2, Trash2, 
   ChevronRight, ChevronLeft, TrendingDown, CreditCard, DollarSign, PieChart, X,
-  User2
+  User2,
+  Search
 } from "lucide-react";
 
 
@@ -18,7 +19,8 @@ import Notification from "./Notification";
 
 import {io} from 'socket.io-client'
 import socket from "../socket";
-
+import api from '../api'
+import  {useNavigate} from 'react-router-dom'
 
 let Dashboard = () => {
   const [activePage, setactivepage] = useState('overview');
@@ -26,17 +28,73 @@ let Dashboard = () => {
   const [isopenusermodel, setopenusermodel] = useState(false);
   const [issidebaropen, setissidebaropen] = useState(false);
   const  [isnotificationopen,setisnotificatonopen]=useState(false)
-   
+   const [loading,setlaoding]=useState(null)
+   const [stats,setstats]=useState([]);
+   const [transaction,settransaction]=useState([]);
+   const [cashier,setcashier]=useState([]);
+   const [userinfo,setuserinfo]=useState([])
+const [selectedTransaction, setSelectedTransaction] = useState(null);
+const [selecteduser,setselecteduser]=useState(null)
+const navigate= useNavigate();
 
-  const transactionmodelopened = (e) => { e.preventDefault(); setisopened(true); };
-  const openuserinformodel = (e) => { e.preventDefault(); setopenusermodel(true); };
+const [transactionpage,settransactionpage]=useState(1);
+const transactionperpage=2;
+const start= (transactionpage-1)*transactionperpage;
+const end= start+transactionperpage;
+const paginatedt=transaction.slice(start,end)
+const totalpage=Math.ceil(transaction.length/transactionperpage);
+
+const [cashierpage, setcashierpage] = useState(1);
+
+const cashierperpage =4;
+
+const startcashier =(cashierpage - 1) *cashierperpage;
+const endcashier =startcashier +cashierperpage;
+const paginetedc =cashier.slice(startcashier,endcashier);
+
+const totalcashierpage =Math.ceil(cashier.length /cashierperpage);
+
+
+
   const opennotification=(e)=>{e.preventDefault();setisnotificatonopen(true)}
   const closemodel = () => setisopened(false);
   const closeusermodel = () => setopenusermodel(false);
   const closenotificationmodel= ()=>setisnotificatonopen(false)
-  const [whatsappstatus,setwhatappstatus]=useState('loading...')
+  const [whatsappstatus,setwhatappstatus]=useState(null)
   const [qrcode,setqrcode]=useState(null)
+  const [errors,seterrors]=useState({
+    statserror:null,
+    transactionerror:null,
+    cashiererror:null,
+    usererror:null
+  })
 
+  const transactionmodelopened = (e, trans) => {
+  e.preventDefault();
+
+  setSelectedTransaction({
+    transactionId: trans.transcation_id,
+    amount: trans.amount,
+    status: trans.status,
+    companyname: trans.company_name
+,
+    date: trans.transcation_date
+  });
+  setisopened(true);
+};
+
+ const openuserinformodel = (e,comp) => { e.preventDefault(); 
+  
+    setselecteduser({
+      cmpname:comp.company_name,
+
+      created_at:comp.created_at,
+      admin_id:comp.admin_id,
+      phone:comp.phone,
+      status:comp.status
+
+       })
+    setopenusermodel(true); };
 
   const navigateTo = (page) => {
     setactivepage(page);
@@ -45,19 +103,86 @@ let Dashboard = () => {
 
   useEffect(()=>{
 
-  socket.connect()
   
 
     
   socket.on('whatsapp_gateway_status',(data)=>{
     setwhatappstatus(data.status);
     setqrcode(data.qr);
-  })
+  },[])
 
   return ()=>{
-    socket.disconnect()
+    socket.off()
   }
   })
+
+const FetchDashboard = async () => {
+  try {
+    seterrors({ statserror: null, transactionerror: null, cashiererror: null, comperror: null });
+
+    const [statsinfo, trans, cashiers, userinfo] = await Promise.all([
+      api.get('/dash-overview').catch(err => {
+        seterrors((prev) => ({ ...prev, statserror: err.response?.data?.message }));
+        return null; 
+      }),
+      api.get('/transaction').catch(err => {
+        seterrors((prev) => ({ ...prev, transactionerror: err.response?.data?.message }));
+        return null;
+      }),
+      api.get('/cashier').catch(err => {
+        seterrors((prev) => ({ ...prev, cashiererror: err.response?.data?.message  }));
+        return null;
+      }),
+      api.get('/user-info').catch(err => {
+        seterrors((prev) => ({ ...prev, usererror: err.response?.data?.message }));
+        return null; 
+      })
+    ]);
+
+  
+    if (statsinfo) setstats(statsinfo.data);
+    if (trans) settransaction(trans.data);
+    if (cashiers) setcashier(cashiers.data);
+    if (userinfo) setuserinfo(userinfo.data);
+
+  } catch (err) {
+    console.log(err);
+  }
+};
+useEffect(()=>{
+  FetchDashboard();
+},[])
+
+
+const Formatamount = (amount) => {
+  if (amount >= 1000000) {
+    return (amount / 1000000)+ 'M';
+  }
+
+  if (amount >= 1000) {
+    return (amount / 1000)+'K';
+  }
+
+  return amount
+};
+
+const formatDate = (date) => {
+  return date
+    .split('T')[0]
+    .split('-')
+    .reverse()
+    .join('-');
+};
+
+
+
+
+const handleLogout= ()=>{
+  localStorage.removeItem('token')
+  socket.disconnect();
+  navigate('/')
+}
+
 
 
   return (
@@ -80,7 +205,7 @@ let Dashboard = () => {
         </div>
       )}
 
-      <header className="flex justify-between bg-gradient-to-r from-blue-300 to-blue-600 p-4 sticky top-0 z-50 shrink-0 shadow-md">
+      <header className="flex justify-between bg-gradient-to-r from-blue-400 to-blue-600 p-5 sticky top-0 z-50 shrink-0 shadow-md">
         <h2 className="text-white font-extrabold text-2xl tracking-tighter uppercase">Equalizer</h2>
         <div className="flex gap-5 text-white items-center">
           <Bell className="cursor-pointer w-5 h-5"  onClick={opennotification}/>
@@ -120,47 +245,47 @@ let Dashboard = () => {
             <div className="space-y-1 mt-2">
               <nav 
                 onClick={() => navigateTo('overview')} 
-                className={`flex p-3 gap-3 text-sm  capitalize font-semibold rounded-sm  text-gray-700   cursor-pointer transition-colors `}
+                className={`flex p-3 gap-3 text-sm  capitalize ${activePage==='overview' ? 'text-blue-500 font-semibold  ':' text-gray-70'} rounded-xs 0   cursor-pointer transition-colors `}
               >
                 <LayoutDashboard className="w-5" />overview
               </nav>
               <nav 
                 onClick={() => navigateTo('adminlist')} 
-                className={`flex p-3 gap-3 text-sm capitalize font-semibold rounded-xs text-gray-700 cursor-pointer transition-colors `}
+                className={`flex p-3 gap-3 text-sm capitalize ${activePage==='adminlist'?'text-blue-500 font-semibold  ':'text-gray-700'} rounded-xs  cursor-pointer transition-colors `}
               >
                 <MonitorCheck className="w-5" /> admin
               </nav>
-              <nav className="flex p-3 gap-3 capitalize text-sm font-semibold text-gray-700 rounded-xs cursor-pointer transition-colors">
+              <nav className={`flex p-3 gap-3 capitalize text-sm ${activePage==='report'?'text-blue-500 font-semibold  ':'00 rounded-xs'} text-graxs7 cursor-pointer transition-colors`}>
                 <BarChart3 className="w-5" /> report
               </nav>
               <nav 
                 onClick={() => navigateTo('Loan')} 
-                className={`flex p-3 gap-3 text-sm capitalize font-semibold rounded-xs text-gray-700 cursor-pointer transition-color'}`}
+                className={`flex p-3 gap-3 text-sm capitalize ${activePage==='Loan'?'text-blue-500 font-semibold  ':'text-gray-700'} rounded-xs  cursor-pointer transition-color'}`}
               >
                 <Banknote className="w-5" /> loan
               </nav>
               <nav 
                 onClick={() => navigateTo('companies')} 
-                className={`flex p-3 gap-3 text-sm capitalize font-semibold rounded-xs text-gray-700 cursor-pointer transition-colors `}
+                className={`flex p-3 gap-3 text-sm capitalize ${activePage==='companies'?'text-blue-500 font-semibold  ':'text-gray-700'} rounded-xs  cursor-pointer transition-colors `}
               >
                 <Building2 className="w-5" /> companies
               </nav>
                <nav 
                 onClick={() => navigateTo('agents')} 
-                className={`flex p-3 gap-3 text-sm capitalize font-semibold rounded-xs text-gray-700 cursor-pointer transition-colors `}
+                className={`flex p-3 gap-3 text-sm capitalize ${activePage==='agents'?'text-blue-500 font-semibold  ':'text-gray-700'} rounded-xs  cursor-pointer transition-colors `}
               >
                 <User2 className="w-5" /> agents
               </nav>
               <nav 
                 onClick={() => navigateTo('setting')} 
-                className={`flex p-3 gap-3 text-sm capitalize font-semibold rounded-xs text-gray-700 cursor-pointer transition-colors `}
+                className={`flex p-3 gap-3 text-sm capitalize ${activePage==='setting'?'text-blue-500 font-semibold  ':'text-gray-700'} rounded-xs  cursor-pointer transition-colors `}
               >
                 <Settings className="w-5" /> setting
               </nav>
             </div>
 
             <div className="mt-auto">
-              <nav className="flex p-3 gap-3 uppercase text-sm font-semibold text-red-500 cursor-pointer">
+              <nav  onClick= {handleLogout} className="flex p-3 gap-3 uppercase text-sm font-semibold text-red-500 cursor-pointer">
                 <LogOut className="w-5" /> logout
               </nav>
             </div>
@@ -173,86 +298,103 @@ let Dashboard = () => {
               <div className="flex flex-col lg:flex-row gap-6">
                 <div className="lg:w-2/3 space-y-6">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28 hover:shadow-md transition-shadow">
+                    <div className="bg-white p-4 rounded-md border border-gray-100 flex
+                     flex-col justify-between h-28 ">
                       <div className="flex justify-between items-center">
                         <div className="p-1.5 bg-green-50 rounded-lg"><Users className="text-green-600 w-4 h-4" /></div>
                         <CircleCheck className="text-green-500 w-3.5 h-3.5" />
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Users</p>
-                        <p className="text-lg font-black text-gray-800">1,450</p>
+                        <p className="text-lg font-black text-gray-800">{stats.totalUsers}</p>
                       </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28 hover:shadow-md transition-shadow">
+                    <div className="bg-white p-4 rounded-md border border-gray-100 flex flex-col justify-between h-28 ">
                       <div className="flex justify-between items-center">
                         <div className="p-1.5 bg-red-50 rounded-lg"><TrendingDown className="text-red-600 w-4 h-4" /></div>
                         <span className="text-[8px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full font-bold">High</span>
                       </div>
                       <div>
-                        <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Default Rate</p>
-                        <p className="text-lg font-black text-gray-800">8.4%</p>
+                        <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Overdue Rate</p>
+                        <p className="text-lg font-black text-gray-800">{stats.overdueCompanies/stats.totalCompanies*100}%</p>
                       </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28 hover:shadow-md transition-shadow">
+                    <div className="bg-white p-4 rounded-md border border-gray-100 flex flex-col justify-between h-28 ">
                       <div className="flex justify-between items-center">
                         <div className="p-1.5 bg-blue-50 rounded-lg"><Users className="text-blue-600 w-4 h-4" /></div>
                         <CircleCheck className="text-green-600 w-3.5 h-3.5" />
                       </div>
                       <div>
-                        <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">logged in users</p>
-                        <p className="text-lg font-black text-gray-800">842</p>
+                        <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Online users</p>
+                        <p className="text-lg font-black text-gray-800">{stats.activeUsers}</p>
                       </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28 hover:shadow-md transition-shadow">
+                    <div className="bg-white p-4 rounded-md border border-gray-100 flex flex-col justify-between h-28 ">
                       <div className="flex justify-between items-center">
                         <div className="p-1.5 bg-purple-50 rounded-lg"><CreditCard className="text-purple-600 w-4 h-4" /></div>
                         <span className="text-[8px] bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-full font-bold">Monthly</span>
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Payments</p>
-                        <p className="text-lg font-black text-gray-800">$3,120</p>
+                        <p className="text-lg font-black text-gray-800">UGX {Formatamount(stats.monthlyPayment)}</p>
                       </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28 hover:shadow-md transition-shadow">
+                    <div className="bg-white p-4 rounded-md border border-gray-100 flex 
+                    flex-col justify-between h-28">
                       <div className="flex justify-between items-center">
                         <div className="p-1.5 bg-teal-50 rounded-lg"><Building2 className="text-teal-600 w-4 h-4" /></div>
                         <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></div>
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Company</p>
-                        <p className="text-lg font-black text-gray-800">1,204</p>
+                        <p className="text-lg font-black text-gray-800">{stats.totalCompanies}</p>
                       </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-28 hover:shadow-md transition-shadow">
+                    <div className="bg-white p-4 rounded-md border border-gray-100 flex flex-col justify-between h-28 ">
                       <div className="flex justify-between items-center">
                         <div className="p-1.5 bg-amber-50 rounded-lg"><DollarSign className="text-amber-600 w-4 h-4" /></div>
                         <PieChart className="text-amber-400 w-3.5 h-3.5" />
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Revenue</p>
-                        <p className="text-lg font-black text-gray-800">$124.3k</p>
+                        <p className="text-lg font-black text-gray-800">UGX {Formatamount(stats.totalRevenue)}</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="bg-white shadow-sm rounded-xl  border border-gray-100 overflow-hidden">
                     <div className="p-5 border-b border-gray-50 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="bg-blue-600 p-1.5 rounded-lg"><Users className="w-4 h-4 text-white" /></div>
                         <h2 className="font-bold text-gray-800 uppercase tracking-wide text-sm">Cashier Management</h2>
                       </div>
-                      <div className="flex gap-2">
-                        <button className="p-1.5 hover:bg-gray-100 rounded border border-gray-200 transition-colors"><ChevronLeft className="w-4 h-4 text-gray-500" /></button>
-                        <button className="p-1.5 hover:bg-gray-100 rounded border border-gray-200 transition-colors"><ChevronRight className="w-4 h-4 text-gray-500" /></button>
+                      <div className="flex gap-2 ">
+                        <button onClick={()=>{
+                          if(cashierpage > 1){
+                            setcashierpage(cashierpage-1);
+                          }
+                        }}
+                        disabled={cashierpage===1}
+                         className={`p-1.5 ${errors.cashiererror ?'bg-gray-300 border-red-500 cursor-not-allowed':"cursor-pointer hover:bg-gray-100 border-gray-200"}  rounded border  transition-colors`}><ChevronLeft className="w-4 h-4 text-gray-500" /></button>
+                        <button
+                          onClick={()=>{
+                            if(cashierpage < totalpage){
+                              setcashierpage(cashierpage+1)
+                            }
+                          }}
+                          disabled={cashierpage>=totalcashierpage}
+                         className={`p-1.5 ${errors.cashiererror ?'bg-gray-300 border-red-500 cursor-not-allowed':"cursor-pointer hover:bg-gray-100 border-gray-200"}  rounded border  transition-colors`}><ChevronRight className="w-4 h-4 text-gray-500" /></button>
                       </div>
                     </div>
                     
                     <div className="overflow-x-auto min-h-70">
+                      {errors.cashiererror ? <div className="flex items-center justify-center uppercase text-sm
+                       text-red-500">{errors.cashiererror}</div>:
                       <table className="w-full text-left">
                         <thead className="bg-gray-50/50 text-gray-400 text-[11px] uppercase font-bold">
                           <tr>
@@ -263,15 +405,13 @@ let Dashboard = () => {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50 text-sm">
-                          {[
-                            { id: 'EA00123', cid: 'AKEA001', name: 'Bugingo Blaise' },
-                            { id: 'EA00124', cid: 'AKEA004', name: 'Mutesi Jolly' },
-                            { id: 'EA00125', cid: 'AKEA009', name: 'Karasira Eric' }
-                          ].map((item, idx) => (
+                          {paginetedc.map((c, idx) => (
                             <tr key={idx} className="hover:bg-gray-50/80 transition-colors">
-                              <td className="px-6 py-4 font-semibold text-blue-600 whitespace-nowrap">{item.id}</td>
-                              <td className="px-6 py-4 text-gray-500 font-mono text-xs whitespace-nowrap">{item.cid}</td>
-                              <td className="px-6 py-4 text-gray-800 font-medium whitespace-nowrap">{item.name}</td>
+                              
+                              <td className="px-6 py-4 font-semibold text-blue-600 whitespace-nowrap">{c.cashier_id}</td>
+                               <td className="px-6 py-4 text-gray-500 font-mono text-xs whitespace-nowrap">{c.company_id}</td> 
+                              <td className="px-6 py-4 text-gray-800 font-medium whitespace-nowrap">{c.cashier_name}</td> 
+
                               <td className="px-6 py-4 text-center">
                                 <div className="flex justify-center gap-2">
                                   <button className="text-[10px] font-bold text-amber-600 border border-amber-200 px-2 py-1 rounded bg-amber-50">Suspend</button>
@@ -281,66 +421,114 @@ let Dashboard = () => {
                               </td>
                             </tr>
                           ))}
+                          
                         </tbody>
                       </table>
+                          }
                     </div>
                   </div>
                 </div>
 
-                <div className="lg:w-1/3 space-y-6 min-h-50">
-                  <div className="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
+                <div className="lg:w-1/3 space-y-2">
+                  <div className="bg-white shadow-sm rounded-xl  min-h-[320px] border border-gray-100 overflow-hidden">
                     <div className="p-5 border-b border-gray-50 flex justify-between items-center">
                       <h1 className="font-bold text-gray-800 text-sm uppercase tracking-wide">Transaction Logs</h1>
                       <BarChart3 className="w-4 text-gray-400" />
                     </div>
+                  <div className="relative w-full max-w-xs m-2">
+              <input
+             type="text"
+           placeholder="ID..."
+           className="w-full h-10 pl-4 pr-12 text-sm rounded-sm border border-gray-200 bg-white
+             outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+
+          <div className="absolute right-1 top-1 bottom-1 w-10 rounded-sm
+           bg-blue-500 text-white flex items-center justify-center
+            cursor-pointer transition">
+         <Search size={18}/>
+          </div>
+             </div>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left">
-                        <thead className="bg-gray-50/50 text-gray-400 text-[10px] uppercase font-bold">
+                        <thead className="bg-gray-50/50 text-gray-400 text-[11px] uppercase font-bold">
                           <tr>
-                            <th className="px-4 py-3">User</th>
+                            <th className="px-4 py-3">company</th>
                             <th className="px-4 py-3 text-right">Amount</th>
                           </tr>
                         </thead>
+                        {errors.transactionerror ?
+                         <div className="text-center
+                         uppercase text-sm text-red-500 pb-20">{errors.transactionerror}</div>:
                         <tbody className="divide-y divide-gray-50 text-xs">
-                          {['TRX-001', 'TRX-002', 'TRX-003'].map((id, i) => (
-                            <tr key={id} onClick={transactionmodelopened} className="hover:bg-gray-50 transition-all cursor-pointer">
+                          {paginatedt.map((trans, i) => (
+                            
+                            <tr key={i} onClick={(e)=>transactionmodelopened(e,trans)}
+                             className="hover:bg-gray-50
+                             transition-all cursor-pointer ">
+                              
                               <td className="px-4 py-3">
-                                <p className="font-bold text-gray-800">User {i + 1}</p>
-                                <p className="text-[12px] text-gray-600">{id}</p>
+                                <p className="font-semibold text-[13px] capitalize text-gray-800">{trans.company_name}</p>
+                                <p className="text-[13px] text-gray-600">{trans.transcation_id}</p>
                               </td>
                               <td className="px-4 py-3 text-right">
-                                <p className="font-bold text-gray-700">${(i + 1) * 400}</p>
-                                <span className="text-[8px] bg-blue-100 tracking-widest text-blue-600 px-2 py-0.5 rounded-full font-bold uppercase">Done</span>
+                                <p className="font-bold text-gray-700">{trans.amount}</p>
+                                <span className={`text-[11px] ${trans.status=='failed'? 'bg-red-100 text-red-500'
+                                :'bg-blue-100  text-blue-600 '} tracking-widest px-2 py-0.5 rounded-full
+                                 font-bold uppercase`}>{
+                                  trans.status}</span>
                               </td>
                             </tr>
                             
                           ))}
 
                         </tbody>
+                         }
                       </table>
-                      <div className="flex justify-between pb-3 px-3">
-                        <span className="bg-gray-200 p-1 rounded-md cursor-pointer"><ChevronLeft/></span>
-                        <span className="bg-gray-200 p-1 rounded-md cursor-pointer"><ChevronRight/></span>
+                      <div className="flex justify-between pb-3 px-3 ">
+                        <span onClick={()=>{
+                          if(transactionpage > 1){
+                            settransactionpage(transactionpage-1)
+                          }
+                        }} 
+                        disabled={transactionperpage==1}
+                        className={`${errors.transactionerror ? 'bg-gray-100 text-gray-50 border-red-500 cursor-not-allowed':'bg-gray-200 cursor-pointer'} p-1 rounded-md `}><ChevronLeft/></span>
+                        <span onClick={()=>{
+                          if(transactionpage < totalpage){settransactionpage(transactionpage+1)}
+
+                        }} 
+                        disabled={transactionpage === totalpage}
+                        className={`${errors.transactionerror ? 'bg-gray-100 text-gray-50 border-red-500 cursor-not-allowed':'bg-gray-200 cursor-pointer'} p-1 rounded-md `}><ChevronRight/></span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white shadow-sm rounded-xl border border-gray-100 p-5 min-h-50 overflow-auto">
+                  <div className="bg-white shadow-sm rounded-xl border border-gray-100 p-5 h-72 overflow-auto">
+                    {errors.usererror ? <div className="flex  justify-center items-center text-red-500 uppercase text-sm">
+                      {errors.usererror}
+                    </div>:<div>
+
                     <h1 className="font-bold text-gray-800 text-sm uppercase tracking-wide mb-6">Company Admins</h1>
                     <div className="space-y-4">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="flex items-center justify-between group cursor-pointer hover:bg-gray-50 p-2 rounded-xl transition-all">
+                      {userinfo.map((comp,i) => (
+                        <div key={i} className="flex items-center justify-between group cursor-pointe
+                        r hover:bg-gray-50 p-2 rounded-xl transition-all">
                           <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-[10px] border border-blue-200">UA</div>
+                            <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center
+                             justify-center text-blue-600 font-bold text-[12px] border border-blue-200">{comp.admin_name
+                             .split(" ").map(word=>word[0]).join("").toUpperCase()}</div>
                             <div>
-                              <p className="text-xs font-bold text-gray-800 group-hover:text-blue-600 transition-colors">Admin User {i}</p>
-                              <p className="text-[12px] text-gray-700">+250 788 000 00{i}</p>
+                              <p className="text-xs font-bold text-gray-800 group-hover:text-blue-600 
+                              transition-colors capitalize">{comp.admin_name}</p>
+                              <p className="text-[14px] text-gray-700">{comp.phone}</p>
                             </div>
                           </div>
-                          <ChevronRight onClick={openuserinformodel} className="w-4 h-4 text-gray-300 group-hover:text-blue-500 transition-all transform group-hover:translate-x-1" />
+                          <ChevronRight onClick={(e)=>openuserinformodel(e,comp)} className="w-4 h-4 text-gray-300 group-hover:text-blue-500 transition-all transform group-hover:translate-x-1" />
                         </div>
                       ))}
                     </div>
+                    </div>
+          }
                   </div>
                 </div>
               </div>
@@ -355,8 +543,21 @@ let Dashboard = () => {
           {activePage === 'setting' && <Setting />}
         </div>
 
-        {isopentransactionmodel && <Transactionlog_model onClose={closemodel} />}
-        {isopenusermodel && <User_info_model onClose={closeusermodel} />}
+  {isopentransactionmodel && selectedTransaction && (
+<Transactionlog_model
+onClose={closemodel}
+transactionId={selectedTransaction.transactionId}
+amount={selectedTransaction.amount}
+status={selectedTransaction.status}
+companyname={selectedTransaction.companyname
+}
+date={formatDate(selectedTransaction.date)}
+/>
+)}
+        {isopenusermodel && <User_info_model status={selecteduser.status} 
+         userid={selecteduser.admin_id} phonnumber={selecteduser.phone} companyname={selecteduser.cmpname}
+         create_at={formatDate(selecteduser.created_at)}
+        onClose={closeusermodel} />}
       </div>
     </div>
   );

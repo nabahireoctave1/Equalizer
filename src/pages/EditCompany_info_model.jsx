@@ -38,28 +38,7 @@ function EditCompany_info_model({ onclose }) {
 
         <div className='flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-gray-100'>
           
-          <div className='w-full md:w-1/4 bg-gray-50/50 p-6 flex flex-col items-center justify-center gap-3'>
-            <div className='relative group'>
-              <div className='w-24 h-24 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden shadow-sm'>
-                {logo ? (
-                  <img src={logo} alt="Company Logo" className="w-full h-full object-cover" />
-                ) : (
-                  <Building2 size={30} className="text-gray-200" />
-                )}
-              </div>
-              <label 
-                htmlFor="logo-upload" 
-                className='absolute inset-0 bg-blue-600/20 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white gap-1'
-              >
-                <Plus size={18} />
-                <span className='text-[10px] font-bold uppercase'>Upload</span>
-              </label>
-              <input type="file" id="logo-upload" accept="image/*" className="hidden" onChange={handleLogoChange} />
-            </div>
-            <div className='text-center'>
-              <p className='text-[10px] font-bold text-gray-500 uppercase tracking-widest'>Company Logo</p>
-            </div>
-          </div>
+         
 
           <div className='flex-1 p-6 bg-white space-y-6'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4'>

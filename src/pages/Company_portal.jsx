@@ -66,6 +66,8 @@ function Company_portal() {
 
       setisburnermessageopen(true);
 
+
+
     }
 
     catch (err) {
@@ -90,6 +92,18 @@ setisburnermessageopen(true);
 
   };
 
+
+  useEffect(()=>{
+    if(burnermessageopen&&success===true){
+            const timeout=setTimeout(() => {
+        setisburnermessageopen(false);
+        window.location.reload()
+      }, 6000);
+
+      return()=> clearTimeout(timeout)
+    }
+
+  },[burnermessageopen])
 
 
   const inputClass = (field) => `

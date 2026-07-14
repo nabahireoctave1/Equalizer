@@ -3,7 +3,7 @@ import React from 'react'
 
 function HandleFormError({success,message}) {
   return (
-    <div className='flex justify-center items-center border-b animate-bounce-once p-4 border-gray-100 pb-4'>
+    <div className='flex justify-center z-50 items-center border-b animate-bounce-once p-4 border-gray-100 pb-4'>
     <div className='flex items-center flex-col'>
         <div className='mb-3 animate-bounce '>
             {success ? (

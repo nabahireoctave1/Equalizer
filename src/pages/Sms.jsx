@@ -213,7 +213,7 @@ function Sms() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 mt-6 p-6 overflow-x-auto">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-100 mt-6 p-6 overflow-x-auto">
           <div className="mb-5">
             <h2 className="text-xl font-black text-gray-800">
               {t('sms.transaction_history')}
@@ -243,9 +243,7 @@ function Sms() {
                   {t('sms.t.amount')}
                 </th>
 
-                <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
-                  {t('sms.t.payment')}
-                </th>
+                
 
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
                   {t('sms.t.status')}
@@ -276,9 +274,7 @@ function Sms() {
                     {item.amount}
                   </td>
 
-                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
-                    {item.method}
-                  </td>
+                
 
                   <td className="py-4">
                     <span

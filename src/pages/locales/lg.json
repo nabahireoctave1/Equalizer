@@ -196,7 +196,6 @@
 
    "ads": {
     "manage_company_activity": "Ddukanya emirimu gy'ekitongole",
-    "force_logout": "Ggyaako buli mukozesa",
     "disable_loans_application": "Ziyiza okusaba amabanja",
     "disable": "Ziyiza",
 
@@ -235,19 +234,19 @@
     "startup_cash": "Ssente ezisookerako",
     "ending_cash": "Ssente ezikoma",
 
-    "save_changes": "Tereka enkyukakyuka",
     "new": "Kipya",
 
     "office_charge_disabled": "Ssente z'ofiisi ziggiddwako kati",
 
-    "audit_generation_period": "Ekiseera ky'okukola odiiti",
-    "manage_system_report_frequency": "Ddukanya emirundi alipoota z'ekola",
+    "payment_frequency": "Obudde bw’okusasula",
+    "set_payment_frequency": "Teekawo obudde bw’okusasula",
 
     "daily": "Buli lunaku",
     "weekly": "Buli wiiki",
     "monthly": "Buli mwezi",
 
-    "save_all": "Tereka byonna"
+    "save_all": "Tereka byonna",
+    "saving":"Okutereka..."
 
  
   },
@@ -326,7 +325,6 @@
    "date": "Olunaku",
     "transaction_id": "Namba y'Ensimbi",
     "amount": "Omuwendo",
-    "payment": "Okusasula",
     "status": "Embeera"
 },
   "sts": {

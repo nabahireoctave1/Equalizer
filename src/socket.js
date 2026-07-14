@@ -1,13 +1,21 @@
 import { io } from "socket.io-client";
 
-const baseURL = "http://localhost:3000";
-
-const socket = io(baseURL, {
-  query: {
-    token:localStorage.getItem('token'),
-  },
-  transports: ["websocket"],
+const socket = io("http://localhost:3000", {
   autoConnect: false,
+  transports: ["websocket"],
 });
+
+export const connectsocket = () => {
+
+  socket.io.opts.query = {
+    token: localStorage.getItem("token"),
+  };
+
+  
+
+  if (!socket.connected) {
+    socket.connect();
+  }
+};
 
 export default socket;
