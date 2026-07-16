@@ -5,7 +5,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 15000,
+   timeout: 30000
 });
 
 
@@ -24,29 +24,5 @@ api.interceptors.request.use(
 
 
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-
-    if (!error.response) {
-      return Promise.reject({
-        message: "something went wrong",
-      });
-    }
-
-    if (error.response.status === 429) {
-
-      const retryAfter = error.response.headers["retry-after"];
-
-      return Promise.reject({
-        message: retryAfter
-          ? `Too many requests. Please try again in ${retryAfter} seconds.`
-          : "Too many requests. Please slow down and try again shortly.",
-      });
-    }
-
-    return Promise.reject(error);
-  }
-);
 
 export default api;

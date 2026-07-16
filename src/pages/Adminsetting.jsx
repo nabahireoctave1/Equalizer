@@ -3,18 +3,26 @@ import { ActivityIcon, Bell, BellDot, CircleCheck,
    ToggleRight, Save, CreditCard, Clock, Calendar1, Languages, AlertCircle, MonitorCog, 
    TriangleAlert,X,
    Loader} from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState} from 'react'
 import EditCompany_info_model from './EditCompany_info_model'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 
 function AdminSetting() {
     const [isAutoNotifOpen, setIsAutoNotifOpen] = useState(true)
-    const [isofficechargeopen, setisofficechargeopen] = useState(false)
+    const [isofficechargeopen, setisofficechargeopen] = useState(null)
+    const [SelectofficeId,setofficeId]=useState(null);
     
     let [iscompanyinfoopened, setiscompanyinfoopen] = useState(false)
     const [Error, setErrors] = useState(null);
     const [ErrorTitle, setErrorTitle] = useState(null)
+    const [officechargemessage,setofficechargemessage]=useState(null);
+    const [officechargeError,setofficechargeError]=useState(null);
+    const [office,setoffice]=useState([]);
+    const [officeError,setofficeError]=useState(null);
+    const [settingErrorTitle,setsettingErrortitle]=useState(null)
+    const [settingMessage,setsettingMessage]=useState(null)
+
 
     const [inputs, setinputs] = useState([
       { start_up: '', ending: '', office_interest: ''}
@@ -33,7 +41,8 @@ function AdminSetting() {
         payment_frequency: '',
         reminder: '',
         report_generetion_time: '',
-        isenable:false
+        isenable:false,
+        officeId:isofficechargeopen ? SelectofficeId:null
     })
 
     const HandleNewInputs = () => {
@@ -69,18 +78,31 @@ function AdminSetting() {
     const FetchCurrentSetting = async () => {
         try {
           const res = await api.get('/company-current-setting'); 
-          let data = res.data[0];
-          
+          let data = res.data;
+        setinputs(
+            data.map((item) => ({
+                start_up: item.startup_amount,
+                ending: item.end_amount,
+                office_interest: item.office_interest
+            }))
+        );
           setsetting({
-              disableloanapp: data.disable_loan_app,
-              grace_period: data.grace_period,
-              interest_percentage: data.interest_percentage,
-              overdue: data.overdue,
-              payment_frequency: data.payment_frequency,
-              reminder: data.reminder,
-              report_generetion_time: data.report_generetion_time,
-              isenable: isofficechargeopen
+              disableloanapp: data[0].disable_loan_app,
+              grace_period: data[0].grace_period,
+              interest_percentage: data[0].interest_percentage,
+              overdue: data[0].overdue,
+              payment_frequency: data[0].payment_frequency,
+              reminder: data[0].reminder,
+              report_generetion_time: data[0].report_generetion_time,
+              isenable: isofficechargeopen,
+              officeId:SelectofficeId
+              
+
           })
+
+       setisofficechargeopen(data[0].isofficechargeenabled === 1);
+
+        
           
         } catch (err) {
           setErrorTitle(err.response?.data?.title)
@@ -88,19 +110,45 @@ function AdminSetting() {
         }
     }
 
+
+    const ShowCompanyBranch= async()=>{
+      try{
+       const response= await api.get('/current-branch');
+       setoffice(response.data);
+if (response.data.length > 0) {
+      setofficeId(response.data[0].branch_id);
+    }
+
+
+     
+      }
+      catch(err){
+       setofficeError(err.response?.data?.message)
+      }
+    }
+
+    
+
     useEffect(() => {
-     FetchCurrentSetting();
+   FetchCurrentSetting();
+  ShowCompanyBranch();
+
     }, [])
 
 
     useEffect(()=>{
+   
+       
+
       setsetting(prev=>({
         ...prev,
-          isenable: isofficechargeopen
+          isenable: isofficechargeopen,
+          officeId:SelectofficeId
 
       }))
 
-    },[isofficechargeopen])
+    },[isofficechargeopen,SelectofficeId])
+    
 
     const HandleSaveALL = async () => {
         setLoading(true)
@@ -124,7 +172,35 @@ function AdminSetting() {
             setLoading(false)
         }
     }
+
+useEffect(() => {
+
+  const updateOfficeCharge = async () => {
+    try {
+
+      const res = await api.put(
+        '/disable-office-charge',
+        { isofficechargeopen }
+      );
+
+      if (res.data.success) {
+        setofficechargemessage(res.data.message);
+      }
+
+    } catch (err) {
+      setofficechargeError(
+        err.response?.data?.message || err.message
+      );
+
      
+    }
+  };
+
+  updateOfficeCharge();
+
+
+
+}, [isofficechargeopen]);
     const iconSize = 27
     const cardStyle = 'bg-white border border-gray-200 p-6 rounded-lg mb-6 transition-all hover:border-blue-300'
     
@@ -152,6 +228,8 @@ function AdminSetting() {
       `;
     };
 
+    const manualymessageinput=`w-full bg-white border border-blue-400 focus:ring-1 outline-none  rounded-sm
+     p-2 text-sm text-gray-700 transition-all `;
     const sectionHeading = 'flex items-center gap-3 text-lg font-extrabold text-gray-700'
 
     return (
@@ -253,20 +331,18 @@ function AdminSetting() {
                 </div>
 
                 <div className={cardStyle}>
-                    <div className='flex justify-between items-center mb-6'>
+                    <div className='flex  items-start mb-6'>
                         <h2 className={sectionHeading}>
                             <BellDot size={iconSize} className="text-blue-400" /> {t('ads.notifications')}
                         </h2>
-                        <select className='bg-white border border-gray-200 text-gray-700 text-xs font-bold p-2 px-4 rounded-full outline-none cursor-pointer hover:border-blue-300 transition-colors'>
-                            <option>SMS</option>
-                            <option>WhatsApp </option>
-                        </select>
+                       
                     </div>
 
                     <div className='flex justify-between items-center p-4 border border-gray-100 rounded-xl mb-6 bg-gray-50/50'>
                         <h3 className='flex items-center gap-2 font-black text-gray-700'>
                             <Bell size={22} className="text-blue-400" />{t('ads.auto_notify')}
                         </h3>
+                        
                         <button onClick={() => setIsAutoNotifOpen(!isAutoNotifOpen)}>
                             {isAutoNotifOpen ? <ToggleRight size={30} className="text-blue-400" /> 
                             : <ToggleLeft size={30} className="text-gray-300" />}
@@ -296,9 +372,11 @@ function AdminSetting() {
                         ) : (
                             <div className='col-span-2'>
                                 <label className='text-[10px] font-black text-gray-700 uppercase block mb-1.5'>{t('ads.manual_notify')}</label>
-                                <textarea className={`${inputStyle('manualy_notif')} h-28 resize-none p-3`} placeholder={`${t('ads.enter_text')}`}></textarea>
+                                <textarea className={`${manualymessageinput} h-28 resize-none p-3`} 
+                                placeholder={`${t('ads.enter_text')}`}></textarea>
                                  <div className='flex justify-between mt-2 '>
-                                     <button className='bg-blue-400 py-2 rounded-sm text-sm text-white px-4 first-letter:uppercase'>{t('ads.send_all')}</button>
+                                     <button className='bg-blue-400 py-2 rounded-sm 
+                                     text-sm text-white px-4 first-letter:uppercase'>{t('ads.send_all')}</button>
                                      <div className='flex gap-2 text-sm'>
                                          <button className='bg-blue-400 py-2 rounded-sm text-sm text-white px-4 first-letter:uppercase'>{t('ads.specific_user')}</button>
                                          <select className='border border-gray-200 px-2 rounded-sm focus:ring-1 focus:ring-gray-300'>
@@ -334,10 +412,42 @@ function AdminSetting() {
                       </button>
                       <span className="text-lg font-medium text-blue-500">{t('ads.on')}</span>
                     </div>
+                   
                   </div>
-
+                  <div className='flex items-center justify-center'>
+                      {officechargemessage&&<p className='text-sm text-green-500'>
+                      {officechargemessage}</p>}
+                  </div>
+                   <div className='flex items-center justify-center'>
+                      {officechargeError&&
+                      <p className='text-lg font-extrabold text-red-500'>
+                      {officechargeError}</p>
+             }
+                  </div>
+                  
+                    
                   {isofficechargeopen ? (
                     <div className="space-y-6 mt-4">
+                      <div className="mt-3">
+                            <label className="block text-[13px] text-gray-700 mb-2">Office</label>
+                            <select 
+                                  name='officeId'
+                              value={setting.officeId}
+                              onChange={(e) => {setofficeId(e.target.value)}}
+                              className={inputStyle('officeId', true)} 
+                            >
+                            {office.length>0 ? 
+                            office.map((off)=>{
+                              return <option value={off.branch_id}>{off.branch_name}</option>
+                            })
+                            
+                            :<option value={officeError}>{officeError}</option> 
+                          }
+                            </select>
+                            {validationError[`setting.officeId`] ? (
+                            <p className='text-[13px] text-red-400'>{validationError[`setting.officeId`]}</p>) 
+                            : ( !setting.officeId && <p className='text-[12px] text-red-400'>No office choosen</p>)}
+                          </div>
                       {Array.isArray(inputs) && inputs.map((item, index) => (
                         <div key={index} >
                           <div className='flex justify-between items-center'>
@@ -348,7 +458,9 @@ function AdminSetting() {
                           </div>
                           
                           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                          
                             <div>
+
                               <label className="block text-[13px] text-gray-700 mb-2">
                                 {t('ads.startup_cash')}
                               </label>
@@ -383,7 +495,7 @@ function AdminSetting() {
                           </div>
 
                           <div className="mt-3">
-                            <label className="block text-[13px] text-gray-700 mb-2">Office Interest Percentage</label>
+                            <label className="block text-[13px] text-gray-700 mb-2 uppercase">Office Interest %</label>
                             <input 
                               type="text" 
                               placeholder='10%'
