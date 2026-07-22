@@ -50,17 +50,7 @@ function EditCashier({ onClose }) {
                 />
               </div>
 
-              <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase mb-1.5 items-center'>
-                  <Phone className='w-4 h-4 text-blue-500' />
-                  {t("nc.phone")}
-                </label>
-                <input
-                  type="tel"
-                  placeholder={t("nc.phonePlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md text-sm"
-                />
-              </div>
+             
 
             </div>
 
@@ -78,23 +68,7 @@ function EditCashier({ onClose }) {
                 />
               </div>
 
-              <div>
-                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase mb-1.5 items-center'>
-                  {t("nc.gender")}
-                </label>
-
-                <div className='flex gap-6 p-2.5 bg-gray-50  rounded-lg h-5 items-center'>
-                  <label className='flex items-center gap-2 text-sm'>
-                    <input type="radio" name="gender" />
-                    {t("nc.male")}
-                  </label>
-
-                  <label className='flex items-center gap-2 text-sm'>
-                    <input type="radio" name="gender" />
-                    {t("nc.female")}
-                  </label>
-                </div>
-              </div>
+             
 
               <div>
                 <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase mb-1.5 items-center'>
@@ -109,10 +83,22 @@ function EditCashier({ onClose }) {
               </div>
 
             </div>
+            
 
           </div>
+           <div>
+                <label className='flex gap-2 text-xs font-medium text-gray-600 uppercase mb-1.5 items-center'>
+                  <Phone className='w-4 h-4 text-blue-500' />
+                  {t("nc.phone")}
+                </label>
+                <input
+                  type="tel"
+                  placeholder={t("nc.phonePlaceholder")}
+                  className="w-full p-2.5 border border-gray-200 rounded-md text-sm"
+                />
+              </div>
 
-          <div className='flex justify-end gap-3 pt-4 border-t border-gray-100'>
+          <div className='flex justify-end gap-3 pt-4  border-gray-100'>
 
             <button onClick={onClose} type="button" className='px-4 py-2 text-sm bg-gray-100 rounded-md'>
               {t("nc.cancel")}

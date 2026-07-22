@@ -202,7 +202,6 @@ useEffect(() => {
                   <option value='en'>English</option>
                   <option value='lg'>Luganda</option>
                   <option value='fr'>French</option>
-                  <option value='Runy'>Runyankole</option>
                 </select>
 
                 <ChevronDown size={14}  />

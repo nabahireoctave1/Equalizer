@@ -1,9 +1,28 @@
-import { ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Download, Funnel } from 'lucide-react'
-import React, { useState } from 'react'
+import { ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Download, Funnel, Search } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
+import api from '../api';
+
 function Repayments() {
+
+    const [Loading,setLoading]=useState(null);  
+  const [repayment,setRepayment]=useState([]);
+  const [Error,setError]=useState(null);
+  const FetchRepaymentInfo= async()=>{
+    try{
+      const res=await api.get('/repayment');
+      setRepayment(res.data);
+    }
+    catch(err){
+     setError(err.response?.data?.message)
+    }
+  }
+
+  useEffect(()=>{
+    FetchRepaymentInfo();
+  },[])
 
     const data = [
         {date:"01-06-2026", paid:50000000},
@@ -38,18 +57,18 @@ function Repayments() {
         <div className='min-h-screen p-2 md:p-4'>
             <div className='flex flex-col md:flex-row   gap-4 justify-between items-start md:items-center border-b pb-3 py-2 px-4 border-gray-200'>
                 <div className='flex items-center gap-2'>
-                    <span className='bg-blue-400 p-2 rounded-md text-white shrink-0'><CircleCheck size={30}/></span>
+                    <span className='bg-blue-400 p-2 rounded-sm text-white shrink-0'><CircleCheck size={30}/></span>
                     <div>
                         <h2 className='text-xl md:text-2xl font-extrabold text-gray-800'>{t('rp.title')}</h2>
                         <span className='text-sm capitalize block text-gray-500'>{t('rp.subtitle')}</span>
                     </div>
                 </div>
                 <div className='flex  justify-between items-center gap-2 w-full md:w-auto'>
-                    <span className='capitalize p-2 px-4 rounded-md text-xs cursor-pointer border border-gray-200 bg-white whitespace-nowrap'>
+                    <span className='capitalize p-2 px-4 rounded-sm text-sm cursor-pointer border border-gray-200 bg-white whitespace-nowrap'>
                         {selectedDate ? selectedDate : "31-06-2025"}
                     </span>
 
-                    <span className='relative flex capitalize gap-2 p-2 px-4 rounded-md text-xs cursor-pointer border border-gray-200 bg-white items-center whitespace-nowrap'>
+                    <span className='relative flex capitalize gap-2 p-2 px-4 rounded-sm text-sm cursor-pointer border border-gray-200 bg-white items-center whitespace-nowrap'>
                         <Funnel size={16}/>
                         <p>{selectedDate ? selectedDate : t('rp.filter')}</p>
                         <ChevronDown size={16}/> 
@@ -68,6 +87,12 @@ function Repayments() {
 
                     <span className='flex capitalize gap-2 p-2 px-4 rounded-md text-sm cursor-pointer border
                      border-gray-200 bg-white items-center whitespace-nowrap'><Download size={16}/> {t('rp.export')}</span>
+                </div>
+                <div className='relative '>
+                   <span className='absolute mt-2 mx-2'><Search size={20} className='text-gray-500'/></span> 
+                    <input type='' placeholder={t('loan.search_placeholder')} className='border p-2 px-8
+                     border-gray-200 text-gray-500 bg-white rounded-sm text-sm
+                      focus:ring-1 focus:ring-blue-400 outline-none'></input>
                 </div>
             </div>
              <div className="mt-6 bg-white shadow rounded-md overflow-hidden">

@@ -7,6 +7,7 @@ import React, { useEffect, useState} from 'react'
 import EditCompany_info_model from './EditCompany_info_model'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
+import HandleErrormodel from './HandleErrormodel'
 
 function AdminSetting() {
     const [isAutoNotifOpen, setIsAutoNotifOpen] = useState(true)
@@ -20,9 +21,9 @@ function AdminSetting() {
     const [officechargeError,setofficechargeError]=useState(null);
     const [office,setoffice]=useState([]);
     const [officeError,setofficeError]=useState(null);
-    const [settingErrorTitle,setsettingErrortitle]=useState(null)
     const [settingMessage,setsettingMessage]=useState(null)
-
+const [title,settitle]=useState(null);
+const [success,setsuccess]=useState(null);
 
     const [inputs, setinputs] = useState([
       { start_up: '', ending: '', office_interest: ''}
@@ -32,6 +33,8 @@ function AdminSetting() {
     let closecompanyinfomodel = () => setiscompanyinfoopen(false)
     const [Loading,setLoading]=useState(false)
     const [validationError,setvalidationError]=useState({});
+    const [ismodelopen,setismodelopen]=useState(false)
+    const closemodel= ()=>{setismodelopen(false)};
     const { t } = useTranslation();
     
     const [setting, setsetting] = useState({
@@ -161,13 +164,20 @@ if (response.data.length > 0) {
 
         try {  
             const res = await api.post('/save-company-settings', payload);
-            console.log(res)
+            if(res.data.success===true){
+              settitle(res.data.title);
+              setsettingMessage(res.data.message)
+              setsuccess(res.data.success);
+              setismodelopen(true);
+            }
         } catch (err) {
             const data = err.response?.data
             if (data?.errors) {
                 setvalidationError(data.errors)
                 return
             }
+            setsettingMessage(err.response?.data?.message||err.message);
+            setismodelopen(true);
         } finally {
             setLoading(false)
         }
@@ -429,7 +439,7 @@ useEffect(() => {
                   {isofficechargeopen ? (
                     <div className="space-y-6 mt-4">
                       <div className="mt-3">
-                            <label className="block text-[13px] text-gray-700 mb-2">Office</label>
+                            <label className="block text-[13px] text-gray-700 mb-2">{t('c.branch')}</label>
                             <select 
                                   name='officeId'
                               value={setting.officeId}
@@ -566,6 +576,7 @@ useEffect(() => {
                    <EditCompany_info_model onclose={closecompanyinfomodel}/> 
                 </div>
              )}
+             {ismodelopen &&<HandleErrormodel success={success}  onClose={closemodel} message={settingMessage}/>}
         </div>
     )
 }

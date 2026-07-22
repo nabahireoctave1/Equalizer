@@ -5,15 +5,107 @@ import {
   ReceiptText,
   ShieldCheck,
   Smartphone,
+  TriangleAlert,
   Wallet,
 } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import api from '../api'
 
 function Billing() {
+  const [billingInfo,setbillingInfo]=useState([]);
+  const [Error,setError]=useState(null)
+  const [timeleft,setTimeleft]= useState({})
+
+const FindBillingInfo= async()=>{
+   try{
+    const res= await api.get('/billingInfo');
+    setbillingInfo(res.data)
+
+   }
+   catch(err){
+    setError(err.response?.data?.message)
+   }
+}
+
+useEffect(()=>{
+ FindBillingInfo()
+},[])
+
+const calculateTimeLeft= (expireAt)=>{
+  if(!expireAt){return null}
+
+
+  const difference = new Date(expireAt).getTime() - Date.now();
+ 
+   if (difference <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true,};
+    }
+
+    return {days: Math.floor(difference / (1000 * 60 * 60 * 24) ),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / (1000 * 60)) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+      expired: false,
+    };
+
+}
+
+
+useEffect(()=>{
+  if(!billingInfo.length||!billingInfo[0]?.expire_at){ return}
+  const Timer=setInterval(()=>{
+   setTimeleft(
+    calculateTimeLeft(billingInfo[0]?.expire_at)
+   )
+  },1000)
+ return ()=> clearInterval(Timer)
+},[billingInfo]);
+
+
+
+console.log(Error)
+
   const {t}=useTranslation()
   return (
-    <div className="p-4 lg:p-6 shadow-sm h-full min-h-screen m-2 rounded-2xl bg-white">
+    <div>    
+       {Error ?
+        <div className="flex gap-1 p-3 bg-red-50 border border-red-300">
+          <span ><TriangleAlert size={45} className="text-red-600"/></span>
+
+          <div className="">
+             <h2 className="text-2xl text-red-500">Error Occurred</h2>
+            <p className="text-[15px]">{Error}</p>
+
+          </div>
+        
+       </div>
+      :<div className={`${timeleft.expired===true ?'bg-red-300 border border-red-400':'' }bg-[#F4FBF6] animate-bounce-once border border-[#D8F3DC] p-3  
+      sm:flex-row space-y-2 md:flex items-center justify-between`}>
+        <div className="flex justify-center md:justify-start">
+
+          <div>
+          <h2 className="text-[20px] font-extrabold text-gray-800 uppercase">Company subscription</h2>
+         <p className="text-[15px] text-green-600">Your company subscription is active now</p>
+            </div>
+        </div>
+        <div>
+           <h2 className="text-center md:text-start  pb-2 font-bold text-sm text-gray-800 uppercase">Count Down </h2>
+        
+        <div className="flex justify-center  md:justify-center lg:justify-between gap-1 md:gap-2">
+          
+        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.days ? timeleft.days +' Days':0 +' Days' }</span>
+        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.hours? timeleft.hours+ ' Hours':0+` Hours`}</span>
+        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.minutes? timeleft.minutes+' Min':0 +``+' Min'}</span>
+        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.seconds? timeleft.seconds+' Sec':0+``+' Sec'}</span>
+
+        </div>
+        </div>
+        </div>
+        }
+    <div className="p-4 lg:p-6 shadow-sm h-full min-h-screen m-2 rounded-md bg-white">
+
+     
       <div className="pb-5 border-b border-gray-100">
         <h2 className="font-extrabold text-2xl lg:text-3xl text-gray-800">
           {t('billing.title')}
@@ -26,7 +118,7 @@ function Billing() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 mt-6">
         <div className="lg:col-span-1 space-y-4">
-          <div className="border border-gray-200 rounded-2xl p-5 bg-gradient-to-b from-gray-50 to-white">
+            <div className="border border-gray-200 rounded-2xl p-5 bg-gradient-to-b from-gray-50 to-white">
             <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
               <span className="bg-blue-100 text-blue-700 p-3 rounded-xl">
                 <ReceiptText size={25} />
@@ -249,6 +341,8 @@ function Billing() {
         </div>
       </div>
     </div>
+    </div>
+
   );
 }
 
