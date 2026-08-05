@@ -113,10 +113,17 @@
     "table": {
       "client_id": "Client ID",
       "client_name": "Client Name",
-      "amount": "Amount",
       "status": "Status",
       "total_pay": "Total Pay",
-      "fees": "Monthly Fees"
+      "fees": "Fees",
+      "guarantor_name": "Guarantor Name",
+       "guarantor_contacts": "Guarantor Contacts",
+          "guarantor_address": "Guarantor Address",
+            "payment_frequency": "Payment Frequency",
+              "amount_given": "Amount Given",
+             "amount_received": "Amount Received",
+                    "security": "collateral",
+                    "approved_by": "Approved By"
     },
     "summary": {
       "total_loaned": "Total Loaned",
@@ -193,6 +200,8 @@
     "status": {
       "done": "Done"
     },
+
+    
 
     "trends_title": "Repayment Trends",
     "repaid_currency": "Repaid Currency"

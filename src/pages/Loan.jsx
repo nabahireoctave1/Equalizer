@@ -109,11 +109,11 @@ const CompaniesLoanTable = ({ company }) => {
       <div className="p-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
         <div>
           <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Total Loaned</p>
-          <p className="text-lg font-black text-blue-700">{company.totalLoan} UGX</p>
+          <p className="text-[14px] font-black text-blue-700">{company.totalLoan} UGX</p>
         </div>
         <div className="text-right">
           <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Total Unpaid</p>
-          <p className="text-lg font-black text-red-600">{company.unpaidLoan} UGX</p>
+          <p className="text-[14px]  text-red-600">{company.unpaidLoan} UGX</p>
         </div>
       </div>
     </div>

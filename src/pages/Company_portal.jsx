@@ -9,7 +9,7 @@ import {
   MapIcon,
   ShieldCheck,
   Briefcase,
-  Loader
+  LoaderCircle
 } from 'lucide-react';
 import api from '../api';
 
@@ -79,7 +79,7 @@ function Company_portal() {
      return;
       }
 
-      setmessage( data?.message);
+      setmessage( data?.message||err.message);
 setisburnermessageopen(true);
 
     }
@@ -348,7 +348,7 @@ setisburnermessageopen(true);
                 loading
                   ?
                   <span className="flex items-center gap-1">
-                    <Loader className="animate-spin"/>
+                    <LoaderCircle className="animate-spin"/>
                     Registering...
                   </span>
                   :

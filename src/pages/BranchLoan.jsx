@@ -1,40 +1,78 @@
-import React, { useState } from 'react'
-import { Search, Activity } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { Search, Activity, XCircle, WifiOff, SearchX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
+import api from '../api'
 
 function BranchLoan() {
-    const COMPANIES_DATA = [
-  {
-    id: "akea-01",
-    name: "MUSANZE AKEA SERVICES",
-    totalLoan: "300000",
-    unpaidLoan: "700000",
-    loans: [
-      { id: "123456676888", name: "Ishimwe Precious", companyId: "akea-0012309", amount: "2000000", status: "Paid", total: "2200000", fee: "20%" },
-      { id: "676654343234", name: "John Doe",  amount: "5000000 ", status: "Unpaid", total: "5500000", fee: "10%" },
-    ]
-  },
-  {
-    id: "alpha-02",
-    name: "Alpha Credits Ltd",
-    totalLoan: "150000",
-    unpaidLoan: "12000",
-    loans: [
-      { id: "19902343554", name: "Alice Keza",  amount: "10000000", status: "Unpaid", total: "11200000", fee: "15%" },
-    ]
+
+
+
+  const [loading,setLoading]=useState(null);
+  const [branchLoans,setBranchLoans]=useState([]);
+  const [errors,seterrors]= useState(null);
+  const  [errorsize,setErrorsize]=useState(null);
+  const [networkError,setnetworkError]=useState(false)
+
+  const FetchLoans= async()=>{
+    setLoading(true);
+    setnetworkError(false);
+    try{
+       
+      const res= await api.get('/current-loans');
+    setBranchLoans(res.data)
+    
+
+   }
+    catch(err){
+      if(!err.response){
+        setnetworkError(true)
+      }
+      seterrors (err.response?.data?.message||err.message)
+      setErrorsize(err.response?.data?.size)
+     
+    }finally{
+      setLoading(false);
+    }
   }
-];
+
+
+  useEffect(()=>{
+  FetchLoans();
+  },[])
+
+
+  const HandleRetry= ()=>{
+    FetchLoans();
+  }
+
+   
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredData = COMPANIES_DATA.map(company => ({
-    ...company,
-    loans: company.loans.filter(loan => 
-      loan.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  })).filter(company => company.loans.length > 0);
+const filteredLoans = branchLoans
+  .map((branch) => ({
+    ...branch,
+    loans: branch.loans.filter((loan) =>
+      loan.client_names
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    ),
+  }))
+  .filter((branch) => branch.loans.length > 0);
 
+
+
+  
+    
   const {t}=useTranslation();
+
+    const SkeletonLoadercell= ()=>{
+        return (
+            <div className='w-full '>
+                <div className='w-full py-2   px-5 bg-gray-200 animate-pulse rounded-xs'></div>
+            </div>
+        )
+    }
 
   return (
     <div className='w-full min-h-screen bg-gray-50 pb-10 overflow-y-auto'>
@@ -50,8 +88,10 @@ function BranchLoan() {
           <input 
             type='text' 
             onChange={(e)=>setSearchTerm(e.target.value)}
+            disabled={networkError||loading||errors}
             placeholder={`${t('loan.search_placeholder')}`} 
             className='border w-full pl-9 pr-4 py-2 text-sm rounded-md border-gray-200
+            disabled:cursor-not-allowed
              bg-gray-50/50 outline-none transition-all duration-200 focus:border-blue-500 focus:bg-white
               focus:ring-4 focus:ring-blue-500/10'
           />
@@ -60,50 +100,174 @@ function BranchLoan() {
       
 
       <div className="p-4 space-y-8">
-        {filteredData.map((company) => (
-          <CompaniesLoanTable key={company.id} company={company} />
+        
+        
+        {loading?
+         <div className='bg-white w-full overflow-auto shadow-xs border border-gray-100 rounded-xs py-3 px-4'>
+         <div className='flex justify-between'> 
+              <h2 className='rounded-xs  bg-gray-200 animate-pulse p-3 px-15'></h2>
+              <h2 className='rounded-xs  bg-gray-200 animate-pulse p-3 px-15'></h2>
+
+            </div>
+          <table>
+            
+            <thead>
+                 <tr className="text-gray-700 uppercase text-[11px] font-bold border-b border-gray-200">  
+              <th className="p-4 whitespace-nowrap">{t('loan.table.client_id')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.client_name')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.amount_given')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.status')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.total_pay')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.fees')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.guarantor_name')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.guarantor_contacts')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.guarantor_address')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.payment_frequency')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.security')}</th>
+              <th className="p-4 whitespace-nowrap">{t('loan.table.approved_by')}</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              {Array.from({length:4}).map((_,idx)=>(
+          <tr key={idx}>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonLoadercell/></td>
+
+          </tr>
+        ))}
+
+            </tbody>
+
+          </table>
+
+         </div>
+
+         :errors&&errors===0?
+         <div>
+          <h2>NOT found</h2>
+         </div>:networkError ?
+         <div className='bg-red-50 p-4 border border-red-500 rounded-sm'>
+          <span>
+            <WifiOff size={40} className='text-red-500'/>
+              <h2 className='text-2xl text-red-500'>Network error</h2>
+          </span>
+          <p className='text-[15px]'>Unable to connect to the server</p>
+          <p className='text-[15px] italic'>Please check your internet connection and try again</p>
+          
+          <div className='flex justify-end'>
+            <button onClick={HandleRetry} className='bg-green-600 shadow rounded-sm
+            hover:cursor-pointer outline-none p-1.5 px-7 text-[15px]
+              text-white'>Retry</button>
+          </div>
+         </div> :errors&&errorsize===0 ?
+         <div className='flex flex-col justify-center items-center'>
+          <span>
+            <nav className='bg-blue-400 rounded-full text-white p-3 w-fit '>
+            <Activity size={60}/>
+            
+            </nav>
+           <h2 className='text-[16px] text-red-500 font-semibold'>
+            No active branch Loans</h2>
+           
+          </span>
+          <p className='text-[15px]'>{errors}</p>
+         </div>
+          :errors&&errorsize===1? 
+         <div className='bg-red-50 border border-red-500 p-3 rounded-sm'>
+          <span>
+            <XCircle size={50} className='text-red-500'/>
+              <h2 className='text-2xl text-red-500'>Error occurred</h2>
+
+          </span>
+          <p className='text-[15px]'>{errors}</p>
+          <p className='text-[15px] italic'>server error occured please try again , once  error still exist contact support  for assistance</p>
+            <div className='flex justify-end'>
+              <button onClick={HandleRetry} className='p-1.5 text-white shadow rounded-sm bg-green-600 px-7 italic cursor-pointer'>Retry</button>
+            </div>
+
+         </div>:
+         filteredLoans.length===0 
+         ?
+         <div className='bg-white p-6 border border-gray-100 rounded-sm'>
+          <span className='flex items-center flex-col'>
+                        <SearchX size={60} className='text-gray-800'/>
+            <h2 className='text-xl text-gray-800 font-semibold'>Result not found</h2>
+             <h2 className='text-[15px] italic'>We could`nt find any match search please check keward and try again !</h2>
+          </span>
+         </div>
+          :filteredLoans.map((branch) => (
+          <CompaniesLoanTable key={branch.branchId} branch={branch}
+          
+          /> 
         ))}
       </div>
     </div>
   );
 }
 
-const CompaniesLoanTable = ({ company }) => {
+const CompaniesLoanTable = ({ branch}) => {
   return (
     <div className="bg-white rounded-md border border-gray-200 overflow-hidden">
-      <div className='bg-white p-2 border-b border-gray-100 flex flex-wrap gap-2 justify-between items-center'>  
-        <h2 className='text-sm md:text-md font-extrabold text-gray-800 uppercase text-wrap max-w-xs sm:max-w-none'>{company.name}</h2>
-        <p className='text-sm md:text-md font-bold text-gray-500 uppercase whitespace-nowrap'>{company.id}</p>
+      <div className='bg-white p-5 border-b border-gray-100 flex flex-wrap
+       gap-2 justify-between  items-center'>  
+        <h2 className='text-sm md:text-md font-extrabold text-gray-800 uppercase text-wrap max-w-xs 
+        sm:max-w-none'>{branch.branchName}</h2>
+        <p className='text-sm md:text-md font-bold text-gray-800 uppercase whitespace-nowrap'>{branch.branchId}</p>
       </div>
+
 
       <div className="overflow-x-auto w-full">
         <table className="w-full text-left whitespace-nowrap">
           <thead>
-            <tr className="text-gray-600 uppercase text-[10px] font-bold border-b border-gray-200">
+            <tr className="text-gray-700 uppercase text-[11px] font-bold border-b border-gray-200">
               <th className="p-4">{t('loan.table.client_id')}</th>
               <th className="p-4">{t('loan.table.client_name')}</th>
-              <th className="p-4">{t('loan.table.amount')}</th>
+              <th className="p-4">{t('loan.table.amount_given')}</th>
               <th className="p-4">{t('loan.table.status')}</th>
               <th className="p-4">{t('loan.table.total_pay')}</th>
               <th className="p-4">{t('loan.table.fees')}</th>
+              <th className="p-4">{t('loan.table.guarantor_name')}</th>
+              <th className="p-4">{t('loan.table.guarantor_contacts')}</th>
+              <th className="p-4">{t('loan.table.guarantor_address')}</th>
+              <th className="p-4">{t('loan.table.payment_frequency')}</th>
+              <th className="p-4">{t('loan.table.security')}</th>
+              <th className="p-4">{t('loan.table.approved_by')}</th>
             </tr>
           </thead>
           <tbody className="text-sm text-gray-800 ">
-            {company.loans.map((loan, index) => (
+            {branch.loans.map((loan, index) => (
               <tr key={index} className="cursor-pointer transition-colors border-b border-gray-100 last:border-0 hover:bg-gray-50/50">
-                <td className="p-4">{loan.id}</td>
-                <td className="p-4 font-semibold text-[13px] text-gray-700">{loan.name}</td>
-                <td className="p-4 font-bold text-[13px]">{loan.amount} UGX</td>
+                <td className="p-4">{loan.clientId}</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">{loan.client_names}</td>
+                <td className="p-4 font-bold text-[14px] tracking-wide">{loan.amount_given} </td>
                 <td className="p-4">
-                  <span className={`px-2 py-1 rounded-full text-[11px] font-bold uppercase ${
-                    loan.status === 'Paid' ? 'bg-blue-500 text-white' : 'bg-red-400 text-white'
+                  <span className={`px-2 py-1 rounded-xs text-[11px] font-bold uppercase ${
+                    loan.status === 'paid' ? 'bg-blue-500 text-white' : 'bg-red-600 text-white'
                   }`}>
 
                 {t(`loan.status.${loan.status.toLowerCase()}`)}
                   </span>
                 </td>
-                <td className="p-4 font-bold text-[13px]">{loan.total} UGX</td>
-                <td className="p-4 text-xs font-bold">{loan.fee}</td>
+                <td className="p-4 font-bold tracking-wide text-[14px]">{loan.totalpay}</td>
+                <td className="p-4 text-xs font-bold">{loan.fees+' %'}</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">{loan.guarantorname}</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700">{loan.guarantorcontacts}</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">
+                  {loan.guarantoraddress}</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">{loan.payment_frequency}</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">{loan.security}</td>
+                <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">{loan.approved_by}</td>
               </tr>
             ))}
           </tbody>
@@ -112,17 +276,18 @@ const CompaniesLoanTable = ({ company }) => {
 
       <div className="p-4 border-t border-gray-200 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
         <div className="flex justify-between items-center sm:block">
-          <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">{t('loan.summary.total_loaned')}</p>
-          <p className="text-base md:text-lg font-black text-gray-800">{company.totalLoan} UGX</p>
+          <p className="text-[10px] text-gray-700 uppercase font-bold tracking-wider">{t('loan.summary.total_loaned')}</p>
+          <p className="text-base md:text-lg font-bold text-gray-800">{branch.total_loaned} UGX</p>
         </div>
         <div className="flex justify-between items-center sm:block border-t border-b sm:border-0 py-2 sm:py-0 border-gray-100">
-          <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">{t('loan.summary.total_loans')}</p>
-          <p className="text-sm md:text-md font-black text-gray-800 flex items-center gap-2">{30} 
-            <span className='text-xs text-gray-500 font-medium'>{t('loan.summary.loans')}</span></p>
+          <p className="text-[10px] text-gray-700 uppercase font-bold tracking-wider">{t('loan.summary.total_loans')}</p>
+          <p className="text-sm md:text-md font-bold text-gray-800 flex items-center gap-2">{branch.loanscount} 
+            <span className='text-[13px] font-semibold capitalize text-gray-500'>{t('loan.summary.loans')}</span></p>
         </div>
         <div className="flex justify-between items-center sm:block">
-          <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">{t('loan.summary.total_unpaid')}</p>
-          <p className="text-base md:text-lg font-black text-red-400">{company.unpaidLoan} UGX</p>
+          <p className="text-[10px] text-gray-700 uppercase font-bold tracking-wider">
+            {t('loan.summary.total_unpaid')}</p>
+          <p className="text-base md:text-lg font-bold text-red-400">{branch.totalunpaid} UGX</p>
         </div>
       </div>
     </div>

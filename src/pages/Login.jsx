@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/image.jpeg'
-import { LoaderIcon, Eye, EyeOff } from 'lucide-react'
+import { LoaderCircle, Eye, EyeOff } from 'lucide-react'
 import api from '../api'
 import HandleFormError from './HandleFormError.jsx'
 import {jwtDecode} from 'jwt-decode'
@@ -191,7 +191,7 @@ export default function Login() {
               loading
                 ? (
                   <span className='flex gap-2'>
-                    <LoaderIcon size={20} className='animate-spin' />
+                    <LoaderCircle size={20} className='animate-spin' />
                     Authenticating...
                   </span>
                 )

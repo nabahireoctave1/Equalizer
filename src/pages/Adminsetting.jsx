@@ -2,7 +2,7 @@ import { ActivityIcon, Bell, BellDot, CircleCheck,
   SaveIcon, Edit2, PlusCircle, Settings, ToggleLeft,
    ToggleRight, Save, CreditCard, Clock, Calendar1, Languages, AlertCircle, MonitorCog, 
    TriangleAlert,X,
-   Loader} from 'lucide-react'
+   LoaderCircle} from 'lucide-react'
 import React, { useEffect, useState} from 'react'
 import EditCompany_info_model from './EditCompany_info_model'
 import { useTranslation } from 'react-i18next'
@@ -110,6 +110,8 @@ const [success,setsuccess]=useState(null);
         } catch (err) {
           setErrorTitle(err.response?.data?.title)
           setErrors(err.response?.data?.message);
+        }finally{
+          setskeletonloader(false)
         }
     }
 
@@ -212,7 +214,7 @@ useEffect(() => {
 
 }, [isofficechargeopen]);
     const iconSize = 27
-    const cardStyle = 'bg-white border border-gray-200 p-6 rounded-lg mb-6 transition-all hover:border-blue-300'
+    const cardStyle =`bg-white border border-gray-200 p-6 rounded-lg mb-6 transition-all hover:border-blue-300`
     
     const inputStyle = (field, isOfficeCharge = false, index = null) => {
       let hasError = false;
@@ -259,7 +261,7 @@ useEffect(() => {
 
             <div className='max-w-6xl mx-auto mt-10 px-6'>
                 
-                <div className={cardStyle}>
+                <div className={ cardStyle }>
                     <div className='mb-6'>
                         <h2 className={sectionHeading}>
                             <ActivityIcon size={iconSize} className="text-blue-400" />
@@ -540,7 +542,8 @@ useEffect(() => {
                   )}
                 </div>
 
-                <div className={`${cardStyle} flex flex-col sm:flex-row items-center justify-between bg-white `}>
+                <div className={`${cardStyle} flex flex-col sm:flex-row
+                 items-center justify-between bg-white `}>
                     <div className='flex gap-2' >
                       <span>     <Calendar1 className='text-blue-500'/></span>
                       <span>
@@ -564,9 +567,9 @@ useEffect(() => {
 
                 <div className='flex justify-end p-4'>
                     <button onClick={HandleSaveALL} className='bg-blue-400 py-2 px-4
-                     text-white cursor-pointer text-sm flex gap-2 rounded-sm'>
+                     text-white cursor-pointer text-sm flex gap-2 rounded-sm outline-none'>
                  {Loading ? <span className='flex items-center justify-center gap-2'>
-                          <Loader size={20} className='animate-spin'/>{t('ads.saving')}</span>:<span className='flex items-center justify-center gap-2'><SaveIcon size={20}/> {t('ads.save_all')} </span>}
+                          <LoaderCircle size={20} className='animate-spin'/>{t('ads.saving')}</span>:<span className='flex items-center justify-center gap-2'><SaveIcon size={20}/> {t('ads.save_all')} </span>}
                     </button>
                 </div>
             </div>

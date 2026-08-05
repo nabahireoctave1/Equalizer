@@ -113,7 +113,20 @@
       "amount": "Ssente",
       "status": "Embeera",
       "total_pay": "Ssente Zonna Ezokusasula",
-      "fees": "Ssente z'obuweereza"
+      "fees": "Ssente z'obuweereza",
+      "guarantor_name": "Erinnya ly'omweyimirizi",
+  "guarantor_contacts": "Ensimbi z'omweyimirizi",
+  "guarantor_address": "Endagiriro y'omweyimirizi",
+  "payment_frequency": "Enkola y'okusasula",
+  "amount_given": "Omuwendo oguweereddwa",
+  "amount_received": "Omuwendo ogufuna",
+  "business_type": "Ekika ky'obusuubuzi",
+  "business_location": "Ekifo ky'obusuubuzi",
+  "security": "Omusingo",
+  "security_number": "Namba y'omusingo",
+  "approved_by": "Kikkiriziddwa ne"
+
+       
     },
     "summary": {
       "total_loaned": "Zonna Ezaweebwa",

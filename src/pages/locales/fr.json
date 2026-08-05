@@ -116,7 +116,19 @@
       "amount": "Montant",
       "status": "Statut",
       "total_pay": "Paiement Total",
-      "fees": "Frais"
+      "fees": "Frais",
+      "guarantor_name": "Nom du garant",
+  "guarantor_contacts": "Contacts du garant",
+  "guarantor_address": "Adresse du garant",
+  "payment_frequency": "Fréquence de paiement",
+  "amount_given": "Montant accordé",
+  "amount_received": "Montant reçu",
+  "business_type": "Type d'entreprise",
+  "business_location": "Emplacement de l'entreprise",
+  "security": "Garantie",
+  "security_number": "Numéro de garantie",
+  "approved_by": "Approuvé par"
+
     },
     "summary": {
       "total_loaned": "Total Prêté",

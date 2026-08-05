@@ -162,7 +162,7 @@ useEffect(() => {
                 <span>{item.label}</span>
               </button>
             ))}
-            <button className='flex justify-center text-sm w-40 gap-1 hover:cursor-pointer bg-red-400 mx-3  py-2  rounded-sm text-white'>
+            <button className='flex justify-center text-sm p-8 gap-1 hover:cursor-pointer bg-red-400 mx-3  py-2  rounded-sm text-white'>
               <span><LogOut size={18}/></span>{t('nav.logout')}</button>
           </div>
         </div>

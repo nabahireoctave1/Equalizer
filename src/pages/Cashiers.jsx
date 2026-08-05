@@ -1,5 +1,8 @@
 import { BadgeDollarSign, Ban, Edit, Loader, Pencil, PlusCircle,
-   PlusIcon, RefreshCcw, Search, Trash, UserPlus, CircleAlert,Minus} from "lucide-react";
+   PlusIcon, RefreshCcw, Search, Trash, UserPlus, CircleAlert,Minus,
+   SearchX,
+   CircleX,
+   WifiOff} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Newcashiermodel from "./Newcashiermodel";
 import EditCashier from "./EditCashier";
@@ -14,6 +17,7 @@ function Cashiers() {
   const [cashier,setcashier]=useState([]);
   const [loading,setloading]=useState(null);
   const [errorlength,seterrorlength]=useState(null)
+  const [networkError,setnetworkError]=useState(false);
 
 
   const GetCurrentCashiers= async()=>{
@@ -24,6 +28,9 @@ function Cashiers() {
 
     }
     catch(err){
+      if(!err.response){
+        setnetworkError(true)
+      }
     seterrors(err.response?.data?.message);
     seterrorlength(err.response?.data?.size)
     }finally{
@@ -46,7 +53,12 @@ function Cashiers() {
    )
   })||[]
 
-  console.log(filtereddata)
+  
+
+   const Handleretry= ()=>{
+    GetCurrentCashiers()
+   }
+
   const {t}=useTranslation()
 
 
@@ -63,6 +75,8 @@ function Cashiers() {
    const openreactivate= (e)=>{ e.preventDefault(); setreactivate(true)}
    const closereactivate=()=>setreactivate(false)
 
+
+
   const statusbadge=(status)=>{
       switch(status){
         case 'active' :return 'bg-blue-500 text-white'; 
@@ -71,34 +85,21 @@ function Cashiers() {
       }
   }
 
+  const  SkeletonCellLoader= ()=>{
+    return (
+      <div className="w-full">
+        <div className="bg-gray-200 p-2  rounded-xs w-full animate-pulse"></div>
+      </div>
+    )
+  }
+
   return (
     <div className={`${error ? '':'sm:p-4 md:p-6'} p-2   bg-gray-100  min-h-screen`}>
-         {loading ?
-         <div className=" flex  justify-center mt-70">
-        <span className="flex items-center text-[15px] text-gray-800 gap-1"><Loader size={20} className="animate-spin"/>Loading...</span>
-         </div>
-         :error&&errorlength!==0 ? 
-         <div className="flex flex-col justify-center items-center bg-white rounded-sm animate-bounce-once px-6 py-3">
-          <div><CircleAlert size={50} className="text-red-400 animate-pulse"/></div>
-          <h2 className="text-2xl font-bold text-red-500">Error occurred</h2>
-           <p className="text-[15px] pb-2">{error}</p>
-           <button onClick={GetCurrentCashiers} className="bg-green-500 px-8  py-1.5 
-           rounded-sm text-sm text-white cursor-pointer">Retry</button>
-          </div>
-          :cashier.length===0 ?(
-            <div className="flex item items-center min-h-screen justify-center  flex-col ">
-            <div className="bg-blue-500 p-5 flex items-center rounded-full">
-              <UserPlus size={50} className="text-white"/>
-            </div>
-            <h2 className="text-red-400 capitalize font-semibold">{error}</h2>
-            <p className="text-[15px] p-2 text-center">There are no cashiers available yet.
-               Add a cashier to start managing your cashier records.</p>
-            <button onClick={opencashiermodel} className="flex gap-1 items-center text-sm bg-blue-400 p-2
-             rounded-sm text-white px-5"><PlusIcon size={20}/>{t('c.cashier')}</button>
-          </div>
-          )
-         :
-               <div className={`bg-white rounded-md border border-gray-200 p-3 sm:p-5`}>
+         
+          
+          
+          
+          <div className={`bg-white rounded-md border border-gray-200 p-3 sm:p-5`}>
          
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           
@@ -127,8 +128,12 @@ function Cashiers() {
               <input
                 type="text"
                 onChange={(e)=>setsearchterm(e.target.value)}
+                disabled={loading||error||networkError}
                 placeholder={t('c.searchCashier')}
-                className="w-full  border border-gray-200 rounded-md py-2 text-sm pl-10 pr-4 outline-none focus:ring-1 focus:ring-blue-400 focus:border-transparent transition"
+                className={`w-full  border border-gray-200 rounded-md py-2 
+                ${loading||error||networkError?'cursor-not-allowed bg-gray-200 border-2':'cursor-pointer'}
+                text-sm pl-10 pr-4 outline-none focus:ring-1 focus:ring-blue-400
+                 focus:border-transparent transition`}
               />
             </div>
 
@@ -141,11 +146,58 @@ function Cashiers() {
         </div>
 
         <div className={` ${filtereddata.length===0 ? ' border-t':''} mt-6 overflow-x-auto  border-gray-50 w-full`}>
-           {filtereddata.length===0 ? 
-              <div className="p-6 flex justify-center text-[15px] text-gray-800" >
-                <h2>No result found </h2>
-              </div>:
-              <table className="w-full border-collapse  whitespace-nowrap">
+           
+           
+             {error&&errorlength!==0 ?
+          <div className=" bg-red-50 border p-3 border-red-500
+           rounded-sm   py-3">
+          <div><CircleX size={50} className="text-red-500"/></div>
+          <h2 className="text-2xl font-bold text-red-500">Error occurred</h2>
+           <p className="text-[15px]">{error}</p>
+           <p className="text-[14px] pb-4 italic">When server error occurred retry ,if error still exist contact support for assistance </p>
+          
+          <div className="flex justify-end">
+
+           <button onClick={Handleretry} className="bg-green-500 shadow px-8  py-1.5 
+           rounded-sm text-sm text-white cursor-pointer">Retry</button>
+          </div>
+
+          </div> 
+           
+           
+           :error&&errorlength==0?
+             <div className="flex item items-center min-h-screen justify-center  flex-col ">
+            <div className="bg-blue-400 p-5 flex items-center rounded-full">
+              <UserPlus size={50} className="text-white"/>
+            </div>
+            <h2 className="text-red-400 capitalize font-semibold">{error}</h2>
+            <p className="text-[15px] p-2 text-center">There are no cashiers available yet.
+               Add a cashier to start managing your cashier records.</p>
+            <button onClick={opencashiermodel} className="flex gap-1 items-center text-sm bg-blue-400 p-2
+             rounded-sm text-white px-5"><PlusIcon size={20}/>{t('c.cashier')}</button>
+          </div> :networkError ? 
+            <div className="border p-5 border-red-500 bg-red-50 rounded-md">
+              <span>
+                <WifiOff size={40} className="text-red-500"/>
+
+              </span>
+               <h2 className="text-2xl text-red-500">Network error</h2>
+               <p className="text-[15px]">Unable to connect to the server</p>
+               <p className="italic text-[15px]">Please check your internet connetion and try again</p>
+               <div className="flex justify-end">
+                <button
+                 onClick={Handleretry} className="bg-green-600 px-6 py-1.5 rounded-sm shadow 
+                 text-[14px] cursor-pointer text-white">Retry</button>
+               </div>
+
+            </div>
+          :!loading&&filtereddata.length==0?
+            <div className="p-8 flex flex-col items-center justify-center text-[15px] text-gray-800" >
+                 <SearchX size={60} className="text-gray-800"/>
+                <h2>We could`nt find any match search </h2>
+              </div>
+          
+          :<table className="w-full border-collapse  whitespace-nowrap">
             <thead>
               <tr className="bg-gray-50 text-left text-gray-600 uppercase text-[11px] border-b border-gray-200">
                 <th className="p-3">{t('c.no')}</th>
@@ -163,8 +215,21 @@ function Cashiers() {
             </thead>
 
             <tbody>
+              
              
-              {filtereddata.map((c,idx)=>{
+                 { loading ? Array.from({length:5}).map((_,idx)=>{
+                 return <tr key={idx}>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+                     <td className="p-3"><SkeletonCellLoader/></td>
+
+                  </tr>
+                   }):filtereddata.map((c,idx)=>{
                 return <tr key={idx} className="border-t border-gray-100 cursor-pointer hover:bg-gray-50 transition">
                  <td className="p-3 text-gray-700 text-sm">
                   {idx+1}
@@ -186,7 +251,8 @@ function Cashiers() {
                 </td>
                   
                 <td className="p-3">
-                  <span className={`${statusbadge(c.status)} text-white px-3 py-1 rounded-full text-xs font-medium`}>
+                  <span className={`${statusbadge(c.status)} text-white px-3 py-1
+                   rounded-full text-xs font-medium`}>
                   {t(`c.${c.status}`)}
                   </span>
                 </td>
@@ -201,13 +267,14 @@ function Cashiers() {
               })}
             </tbody>
           </table>
-            }
-          
-        </div>
+                 }
+             
+              </div>
+
          
       </div>
          
-         }
+         
 
        {isnewCashierModelopen &&
             <Newcashiermodel  onClose={closecashiermodel}/>

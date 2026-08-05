@@ -1,13 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Wallet,
   MessageSquareMore,
   CreditCard,
   Activity,
+  Network,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import api from "../api";
 
 function Sms() {
+
+ const [smsinfo,setsmsinfo]=useState([])
+ const [smslg,setsmslg]= useState([])
+ const [errors,seterrors]=useState({
+  smsError:null,
+  transError:null,
+  NetworkError:false
+ });
+
+
+ const FetchsmsLog = async ()=>{
+   try{
+    seterrors({smsError:null,transError:null,NetworkError:false});
+
+    const [sms,trans]= await Promise.all([
+    api.get('/smsinfo').catch(err=>((prev)=>({...prev,smsError:err.response?.data?.message}))),
+    api.get('/sms-transaction-log').catch(err=>((prev)=>({...prev,transError:err.response?.data?.message})))
+    ])
+
+    if(sms){setsmsinfo(sms.data)}
+    if(trans){setsmslg(trans.data)}
+
+   }
+   catch(err){
+    if(!err.response){
+      seterrors({NetworkError:true})
+    }
+    
+   }
+
+ }
+
+ 
+ useEffect(()=>{
+   
+   FetchsmsLog();
+ },[])
+
+
+
+
   const transactions = [
     {
       id: "msx-1-2034",
@@ -252,25 +295,25 @@ function Sms() {
             </thead>
 
             <tbody>
-              {transactions.map((item, index) => (
+              {smslg.map((item, index) => (
                 
                 <tr
                   key={index}
                   className="border-b border-gray-50 hover:bg-gray-50 duration-200"
                 >
-                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
+                  <td className="py-4 text-[15px] text-gray-700 whitespace-nowrap px-2">
                     {item.date}
                   </td>
 
-                  <td className="py-4 text-xs uppercase text-gray-800 whitespace-nowrap px-2">
-                    {item.id}
+                  <td className="py-4 text-[15px] uppercase text-gray-800 whitespace-nowrap px-2">
+                    {item.sms_id}
                   </td>
 
-                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
-                    {item.sms}
+                  <td className="py-4 text-[15px] text-gray-700 whitespace-nowrap px-2">
+                    {item.sms_purchase_total} SMS
                   </td>
 
-                  <td className="py-4 text-xs text-gray-700 whitespace-nowrap px-2">
+                  <td className="py-4 text-[15px] text-gray-700 whitespace-nowrap px-2">
                     {item.amount}
                   </td>
 

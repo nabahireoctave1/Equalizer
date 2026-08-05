@@ -5,8 +5,8 @@ import {
   ReceiptText,
   ShieldCheck,
   Smartphone,
-  TriangleAlert,
-  Wallet,
+  Wallet,CircleX,
+  WifiOff
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,15 +16,23 @@ function Billing() {
   const [billingInfo,setbillingInfo]=useState([]);
   const [Error,setError]=useState(null)
   const [timeleft,setTimeleft]= useState({})
-
+  const [networkError,setnetworkError]=useState(false)
+const [loading,setloading]=useState(true);
 const FindBillingInfo= async()=>{
+    setloading(true)
+
    try{
     const res= await api.get('/billingInfo');
     setbillingInfo(res.data)
 
    }
    catch(err){
-    setError(err.response?.data?.message)
+    if(!err.response){
+      setnetworkError(true);
+    }
+        setError(err.response?.data?.message)
+   }finally{
+    setloading(false)
    }
 }
 
@@ -64,29 +72,51 @@ useEffect(()=>{
 
 
 
-console.log(Error)
 
   const {t}=useTranslation()
   return (
     <div>    
-       {Error ?
-        <div className="flex gap-1 p-3 bg-red-50 border border-red-300">
-          <span ><TriangleAlert size={45} className="text-red-600"/></span>
+        {loading ?
+         <div className="border bg-white flex justify-between p-4 rounded-xs border-gray-300 m-2 ">
+          <div className="space-y-2">
+             <div className="flex bg-gray-200 py-3 h-2 w-80 animate-pulse rounded-xs"></div>
+             <div className="flex bg-gray-200 py-3 h-2 w-50 animate-pulse rounded-xs"></div>
 
+        </div>
+        <div className="flex gap-2">
+         {[1,2,3,4].map((i)=>{
+          return <div key={i} >
+          <div className="border py-3.5 px-7 rounded-xs border-gray-100 bg-gray-100 animate-pulse "></div>
+          </div>
+         })}
+        </div>
+          
+        </div>:networkError ?
+         <div className="bg-red-50 border border-red-500 p-4 rounded-sm">
+       <span><WifiOff size={40} className="text-red-500"/></span>
+       <h2 className="text-2xl text-red-500">Network error</h2>
+        <p className="text-[15px]">Unable to connect to the server</p>
+        <p className="text-[15px]  italic">network error occured please check your internet connection and refresh page</p>
+    
+       </div>:Error ?
+        <div className="flex gap-1 p-3 bg-red-50 border border-red-300">
+          <span ><CircleX size={45} className="text-red-600"/></span>
           <div className="">
              <h2 className="text-2xl text-red-500">Error Occurred</h2>
-            <p className="text-[15px]">{Error}</p>
+            <p className="text-[15px] italic">{Error}</p>
 
           </div>
         
        </div>
-      :<div className={`${timeleft.expired===true ?'bg-red-300 border border-red-400':'' }bg-[#F4FBF6] animate-bounce-once border border-[#D8F3DC] p-3  
+      :<div className={`${timeleft.expired===true ?'bg-red-50 border-red-400 ':'bg-[#F4FBF6] border-green-400'}
+       animate-bounce-once border outline-none  p-3  
       sm:flex-row space-y-2 md:flex items-center justify-between`}>
         <div className="flex justify-center md:justify-start">
 
           <div>
-          <h2 className="text-[20px] font-extrabold text-gray-800 uppercase">Company subscription</h2>
-         <p className="text-[15px] text-green-600">Your company subscription is active now</p>
+          <h2 className={`${timeleft.expired===true? "text-red-600":"text-gray-800"} text-[20px] font-extrabold  uppercase`}>{timeleft.expired===true ? 'Subscription expired':'Company subscription'}</h2>
+         <p className={`${timeleft.expired===true? "text-red-600":" text-green-600"} 
+         text-[15px] italic`}>{timeleft.expired===true ? 'Your subscription was expired activation required !':"Your company subscription is active now"}</p>
             </div>
         </div>
         <div>
@@ -94,10 +124,10 @@ console.log(Error)
         
         <div className="flex justify-center  md:justify-center lg:justify-between gap-1 md:gap-2">
           
-        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.days ? timeleft.days +' Days':0 +' Days' }</span>
-        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.hours? timeleft.hours+ ' Hours':0+` Hours`}</span>
-        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.minutes? timeleft.minutes+' Min':0 +``+' Min'}</span>
-        <span className="border py-2 px-4 h-fit  border-gray-200 rounded-xs text-sm text-gray-800">{timeleft.seconds? timeleft.seconds+' Sec':0+``+' Sec'}</span>
+        <span className={`${timeleft.expired ? "border-red-500":"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.days ? timeleft.days +' Days':0 +' Days' }</span>
+        <span className={`${timeleft.expired ? "border-red-500":"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.hours? timeleft.hours+ ' Hours':0+` Hours`}</span>
+        <span className={` ${timeleft.expired===true ?'border-red-500' :"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.minutes? timeleft.minutes+' Min':0 +``+' Min'}</span>
+        <span className={`${timeleft.expired ? "border-red-500":"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.seconds? timeleft.seconds+' Sec':0+``+' Sec'}</span>
 
         </div>
         </div>

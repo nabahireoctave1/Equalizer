@@ -1,23 +1,70 @@
-import { BanIcon, HandCoins, RefreshCcw, Search } from 'lucide-react'
-import React, { useState } from 'react'
+import { BanIcon, HandCoins, RefreshCcw, Search, SearchX, WifiOff } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import BurnuserModel from './BurnuserModel'
 import Reactivateborrowermodel from './ReactivateBorrower'
 import { useTranslation } from 'react-i18next'
+import api from '../api'
+
+
+const  SkeletonCellLoader= ()=>{
+    return (
+      <div className="w-full">
+        <div className="bg-gray-200 p-2  rounded-xs w-full animate-pulse"></div>
+      </div>
+    )
+  }
 function Borrowers() {
   const [ismodelopen,setismodelopen]=useState(false)
   const [isreativateopened,setisreactivateopened]=useState(false)
+  const [errors,seterrors]=useState(null);
+  const [Loading,setLoading]=useState(null);
+  const [errorsize,seterrorsize]=useState(null);
+  const [clients,setclients]=useState([])
+  const [search,setSearchTerm]=useState("")
+  const [networkError,setnetworkError]=useState(false);
 
 const {t}= useTranslation()
-  
-  const borrowers = [
-    { BNid: 1234567857487475, names: "james willlock", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Bunyoro" },
-    { BNid: 1234567857487475, names: "Nabahire octave", amount: 3000000, branch:"akea service", phoneno: "263456789678",locaction:"Kampala" },
-    {  BNid: 1234567857487475, names: "Mutoniwase M denyse ", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Hoima" },
-    {  BNid: 1234567857487475, names: "Mugabo Emma", amount: 3000000, branch: 'Rubavu live stock hub', phoneno: "263456789678",locaction:"Hoima" },
-    {  BNid: 1234567857487475, names: "cyusa Eddy", amount: 3000000, branch: 'Kigali tech', phoneno: "263456789678",locaction:"Hoima" },
-    {  BNid: 1234567857487475, names: "stev alern lorent", amount: 3000000,  branch: 'Kigali tech', phoneno: "263456789678",locaction:"Hoima" },
-  ]
 
+
+const FetchBorrowers= async()=>{
+  setLoading(true)
+  setnetworkError(false)
+   try{
+     const res= await api.get('/clients');
+     setclients(res.data);
+
+   }catch(err){
+         if(!err.response){
+          setnetworkError(true)
+          seterrors(err.message)
+         }
+        seterrors(err.response?.data?.message);
+        seterrorsize(err.response?.data?.size)
+   }
+   finally{
+    setLoading(false)
+   }
+}
+
+  const filterborrowers=clients.filter((client)=>{
+   return (
+    client?.client_name.toLowerCase().includes(search.toLowerCase())||
+    client?.national_id.toLowerCase().includes(search.toLowerCase())||
+    client?.phone.toLowerCase().includes(search.toLowerCase())
+   )
+  })||[]
+
+
+useEffect(()=>{
+FetchBorrowers();
+
+},[])
+
+const HandleRetry=()=>{
+  FetchBorrowers();
+}
+  
+  
   const openburnuser= (e)=>{e.preventDefault();setismodelopen(true)}
   const closemodel=()=>setismodelopen(false)
   const openreactivatemodel= ()=>setisreactivateopened(true)
@@ -39,15 +86,57 @@ const {t}= useTranslation()
           <Search className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' size={16} />
           <input 
             type='text' 
+            onChange={(e)=>setSearchTerm(e.target.value)}
+            disabled={Loading||errors||networkError}
             placeholder={`${t('b.search_placeholder')}`} 
             className='border w-full pl-9 pr-4 py-2 text-sm rounded-md border-gray-200
-             bg-gray-50/50 outline-none transition-all duration-200 focus:border-blue-500 focus:bg-white
+             bg-gray-50/50 outline-none transition-all duration-200 disabled:cursor-not-allowed
+              focus:border-blue-500 focus:bg-white
               focus:ring-4 focus:ring-blue-500/10'
           />
         </div>
       </div>
 
-      <div className='w-full bg-white rounded-md  border border-gray-100 overflow-hidden'>
+      <div className={`${networkError ? 'bg-red-50 border border-red-500 p-4':'bg-white p-5'} w-full  rounded-md
+        border border-gray-100 overflow-hidden`}>
+        {networkError ? 
+        <div>
+          <span>
+          <WifiOff size={40} className='text-red-500'/>
+          <h2 className='text-2xl text-red-600'>Network error</h2>
+            
+          </span>
+          <h2 className='text-[15px]'>Unable to connect to the server</h2>
+          <p className='text-[15px] italic'>Please check your internet connection and try again</p>
+          <div className='flex justify-end'>
+
+          <button onClick={HandleRetry}  className='bg-green-600 shadow  p-1.5  cursor-pointer px-7 
+          rounded-sm outline-none text-[15px] text-white italic'>Retry</button>
+
+
+          </div>
+
+        </div>:errors&&errorsize===0? 
+         <div className='flex flex-col justify-center items-center'>
+            <span className='flex justify-center flex-col items-center'>
+              <nav className='bg-blue-400   w-fit p-5 text-white rounded-full'>
+              <HandCoins/>
+               
+              </nav>
+              <h2 className='text-red-500 text-[16px] font-semibold p-2'>No borrowers found !</h2>
+            </span>
+            <p className='text-[15px]'>{errors}</p>
+         </div>
+        :!Loading&&filterborrowers.length===0 ?
+
+        <div className='p-5 flex justify-center flex-col items-center '>
+            <SearchX size={60} className='text-gray-800 flex items-center' />
+
+          <span className='flex  flex-col  items-center'>
+            <h2 className='font-semibold text-xl text-gray-800'>Result not found</h2>
+             <h2 className='text-[15px] italic'>We could`nt find any match search please try different keyward  </h2>
+          </span>
+          </div>:         
         <div className='overflow-x-auto m-1'>
           <table className='w-full border-collapse text-left text-sm text-gray-600'>
             <thead>
@@ -63,26 +152,40 @@ const {t}= useTranslation()
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100'>
-              {borrowers.map((b, index) => (
+
+              {Loading||networkError||errors&&errorsize===null? 
+              Array.from({length:5}).map((_,idx)=>{
+                 return <tr key={idx}>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                 </tr>
+              })
+              :filterborrowers.map((b, index) => (
                 <tr key={index} className='hover:bg-gray-50/70 cursor-pointer transition-colors duration-150 group'>
                   <td className='py-3.5 px-5 text-center font-medium text-gray-700 group-hover:text-gray-700'>
                     {index + 1}
                   </td>
                  
                   <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800 whitespace-nowrap'>
-                    {b.BNid}
+                    {b.national_id}
                   </td>
                   <td className='py-3.5 px-4 text-[14px] capitalize text-gray-900 whitespace-nowrap '>
-                    {b.names}
+                    {b.client_name}
                   </td>
                   <td className='py-3.5 px-4 font-semibold  text-gray-800 capitalize whitespace-nowrap'>
-                    {b.branch}
+                    {b.branch_name}
                   </td>
                   <td className='py-3.5 px-4 font-sans text-[14px] text-gray-800 whitespace-nowrap'>
-                    {b.phoneno}
+                    {b.phone}
                   </td>
                    <td className='py-3.5 px-4 font-sans text-[14px] first-letter:uppercase text-gray-800 whitespace-nowrap'>
-                    {b.locaction}
+                    {b.location}
                   </td>
                   <td className='py-3.5 px-5'>
                     <div className='flex items-center justify-center gap-2'>
@@ -102,7 +205,10 @@ const {t}= useTranslation()
                     </div>
                   </td>
                   <td className='flex items-center justify-end p-4'>
-                    <div className='bg-green-600 p-2 w-fit rounded-full'>
+                    <div className={`${b.loan_status==='overdue'? 'bg-red-500':b.loan_status==='paid'? 
+                      'bg-blue-500':b.loan_status===null||!b.loan_status ? 'bg-gray-300':
+                      b.loan_status==='unpaid' ? 'bg-red-400' :''
+                    } p-2 w-fit rounded-full`}>
                     </div>
                   </td>
                 </tr>
@@ -110,10 +216,14 @@ const {t}= useTranslation()
             </tbody>
           </table>
         </div>
+          }
+
       </div>
+      
 
         {ismodelopen &&<BurnuserModel onClose={closemodel}/>}
         {isreativateopened &&<Reactivateborrowermodel onClose={closereactivate}/>}
+        
 
     </div>
   )
