@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Search, Activity, XCircle, WifiOff, SearchX } from 'lucide-react';
+import { Search, Activity, XCircle, WifiOff, SearchX, Banknote } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
 import api from '../api'
+import NetworkError from './NetworkError';
+import SkeletonCellLoader from './SkeletonCellLoader';
 
 function BranchLoan() {
 
@@ -66,20 +68,14 @@ const filteredLoans = branchLoans
     
   const {t}=useTranslation();
 
-    const SkeletonLoadercell= ()=>{
-        return (
-            <div className='w-full '>
-                <div className='w-full py-2   px-5 bg-gray-200 animate-pulse rounded-xs'></div>
-            </div>
-        )
-    }
+  
 
   return (
     <div className='w-full min-h-screen bg-gray-50 pb-10 overflow-y-auto'>
       <div className='px-4 py-5 border-b border-gray-100 flex flex-col sm:flex-row gap-4 
       items-start sm:items-center rounded-md justify-between m-4 bg-white'>
         <div className='flex gap-2 items-center'>
-         <span className='bg-blue-400 p-1 rounded-2xl text-white'><Activity size={25}></Activity></span>
+         <span className='bg-blue-400 p-1 rounded-2xl text-white'><Banknote size={25}/></span>
          <h2 className='font-extrabold text-2xl text-gray-700'>{t('loan.title')}</h2>
          </div>
          <div className='relative w-full sm:w-72'>
@@ -131,18 +127,18 @@ const filteredLoans = branchLoans
             <tbody>
               {Array.from({length:4}).map((_,idx)=>(
           <tr key={idx}>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
-            <td className='p-3'><SkeletonLoadercell/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
+            <td className='p-3'><SkeletonCellLoader/></td>
 
           </tr>
         ))}
@@ -157,28 +153,16 @@ const filteredLoans = branchLoans
          <div>
           <h2>NOT found</h2>
          </div>:networkError ?
-         <div className='bg-red-50 p-4 border border-red-500 rounded-sm'>
-          <span>
-            <WifiOff size={40} className='text-red-500'/>
-              <h2 className='text-2xl text-red-500'>Network error</h2>
-          </span>
-          <p className='text-[15px]'>Unable to connect to the server</p>
-          <p className='text-[15px] italic'>Please check your internet connection and try again</p>
-          
-          <div className='flex justify-end'>
-            <button onClick={HandleRetry} className='bg-green-600 shadow rounded-sm
-            hover:cursor-pointer outline-none p-1.5 px-7 text-[15px]
-              text-white'>Retry</button>
-          </div>
-         </div> :errors&&errorsize===0 ?
-         <div className='flex flex-col justify-center items-center'>
+         <NetworkError HandleRetry={HandleRetry}/>
+          :errors&&errorsize===0 ?
+         <div className='flex flex-col justify-center items-center border p-6 border-gray-200 rounded-md bg-white'>
           <span>
             <nav className='bg-blue-400 rounded-full text-white p-3 w-fit '>
-            <Activity size={60}/>
+            <Banknote  size={60}/>
             
             </nav>
-           <h2 className='text-[16px] text-red-500 font-semibold'>
-            No active branch Loans</h2>
+           <h2 className='text-[20px] text-red-500 font-semibold'>
+            No branch Loans yet</h2>
            
           </span>
           <p className='text-[15px]'>{errors}</p>
@@ -191,9 +175,11 @@ const filteredLoans = branchLoans
 
           </span>
           <p className='text-[15px]'>{errors}</p>
-          <p className='text-[15px] italic'>server error occured please try again , once  error still exist contact support  for assistance</p>
+          <p className='text-[15px] italic'>server error occured please try again ,
+             once  error still exist contact support  for assistance</p>
             <div className='flex justify-end'>
-              <button onClick={HandleRetry} className='p-1.5 text-white shadow rounded-sm bg-green-600 px-7 italic cursor-pointer'>Retry</button>
+              <button onClick={HandleRetry} className='p-1.5 text-white shadow 
+              rounded-sm bg-green-600 px-7  cursor-pointer italic'>Retry</button>
             </div>
 
          </div>:

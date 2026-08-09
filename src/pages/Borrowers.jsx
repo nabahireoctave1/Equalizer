@@ -4,15 +4,11 @@ import BurnuserModel from './BurnuserModel'
 import Reactivateborrowermodel from './ReactivateBorrower'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
+import NetworkError from './NetworkError'
+import SkeletonCellLoader from './SkeletonCellLoader'
 
 
-const  SkeletonCellLoader= ()=>{
-    return (
-      <div className="w-full">
-        <div className="bg-gray-200 p-2  rounded-xs w-full animate-pulse"></div>
-      </div>
-    )
-  }
+
 function Borrowers() {
   const [ismodelopen,setismodelopen]=useState(false)
   const [isreativateopened,setisreactivateopened]=useState(false)
@@ -97,33 +93,17 @@ const HandleRetry=()=>{
         </div>
       </div>
 
-      <div className={`${networkError ? 'bg-red-50 border border-red-500 p-4':'bg-white p-5'} w-full  rounded-md
+      <div className={`w-full  rounded-md
         border border-gray-100 overflow-hidden`}>
         {networkError ? 
-        <div>
-          <span>
-          <WifiOff size={40} className='text-red-500'/>
-          <h2 className='text-2xl text-red-600'>Network error</h2>
-            
-          </span>
-          <h2 className='text-[15px]'>Unable to connect to the server</h2>
-          <p className='text-[15px] italic'>Please check your internet connection and try again</p>
-          <div className='flex justify-end'>
-
-          <button onClick={HandleRetry}  className='bg-green-600 shadow  p-1.5  cursor-pointer px-7 
-          rounded-sm outline-none text-[15px] text-white italic'>Retry</button>
-
-
-          </div>
-
-        </div>:errors&&errorsize===0? 
+        <NetworkError HandleRetry={HandleRetry}/>:errors&&errorsize===0? 
          <div className='flex flex-col justify-center items-center'>
             <span className='flex justify-center flex-col items-center'>
               <nav className='bg-blue-400   w-fit p-5 text-white rounded-full'>
               <HandCoins/>
                
               </nav>
-              <h2 className='text-red-500 text-[16px] font-semibold p-2'>No borrowers found !</h2>
+              <h2 className='text-red-500 text-[20px] font-semibold p-2'>No borrowers found !</h2>
             </span>
             <p className='text-[15px]'>{errors}</p>
          </div>

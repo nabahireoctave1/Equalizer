@@ -8,7 +8,7 @@ import EditCompany_info_model from './EditCompany_info_model'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import HandleErrormodel from './HandleErrormodel'
-
+import Loader1 from './Loader1'
 function AdminSetting() {
     const [isAutoNotifOpen, setIsAutoNotifOpen] = useState(true)
     const [isofficechargeopen, setisofficechargeopen] = useState(null)
@@ -24,9 +24,9 @@ function AdminSetting() {
     const [settingMessage,setsettingMessage]=useState(null)
 const [title,settitle]=useState(null);
 const [success,setsuccess]=useState(null);
-
+const [skeletonloader,setskeletonloader]=useState(true)
     const [inputs, setinputs] = useState([
-      { start_up: '', ending: '', office_interest: ''}
+      { branch_id:'',branch_name:'', start_up: '', ending: '', office_interest: ''}
     ])
     
     let opencompanyinfomodel = (e) => { e.preventDefault(); setiscompanyinfoopen(true) }
@@ -54,6 +54,23 @@ const [success,setsuccess]=useState(null);
       }
     }
 
+    const HandleRemoveInput = (index) => {
+  setinputs((prevInputs) =>
+    prevInputs.filter((_, i) => i !== index)
+  );
+
+  setvalidationError((prev) => {
+    const newErrors = { ...prev };
+
+    Object.keys(newErrors).forEach((key) => {
+      if (key.startsWith(`officecharge[${index}]`)) {
+        delete newErrors[key];
+      }
+    });
+
+    return newErrors;
+  });
+};
     const HandleSettingChange = (e) => {
       const { name, value } = e.target;
       setsetting((prev) => ({
@@ -84,6 +101,8 @@ const [success,setsuccess]=useState(null);
           let data = res.data;
         setinputs(
             data.map((item) => ({
+                branch_id:item.branch_id,
+                office_name:item.office_name,
                 start_up: item.startup_amount,
                 ending: item.end_amount,
                 office_interest: item.office_interest
@@ -114,6 +133,7 @@ const [success,setsuccess]=useState(null);
           setskeletonloader(false)
         }
     }
+
 
 
     const ShowCompanyBranch= async()=>{
@@ -185,34 +205,34 @@ if (response.data.length > 0) {
         }
     }
 
-useEffect(() => {
 
-  const updateOfficeCharge = async () => {
-    try {
 
-      const res = await api.put(
-        '/disable-office-charge',
-        { isofficechargeopen }
-      );
+    const HandleofficechargeToggle=async()=>{
+      const newvalue=!isofficechargeopen;
+      setofficechargeError(null);
+      setofficechargemessage(null);
+      setisofficechargeopen(newvalue);
 
-      if (res.data.success) {
+      try{
+        const res= await api.put('/Handle-toggle-on-off-office-setting',{isofficechargeopen:newvalue});
+        if(res.data.success){
+
         setofficechargemessage(res.data.message);
+
+        setTimeout(() => {
+          setofficechargemessage(null)
+        },4000);
+
+        }
+
       }
+      catch(err){
+        setofficechargeError(err.response.data.message||err.message);
+        setisofficechargeopen(!newvalue);
 
-    } catch (err) {
-      setofficechargeError(
-        err.response?.data?.message || err.message
-      );
-
-     
+      }
     }
-  };
 
-  updateOfficeCharge();
-
-
-
-}, [isofficechargeopen]);
     const iconSize = 27
     const cardStyle =`bg-white border border-gray-200 p-6 rounded-lg mb-6 transition-all hover:border-blue-300`
     
@@ -247,7 +267,10 @@ useEffect(() => {
     return (
         <div className='min-h-screen bg-gray-50 text-gray-700 pb-12'>
           
-             {Error && (
+      { skeletonloader? 
+     
+ <Loader1/>
+          :Error && (
                 <div className='bg-orange-100 border p-3 border-red-300'>
                   <div className='sm:flex-row lg:flex gap-2 items-center'>
                     <span><TriangleAlert size={40} className=' text-red-600'/></span>
@@ -272,13 +295,14 @@ useEffect(() => {
                     <div className='grid md:grid-cols-2 gap-6'>
                         <div className='space-y-4'>
                             <div className='p-3 rounded-lg border border-gray-100'>
-                                <p className='text-sm font-bold flex items-center gap-2 text-gray-600'>
+                                <p className='text-[12px] uppercase flex items-center gap-2 text-gray-600'>
                                     <CircleCheck size={18} className="text-blue-300" />
-                                     {t('ads.disable_loans_application')}
+                                     {setting.disableloanapp===0 ? t('ads.loan_is_disabled') : t('ads.disable_loans_application')}
                                 </p>
-                                <button className={`${setting.disableloanapp === 1 ? 'bg-blue-500' : 'bg-red-400' } px-3 py-1 w-45 mt-2 text-white rounded-sm font-semibold mx-6 cursor-pointer`}>
-                                 {t('ads.disable')}
-                                </button>
+                               <button className={`${setting.disableloanapp == 1 ? 'bg-rose-600': 'bg-blue-500'} 
+                               px-3 py-1 w-45 mt-2 text-white rounded-sm font-semibold mx-6 cursor-pointer`}>
+                                   {setting.disableloanapp ==1 ? t('ads.disable') : t('ads.enable')}
+                          </button>
                             </div>
                         </div>
 
@@ -417,7 +441,7 @@ useEffect(() => {
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-medium text-gray-500">{t('ads.off')}</span>
                       <button
-                        onClick={() => setisofficechargeopen(!isofficechargeopen)}
+                        onClick={HandleofficechargeToggle}
                         className={`transition-all cursor-pointer ${isofficechargeopen ? "text-blue-400" : "text-gray-400"}`}
                       >
                         {isofficechargeopen ? <ToggleRight size={28} /> : <ToggleLeft size={28} />}
@@ -441,7 +465,7 @@ useEffect(() => {
                   {isofficechargeopen ? (
                     <div className="space-y-6 mt-4">
                       <div className="mt-3">
-                            <label className="block text-[13px] text-gray-700 mb-2">{t('c.branch')}</label>
+                            <label className="block text-[13px] text-gray-700 mb-2">{t('ads.choose_branch')}</label>
                             <select 
                                   name='officeId'
                               value={setting.officeId}
@@ -466,8 +490,23 @@ useEffect(() => {
 
                           {index > 0 && <p className="text-xs font-bold text-blue-500 mb-2">Configuration
                           {''} {index + 1}</p>}
-                            {index >0  ? <span><X size={15} className='cursor-pointer'/></span>:''}
+                            {index > 0 && (
+                              <button type="button" onClick={() => HandleRemoveInput(index)}
+                            className="p-1 rounded-full text-red-400 hover:bg-red-50
+                             hover:text-red-600 transition-colors cursor-pointer"><X size={16} /></button>
+)}
                           </div>
+
+                          {(index===0||inputs[index-1]?.branch_id)&&(
+                            <div>
+                            <label className="block text-[14px] font-bold uppercase   text-gray-700 ">Branch name</label>
+
+                            <input type="text" value={item?.office_name ? item.office_name :'No branch has configured office charge'} 
+                            readOnly className="w-full first-letter:capitalized bg-gray-100/50 border
+                             border-gray-300 rounded-sm p-2 text-sm text-gray-700 outline-none cursor-not-allowed"
+        />
+                            </div>
+                          )}
                           
                           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           

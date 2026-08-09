@@ -5,14 +5,47 @@ import {
   CreditCard,
   Activity,
   Network,
+  Inbox,
+  MessageSquareOff,
+  TriangleAlert,
+  WifiOff,
+  CircleX,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import api from "../api";
 
 function Sms() {
 
- const [smsinfo,setsmsinfo]=useState([])
+ const [smsinfo,setsmsinfo]=useState({
+  remainSMS:null,
+  TotalsmsPurchased:null,
+  DailyUsage:null,
+
+ })
  const [smslg,setsmslg]= useState([])
+ const [Loading,setLoading]=useState(true)
+
+ const [Purchasesmsformdata,setpurchasesmsformdata]=useState({
+  smsPackage:"",
+  PaymentNumber:""
+ })
+
+ const [smsErrors,setError]=useState({});
+ 
+
+ const HandleChange= (e)=>{
+   const {name,value}=e.target;
+    
+   setpurchasesmsformdata({
+    ...Purchasesmsformdata,
+    [name]:value
+   })
+
+   setError((prev)=>({...prev,[name]:''}))
+
+  
+ }
+
  const [errors,seterrors]=useState({
   smsError:null,
   transError:null,
@@ -21,27 +54,61 @@ function Sms() {
 
 
  const FetchsmsLog = async ()=>{
+  setLoading(true);
    try{
     seterrors({smsError:null,transError:null,NetworkError:false});
 
     const [sms,trans]= await Promise.all([
-    api.get('/smsinfo').catch(err=>((prev)=>({...prev,smsError:err.response?.data?.message}))),
-    api.get('/sms-transaction-log').catch(err=>((prev)=>({...prev,transError:err.response?.data?.message})))
+  api.get('/smsinfo'),
+api.get('/sms-transaction-log'),
     ])
 
-    if(sms){setsmsinfo(sms.data)}
-    if(trans){setsmslg(trans.data)}
+  const smsData = sms?.data?.smsdata?.[0];
+
+
+    if(sms){
+
+
+      setsmsinfo({
+
+         remainSMS: smsData.remaining_sms,
+        TotalsmsPurchased: smsData.total_purchase,
+        DailyUsage: smsData.total_used
+
+    })}
+    if(trans){setsmslg(trans?.data)}
 
    }
    catch(err){
     if(!err.response){
-      seterrors({NetworkError:true})
+      seterrors({
+        smsError:null,
+        transError:null,
+        NetworkError:true})
+    }
+    else{
+      seterrors({
+        smsError:err.response?.data?.message||null,
+        transError:err.response?.data?.message|| null,
+        NetworkError:false
+      
+      })
     }
     
+   }finally{
+    setLoading(false)
    }
 
  }
 
+
+ const HandleRetry= ()=>{
+  FetchsmsLog();
+ }
+
+
+
+ 
  
  useEffect(()=>{
    
@@ -50,36 +117,67 @@ function Sms() {
 
 
 
-
-  const transactions = [
-    {
-      id: "msx-1-2034",
-      sms: "25,000 SMS",
-      amount: "UGX 120,000",
-      method: "MTN MOMO",
-      status: "Success",
-      date: "29 May 2026",
-    },
-    {
-      id: "msx-1-2035",
-      sms: "10,000 SMS",
-      amount: "UGX 50,000",
-      method: "Airtel Money",
-      status: "failed",
-      date: "28 May 2026",
-    },
-    {
-      id: "msx-1-2036",
-      sms: "50,000 SMS",
-      amount: "UGX 240,000",
-      method: "MTN MOMO",
-      status: "Success",
-      date: "27 May 2026",
-    },
-  ];
+const HandleSubmit= async(e)=>{
+  e.preventDefault();
+  setError({});
+  
+  try{ 
+  const res=await api.post('purchase-sms',Purchasesmsformdata);
 
 
+  }
+  catch(err){
+    const data= err.response?.data;
+    if(data?.Errors){setError(data.Errors)
+      return
+    }
+
+  }
+
+
+}
+
+
+
+
+const smsUsedProgress =
+  smsinfo.TotalsmsPurchased > 0
+    ? Math.min(
+        (smsinfo.DailyUsage / smsinfo.TotalsmsPurchased) * 100,
+        100
+      )
+    : 0;
+    const smsPercentageProgress= smsUsedProgress.toFixed(2);
+
+
+
+
+
+
+  const formatDate= (date)=>{
+     if(!date) return null;
+         return date.split('T')[0]
+     .split('-').reverse().join('-')
+
+  }
   const {t}=useTranslation()
+
+
+  const  SkeletonCellLoader= ()=>{
+
+    return (
+      <div className="w-full">
+        <div className="bg-gray-200 p-2  rounded-xs w-full animate-pulse"></div>
+      </div>
+    )
+  }
+
+
+  const Smsinputborderswitcher= (field)=>`
+  ${console.log(field)}
+  
+  ${smsErrors[field] ? 'bg-red-50 border-red-500':'bg-gray-50 border-gray-200'} w-full  border 
+   rounded-md px-4 py-3 text-sm outline-none focus:border-blue-400`
 
   return (
     <div className="min-h-screen">
@@ -95,6 +193,50 @@ function Sms() {
 
          
       </div>
+     {errors.NetworkError ?
+      <div className="bg-red-50 p-4 border m-2 rounded-md  border-red-500 ">
+        <span><WifiOff  size={40} className="text-red-500"/></span>
+       <h2 className="text-red-500 text-2xl">Network error</h2>
+
+       <h2 className="text-[15px]">Unable to connect to the server</h2>
+       <p className="text-[15px] italic">Network error occured please check your internet connection </p>
+
+
+      </div>
+     :
+       smsinfo&&smsinfo?.remainSMS===0 ?
+      <div className="flex gap-2 items-center px-4 py-4 bg-red-50 border-red-500 border rounded-sm m-2">
+        <span>
+          <MessageSquareOff strokeWidth={1.7} size={40} className="text-red-500"/>
+        </span>
+
+        <div>
+
+        <h2 className="text-rose-500 text-lg font-semibold">No sms credits</h2>
+
+        <p className="text-red-500 text-[15px]">You have no SMS credits remaining. Purchase more SMS to continue using messaging service</p>
+        </div>
+
+      </div>:smsinfo?.remainSMS<=120&&smsinfo.remainSMS>0 ? 
+      <div className="border p-3 rounded-md m-2 border-red-500 bg-red-50">
+        <span>
+          <TriangleAlert size={45} className="text-red-500"/>
+        </span>
+        <div>
+          <h2 className="text-xl font-bold text-red-500">Low SMS credits</h2>
+          <p className="text-red-500 text-[15px] italic">{smsinfo?.remainSMS} SMS remain . 
+            add more credits to keep using messaging services without interuption.</p>
+          <p className="text-slate-600 text-[15px] italic">your remaining credits are running low, and add
+             credits now will ensure you can continue sending important messages without any service disruption </p>
+
+
+        </div>
+      </div>
+
+      :''
+
+     }
+
 
       <div className="p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -106,9 +248,15 @@ function Sms() {
                     {t('sms.current_sms')}
                   </p>
 
-                  <h2 className="text-2xl pb-2 font-black text-gray-800 mt-3">
-                    25000 SMS
+                  {Loading||errors.NetworkError ? 
+                  <div className="p-3 bg-gray-200 rounded-xs animate-pulse"></div>
+                  
+                  :<h2 className="text-2xl pb-2 font-black text-gray-800 mt-3">
+                    {smsinfo.remainSMS ? smsinfo.remainSMS:0} SMS
                   </h2>
+                 
+                 }
+                  
 
                   <p className="text-gray-700 text-xs mt-1 uppercase">
                     {t('sms.available_sms_remaining')}
@@ -118,16 +266,23 @@ function Sms() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                <div className="bg-[#f8faff] border border-blue-100 rounded-2xl p-4">
+                <div className="bg-[#f8faff] border border-gray-100 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-800 text-sm">
+                      <p className="text-gray-800 text-[14px]">
                       {t('sms.total_purchased')}
                       </p>
 
-                      <h3 className="text-xl font-black text-gray-800 mt-1">
-                        150K SMS
+                      {Loading||errors.NetworkError ?
+                  <div className="p-3 bg-gray-200 rounded-xs animate-pulse"></div>
+                  :
+                        <h3 className="text-xl font-black text-gray-800 mt-1">
+                        {smsinfo.TotalsmsPurchased? smsinfo.TotalsmsPurchased:0} SMS
                       </h3>
+                      
+                      }
+
+                    
 
                       <p className="text-[11px] text-gray-700 uppercase mt-1">
                         {t('sms.sms_package_usage')}
@@ -144,31 +299,38 @@ function Sms() {
 
                   <div className="mt-4">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-[11px] text-gray-700">
+                      <span className="text-[14px] text-gray-700">
                         {t('sms.usage')}
                       </span>
 
-                      <span className="text-[11px] font-bold text-gray-700">
-                        78%
+                      <span className="text-[12px] font-bold text-gray-700">
+                        {Loading||errors.NetworkError ? <div className="py-2.5 bg-gray-200 rounded-xs px-4 animate-pulse "></div>:
+                        <span>{smsPercentageProgress}% </span>
+                        }
                       </span>
                     </div>
 
                     <div className="w-full h-2 bg-blue-100 rounded-full overflow-hidden">
-                      <div className="w-[78%] h-full bg-blue-300 rounded-full"></div>
+                      <div style={{width:`${smsPercentageProgress}%`}} 
+                      className={`h-full bg-blue-300 rounded-full`}></div>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-[#f8faff] border border-indigo-100 rounded-2xl p-4">
+                <div className="bg-[#f8faff] border border-gray-100 rounded-md p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-800 text-sm">
                         {t('sms.daily_usage')}
-                      </p>
+                      </p>                     
+                      {Loading||errors.NetworkError ?<div className="p-3 bg-gray-200 animate-pulse rounded-xs"></div> :
 
-                      <h3 className="text-xl font-black text-gray-800 mt-1">
-                        240 SMS
+                        <h3 className="text-xl font-black text-gray-800 mt-1">
+                        {smsinfo.DailyUsage ? smsinfo.DailyUsage :0} SMS
                       </h3>
+                      }
+                     
+                    
 
                       <p className="text-[11px] text-gray-700 uppercase mt-1">
                         {t('sms.today_message_used')}
@@ -185,17 +347,23 @@ function Sms() {
 
                   <div className="mt-4">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-[11px] text-gray-700">
+                      <span className="text-[12px] text-gray-700">
                         {t('sms.daily_usage')}
                       </span>
 
-                      <span className="text-[11px] font-bold text-gray-700">
-                        46%
+                      <span className="text-[12px] font-bold text-gray-700">
+                        {Loading||errors.NetworkError ? <div className="bg-gray-200 py-2.5 px-4 animate-pulse">
+
+                        </div>:<span>
+                        {smsPercentageProgress}%
+
+                          </span>}
                       </span>
                     </div>
 
                     <div className="w-full h-2 bg-indigo-100 rounded-full overflow-hidden">
-                      <div className="w-[46%] h-full bg-blue-300 rounded-full"></div>
+                      <div style={{width:`${smsPercentageProgress}%`}} className={`h-full bg-blue-300 
+                        rounded-full`}></div>
                     </div>
                   </div>
                 </div>
@@ -223,32 +391,40 @@ function Sms() {
                 </div>
               </div>
 
-              <form className="space-y-4">
+              <form onSubmit={HandleSubmit} className="space-y-4" >
                 <div>
-                  <label className="text-xs font-semibold text-gray-700 block mb-2">
+                  <label className="text-[13px] font-semibold text-gray-700 block mb-2">
                     {t('sms.sms_package')}
                   </label>
 
                   <input
-                    type="number"
+                    type="text"
+                    name="smsPackage"
+                    onChange={HandleChange}
                     placeholder={t('sms.enter_sms_amount')}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-md px-4 py-3 text-sm outline-none focus:border-blue-600"
+                    className={`${Smsinputborderswitcher('smsPackage')}`}
                   />
+                <span className="text-red-500 text-[13px]">{smsErrors? smsErrors.smsPackage:'' }</span>
+
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-gray-700 block mb-2">
+                  <label className="text-[13px] font-semibold text-gray-700 block mb-2">
                     {t('sms.phone_number')}
                   </label>
 
                   <input
                     type="text"
+                    name="PaymentNumber"
+                    onChange={HandleChange}
                     placeholder="07XXXXXXXX"
-                    className="w-full bg-gray-50 border border-gray-200 rounded-md px-4 py-3 text-sm outline-none focus:border-blue-600"
+                    className={`${Smsinputborderswitcher('PaymentNumber')}`}
                   />
+                <span className="text-red-500 text-[13px]">{smsErrors? smsErrors.PaymentNumber:'' }</span>
+
                 </div>
 
-                <button className="w-full bg-blue-400 cursor-pointer text-white py-3 rounded-md text-sm font-bold hover:opacity-90 duration-300 shadow-lg">
+                <button className="w-full bg-blue-400 outline-none cursor-pointer text-white py-3 rounded-md text-sm font-bold hover:opacity-90 duration-300 shadow-lg">
                 {t('sms.purchase')}
                 </button>
               </form>
@@ -266,8 +442,40 @@ function Sms() {
              {t('sms.recent_sms_purchase_records')}
             </p>
           </div>
+          {errors.NetworkError ? 
+          <div className="bg-red-50 p-3 border border-red-500 rounded-md flex flex-col ">
+          <span>
+            <CircleX size={40} className="text-red-500"/>
+          </span>
+          <h2 className="text-[14px] text-red-500 font-semibold pt-2 uppercase ">Unable to load sms transactions</h2>
+          <p className="italic">Network error occured please check your internet conection and try again</p>
+           <div className="flex justify-end">
+            <button onClick={HandleRetry} className="text-[15px] cursor-pointer italic bg-green-600 px-6 py-1.5
+             text-white rounded-sm mt-2 ">Retry</button>
 
-          <table className="w-full">
+          </div>
+
+         
+
+          </div>
+          :errors.transError ? 
+          <div className="flex flex-col items-center p-2">
+        
+        <span className="flex flex-col items-center bg-blue-400 p-3 text-white rounded-full">
+          <Inbox size={60} strokeWidth={1.5}/>
+
+        </span>
+          <h2 className="font-semibold  text-red-500">{errors.transError}</h2>
+
+        <p className="text-[15px]">You haven't made any SMS purchases yet. Your transaction history will
+           appear here once you complete your first purchase.</p>
+
+   
+
+
+          </div>          
+          
+          :<table className="w-full">
             <thead>
               <tr className="border-b border-gray-100">
                 <th className="text-left py-3 text-gray-600 text-xs uppercase whitespace-nowrap">
@@ -295,25 +503,37 @@ function Sms() {
             </thead>
 
             <tbody>
-              {smslg.map((item, index) => (
+
+              
+              {Loading ?Array.from({length:5}).map((_,idx)=>(
+                <tr key={idx}>
+
+                <td className="py-3 px-2"><SkeletonCellLoader/></td>
+                <td className="py-3 px-2"><SkeletonCellLoader/></td>
+                <td className="py-3 px-2"><SkeletonCellLoader/></td>
+                <td className="py-3 px-2"><SkeletonCellLoader/></td>
+                <td className="py-3 px-2"><SkeletonCellLoader/></td>
+                </tr>
+
+              )) :smslg?.map((item, index) => (
                 
                 <tr
                   key={index}
                   className="border-b border-gray-50 hover:bg-gray-50 duration-200"
                 >
-                  <td className="py-4 text-[15px] text-gray-700 whitespace-nowrap px-2">
-                    {item.date}
+                  <td className="py-4 text-[14px] text-gray-700 whitespace-nowrap px-2">
+                    {formatDate(item.date)}
                   </td>
 
-                  <td className="py-4 text-[15px] uppercase text-gray-800 whitespace-nowrap px-2">
+                  <td className="py-4 text-[14px] uppercase text-gray-800 whitespace-nowrap px-2">
                     {item.sms_id}
                   </td>
 
-                  <td className="py-4 text-[15px] text-gray-700 whitespace-nowrap px-2">
+                  <td className="py-4 text-[14px] text-gray-700 whitespace-nowrap px-2">
                     {item.sms_purchase_total} SMS
                   </td>
 
-                  <td className="py-4 text-[15px] text-gray-700 whitespace-nowrap px-2">
+                  <td className="py-4 text-[14px] text-gray-700 whitespace-nowrap px-2">
                     {item.amount}
                   </td>
 
@@ -334,6 +554,8 @@ function Sms() {
               ))}
             </tbody>
           </table>
+          }
+
         </div>
       </div>
     </div>

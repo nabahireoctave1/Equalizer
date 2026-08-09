@@ -11,6 +11,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import api from '../api'
+import Loader1 from "./Loader1";
+import NetworkError from './NetworkError'
 
 function Billing() {
   const [billingInfo,setbillingInfo]=useState([]);
@@ -77,28 +79,12 @@ useEffect(()=>{
   return (
     <div>    
         {loading ?
-         <div className="border bg-white flex justify-between p-4 rounded-xs border-gray-300 m-2 ">
-          <div className="space-y-2">
-             <div className="flex bg-gray-200 py-3 h-2 w-80 animate-pulse rounded-xs"></div>
-             <div className="flex bg-gray-200 py-3 h-2 w-50 animate-pulse rounded-xs"></div>
+        <Loader1/>:networkError ?
+        <div className="m-2">
 
+<NetworkError/>
         </div>
-        <div className="flex gap-2">
-         {[1,2,3,4].map((i)=>{
-          return <div key={i} >
-          <div className="border py-3.5 px-7 rounded-xs border-gray-100 bg-gray-100 animate-pulse "></div>
-          </div>
-         })}
-        </div>
-          
-        </div>:networkError ?
-         <div className="bg-red-50 border border-red-500 p-4 rounded-sm">
-       <span><WifiOff size={40} className="text-red-500"/></span>
-       <h2 className="text-2xl text-red-500">Network error</h2>
-        <p className="text-[15px]">Unable to connect to the server</p>
-        <p className="text-[15px]  italic">network error occured please check your internet connection and refresh page</p>
-    
-       </div>:Error ?
+      :Error ?
         <div className="flex gap-1 p-3 bg-red-50 border border-red-300">
           <span ><CircleX size={45} className="text-red-600"/></span>
           <div className="">
@@ -108,15 +94,15 @@ useEffect(()=>{
           </div>
         
        </div>
-      :<div className={`${timeleft.expired===true ?'bg-red-50 border-red-400 ':'bg-[#F4FBF6] border-green-400'}
+      :<div className={`${!loading&&timeleft.expired===true ?'bg-red-50 border-red-400 ':'bg-[#F4FBF6] border-green-400'}
        animate-bounce-once border outline-none  p-3  
       sm:flex-row space-y-2 md:flex items-center justify-between`}>
         <div className="flex justify-center md:justify-start">
 
           <div>
-          <h2 className={`${timeleft.expired===true? "text-red-600":"text-gray-800"} text-[20px] font-extrabold  uppercase`}>{timeleft.expired===true ? 'Subscription expired':'Company subscription'}</h2>
-         <p className={`${timeleft.expired===true? "text-red-600":" text-green-600"} 
-         text-[15px] italic`}>{timeleft.expired===true ? 'Your subscription was expired activation required !':"Your company subscription is active now"}</p>
+          <h2 className={`${!loading&&timeleft.expired===true? "text-red-600":"text-gray-800"} text-[20px] font-extrabold  uppercase`}>{timeleft.expired===true ? 'Subscription expired':'Company subscription'}</h2>
+         <p className={`${!loading&&timeleft.expired===true? "text-red-600":" text-green-600"} 
+         text-[15px] italic`}>{!loading&&timeleft.expired===true ? 'Your subscription was expired activation required !':"Your company subscription is active now"}</p>
             </div>
         </div>
         <div>

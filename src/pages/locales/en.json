@@ -212,6 +212,9 @@
     "manage_company_activity": "Manage Company Activity",
     "disable_loans_application": "Disable Loans Application",
     "disable": "Disable",
+    "enable": "Enable",
+     "loan_is_disabled": "Loan application is currently disabled",
+
 
     "company_entity": "Company Entity",
 
@@ -248,6 +251,8 @@
     "ending_cash": "Ending Cash",
 
     "new": "New",
+    "choose_branch": "Choose Branch",
+
 
     "office_charge_disabled": "Office charge is currently disabled",
 
@@ -519,6 +524,8 @@
     "yes": "Yes"
   }
 
+
+  
 
 
 

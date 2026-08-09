@@ -10,6 +10,9 @@ import Burn_cashier from "./Burn_cashier";
 import Reactivatecashiermodel from "./Reactivatecashiermodel";
 import { useTranslation } from "react-i18next";
 import api from "../api";
+import NetworkError from "./NetworkError";
+import SkeletonCellLoader from './SkeletonCellLoader'
+
 function Cashiers() {
  
   const [searchterm,setsearchterm]=useState('')
@@ -77,6 +80,7 @@ function Cashiers() {
 
 
 
+
   const statusbadge=(status)=>{
       switch(status){
         case 'active' :return 'bg-blue-500 text-white'; 
@@ -85,13 +89,7 @@ function Cashiers() {
       }
   }
 
-  const  SkeletonCellLoader= ()=>{
-    return (
-      <div className="w-full">
-        <div className="bg-gray-200 p-2  rounded-xs w-full animate-pulse"></div>
-      </div>
-    )
-  }
+ 
 
   return (
     <div className={`${error ? '':'sm:p-4 md:p-6'} p-2   bg-gray-100  min-h-screen`}>
@@ -166,7 +164,7 @@ function Cashiers() {
            
            
            :error&&errorlength==0?
-             <div className="flex item items-center min-h-screen justify-center  flex-col ">
+             <div className="flex item items-center min-h-65 justify-center  flex-col ">
             <div className="bg-blue-400 p-5 flex items-center rounded-full">
               <UserPlus size={50} className="text-white"/>
             </div>
@@ -176,21 +174,7 @@ function Cashiers() {
             <button onClick={opencashiermodel} className="flex gap-1 items-center text-sm bg-blue-400 p-2
              rounded-sm text-white px-5"><PlusIcon size={20}/>{t('c.cashier')}</button>
           </div> :networkError ? 
-            <div className="border p-5 border-red-500 bg-red-50 rounded-md">
-              <span>
-                <WifiOff size={40} className="text-red-500"/>
-
-              </span>
-               <h2 className="text-2xl text-red-500">Network error</h2>
-               <p className="text-[15px]">Unable to connect to the server</p>
-               <p className="italic text-[15px]">Please check your internet connetion and try again</p>
-               <div className="flex justify-end">
-                <button
-                 onClick={Handleretry} className="bg-green-600 px-6 py-1.5 rounded-sm shadow 
-                 text-[14px] cursor-pointer text-white">Retry</button>
-               </div>
-
-            </div>
+            <NetworkError HandleRetry={Handleretry}/>
           :!loading&&filtereddata.length==0?
             <div className="p-8 flex flex-col items-center justify-center text-[15px] text-gray-800" >
                  <SearchX size={60} className="text-gray-800"/>

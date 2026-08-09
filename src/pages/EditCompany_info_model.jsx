@@ -1,15 +1,43 @@
 import React, { useState } from 'react';
 import { Building2, X, ShieldAlert, Calendar, MapPin, User, Hash,Plus } from 'lucide-react';
+import api from '../api';
 
 function EditCompany_info_model({ onclose }) {
-  const [logo, setLogo] = useState(null);
+ 
 
-  const handleLogoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setLogo(URL.createObjectURL(file));
+  const [formdata,setformData]=useState({
+    companyName:"",
+    companyAdmin:"",
+    companyLocation:""
+  })
+
+
+
+  const HandleChanges= (e)=>{
+    const {name,value}=e.target;
+
+    setformData({
+      ...formdata,
+      [name]:value
+    })
+  }
+
+  console.log(formdata)
+
+
+  const HandleSaveChanges= async()=>{
+    try{
+
+      const res=await api.put('/change-company-info',formdata);
+      console.log(res);
+
+
+
     }
-  };
+    catch(err){
+
+    }
+}
 
   return (
     <div 
@@ -47,10 +75,10 @@ function EditCompany_info_model({ onclose }) {
                   <User size={12} /> Company Name
                 </label>
                 <input 
-                  id="company-name"
+                  name='companyName'
+                  onChange={HandleChanges}
                   type="text" 
                   className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
-                  defaultValue='Musanze akea service' 
                 />
               </div>
 
@@ -59,10 +87,10 @@ function EditCompany_info_model({ onclose }) {
                   <MapPin size={12} /> Location
                 </label>
                 <input 
-                  id="location"
+                  name='companyLocation'
+                  onChange={HandleChanges}
                   type="text" 
                   className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
-                  defaultValue='Kampala, Uganda' 
                 />
               </div>
 
@@ -71,10 +99,10 @@ function EditCompany_info_model({ onclose }) {
                   <ShieldAlert size={12} /> Admin Representative
                 </label>
                 <input 
-                  id="admin-rep"
+                  name='companyAdmin'
+                  onChange={HandleChanges}
                   type="text" 
                   className='w-full px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all' 
-                  defaultValue='James Willlock' 
                 />
               </div>
 
@@ -116,9 +144,10 @@ function EditCompany_info_model({ onclose }) {
                 >
                   Cancel
                 </button>
-                <button 
+                <button  onClick={HandleSaveChanges}
                   type="submit"
-                  className='flex-1 sm:flex-none px-5 py-2.5 cursor-pointer bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-sm transition-all text-[10px] uppercase tracking-wide whitespace-nowrap'
+                  className='flex-1 sm:flex-none px-5 py-2.5 cursor-pointer bg-blue-400 outline-none
+                   text-white font-bold rounded-sm hover:bg-blue-500 shadow-sm transition-all text-[10px] uppercase tracking-wide whitespace-nowrap'
                 >
                   Save Changes
                 </button>

@@ -154,8 +154,8 @@ useEffect(() => {
                    localStorage.setItem('currentpage',item.id)
                   setIsSidebarOpen(false); 
                 }} 
-                className={`w-full flex gap-2 px-4 py-2 text-sm text-gray-600 rounded-md cursor-pointer 
-                  items-center transition-all 
+                className={` ${currenctpage===item.id ? 'text-blue-400':' text-gray-600'} w-full flex gap-2 px-4 py-2 text-sm rounded-md cursor-pointer 
+                  items-center transition-all  outline-none
                 `}
               >
                 {item.icon}

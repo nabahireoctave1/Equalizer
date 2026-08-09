@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next'
 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import api from '../api';
+import NetworkError from './NetworkError';
+import SkeletonCellLoader from './SkeletonCellLoader';
 
 function Repayments() {
 
@@ -58,7 +60,7 @@ const formatDate = (date) => {
 
 
     const LoadingData= [
-        {date:"",Paid:200},
+        {date:"",Paid:700},
         {date:"",Paid:500},
         {date:"",Paid:1000},
         {date:"",Paid:700},
@@ -100,13 +102,6 @@ const formatDate = (date) => {
  }
 
 
-    const SkeletonLoadercell= ()=>{
-        return (
-            <div className='w-full'>
-                <div className='w-full p-2 px-3 bg-gray-200 animate-pulse rounded-xs'></div>
-            </div>
-        )
-    }
    
 
 
@@ -132,7 +127,7 @@ const formatDate = (date) => {
 
                         <select 
                             value={selectedDate}
-                            disabled={Loading||Error    }
+                            disabled={Loading||Error ||networkError   }
                             onChange={(e) => setSelectedDate(e.target.value)}
                             className='absolute inset-0 w-full h-full disabled:cursor-not-allowed opacity-0 cursor-pointer font-medium'
                         >
@@ -144,7 +139,7 @@ const formatDate = (date) => {
                     </span>
 
                     <button
-                     disabled={Loading||Error}
+                     disabled={Loading || networkError || Error}
                     className='flex capitalize gap-2 p-2 px-4 rounded-md text-sm cursor-pointer border
                      border-gray-200 bg-white items-center whitespace-nowrap disabled:cursor-not-allowed'
                      ><Download size={16}/>
@@ -164,18 +159,7 @@ const formatDate = (date) => {
             </div>
 
             {networkError ? 
-             <div className='bg-red-50 p-5 border border-red-500 rounded-sm mt-7' >
-                <span>
-                    <WifiOff size={40}  className='text-red-500'/>
-                <h2 className='text-2xl text-red-500'>Network error</h2>             
-                </span>
-                <p className='text-[15px]'>Unable to connect to the server</p>
-                <p className='text-[15px] italic'>Please check your internet connection and try again</p>
-                <div className='flex justify-end'>
-                  <button  onClick={Handleretry}   className='bg-green-600 shadow  p-1.5 px-7 cursor-pointer  
-                 rounded-sm text-[15px] outline-none text-white italic'>Retry</button>
-                </div>
-             </div>
+            <NetworkError HandleRetry={Handleretry}/>
            :<div>
              <div className={`mt-6 bg-white ${Error ? 'border border-gray-200':'shadow'}  
              rounded-md min-h-75 overflow-hidden`}>
@@ -184,7 +168,9 @@ const formatDate = (date) => {
                  <span className='bg-blue-400 p-3 rounded-full'><Receipt size={60} 
                  className='text-white'/></span>
                     <p className='text-red-500 font-semibold p-2'>{Error}</p>
-                    <p className='text-gray-800 text-[14px]'>Payment records will be dispalyed here once recorded</p>
+                    <p className='text-gray-800 text-[15px]'>There are no repayment records to display at moment . new payments will
+                        automatically appear here once recorded
+                    </p>
                  </div>
                 :Error &&Errorsize!==0 ?
                  <div className='flex flex-col justify-center h-70 w-full p-6  items-center '>
@@ -223,13 +209,13 @@ const formatDate = (date) => {
                             
                           {Loading ? Array.from({length:5}).map((_,idx)=>(
                             <tr key={idx}>
-                         <td className="p-3"> <SkeletonLoadercell/></td>
-                             <td className='p-3'> <SkeletonLoadercell/></td>
-                             <td className='p-3'><SkeletonLoadercell/></td>
-                             <td className='p-3'><SkeletonLoadercell/></td>
-                             <td className='p-3'><SkeletonLoadercell/></td>
-                             <td className='p-3'><SkeletonLoadercell/> </td>
-                             <td className='p-3'><SkeletonLoadercell/></td>
+                         <td className="p-3"> <SkeletonCellLoader/></td>
+                             <td className='p-3'> <SkeletonCellLoader/></td>
+                             <td className='p-3'><SkeletonCellLoader/></td>
+                             <td className='p-3'><SkeletonCellLoader/></td>
+                             <td className='p-3'><SkeletonCellLoader/></td>
+                             <td className='p-3'><SkeletonCellLoader/> </td>
+                             <td className='p-3'><SkeletonCellLoader/></td>
                                 </tr>
                           )
                           ):filteredrepayment.map((p,idx)=>{
@@ -288,13 +274,13 @@ const formatDate = (date) => {
                       <span className='bg-blue-400 text-white p-4 rounded-full '>
                         <ChartSpline  size={70}/></span>
                       <p className='text-red-500 font-semibold'>{Error}</p>
-                      <p className='text-[14px] pt-2'>Repayment not found graph will appear Here
+                      <p className='text-[15px] pt-2'>Repayment trends and visual analytics will appear here as soon as payment transaction are processed 
                          when repaymet recorded</p>
                     </div>    
                     :Error&&Errorsize!==0 ? <div
                     className='flex flex-col justify-center items-center'>
                         <p className='uppercase text-[15px] text-red-500 font-semibold'>{Error}</p>
-                        <p className='text-[14px]'>Error server error occured please graph will appear when error resolved</p>
+                        <p className='text-[15px]'>Error server error occured please graph will appear when error resolved</p>
                     </div> 
                     :chartData.length===1 ? 
                     <div className='text-[15px] flex  flex-col justify-center items-center h-34 md:h-60'>
@@ -323,7 +309,7 @@ const formatDate = (date) => {
                                 stroke="#E5E7EB"
                                 fill={Loading ? "#E5E7EB":"#60A5FA"}
                                strokeWidth={2}
-                              dot={{r:chartData.length===1 ? 5:8}}
+                              dot={{r:Loading ? 2:4}}
                               activeDot={!Loading}
                               fillOpacity={Loading ? 0.5:1}
                               isAnimationActive={!Loading}

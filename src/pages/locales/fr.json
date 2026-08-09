@@ -210,7 +210,8 @@
     "manage_company_activity": "Gérer l'activité de l'entreprise",
     "disable_loans_application": "Désactiver les demandes de prêt",
     "disable": "Désactiver",
-
+     "enable": "Activer",
+      "loan_is_disabled": "La demande de prêt est actuellement désactivée",
     "company_entity": "Entreprise",
 
     "workspace_configuration": "Configuration de l'espace de travail",
@@ -246,6 +247,7 @@
     "ending_cash": "Montant maximum",
 
     "new": "Nouveau",
+     "choose_branch": "Choisir une agence",
 
     "office_charge_disabled": "Les frais de bureau sont actuellement désactivés",
 
