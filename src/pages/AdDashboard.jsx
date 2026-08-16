@@ -1,4 +1,5 @@
 import React, { Activity, useEffect, useState } from 'react'
+
 import logo from '../assets/image.jpeg'
 import { 
   BellDot, Users, BarChart3, ChevronDown, LayoutDashboardIcon, 
@@ -32,8 +33,7 @@ import Field_office from './Field_office'
 import socket from '../socket'
 import { connect } from 'socket.io-client'
 import Toast from './Toast'
-
-
+import {useNavigate} from 'react-router-dom'
 
 
 function AdDashboard() {
@@ -46,13 +46,14 @@ function AdDashboard() {
    const isnotificationclosed=()=>setisnotificationopen(false)
    const [isToastOpen,setisToastOpened]=useState(false);
    const [toastMessage,settoastmessage]=useState(null);
+
   const changepage=(itemid)=>{
        setCurrentPage(itemid)
   }
 
   const { t, i18n } = useTranslation()
- 
-  
+   const navigate= useNavigate()
+   
 
 
   const chartData =[
@@ -87,6 +88,8 @@ useEffect(() => {
     }
   };
 
+
+
   const handleCompanyNotif = (notification) => {
     if(notification.notif){
     setisToastOpened(true)
@@ -105,6 +108,13 @@ useEffect(() => {
 
 
 }, [socket]); 
+
+  const HandleLogout=()=>{
+    localStorage.removeItem('token')
+    socket.disconnect();
+      navigate('/')
+
+  }
 
   return (
     <div className='min-h-screen bg-gray-50 flex font-sans antialiased text-gray-900 relative'>
@@ -162,7 +172,7 @@ useEffect(() => {
                 <span>{item.label}</span>
               </button>
             ))}
-            <button className='flex justify-center text-sm p-8 gap-1 hover:cursor-pointer bg-red-400 mx-3  py-2  rounded-sm text-white'>
+            <button onClick={HandleLogout} className='flex justify-center text-sm p-8 gap-1 hover:cursor-pointer bg-red-400 mx-3  py-2  rounded-sm text-white'>
               <span><LogOut size={18}/></span>{t('nav.logout')}</button>
           </div>
         </div>

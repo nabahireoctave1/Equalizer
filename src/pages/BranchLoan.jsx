@@ -12,7 +12,7 @@ function BranchLoan() {
 
   const [loading,setLoading]=useState(null);
   const [branchLoans,setBranchLoans]=useState([]);
-  const [errors,seterrors]= useState(null);
+  const [messagekey,setmessageKey]=useState(null);
   const  [errorsize,setErrorsize]=useState(null);
   const [networkError,setnetworkError]=useState(false)
 
@@ -30,7 +30,7 @@ function BranchLoan() {
       if(!err.response){
         setnetworkError(true)
       }
-      seterrors (err.response?.data?.message||err.message)
+      setmessageKey (err.response?.data?.messagekey||err.message)
       setErrorsize(err.response?.data?.size)
      
     }finally{
@@ -84,7 +84,7 @@ const filteredLoans = branchLoans
           <input 
             type='text' 
             onChange={(e)=>setSearchTerm(e.target.value)}
-            disabled={networkError||loading||errors}
+            disabled={networkError||messagekey||loading}
             placeholder={`${t('loan.search_placeholder')}`} 
             className='border w-full pl-9 pr-4 py-2 text-sm rounded-md border-gray-200
             disabled:cursor-not-allowed
@@ -149,37 +149,34 @@ const filteredLoans = branchLoans
 
          </div>
 
-         :errors&&errors===0?
-         <div>
-          <h2>NOT found</h2>
-         </div>:networkError ?
+         :networkError ?
          <NetworkError HandleRetry={HandleRetry}/>
-          :errors&&errorsize===0 ?
+          :messagekey&&errorsize===0 ?
+
          <div className='flex flex-col justify-center items-center border p-6 border-gray-200 rounded-md bg-white'>
           <span>
-            <nav className='bg-blue-400 rounded-full text-white p-3 w-fit '>
+            <nav className='bg-blue-400  rounded-full text-white p-3 w-fit '>
             <Banknote  size={60}/>
             
             </nav>
-           <h2 className='text-[20px] text-red-500 font-semibold'>
-            No branch Loans yet</h2>
+           <h2 className='text-[20px] text-gray-800 font-bold first-letter:uppercase'>
+            {t('errors.loans_error_title')}</h2>
            
           </span>
-          <p className='text-[15px]'>{errors}</p>
+          <p className='text-[15px]'>{t(messagekey)}</p>
          </div>
-          :errors&&errorsize===1? 
+          :messagekey&&errorsize===1? 
          <div className='bg-red-50 border border-red-500 p-3 rounded-sm'>
           <span>
             <XCircle size={50} className='text-red-500'/>
-              <h2 className='text-2xl text-red-500'>Error occurred</h2>
+              <h2 className='text-2xl text-red-500'>{t('errors.errorTitle')}</h2>
 
           </span>
-          <p className='text-[15px]'>{errors}</p>
-          <p className='text-[15px] italic'>server error occured please try again ,
-             once  error still exist contact support  for assistance</p>
+          <p className='text-[15px]'>{t(messagekey)}</p>
+          <p className='text-[15px] italic'>{t('errors.error_desc')}</p>
             <div className='flex justify-end'>
               <button onClick={HandleRetry} className='p-1.5 text-white shadow 
-              rounded-sm bg-green-600 px-7  cursor-pointer italic'>Retry</button>
+              rounded-sm bg-green-600 px-7  cursor-pointer italic'>{t('errors.retry')}</button>
             </div>
 
          </div>:
@@ -188,8 +185,8 @@ const filteredLoans = branchLoans
          <div className='bg-white p-6 border border-gray-100 rounded-sm'>
           <span className='flex items-center flex-col'>
                         <SearchX size={60} className='text-gray-800'/>
-            <h2 className='text-xl text-gray-800 font-semibold'>Result not found</h2>
-             <h2 className='text-[15px] italic'>We could`nt find any match search please check keward and try again !</h2>
+            <h2 className='text-xl text-gray-800 font-semibold'>{t('search_result.NoResult_found')}</h2>
+             <h2 className='text-[15px] italic'>{t('search_result.Nomatches')}</h2>
           </span>
          </div>
           :filteredLoans.map((branch) => (

@@ -1,7 +1,8 @@
 import { ChevronDown, ChevronLeft, ChevronRight, CircleAlert, CircleCheck, Download, ChartSpline,
      Funnel, Receipt, Search, 
      SearchX,
-     WifiOff} from 'lucide-react'
+     WifiOff,
+     CircleX} from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -14,8 +15,8 @@ function Repayments() {
 
     const [Loading,setLoading]=useState(null);  
   const [repayment,setRepayment]=useState([]);
-  const [Error,setError]=useState(null);
   const [Errorsize,setErrorsize]=useState(null);
+  const [messagekey,setmessageKey]=useState(null)
   const [networkError,setnetworkError]=useState(false)
 
 let [Searchterm,setsearchterm]= useState('')  
@@ -30,7 +31,7 @@ let [Searchterm,setsearchterm]= useState('')
         if(!err.response){
             setnetworkError(true);
         }
-     setError(err.response?.data?.message)
+     setmessageKey(err.response?.data?.messagekey)
      setErrorsize(err.response?.data?.size);
     }finally{
         setLoading(false)
@@ -112,8 +113,8 @@ const formatDate = (date) => {
                 <div className='flex items-center gap-2'>
                     <span className='bg-blue-400 p-2 rounded-sm text-white shrink-0'><CircleCheck size={30}/></span>
                     <div>
-                        <h2 className='text-xl md:text-2xl font-extrabold text-gray-800'>{t('rp.title')}</h2>
-                        <span className='text-sm capitalize block text-gray-500'>{t('rp.subtitle')}</span>
+                        <h2 className='text-xl md:text-xl font-extrabold text-gray-800'>{t('rp.title')}</h2>
+                        <span className='text-[15px] capitalize block text-gray-700'>{t('rp.subtitle')}</span>
                     </div>
                 </div>
                 <div className='flex  justify-between items-center gap-2 w-full md:w-auto'>
@@ -127,7 +128,7 @@ const formatDate = (date) => {
 
                         <select 
                             value={selectedDate}
-                            disabled={Loading||Error ||networkError   }
+                            disabled={Loading||messagekey ||networkError   }
                             onChange={(e) => setSelectedDate(e.target.value)}
                             className='absolute inset-0 w-full h-full disabled:cursor-not-allowed opacity-0 cursor-pointer font-medium'
                         >
@@ -139,7 +140,7 @@ const formatDate = (date) => {
                     </span>
 
                     <button
-                     disabled={Loading || networkError || Error}
+                     disabled={Loading || networkError || messagekey}
                     className='flex capitalize gap-2 p-2 px-4 rounded-md text-sm cursor-pointer border
                      border-gray-200 bg-white items-center whitespace-nowrap disabled:cursor-not-allowed'
                      ><Download size={16}/>
@@ -150,7 +151,7 @@ const formatDate = (date) => {
                     <input type='text'
                     onChange={(e)=>setsearchterm(e.target.value)}
                      placeholder={t('loan.search_placeholder')}
-                    disabled={Loading||Error}
+                    disabled={Loading||messagekey}
                      className='border p-2 px-8 disabled:cursor-not-allowed
                      border-gray-200 text-gray-500 bg-white rounded-sm text-sm
                       focus:ring-1 focus:ring-blue-400 outline-none'></input>
@@ -161,30 +162,40 @@ const formatDate = (date) => {
             {networkError ? 
             <NetworkError HandleRetry={Handleretry}/>
            :<div>
-             <div className={`mt-6 bg-white ${Error ? 'border border-gray-200':'shadow'}  
+             <div className={`mt-6 bg-white ${messagekey ? 'border border-gray-200':'shadow'}  
              rounded-md min-h-75 overflow-hidden`}>
-                {Error&&Errorsize===0 ? 
+                {messagekey&&Errorsize===0 ? 
                  <div className='flex flex-col justify-center h-70 w-full p-6  items-center '>
                  <span className='bg-blue-400 p-3 rounded-full'><Receipt size={60} 
                  className='text-white'/></span>
-                    <p className='text-red-500 font-semibold p-2'>{Error}</p>
-                    <p className='text-gray-800 text-[15px]'>There are no repayment records to display at moment . new payments will
-                        automatically appear here once recorded
+                    <p className='text-gray-800 text-xl font-bold p-2 '>{t(messagekey)}</p>
+                    <p className='text-gray-800 text-[15px]'>{t('errors.repayment_not_found_desc')}
+
                     </p>
                  </div>
-                :Error &&Errorsize!==0 ?
-                 <div className='flex flex-col justify-center h-70 w-full p-6  items-center '>
-                 <span className='bg-red-500 p-3 rounded-full'><CircleAlert size={30} 
-                 className='text-white'/></span>
-                 <h2 className='text-2xl font-extrabold text-red-600'>Error occured</h2>
-                    <p className='text-red-500 font-semibold p-2 uppercase'>{Error}</p>
-                    <p className='text-gray-800 text-[14px]'>Once server error occured please refresh page. </p>
-                     <p className='text-gray-800 text-[14px]'>while error still exist contact support for assistance</p>
+                :messagekey&&Errorsize!==0 ?
+                 <div className='flex flex-col p-3 h-70 justify-center '>
+                    <div className='bg-red-50 p-5 border border-red-500 rounded-sm'>
+
+                 <span className=''><CircleX size={50} 
+                 className='text-red-500'/></span>
+                 <h2 className='text-xl font-bold text-red-600'>{t('errors.errorTitle')}</h2>
+                    <p className='text-red-500 font-semibold py-1 uppercase italic'>{t(messagekey)}</p>
+                    <p className='text-gray-800 text-[15px] italic'>{t('errors.error_desc')} </p>
+                     <div className='flex justify-end'>
+                     <button onClick={Handleretry} className=' bg-green-600 px-7 rounded-sm shadow outline-none py-1.5 text-white italic cursor-pointer'>
+                        {t('errors.retry')}
+                     </button>
+                     </div>
+                    </div>
+
                  </div>
                  :!Loading&&filteredrepayment.length==0 ?
                  <div className='p-2 flex flex-col justify-center items-center h-75'>
                         <SearchX className='text-gray-800' size={60}/>
-                        <p className='text-[15px] text-gray-800'>We could`nt find any match search. check your spelling or try different keyward</p>
+                         <h2 className='text-xl text-gray-800 font-semibold'>{t('search_result.NoResult_found')}</h2>
+
+                        <p className='text-[15px] text-gray-800'>{t('search_result.Nomatches')}</p>
                  </div> :
 
                  <div>
@@ -259,28 +270,28 @@ const formatDate = (date) => {
              
             <div className='shadow p-4 my-4 bg-white rounded-md' >
                 <div className='pb-4 md:mx-4'>
-                    <h2 className={` ${Error||chartData.length==1 ? 'hidden':''} 
+                    <h2 className={` ${messagekey||chartData.length==1 ? 'hidden':''} 
                     capitalize font-extrabold text-xl md:text-2xl
                      text-gray-800 pb-2`}>{t('rp.trends_title')}</h2>
                     <div className='flex gap-2 items-center'>
-                        <div className={`${Error||chartData.length==1 ? 'hidden':''}p-2 h-fit w-fit rounded-full bg-blue-400`}></div>
-                        <p className={`${Error||chartData.length==1 ? 'hidden':''} text-sm capitalize font-semibold text-gray-600`}>
+                        <div className={`${messagekey||chartData.length==1 ? 'hidden':''}p-2 h-fit w-fit rounded-full bg-blue-400`}></div>
+                        <p className={`${messagekey||chartData.length==1 ? 'hidden':''} text-sm capitalize font-semibold text-gray-600`}>
                             {t('rp.repaid_currency')}</p>
                     </div>
                 </div>
                 <div className={`${Loading ? 'animate-pulse':''}h-64 md:h-75 w-full text-xs`}>
-                    {Error&&Errorsize===0 ? 
+                    {messagekey&&Errorsize===0 ? 
                     <div className='text-[15px] flex flex-col justify-center h-34 md:h-45 items-center'>
                       <span className='bg-blue-400 text-white p-4 rounded-full '>
                         <ChartSpline  size={70}/></span>
-                      <p className='text-red-500 font-semibold'>{Error}</p>
-                      <p className='text-[15px] pt-2'>Repayment trends and visual analytics will appear here as soon as payment transaction are processed 
-                         when repaymet recorded</p>
+                      <p className='text-gray-800 font-bold text-xl'>{(t(messagekey))}</p>
+                      <p className='text-[15px] pt-2'>{t('errors.repaynt_graph_error_desc')}</p>
                     </div>    
-                    :Error&&Errorsize!==0 ? <div
-                    className='flex flex-col justify-center items-center'>
-                        <p className='uppercase text-[15px] text-red-500 font-semibold'>{Error}</p>
-                        <p className='text-[15px]'>Error server error occured please graph will appear when error resolved</p>
+                    :messagekey&&Errorsize!==0 ? <div
+                    className='flex flex-col px-5  space-y-1.5 justify-center border py-7 rounded-sm border-red-500'>
+                        <p className='uppercase text-[15px] italic text-red-500 font-semibold'>{t(messagekey)}</p>
+                        <p className='text-[15px] italic'>{t('errors.graph_server_error_desc')}</p>
+                        <p className='text-[15px] italic'>{t('errors.error_desc')}</p>
                     </div> 
                     :chartData.length===1 ? 
                     <div className='text-[15px] flex  flex-col justify-center items-center h-34 md:h-60'>

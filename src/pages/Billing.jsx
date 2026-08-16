@@ -6,7 +6,8 @@ import {
   ShieldCheck,
   Smartphone,
   Wallet,CircleX,
-  WifiOff
+  WifiOff,
+  TriangleAlert
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +20,7 @@ function Billing() {
   const [Error,setError]=useState(null)
   const [timeleft,setTimeleft]= useState({})
   const [networkError,setnetworkError]=useState(false)
+  const [errorsize,seterrorsize]=useState(null);
 const [loading,setloading]=useState(true);
 const FindBillingInfo= async()=>{
     setloading(true)
@@ -32,7 +34,8 @@ const FindBillingInfo= async()=>{
     if(!err.response){
       setnetworkError(true);
     }
-        setError(err.response?.data?.message)
+        setError(err.response?.data?.messagekey)
+        seterrorsize(err.response?.data?.size)
    }finally{
     setloading(false)
    }
@@ -74,46 +77,74 @@ useEffect(()=>{
 
 
 
-
   const {t}=useTranslation()
   return (
     <div>    
         {loading ?
-        <Loader1/>:networkError ?
+        <Loader1/>
+        :networkError ?
         <div className="m-2">
-
-<NetworkError/>
+          <NetworkError/>
         </div>
-      :Error ?
-        <div className="flex gap-1 p-3 bg-red-50 border border-red-300">
-          <span ><CircleX size={45} className="text-red-600"/></span>
+      :Error&&errorsize===0 ?
+        <div className="flex gap-1 p-4 bg-red-50 border border-red-300">
+          <span ><TriangleAlert size={50} className="text-red-600"/></span>
           <div className="">
-             <h2 className="text-2xl text-red-500">Error Occurred</h2>
-            <p className="text-[15px] italic">{Error}</p>
+             <h2 className="text-2xl text-red-500">{t('billing.subscription.error_occurred')}</h2>
+            <p className="text-[15px] italic">{t(Error)}</p>
 
           </div>
         
        </div>
-      :<div className={`${!loading&&timeleft.expired===true ?'bg-red-50 border-red-400 ':'bg-[#F4FBF6] border-green-400'}
-       animate-bounce-once border outline-none  p-3  
+      :errorsize&&errorsize===1 ? 
+       <div className="flex gap-1 p-4 bg-red-50 border border-red-300">
+          <span ><CircleX size={50} className="text-red-600"/></span>
+          <div className="">
+             <h2 className="text-2xl text-red-500">{t('billing.subscription.error_occurred')}</h2>
+            <p className="text-[15px] italic">{t(Error)}</p>
+
+          </div>
+        
+       </div>
+      :timeleft.expired ? 
+       <div className="bg-red-50 border-red-500 border p-4 rounded-sm m-1 flex gap-1">
+          <span >
+         <TriangleAlert size={50} className=" text-red-500"/>  
+        </span>
+        <span>
+     <h2 className="text-red-500 font-extrabold text-2xl uppercase">{t('billing.subscription.company_subscription')}</h2>
+     <p className="text-[15px] italic">{t('billing.subscription.subscription_expired_message')}</p>
+        </span>
+        
+       </div>
+      
+      :   
+
+      <div className={`
+       animate-bounce-once border outline-none  p-3  border-green-600 rounded-sm m-2 
       sm:flex-row space-y-2 md:flex items-center justify-between`}>
         <div className="flex justify-center md:justify-start">
 
-          <div>
-          <h2 className={`${!loading&&timeleft.expired===true? "text-red-600":"text-gray-800"} text-[20px] font-extrabold  uppercase`}>{timeleft.expired===true ? 'Subscription expired':'Company subscription'}</h2>
-         <p className={`${!loading&&timeleft.expired===true? "text-red-600":" text-green-600"} 
-         text-[15px] italic`}>{!loading&&timeleft.expired===true ? 'Your subscription was expired activation required !':"Your company subscription is active now"}</p>
+          <div className="flex items-center gap-1"> 
+            <span>
+              <CircleCheck size={50} className="text-green-600"/>
+            </span>
+            <span>
+
+          <h2 className={`text-[20px] font-extrabold  uppercase text-green-600`}>{t('billing.subscription.company_subscription')}</h2>
+         <p className={`
+         text-[15px] italic`}>{t('billing.subscription.subscription_active_message')}</p>
+            </span>
+
             </div>
         </div>
         <div>
-           <h2 className="text-center md:text-start  pb-2 font-bold text-sm text-gray-800 uppercase">Count Down </h2>
-        
-        <div className="flex justify-center  md:justify-center lg:justify-between gap-1 md:gap-2">
-          
-        <span className={`${timeleft.expired ? "border-red-500":"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.days ? timeleft.days +' Days':0 +' Days' }</span>
-        <span className={`${timeleft.expired ? "border-red-500":"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.hours? timeleft.hours+ ' Hours':0+` Hours`}</span>
-        <span className={` ${timeleft.expired===true ?'border-red-500' :"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.minutes? timeleft.minutes+' Min':0 +``+' Min'}</span>
-        <span className={`${timeleft.expired ? "border-red-500":"border-gray-200"} border py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.seconds? timeleft.seconds+' Sec':0+``+' Sec'}</span>
+           <h2 className="text-center md:text-start  pb-2 font-bold text-sm text-gray-800 uppercase ">{t('billing.subscription.count_down')} </h2>
+                <div className="flex justify-center  md:justify-center lg:justify-between gap-1 md:gap-2">
+        <span className={`border border-green-600  py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.days ? timeleft.days +''+ t('billing.subscription.days'):0 + t('billing.subscription.days') }</span>
+        <span className={` border border-green-600  py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.hours? timeleft.hours+ '' +t('billing.subscription.hours'):0+t('billing.subscription.hours')}</span>
+        <span className={` border border-green-600  py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.minutes? timeleft.minutes+ t('billing.subscription.minutes'):0 +``+t('billing.subscription.minutes')}</span>
+        <span className={` border border-green-600  py-2 px-4 h-fit   rounded-xs text-sm text-gray-800`}>{timeleft.seconds? timeleft.seconds+t('billing.subscription.seconds'):0+``+t('billing.subscription.seconds')}</span>
 
         </div>
         </div>

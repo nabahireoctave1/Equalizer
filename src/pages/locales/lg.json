@@ -263,7 +263,39 @@
     "monthly": "Buli mwezi",
 
     "save_all": "Tereka byonna",
-    "saving":"Okutereka..."
+    "saving":"Okutereka...",
+
+    "inputs": {
+  "report_generation_time_required": "Obudde bw'okukola alipoota bulina okutegekebwa !",
+  "default_profit_interest_required": "Ekipimo ky'amagoba ag'obuwumbi kirina okutegekebwa !",
+  "grace_period_required": "Ekiseera ky'obugumiikiriza kirina okutegekebwa !",
+  "reminder_message_required": "Obubaka bw'okujjukiza bulina okutegekebwa !",
+  "overdue_message_required": "Obubaka obw'obutasasula ku budde bulina okutegekebwa !",
+  "configuration": "Enteekateeka",
+  "no_branch_configured": "Tewali ettabi etegeese Ensimbi z'ettabi",
+  "no_office_chosen": "Tewali woofiisi erondeddwa",
+  "startup_amount_required": "Omuwendo gw'ensimbi ezitandikibwako gulina okutegekebwa !",
+  "ending_amount_required": "Omuwendo gw'ensimbi ogusembayo gulina okutegekebwa!",
+  "office_interest": "Ekipimo ky'amagoba ga woofiisi %",
+  "office_interest_required": "Amagoba ga Ensimbi z'ettabi galina okutegekebwa !",
+  "branch_name": "Erinnya ly'ettabi"
+},
+
+"validation": {
+  "officecharge": {
+    "ending": "Omuwendo gw'ensimbi ogusembayo gwetaagisa !",
+    "office_interest": "Ekipimo ky'amagoba kyetaagisa !",
+    "start_up": "Omuwendo gw'ensimbi ezitandikibwako gwetaagisa !"
+  },
+  "setting": {
+    "grace_period": "Ekiseera ky'obugumiikiriza kyetaagisa!",
+    "interest_percentage": "Ekipimo ky'amagoba g'ekitongole kyetaagisa !",
+    "overdue": "Obubaka obw'obutasasula ku budde bwetaagisa !",
+    "reminder": "Obubaka bw'okujjukiza bwetaagisa !",
+    "report_generetion_time": "Enkola y'obudde bw'okukola alipoota erina okuba HH:MM:SS !",
+    "payment_frequency": "Nsaba olonde emirundi gy'okusasula"
+  }
+}
 
  
   },
@@ -311,7 +343,20 @@
     "permanent_activation_description": "Funa okukola okutaggwaawo era olekere awo okusasula buli kiseera. Okusasula kuno okw'omulundi gumu kuwandiisa kampuni yo olubeerera ku mutimbagano gwaffe ogukuumibwa.",
     "permanent_activation_fees": "Ssente z'Okukola Okutaggwaawo",
 
-    "receipt": "Lisiiti"
+    "receipt": "Lisiiti",
+
+  "subscription": {
+  "error_occurred": "Ensobi ezzeewo",
+  "subscription_expired": "Obuwagizi bw'obuwandiike buweddeko",
+  "company_subscription": "Obuwagizi bw'obuwandiike bw'ekitongole",
+  "subscription_expired_message": "Obuwagizi bw'obuwandiike bwo buweddeko. Okuddamu okubukola kwetaagisa!",
+  "subscription_active_message": "Obuwagizi bw'obuwandiike bw'ekitongole bwo bukyakola",
+  "count_down": "Okubala obudde obusigadde",
+  "days": "Nnaku",
+  "hours": "Ssaawa",
+  "minutes": "Dakika",
+  "seconds": "Sekondi"
+}
   }
 ,
 "sms": {
@@ -354,6 +399,7 @@
   "rptb":{
   "reportedBorrowers": "Abawolekedwa Abaaloopeddwa",
   "filter": "Sengejja",
+  "decisionTitle":"Kebera omubanja ono alagiddwa, okole ekisalawo ekituufu.",
   "all": "Bonna",
   "borrowerNames": "Amannya g'Abawolekedwa",
   "reportedBy": "Yaloopeddwa (Kasasiro)",
@@ -426,11 +472,9 @@
   "callUs": "Tukubire Essimu",
   "location": "Ekifo",
 
+"prl":{
 
-
-   "adminName": "Alice Mutesi",
   "adminRole": "Omuddukanya System",
-  "activated": "Akola",
   "adminId": "ID ya Admin",
   "memberSince": "Yatandika mu",
   "personalInfo": "Ebikwata ku muntu",
@@ -446,7 +490,8 @@
   "phone": "Essimu",
   "adminRoleTitle": "Omulimu gwa Admin",
   "adminRoleDesc": "Avunaanyizibwa ku kuddukanya bakozesa, okulondoola system, n’okukuuma obukuumi bwa platform.",
-  "editProfile": "Kyusa Profile",
+  "editProfile": "Kyusa Profile"
+  },
 
  "adp": {
     "editProfile": "Kyusa Profile",
@@ -470,7 +515,7 @@
 
   "nc": {
     "title": "Yongerako Cashier Omupya",
-     "editCashier": "Edit Cashier",
+     "editCashier": "Kyusa omuwandiisi wa ssente",
     "fullName": "Erinnya erijjuvu",
     "email": "Email",
     "phone": "Essimu",
@@ -480,7 +525,7 @@
 
     "fullNamePlaceholder": "John Doe",
     "emailPlaceholder": "cashier@company.com",
-    "phonePlaceholder": "+1 555 000 000",
+    "phonePlaceholder": "26 555 000 000",
     "locationPlaceholder": "Nyagatare",
     "branchPlaceholder": "Rubavu Tech",
 
@@ -499,22 +544,77 @@
     "confirm": "Kakasa"
   },
     "bc": {
-    "title": "Ggala Omukunguzi w'Ebyensimbi (John Doe)",
+    "title": "Ggala Omukunguzi w'Ebyensimbi",
     "message": "Okakasa ddala nti oyagala okuggyako omukunguzi w'ebyensimbi ono obuyinza okukozesa sisitemu?",
     "cancel": "Sazaamu",
-    "yes": "Yee"
+    "yes": "Yee",
+    "loading":"Kiteekateeka…"
+
   },
    "rb": {
     "title": "Ddamu Okukiriza Omwewola",
     "message": "Okakasa ddala nti oyagala okuddamu okukiriza omwewola ono?",
     "cancel": "Sazaamu",
-    "yes": "Yee"
+    "yes": "Yee",
+    "loading":"Kiteekateeka…"
+
   },
     "rc": {
-    "title": "Ddamu Okukiriza Omukunguzi w'Ebyensimbi (John Doe)",
+    "title": "Ddamu Okukiriza Omukunguzi w'Ebyensimbi",
     "message": "Okakasa ddala nti oyagala okuddamu okukiriza omukunguzi w'ebyensimbi ono?",
     "cancel": "Sazaamu",
-    "yes": "Yee"
+    "yes": "Yee",
+    "loading":"Kiteekateeka…"
+
+  },
+
+
+  "success": {
+  "cpinfo_saved": "Amawulire g’ekitongole gaterekeddwa",
+  "save_cashier_changes": "Omubalirizi atereezezza",
+  "cashier_del_success": "Omubalirizi asanguddwa",
+  "suspend_cashier_complete": "Omubalirizi ayimiriziddwa",
+  "reactivate_cashier_complete": "Omubalirizi addiziddwa okukola",
+   "reject_success": "Okusaba kugaaniddwa",
+  "approval_success": "Okusaba kukkiriziddwa"
+},
+
+"errors": {
+  "server_error": "Waliwo ensobi ku seva. Ddamu ogezeeko",
+  "cashier_phone_exists": "Enamba y’essimu y’omubalirizi ekozesebwa dda. Ddamu ogezeeko",
+  "error_desc": "Singa wabaawo ensobi ku seva, ddamu ogezeeko. Singa ensobi egenda mu maaso, tuukirira obuyambi okufuna obuyambi.",
+  "errorTitle": "Waliwo ensobi",
+  "retry":"Ddamu ogezeeko",
+  "cashiers_not_found":"Tewali babalirizi bazuuliddwa",
+  "repayment_not_found":"Tewali kusasula kuzuuliddwa.",
+  "cashiers_not_found_desc":"Tewali babalirizi abaliwo kati.Yongerako omubalirizi okutandika okuddukanya ebikwata ku babalirizi bo.",
+  "repayment_not_found_desc":"Tewali biwandiiko bya kusasula biragibwa mu kiseera kino . Okusasula okupya kujja kulabika wano mu ngeri ey’otomatiki nga kumaze okuwandiikibwa.",
+  "repaynt_graph_error_desc":"Enkula y’okusasula n’okwekenneenya ebikwata ku kusasula bijja kulabika wano amangu ddala nga emirimu gy’okusasula gimaze okukolebwa era okusasula kumaze okuwandiikibwa.",
+  "graph_server_error_desc":"Waliwo ensobi ku seva. Graph ejja kulabika ng’ekizibu kimaze okutereezebwa.",
+  "loans_error_title":"Tewali looni za Ettabi n’okutuusa kati",
+  "loans_not_found": "Tewali ssekitundu kyaterekanga looni yonna. Looni empya zijja kulabika wano ng’amasekkitundu gatandika okuwandiika ebiwandiiko.",
+  "borrowers_not_found": "Tewali basaba looni bazuuliddwa",
+"borrowers_not_found_desc": "Kati tewali akawunti z’abasaba looni ziragibwa. Abasaba looni abapya bajja kulabika wano nga bamaze okuwandiisibwa.",
+"sms_not_found": "Tewali nkolagana ya SMS esangiddwa ",
+"sms_not_sms_transaction_found_desc": "Tonnagula bubaka bwonna. Ebyafaayo by’okugula kwo bijja kulabika wano ng’omala okugula obubaka bwo obusooka.",  
+  "low_sms_credits": "Obubaka obusigadde butono",
+  "low_sms_credits_desc": "Yongerako obubaka osobole okugenda mu maaso n'okukozesa obuweereza bw'obubaka awatali kukyankalana.",
+  "low_sms_credits_warning": "Obubaka bwo obusigadde butandise okukendeera. Yongerako credits kati osobole okugenda mu maaso n'okuweereza obubaka obukulu awatali kukyankalana kwa buweereza.",
+  "no_sms_credits": "Tewali nsimbi za bubaka zisigadde",
+  "no_sms_credits_message": "Tolina nsimbi za bubaka zisigadde. Gula ensimbi endala ez’obubaka osobole okwongera okukozesa empeereza y’okuweereza obubaka.",
+   "no_flagged_borrowers":"Tewali babanja balagiddwa",
+    "flaged_borrowers_desc":"Kati tewali babanja beetaaga okwekebejjebwa. Mu kiseera kino, tewali kibazo kibalagiddwa.",
+   "setting_required_title": "Nsaba oteeketeeke ensengeka z'ekitongole kyo",
+  "setting_required_desc": "Ensengeka tezinnategekebwa, nsaba oteeketeeke ensengeka ezetaagisa",
+      "admin_id_exist": "Namba y’endagamuntu y’omuddukanya erina okuba ey’enjawulo",
+    "phone_exist": "Namba y’essimu ekozesebwa dda",
+    "email_exist": "Email ekozesebwa dda, ddamu ogezeeko",
+    "profile_server_error": "Tetuyinza kutikka mawulire ga pulofayiro olw’obutakola bulungi kwa"
+},
+
+"search_result":{
+    "NoResult_found":"Tewali bivudde mu kunoonya ebikwatagana.",
+    "Nomatches":"Tetuzudde kintu kikwatagana n’okunoonya kwo. Kebera empandiika oba ogezeeko ekigambo ekirala."
   }
 
 

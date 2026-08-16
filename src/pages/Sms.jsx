@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import api from "../api";
+import NetworkError from "./NetworkError";
+import Loader1 from "./Loader1";
 
 function Sms() {
 
@@ -89,7 +91,7 @@ api.get('/sms-transaction-log'),
     else{
       seterrors({
         smsError:err.response?.data?.message||null,
-        transError:err.response?.data?.message|| null,
+        transError:err.response?.data?.messagekey|| null,
         NetworkError:false
       
       })
@@ -174,7 +176,6 @@ const smsUsedProgress =
 
 
   const Smsinputborderswitcher= (field)=>`
-  ${console.log(field)}
   
   ${smsErrors[field] ? 'bg-red-50 border-red-500':'bg-gray-50 border-gray-200'} w-full  border 
    rounded-md px-4 py-3 text-sm outline-none focus:border-blue-400`
@@ -194,27 +195,22 @@ const smsUsedProgress =
          
       </div>
      {errors.NetworkError ?
-      <div className="bg-red-50 p-4 border m-2 rounded-md  border-red-500 ">
-        <span><WifiOff  size={40} className="text-red-500"/></span>
-       <h2 className="text-red-500 text-2xl">Network error</h2>
-
-       <h2 className="text-[15px]">Unable to connect to the server</h2>
-       <p className="text-[15px] italic">Network error occured please check your internet connection </p>
-
-
-      </div>
-     :
-       smsinfo&&smsinfo?.remainSMS===0 ?
-      <div className="flex gap-2 items-center px-4 py-4 bg-red-50 border-red-500 border rounded-sm m-2">
+      <NetworkError HandleRetry={HandleRetry}/>
+     :Loading ? 
+     <Loader1/>
+     
+     :smsinfo&&smsinfo?.remainSMS===0||smsinfo?.remainSMS===null?
+       
+      <div className="flex items-center  gap-2 px-4 py-4 bg-red-50 border-red-500 border rounded-sm m-2">
         <span>
           <MessageSquareOff strokeWidth={1.7} size={40} className="text-red-500"/>
         </span>
 
         <div>
 
-        <h2 className="text-rose-500 text-lg font-semibold">No sms credits</h2>
+        <h2 className="text-rose-500 text-xl font-bold">{t('errors.no_sms_credits')}</h2>
 
-        <p className="text-red-500 text-[15px]">You have no SMS credits remaining. Purchase more SMS to continue using messaging service</p>
+        <p className="text-red-500 text-[15px] italic">{t('errors.no_sms_credits_message')}</p>
         </div>
 
       </div>:smsinfo?.remainSMS<=120&&smsinfo.remainSMS>0 ? 
@@ -223,11 +219,10 @@ const smsUsedProgress =
           <TriangleAlert size={45} className="text-red-500"/>
         </span>
         <div>
-          <h2 className="text-xl font-bold text-red-500">Low SMS credits</h2>
-          <p className="text-red-500 text-[15px] italic">{smsinfo?.remainSMS} SMS remain . 
-            add more credits to keep using messaging services without interuption.</p>
-          <p className="text-slate-600 text-[15px] italic">your remaining credits are running low, and add
-             credits now will ensure you can continue sending important messages without any service disruption </p>
+          <h2 className="text-xl font-bold text-red-500">{t('errors.low_sms_credits')}</h2>
+          <p className="text-red-500 text-[15px] italic"> {t('errors.low_sms_credits_desc')} 
+          </p>
+          <p className="text-slate-600 text-[15px] italic">{t('errors.low_sms_credits_warning')} </p>
 
 
         </div>
@@ -442,33 +437,16 @@ const smsUsedProgress =
              {t('sms.recent_sms_purchase_records')}
             </p>
           </div>
-          {errors.NetworkError ? 
-          <div className="bg-red-50 p-3 border border-red-500 rounded-md flex flex-col ">
-          <span>
-            <CircleX size={40} className="text-red-500"/>
-          </span>
-          <h2 className="text-[14px] text-red-500 font-semibold pt-2 uppercase ">Unable to load sms transactions</h2>
-          <p className="italic">Network error occured please check your internet conection and try again</p>
-           <div className="flex justify-end">
-            <button onClick={HandleRetry} className="text-[15px] cursor-pointer italic bg-green-600 px-6 py-1.5
-             text-white rounded-sm mt-2 ">Retry</button>
-
-          </div>
-
-         
-
-          </div>
-          :errors.transError ? 
+          {errors.transError ? 
           <div className="flex flex-col items-center p-2">
         
         <span className="flex flex-col items-center bg-blue-400 p-3 text-white rounded-full">
           <Inbox size={60} strokeWidth={1.5}/>
 
         </span>
-          <h2 className="font-semibold  text-red-500">{errors.transError}</h2>
+          <h2 className="font-semibold  text-red-500">{t(errors.transError)}</h2>
 
-        <p className="text-[15px]">You haven't made any SMS purchases yet. Your transaction history will
-           appear here once you complete your first purchase.</p>
+        <p className="text-[15px]">{t('errors.sms_not_sms_transaction_found_desc')}</p>
 
    
 
@@ -505,7 +483,7 @@ const smsUsedProgress =
             <tbody>
 
               
-              {Loading ?Array.from({length:5}).map((_,idx)=>(
+              {Loading||errors.NetworkError ?Array.from({length:5}).map((_,idx)=>(
                 <tr key={idx}>
 
                 <td className="py-3 px-2"><SkeletonCellLoader/></td>

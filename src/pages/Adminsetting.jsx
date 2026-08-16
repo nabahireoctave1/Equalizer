@@ -2,22 +2,25 @@ import { ActivityIcon, Bell, BellDot, CircleCheck,
   SaveIcon, Edit2, PlusCircle, Settings, ToggleLeft,
    ToggleRight, Save, CreditCard, Clock, Calendar1, Languages, AlertCircle, MonitorCog, 
    TriangleAlert,X,
-   LoaderCircle} from 'lucide-react'
+   LoaderCircle,
+   CircleX} from 'lucide-react'
 import React, { useEffect, useState} from 'react'
 import EditCompany_info_model from './EditCompany_info_model'
 import { useTranslation } from 'react-i18next'
 import api from '../api'
 import HandleErrormodel from './HandleErrormodel'
 import Loader1 from './Loader1'
+import NetworkError from './NetworkError'
 function AdminSetting() {
     const [isAutoNotifOpen, setIsAutoNotifOpen] = useState(true)
     const [isofficechargeopen, setisofficechargeopen] = useState(null)
     const [SelectofficeId,setofficeId]=useState(null);
+    const [size,setsize]=useState(null);
+
     
     let [iscompanyinfoopened, setiscompanyinfoopen] = useState(false)
     const [Error, setErrors] = useState(null);
     const [ErrorTitle, setErrorTitle] = useState(null)
-    const [officechargemessage,setofficechargemessage]=useState(null);
     const [officechargeError,setofficechargeError]=useState(null);
     const [office,setoffice]=useState([]);
     const [officeError,setofficeError]=useState(null);
@@ -25,6 +28,9 @@ function AdminSetting() {
 const [title,settitle]=useState(null);
 const [success,setsuccess]=useState(null);
 const [skeletonloader,setskeletonloader]=useState(true)
+const [networkError,setnetworkError]=useState(null);
+
+
     const [inputs, setinputs] = useState([
       { branch_id:'',branch_name:'', start_up: '', ending: '', office_interest: ''}
     ])
@@ -96,6 +102,8 @@ const [skeletonloader,setskeletonloader]=useState(true)
     };
 
     const FetchCurrentSetting = async () => {
+      setnetworkError(null)
+      setskeletonloader(true)
         try {
           const res = await api.get('/company-current-setting'); 
           let data = res.data;
@@ -127,13 +135,16 @@ const [skeletonloader,setskeletonloader]=useState(true)
         
           
         } catch (err) {
+          if(!err.response){
+            setnetworkError(true)
+          }
           setErrorTitle(err.response?.data?.title)
           setErrors(err.response?.data?.message);
+          setsize(err.response?.data?.size)
         }finally{
           setskeletonloader(false)
         }
     }
-
 
 
     const ShowCompanyBranch= async()=>{
@@ -210,14 +221,12 @@ if (response.data.length > 0) {
     const HandleofficechargeToggle=async()=>{
       const newvalue=!isofficechargeopen;
       setofficechargeError(null);
-      setofficechargemessage(null);
       setisofficechargeopen(newvalue);
 
       try{
         const res= await api.put('/Handle-toggle-on-off-office-setting',{isofficechargeopen:newvalue});
         if(res.data.success){
 
-        setofficechargemessage(res.data.message);
 
         setTimeout(() => {
           setofficechargemessage(null)
@@ -227,11 +236,31 @@ if (response.data.length > 0) {
 
       }
       catch(err){
-        setofficechargeError(err.response.data.message||err.message);
         setisofficechargeopen(!newvalue);
 
       }
     }
+
+    
+
+const getValidationMessage = (key) => {
+  if (key.startsWith('setting.')) {
+    return t(`ads.validation.${key}`);
+  }
+
+  if (key.startsWith('officecharge[')) {
+    const field = key.replace(/^officecharge\[\d+\]\./, '');
+
+    return t(`ads.validation.officecharge.${field}`);
+  }
+
+  return '';
+};
+
+const HandleRetry=async ()=>{
+  FetchCurrentSetting();
+}
+
 
     const iconSize = 27
     const cardStyle =`bg-white border border-gray-200 p-6 rounded-lg mb-6 transition-all hover:border-blue-300`
@@ -267,16 +296,30 @@ if (response.data.length > 0) {
     return (
         <div className='min-h-screen bg-gray-50 text-gray-700 pb-12'>
           
-      { skeletonloader? 
+      {skeletonloader? 
      
  <Loader1/>
-          :Error && (
+          :networkError ? 
+           <div className='m-1'>
+            <NetworkError HandleRetry={HandleRetry}/>
+           </div>
+          :Error&&size==1 ?  (
                 <div className='bg-orange-100 border p-3 border-red-300'>
                   <div className='sm:flex-row lg:flex gap-2 items-center'>
-                    <span><TriangleAlert size={40} className=' text-red-600'/></span>
+                    <span><CircleX size={50} className=' text-red-600'/></span>
                     <span>
-                      <h2 className='text-xl text-red-500 font-bold'>{ErrorTitle}</h2>
-                      <p className='text-sm'>{Error}</p>
+                      <h2 className='text-2xl text-red-500 font-bold'>{t('errors.errorTitle')}</h2>
+                      <p className='text-[15px] italic'>{t(Error)}</p>
+                    </span>
+                  </div>
+                </div>
+             ):Error&&size==0&&(
+              <div className='bg-orange-100 border p-3 border-red-300'>
+                  <div className='sm:flex-row lg:flex gap-2 items-center'>
+                    <span><TriangleAlert size={50} className=' text-red-600'/></span>
+                    <span>
+                      <h2 className='text-xl text-red-500 font-bold'>{t('errors.setting_required_title')}</h2>
+                      <p className='text-[15px] italic'>{t(Error)}</p>
                     </span>
                   </div>
                 </div>
@@ -327,9 +370,10 @@ if (response.data.length > 0) {
                             <h2 className='font-bold uppercase text-xs'>{t('ads.report_generation_time')}</h2>
                             <input type='text' name='report_generetion_time' onChange={HandleSettingChange} placeholder='6:00 AM' value={setting.report_generetion_time} className={inputStyle('report_generetion_time')}/>
                                {validationError['setting.report_generetion_time'] ? 
-                               (<p className='text-[13px]  text-red-400'>{validationError['setting.report_generetion_time']}
-                               </p>) : (!setting.report_generetion_time && <p className='text-[12px] text-red-400'>
-                                 Report generation time need to be configured !</p>)}
+                               (<p className='text-[13px]  text-red-400'>{getValidationMessage('setting.report_generetion_time')}
+
+                               </p>) : (!setting.report_generetion_time && <p className='text-[13px] text-red-400'>
+                                { t('ads.inputs.report_generation_time_required')}</p>)}
                         </div>
                        
                         <div className='space-y-1 py-6'>
@@ -349,18 +393,18 @@ if (response.data.length > 0) {
                                 <label className='text-[12px] font-semibold text-gray-700 uppercase block mb-1.5'>{t('ads.default_interest_rate')}</label>
                                 <input type="text" name='interest_percentage' onChange={HandleSettingChange} value={setting.interest_percentage} placeholder="0.00" className={inputStyle('interest_percentage')} />
                                 {validationError['setting.interest_percentage'] ? 
-                               (<p className='text-[13px]  text-red-400'>{validationError['setting.interest_percentage']}
-                               </p>) : (!setting.interest_percentage && <p className='text-[12px] text-red-400'>
-                                 Default interest rate need to be configured !</p>)}
+                               (<p className='text-[13px]  text-red-400'>{getValidationMessage('setting.interest_percentage')}
+                               </p>) : (!setting.interest_percentage && <p className='text-[13px] text-red-400'>
+                                 {t('ads.inputs.default_profit_interest_required')}</p>)}
                             </div>
 
                             <div>
                                 <label className='text-[10px] font-black text-gray-700 uppercase block mb-1.5'>{t('ads.grace_period')}</label>
                                 <input type="text" name='grace_period' onChange={HandleSettingChange} value={setting.grace_period} placeholder="5" className={inputStyle('grace_period')} />
                                {validationError['setting.grace_period'] ? 
-                               (<p className='text-[13px] text-red-400'>{validationError['setting.grace_period']}
-                               </p>) : (!setting.grace_period && <p className='text-[12px] text-red-400'>
-                                 Grace period need to be configured !</p>)}
+                               (<p className='text-[13px] text-red-400'>{getValidationMessage('setting.grace_period')}
+                               </p>) : (!setting.grace_period && <p className='text-[13px] text-red-400'>
+                                 {t('ads.inputs.grace_period_required')}</p>)}
                             </div>
                         </div>
                     </div>
@@ -392,17 +436,17 @@ if (response.data.length > 0) {
                                     <label className='text-[10px] font-black text-gray-700 uppercase block mb-1.5'>{t('ads.reminder_message')}</label>
                                     <textarea name='reminder' onChange={HandleSettingChange} value={setting.reminder} className={`${inputStyle('reminder')} h-28 resize-none p-3`} placeholder={t('ads.reminder_message')}></textarea>
                                    {validationError['setting.reminder'] ? 
-                               (<p className='text-[13px] text-red-400'>{validationError['setting.reminder']}
-                               </p>) : (!setting.reminder && <p className='text-[12px] text-red-400'>
-                                 Reminder message need to be configured !</p>)}
+                               (<p className='text-[13px] text-red-400'>{getValidationMessage('setting.reminder')}
+                               </p>) : (!setting.reminder && <p className='text-[13px] text-red-400'>
+                                 {t('ads.inputs.reminder_message_required')}</p>)}
                                 </div>
                                 <div>
                                     <label className='text-[10px] font-black text-gray-700 uppercase block mb-1.5'>{t('ads.overdue_message')}</label>
                                     <textarea name='overdue' onChange={HandleSettingChange} value={setting.overdue}  className={`${inputStyle('overdue')} h-28 resize-none p-3`} placeholder={t('ads.overdue_message')}></textarea>
                                     {validationError['setting.overdue'] ? 
-                               (<p className='text-[13px] text-red-400'>{validationError['setting.overdue']}
-                               </p>) : (!setting.overdue && <p className='text-[12px] text-red-400'>
-                                 Overdue message need to be configured !</p>)}
+                               (<p className='text-[13px] text-red-400'>{getValidationMessage('setting.overdue')}
+                               </p>) : (!setting.overdue && <p className='text-[13px] text-red-400'>
+                                 {t('ads.inputs.overdue_message_required') }</p>)}
                                 </div>
                             </>
                         ) : (
@@ -428,7 +472,7 @@ if (response.data.length > 0) {
                 </div>
 
                 <div className={`${cardStyle} mt-4 border border-gray-200 rounded-2xl p-5 bg-white shadow-sm`}>
-                  <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+                  <div className="flex flex-col sm:flex-row space-y-4 justify-between items-center pb-4 border-b border-gray-100">
                     <div>
                       <h2 className="font-black uppercase tracking-tight text-gray-800 ">
                         {t('ads.set_office_charge')}
@@ -450,10 +494,7 @@ if (response.data.length > 0) {
                     </div>
                    
                   </div>
-                  <div className='flex items-center justify-center'>
-                      {officechargemessage&&<p className='text-sm text-green-500'>
-                      {officechargemessage}</p>}
-                  </div>
+                 
                    <div className='flex items-center justify-center'>
                       {officechargeError&&
                       <p className='text-lg font-extrabold text-red-500'>
@@ -465,7 +506,7 @@ if (response.data.length > 0) {
                   {isofficechargeopen ? (
                     <div className="space-y-6 mt-4">
                       <div className="mt-3">
-                            <label className="block text-[13px] text-gray-700 mb-2">{t('ads.choose_branch')}</label>
+                            <label className="  text-[14px] font-semibold text-gray-700 mb-2">{t('ads.choose_branch')}</label>
                             <select 
                                   name='officeId'
                               value={setting.officeId}
@@ -481,14 +522,14 @@ if (response.data.length > 0) {
                           }
                             </select>
                             {validationError[`setting.officeId`] ? (
-                            <p className='text-[13px] text-red-400'>{validationError[`setting.officeId`]}</p>) 
-                            : ( !setting.officeId && <p className='text-[12px] text-red-400'>No office choosen</p>)}
+                            <p className='text-[13px] text-red-400'>{getValidationMessage[`setting.officeId`]}</p>) 
+                            : ( !setting.officeId && <p className='text-[12px] text-red-400'>{t('ads.inputs.no_office_chosen')}</p>)}
                           </div>
                       {Array.isArray(inputs) && inputs.map((item, index) => (
                         <div key={index} >
                           <div className='flex justify-between items-center'>
 
-                          {index > 0 && <p className="text-xs font-bold text-blue-500 mb-2">Configuration
+                          {index > 0 && <p className="text-xs font-bold text-blue-500 mb-2">{t('ads.inputs.configuration')}
                           {''} {index + 1}</p>}
                             {index > 0 && (
                               <button type="button" onClick={() => HandleRemoveInput(index)}
@@ -499,9 +540,11 @@ if (response.data.length > 0) {
 
                           {(index===0||inputs[index-1]?.branch_id)&&(
                             <div>
-                            <label className="block text-[14px] font-bold uppercase   text-gray-700 ">Branch name</label>
+                            <label className="block text-[14px] font-bold uppercase
+                               text-gray-700 ">{t('ads.inputs.branch_name')}</label>
 
-                            <input type="text" value={item?.office_name ? item.office_name :'No branch has configured office charge'} 
+                            <input type="text" value={item?.office_name ?
+                             item.office_name :t('ads.inputs.no_branch_configured')} 
                             readOnly className="w-full first-letter:capitalized bg-gray-100/50 border
                              border-gray-300 rounded-sm p-2 text-sm text-gray-700 outline-none cursor-not-allowed"
         />
@@ -524,8 +567,9 @@ if (response.data.length > 0) {
                                 className={inputStyle('start_up', true, index)}
                               />
                               
-                             {validationError[`officecharge[${index}].start_up`] ? (<p className='text-[13px] text-red-400'>{validationError[`officecharge[${index}].start_up`]}</p>) 
-                             : (!item.start_up && <p className='text-[12px] text-red-400'>Start up cash need to be configured !</p>)}
+                             {validationError[`officecharge[${index}].start_up`] ? 
+                             (<p className='text-[13px] text-red-400'>{getValidationMessage(`officecharge[${index}].start_up`)}</p>) 
+                             : (!item.start_up && <p className='text-[13px] text-red-400'>{t('ads.inputs.startup_amount_required')}</p>)}
                              </div>
 
                             <div>
@@ -540,13 +584,14 @@ if (response.data.length > 0) {
                                 onChange={(e) => HandleChange(index,e)}
                                 className={inputStyle('ending', true, index)}
                               />
-                             {validationError[`officecharge[${index}].ending`] ? ( <p className='text-[13px] text-red-400'>{validationError[`officecharge[${index}].ending`]}</p>)
-                              : (!item.ending && <p className='text-[12px] text-red-400'>Ending cash need to be configured !</p>)}
+                             {validationError[`officecharge[${index}].ending`] ? 
+                             ( <p className='text-[13px] text-red-400'>{getValidationMessage(`officecharge[${index}].ending`)}</p>)
+                              : (!item.ending && <p className='text-[13px] text-red-400'>{t('ads.inputs.ending_amount_required')}</p>)}
                             </div>
                           </div>
 
                           <div className="mt-3">
-                            <label className="block text-[13px] text-gray-700 mb-2 uppercase">Office Interest %</label>
+                            <label className="block text-[12px] text-gray-700 mb-2 uppercase">{t('ads.inputs.office_interest')}</label>
                             <input 
                               type="text" 
                               placeholder='10%'
@@ -556,8 +601,8 @@ if (response.data.length > 0) {
                               className={inputStyle('office_interest', true, index)} 
                             />
                             {validationError[`officecharge[${index}].office_interest`] ? (
-                            <p className='text-[13px] text-red-400'>{validationError[`officecharge[${index}].office_interest`]}</p>) 
-                            : ( !item.office_interest && <p className='text-[12px] text-red-400'>Office interest need to be configured !</p>)}
+                            <p className='text-[13px] text-red-400'>{getValidationMessage(`officecharge[${index}].office_interest`)}</p>) 
+                            : ( !item.office_interest && <p className='text-[13px] text-red-400'>{t('ads.inputs.office_interest_required')}</p>)}
                           </div>
                         </div>
                       ))}
@@ -599,7 +644,7 @@ if (response.data.length > 0) {
                             <option>{t('ads.weekly')}</option>
                             <option>{t('ads.monthly')}</option>
                         </select>
-                        {validationError[`setting.payment_frequency`] ? (<p className='text-[13px] text-red-400 mx-3'>{validationError[`setting.payment_frequency`]}</p>) 
+                        {validationError[`setting.payment_frequency`] ? (<p className='text-[13px] text-red-400 mx-3'>{getValidationMessage(`setting.payment_frequency`)}</p>) 
                         : (!setting.payment_frequency && <p className='text-[12px] text-red-400 mx-3'>Please choose payment frequency </p>)}
                     </div>
                 </div>

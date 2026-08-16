@@ -1,9 +1,128 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GitBranchIcon, Mail, MapPin, Phone, User2, XIcon } from 'lucide-react'
 import { useTranslation } from "react-i18next"
+import api from '../api'
+import HandleTranslatedErrormodel from './HandleTranslatedErrormodel'
 
-function EditCashier({ onClose }) {
+function EditCashier({ onClose,cashierId }) {
   const { t } = useTranslation()
+
+
+const [formdata,setformdata]=useState({
+  names:"",
+  email:"",
+  phoneno:"",
+  location:"",
+  branch:"",
+  cashierId:cashierId
+})
+
+const [errors,setErrors]=useState({});
+const [loading,setLoading]=useState(null)
+const [messageKey,setmessageKey]=useState(null);
+const [Success,setsuccess]=useState(null);
+const [ismodelopen,setismodelopen]=useState(null);
+const closemodel= ()=>{setismodelopen(false)}
+const [Branch,setBranch]=useState([])
+const  [BranchLoaing,setBranchLoader]=useState(false);
+
+
+const HandleChanges= (e)=>{
+  const {name,value}=e.target;
+  setformdata((prev)=>({
+    ...prev,
+    [name]:value
+  }))
+
+  setErrors((prev)=>({...prev,[name]:''}))
+
+}
+
+
+const Handlesave=async(e)=>{
+  e.preventDefault();
+  setLoading(true);
+  setErrors({});
+  try{
+
+  let res=await api.put('/change-cashier-info',formdata)
+    setsuccess(res.data.success);
+  if(res?.data.success===true){
+    setmessageKey(res.data.messagekey)
+    setismodelopen(true)
+  }
+
+
+  }
+  catch(err){
+   const data=err.response?.data;
+   if(data?.Errors){setErrors(data.Errors)
+    return
+   }
+   setmessageKey(data.messagekey);
+   setismodelopen(true);
+
+
+  }
+}
+
+const FetchCurrentcashierinfo = async () => {
+  try {
+    const res = await api.get(`/current-cashier-info/${cashierId}`);
+    const data = res.data;
+
+
+    setformdata({
+      names: data.cashier_name ?? "",
+      phoneno: data.cashier_contact ?? "",
+      location: data.cashier_location ?? "",
+      email: data.cashier_email ?? "",
+      branch: data.branch_id ?? "",
+      cashierId: cashierId
+    });
+
+  } catch (err) {
+    console.log('API Error',err);
+  }
+};
+
+
+const FetchCompanyCurrentBranch= async()=>{
+  setBranchLoader(true);
+  try{
+   const res= await api.get('/current-branch');
+   setBranch(res.data);
+ 
+  } 
+  catch(err){
+    console.log('API Error',err)
+  } finally{
+    setBranchLoader(false);
+  }
+}
+
+useEffect(()=>{
+FetchCurrentcashierinfo()
+FetchCompanyCurrentBranch();
+
+
+},[])
+
+
+
+
+
+
+
+const inputBorderswitcher= (field)=>`
+
+${errors[field] ?'bg-red-100 border-red-500 focus:ring-red-500' 
+  :' border-gray-200 focus:ring-blue-500'} w-full p-2 border text-sm
+  rounded-md outline-none focus:ring-1 
+   transition-all
+
+`
+
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'>
@@ -20,7 +139,7 @@ function EditCashier({ onClose }) {
           </button>
         </div>
 
-        <form className='p-6 space-y-6'>
+        <form onSubmit={Handlesave} className='p-6 space-y-6'>
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4'>
 
@@ -33,9 +152,13 @@ function EditCashier({ onClose }) {
                 </label>
                 <input
                   type="text"
+                  name='names'
+                  value={formdata?.names}
+                  onChange={HandleChanges}
                   placeholder={t("nc.fullNamePlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md text-sm"
+                  className={inputBorderswitcher('names')}
                 />
+                <span className="text-[13px] text-red-500">{errors.names}</span>
               </div>
 
               <div>
@@ -45,9 +168,14 @@ function EditCashier({ onClose }) {
                 </label>
                 <input
                   type="email"
+                  name='email'
+                  onChange={HandleChanges}
+                  value={formdata?.email}
                   placeholder={t("nc.emailPlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md text-sm"
+                  className={inputBorderswitcher('email')}
+
                 />
+
               </div>
 
              
@@ -63,9 +191,14 @@ function EditCashier({ onClose }) {
                 </label>
                 <input
                   type="text"
+                  name="location"
+                  value={formdata?.location}
+                  onChange={HandleChanges}
                   placeholder={t("nc.locationPlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md text-sm"
+                  className={inputBorderswitcher('location')}
                 />
+                <span className="text-[13px] text-red-500">{errors.location}</span>
+
               </div>
 
              
@@ -75,11 +208,21 @@ function EditCashier({ onClose }) {
                   <GitBranchIcon className='w-4 h-4 text-blue-500' />
                   {t("nc.branch")}
                 </label>
-                <input
-                  type="text"
+                <select
+                  name='branch'
+                  onChange={HandleChanges}
                   placeholder={t("nc.branchPlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md text-sm"
-                />
+                  className={inputBorderswitcher('branch')}
+                >
+                {Branch.map((b,idx)=>(
+                  <option key={idx} value={b.branch_id}>{b.branch_name}</option>
+                ))}
+
+
+                  
+                </select>
+                <span className="text-[13px] text-red-500">{errors.branch}</span>
+
               </div>
 
             </div>
@@ -93,9 +236,14 @@ function EditCashier({ onClose }) {
                 </label>
                 <input
                   type="tel"
+                  name='phoneno'
+                  value={formdata?.phoneno}
+                  onChange={HandleChanges}
                   placeholder={t("nc.phonePlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md text-sm"
+                  className={inputBorderswitcher('phoneno')}
                 />
+                <span className="text-[13px] text-red-500">{errors.phoneno}</span>
+
               </div>
 
           <div className='flex justify-end gap-3 pt-4  border-gray-100'>
@@ -104,13 +252,15 @@ function EditCashier({ onClose }) {
               {t("nc.cancel")}
             </button>
 
-            <button type="submit" className='px-4 py-2 text-sm text-white bg-blue-400 rounded-md'>
+            <button type="submit" className='px-4 py-2 text-sm text-white outline-none cursor-pointer bg-blue-400 rounded-md'>
               {t("nc.save")}
             </button>
 
           </div>
 
         </form>
+      {ismodelopen &&<HandleTranslatedErrormodel issuccess={Success} messagekey={messageKey}  onClose={closemodel}/>}
+
 
       </div>
     </div>

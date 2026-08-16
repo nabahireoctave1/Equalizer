@@ -2,7 +2,8 @@ import { BadgeDollarSign, Ban, Edit, Loader, Pencil, PlusCircle,
    PlusIcon, RefreshCcw, Search, Trash, UserPlus, CircleAlert,Minus,
    SearchX,
    CircleX,
-   WifiOff} from "lucide-react";
+   WifiOff,
+   XIcon} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Newcashiermodel from "./Newcashiermodel";
 import EditCashier from "./EditCashier";
@@ -13,31 +14,53 @@ import api from "../api";
 import NetworkError from "./NetworkError";
 import SkeletonCellLoader from './SkeletonCellLoader'
 
+
 function Cashiers() {
  
   const [searchterm,setsearchterm]=useState('')
   const [error,seterrors]=useState(null);
   const [cashier,setcashier]=useState([]);
-  const [loading,setloading]=useState(null);
   const [errorlength,seterrorlength]=useState(null)
   const [networkError,setnetworkError]=useState(false);
+  const [deletionsuccess,setdeletionsuccess]=useState(null);
+  const [messagekey,setmessageKey]=useState(null);
+  const [ismodelopen,setismodelopen]=useState(false);
+  const closemodel=()=>setismodelopen(false)
+  const [Loader,setLoader]=useState({
+    pageLoading:true,
+    susploading:false,
+    reactloading:false
+  })
+  
 
 
   const GetCurrentCashiers= async()=>{
+    setnetworkError(false);
+
+    setLoader({
+      pageLoading:true,
+      susploading:false,
+      reactloading:false
+    })
     try{
-      setloading(true)
     let res= await api.get('/company-cashier');
     setcashier(res.data);
+    setmessageKey(res.data?.messagekey)
 
     }
     catch(err){
       if(!err.response){
         setnetworkError(true)
       }
-    seterrors(err.response?.data?.message);
+    setmessageKey(err.response?.data?.messagekey);
     seterrorlength(err.response?.data?.size)
     }finally{
-      setloading(false)
+
+      setLoader({
+        pageLoading:false,
+        reactloading:false,
+        susploading:false
+      })
     }
   }
 
@@ -46,6 +69,29 @@ function Cashiers() {
   },[])
 
 
+  const HandleDeletecashier= async(cashierId)=>{
+    try{
+       const res= await api.delete(`/delete-cashier/${cashierId}`);
+       setdeletionsuccess(res.data.success)
+       if(res.data.success===true){
+        setmessageKey(res.data.messagekey);
+        setismodelopen(true);
+        setTimeout(() => {
+          setismodelopen(false)
+        }, 4000);
+       }
+    }
+   
+    catch(err){
+    const data= err.response?.data
+    setmessageKey(data.messagekey);
+    setdeletionsuccess(data.success);
+    setismodelopen(true)
+   setTimeout(() => {
+     setismodelopen(false);
+   }, 4000);
+    }
+  }
 
 
   const filtereddata= cashier.filter((fd)=>{
@@ -58,7 +104,7 @@ function Cashiers() {
 
   
 
-   const Handleretry= ()=>{
+   const Handleretry=async ()=>{
     GetCurrentCashiers()
    }
 
@@ -71,15 +117,94 @@ function Cashiers() {
   const [reactivate,setreactivate]=useState(false)
   const opencashiermodel=(e)=>{e.preventDefault();setisnewcashierModelopen(true)}
   const closecashiermodel=()=>setisnewcashierModelopen(false)
-  const openedit=(e)=>{e.preventDefault(); setopeneditmodel(true)}
+   let [selectedCashierId,setselectedcashierId]=useState(null);
+   const [cashierIDTobesuspnd,setcashierTobesuspnd]=useState(null);
+   const [cashierIDTobeactivated,setcashierIdtobeactivated]=useState(null)
+  const openedit=(cashierId)=>{setopeneditmodel(true),setselectedcashierId(cashierId)}
    let oncloseEdit= ()=>setopeneditmodel(false)
-   const openBurncashier= (e)=>{e.preventDefault();setisburncashieropen(true)}
+   const openBurncashier= (e,cashierId)=>{e.preventDefault();setisburncashieropen(true),setcashierTobesuspnd(cashierId)}
    let closeBurncashier= ()=>setisburncashieropen(false)
-   const openreactivate= (e)=>{ e.preventDefault(); setreactivate(true)}
+   const openreactivate= (e,cashierId)=>{ e.preventDefault(); setreactivate(true),setcashierIdtobeactivated(cashierId)}
    const closereactivate=()=>setreactivate(false)
+      const [opensuspendMessagemodel,setsuspendmessagemodelopen]=useState(false);
+   const [openreactivateMessagemodel,setreactivatemessagemodel]=useState(false)
+   const [success,setsuccess]=useState(null)
+
+const SuspendOnconfirm= async()=>{ 
+  let cashierId=cashierIDTobesuspnd;
+
+  setLoader({
+    susploading:true,
+    reactloading:false,
+    pageLoading:false
+  })
+  try{
+
+    let res=await api.put(`/suspend-cashier/${cashierId}`);
+     setmessageKey(res?.data?.messagekey)
+     setsuspendmessagemodelopen(true);
+     setsuccess(res?.data?.success)
+     setTimeout(() => {
+       setsuspendmessagemodelopen(false);
+     }, 4000);
+
+   
+  }
+catch(err){ 
+  setmessageKey(err.response?.data?.messagekey);
+  setsuspendmessagemodelopen(true);
+  setsuccess(err?.response?.data?.success);
+  setTimeout(() => {
+    setsuspendmessagemodelopen(false)
+  }, 4000);
+
+}finally{
+  setLoader({
+    reactloading:false,
+    susploading:false,
+    pageLoading:false
+
+  })
+}
+}
 
 
+const ReactivateOnconfirm =async()=>{
+  const CashierId=cashierIDTobeactivated;
+  setLoader({
+    reactloading:true,
+    susploading:false,
+    pageLoading:false
+  })
+  try{
+   
+    const res= await api.put(`/reactivate-cashier/${CashierId}`);
+     setsuccess(res?.data.success)
+     setmessageKey(res?.data.messagekey);
+     setreactivatemessagemodel(true)
+     setTimeout(() => {
+      setreactivatemessagemodel(false)
+     }, 4000);
+  }
+  catch(err){
+    setmessageKey(err.response?.data?.messagekey)
+    setsuccess(err.response?.data?.success)
+   setreactivatemessagemodel(true)
+   setTimeout(() => {
+    setreactivatemessagemodel(false)
+   }, 4000);
+  }finally{
+    setLoader({
+      pageLoading:false,
+      susploading:false,
+      reactloading:false
+    })
+  }
 
+}
+
+
+console.log(messagekey)
 
   const statusbadge=(status)=>{
       switch(status){
@@ -89,12 +214,44 @@ function Cashiers() {
       }
   }
 
+
+   function DeleteToast({success,message,Onclose}) {
+     
+    return (
+
+    <div className={`w-100 shadow-lg  ${success ? 'bg-white border-green-600':'bg-red-50 border-red-500'}   animate-bounce-once
+    border p rounded-md px-2 py-5 top-2 right-6  z-100 fixed flex flex-col justify-end`}>
+    <div className="flex gap-1 ">
+      <span>
+        {success ? <div className="p-3 rounded-full bg-green-500"></div>:
+        <div className="p-3 rounded-full bg-red-500"></div>}
+      </span>
+      <span>
+         <h2 className={`font-bold text-[14px] uppercase ${success ? 'text-green-600':'text-red-600'} `}>
+          {success ? 'Cashier delete':'Delete failed'}</h2>
+      <p className={`text-[15px] ${success ? '':'italic'}`}>{t(messagekey)}</p>
+      </span>
+    
+    </div>
+    <button onClick={closemodel} className="flex justify-end"> 
+      <XIcon size={18}  className="text-red-500 cursor-pointer"/>
+      </button>
+
+    </div>
+
+    )
+
+    
+  }
+
  
 
   return (
     <div className={`${error ? '':'sm:p-4 md:p-6'} p-2   bg-gray-100  min-h-screen`}>
          
-          
+          {ismodelopen&&
+          <DeleteToast success={deletionsuccess}/>
+          }
           
           
           <div className={`bg-white rounded-md border border-gray-200 p-3 sm:p-5`}>
@@ -126,10 +283,10 @@ function Cashiers() {
               <input
                 type="text"
                 onChange={(e)=>setsearchterm(e.target.value)}
-                disabled={loading||error||networkError}
+                disabled={Loader.pageLoading||error||networkError}
                 placeholder={t('c.searchCashier')}
                 className={`w-full  border border-gray-200 rounded-md py-2 
-                ${loading||error||networkError?'cursor-not-allowed bg-gray-200 border-2':'cursor-pointer'}
+                ${Loader.pageLoading||messagekey||networkError?'cursor-not-allowed bg-gray-200 border-2':'cursor-pointer'}
                 text-sm pl-10 pr-4 outline-none focus:ring-1 focus:ring-blue-400
                  focus:border-transparent transition`}
               />
@@ -146,39 +303,42 @@ function Cashiers() {
         <div className={` ${filtereddata.length===0 ? ' border-t':''} mt-6 overflow-x-auto  border-gray-50 w-full`}>
            
            
-             {error&&errorlength!==0 ?
-          <div className=" bg-red-50 border p-3 border-red-500
-           rounded-sm   py-3">
-          <div><CircleX size={50} className="text-red-500"/></div>
-          <h2 className="text-2xl font-bold text-red-500">Error occurred</h2>
-           <p className="text-[15px]">{error}</p>
-           <p className="text-[14px] pb-4 italic">When server error occurred retry ,if error still exist contact support for assistance </p>
-          
-          <div className="flex justify-end">
-
-           <button onClick={Handleretry} className="bg-green-500 shadow px-8  py-1.5 
-           rounded-sm text-sm text-white cursor-pointer">Retry</button>
-          </div>
-
-          </div> 
-           
-           
-           :error&&errorlength==0?
+             {messagekey&&errorlength===0?
              <div className="flex item items-center min-h-65 justify-center  flex-col ">
             <div className="bg-blue-400 p-5 flex items-center rounded-full">
               <UserPlus size={50} className="text-white"/>
             </div>
-            <h2 className="text-red-400 capitalize font-semibold">{error}</h2>
-            <p className="text-[15px] p-2 text-center">There are no cashiers available yet.
-               Add a cashier to start managing your cashier records.</p>
+            <h2 className="text-xl font-bold text-gray-800 ">{t(messagekey)}</h2>
+            <p className="text-[15px] p-2 text-center">{t('errors.cashiers_not_found_desc')}</p>
             <button onClick={opencashiermodel} className="flex gap-1 items-center text-sm bg-blue-400 p-2
              rounded-sm text-white px-5"><PlusIcon size={20}/>{t('c.cashier')}</button>
-          </div> :networkError ? 
+          </div> 
+          :messagekey&&errorlength===1 ?<div>
+             <div className=" bg-red-50 border p-3 border-red-500
+           rounded-sm   py-3">
+          <div><CircleX size={50} className="text-red-500"/></div>
+          <h2 className="text-2xl font-bold text-red-500">{t('errors.errorTitle')}</h2>
+           <p className="text-[15px]">{t(messagekey)}</p>
+           <p className="text-[14px] pb-4 italic">{t('errors.error_desc')} </p>
+          
+          <div className="flex justify-end">
+
+           <button onClick={Handleretry} className="bg-green-500 shadow px-8  py-1.5 
+           rounded-sm text-sm text-white cursor-pointer">{t('errors.retry')}</button>
+          </div>
+
+          </div> 
+
+          </div>:
+          
+          networkError ? 
             <NetworkError HandleRetry={Handleretry}/>
-          :!loading&&filtereddata.length==0?
+          :!Loader.pageLoading&&filtereddata.length==0?
             <div className="p-8 flex flex-col items-center justify-center text-[15px] text-gray-800" >
                  <SearchX size={60} className="text-gray-800"/>
-                <h2>We could`nt find any match search </h2>
+            <h2 className='text-xl text-gray-800 font-semibold'>{t('search_result.NoResult_found')}</h2>
+
+                <h2 className="italic">{t('search_result.Nomatches')}</h2>
               </div>
           
           :<table className="w-full border-collapse  whitespace-nowrap">
@@ -201,7 +361,7 @@ function Cashiers() {
             <tbody>
               
              
-                 { loading ? Array.from({length:5}).map((_,idx)=>{
+                 { Loader.pageLoading ? Array.from({length:5}).map((_,idx)=>{
                  return <tr key={idx}>
                      <td className="p-3"><SkeletonCellLoader/></td>
                      <td className="p-3"><SkeletonCellLoader/></td>
@@ -237,15 +397,15 @@ function Cashiers() {
                 <td className="p-3">
                   <span className={`${statusbadge(c.status)} text-white px-3 py-1
                    rounded-full text-xs font-medium`}>
-                  {t(`c.${c.status}`)}
+                  {t(`c.${c.status?.toLowerCase()}`)}
                   </span>
                 </td>
              
                  <td className="p-3 flex items-center gap-2 text-gray-500 text-sm">
-                   <button onClick={openedit} title={t('c.edit')} className="p-1 rounded-md cursor-pointer"><Pencil size={18} className=" hover:text-blue-400"/></button>
-                   <button title={t('c.remove')} className="p-1 bg-red-50 rounded-md cursor-pointer"><Trash size={18} className="text-red-400"/></button>
-                   <button onClick={openBurncashier} title={t('c.burn')} className="cursor-pointer"><Ban size={18} className=" hover:text-red-400 "/></button>
-                   <button onClick={openreactivate} title={t('c.reactivate')} className="cursor-pointer"> <RefreshCcw size={18} className="hover:text-green-500"/></button>
+                   <button onClick={()=>openedit(c.cashier_id)} title={t('c.edit')} className="p-1 rounded-md cursor-pointer"><Pencil size={18} className=" hover:text-blue-400"/></button>
+                   <button onClick={()=>HandleDeletecashier(c.cashier_id)} title={t('c.remove')} className="p-1 bg-red-50 rounded-md cursor-pointer"><Trash size={18} className="text-red-400"/></button>
+                   <button onClick={(e,cashierId)=>openBurncashier(e,c.cashier_id)} title={t('c.burn')} className="cursor-pointer"><Ban size={18} className=" hover:text-red-400 "/></button>
+                   <button onClick={(e,cashierId)=>openreactivate(e,c.cashier_id)} title={t('c.reactivate')} className="cursor-pointer"> <RefreshCcw size={18} className="hover:text-green-500"/></button>
                 </td>
               </tr>
               })}
@@ -263,9 +423,9 @@ function Cashiers() {
        {isnewCashierModelopen &&
             <Newcashiermodel  onClose={closecashiermodel}/>
           }
-          {iseditmodelopen && <EditCashier onClose={oncloseEdit}/>}
-          {isburncashieropen && <Burn_cashier onClose={closeBurncashier}/>}
-          {reactivate && <Reactivatecashiermodel onClose={closereactivate}/>}
+          {iseditmodelopen && <EditCashier cashierId={selectedCashierId} onClose={oncloseEdit} />}
+          {isburncashieropen && <Burn_cashier success={success} messagekey={messagekey} modelopen={opensuspendMessagemodel} loading={Loader.susploading} onConfirm={SuspendOnconfirm}  onClose={closeBurncashier}/>}
+          {reactivate && <Reactivatecashiermodel success={success} modelopen={openreactivateMessagemodel} messagekey={messagekey} loading={Loader.reactloading} onConfirm={ReactivateOnconfirm} onClose={closereactivate}/>}
     </div>
   );
 }

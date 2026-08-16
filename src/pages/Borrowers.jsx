@@ -1,4 +1,4 @@
-import { BanIcon, HandCoins, RefreshCcw, Search, SearchX, WifiOff } from 'lucide-react'
+import { BanIcon, HandCoins, RefreshCcw, Search, SearchX, WifiOff,CircleX } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import BurnuserModel from './BurnuserModel'
 import Reactivateborrowermodel from './ReactivateBorrower'
@@ -12,12 +12,13 @@ import SkeletonCellLoader from './SkeletonCellLoader'
 function Borrowers() {
   const [ismodelopen,setismodelopen]=useState(false)
   const [isreativateopened,setisreactivateopened]=useState(false)
-  const [errors,seterrors]=useState(null);
+  const [messagekey,setmessageKey]=useState(null)
   const [Loading,setLoading]=useState(null);
   const [errorsize,seterrorsize]=useState(null);
   const [clients,setclients]=useState([])
   const [search,setSearchTerm]=useState("")
   const [networkError,setnetworkError]=useState(false);
+  console.log(messagekey)
 
 const {t}= useTranslation()
 
@@ -34,7 +35,7 @@ const FetchBorrowers= async()=>{
           setnetworkError(true)
           seterrors(err.message)
          }
-        seterrors(err.response?.data?.message);
+        setmessageKey(err.response?.data?.messagekey);
         seterrorsize(err.response?.data?.size)
    }
    finally{
@@ -83,7 +84,7 @@ const HandleRetry=()=>{
           <input 
             type='text' 
             onChange={(e)=>setSearchTerm(e.target.value)}
-            disabled={Loading||errors||networkError}
+            disabled={Loading||messagekey||networkError}
             placeholder={`${t('b.search_placeholder')}`} 
             className='border w-full pl-9 pr-4 py-2 text-sm rounded-md border-gray-200
              bg-gray-50/50 outline-none transition-all duration-200 disabled:cursor-not-allowed
@@ -96,25 +97,45 @@ const HandleRetry=()=>{
       <div className={`w-full  rounded-md
         border border-gray-100 overflow-hidden`}>
         {networkError ? 
-        <NetworkError HandleRetry={HandleRetry}/>:errors&&errorsize===0? 
-         <div className='flex flex-col justify-center items-center'>
+        <NetworkError HandleRetry={HandleRetry}/>:
+        messagekey&&errorsize===0? 
+         <div className='flex flex-col justify-center items-center bg-white px-6 pt-7 pb-10'>
             <span className='flex justify-center flex-col items-center'>
-              <nav className='bg-blue-400   w-fit p-5 text-white rounded-full'>
+              <nav className='bg-blue-400 w-fit p-5 text-white rounded-full'>
               <HandCoins/>
                
               </nav>
-              <h2 className='text-red-500 text-[20px] font-semibold p-2'>No borrowers found !</h2>
+              <h2 className='text-gray-800 text-[20px] font-bold first-letter:uppercase p-2'>{t(messagekey)}</h2>
             </span>
-            <p className='text-[15px]'>{errors}</p>
+            <p className='text-[15px]'>{t('errors.borrowers_not_found_desc')}</p>
          </div>
-        :!Loading&&filterborrowers.length===0 ?
+        :messagekey&&errorsize!==0 ? 
+         <div className='flex flex-col p-3 h-70 justify-center '>
+                    <div className='bg-red-50 p-5 border border-red-500 rounded-sm'>
+
+                 <span className=''><CircleX size={50} 
+                 className='text-red-500'/></span>
+                 <h2 className='text-xl font-bold text-red-600'>{t('errors.errorTitle')}</h2>
+                    <p className='text-red-500 font-semibold py-1 uppercase italic'>{t(messagekey)}</p>
+                    <p className='text-gray-800 text-[15px] italic'>{t('errors.error_desc')} </p>
+                     <div className='flex justify-end'>
+                     <button onClick={HandleRetry} className=' bg-green-600 px-7 rounded-sm shadow outline-none py-1.5 text-white italic cursor-pointer'>
+                        {t('errors.retry')}
+                     </button>
+                     </div>
+                    </div>
+
+                 </div>
+         
+        
+        : !Loading&&filterborrowers.length===0 ?
 
         <div className='p-5 flex justify-center flex-col items-center '>
             <SearchX size={60} className='text-gray-800 flex items-center' />
 
           <span className='flex  flex-col  items-center'>
-            <h2 className='font-semibold text-xl text-gray-800'>Result not found</h2>
-             <h2 className='text-[15px] italic'>We could`nt find any match search please try different keyward  </h2>
+            <h2 className='font-semibold text-xl text-gray-800'>{t('search_result.NoResult_found')}</h2>
+             <h2 className='text-[15px] italic'>{t('search_result.Nomatches')}  </h2>
           </span>
           </div>:         
         <div className='overflow-x-auto m-1'>
@@ -133,7 +154,7 @@ const HandleRetry=()=>{
             </thead>
             <tbody className='divide-y divide-gray-100'>
 
-              {Loading||networkError||errors&&errorsize===null? 
+              {Loading||networkError? 
               Array.from({length:5}).map((_,idx)=>{
                  return <tr key={idx}>
                   <td className='p-2'><SkeletonCellLoader/></td>

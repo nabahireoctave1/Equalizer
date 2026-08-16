@@ -256,15 +256,55 @@
 
     "office_charge_disabled": "Office charge is currently disabled",
 
- "payment_frequency": "Payment Frequency",
-  "set_payment_frequency": "Set Payment Frequency",
+
+    "payment_frequency": "Payment Frequency",
+     "set_payment_frequency": "Set Payment Frequency",
 
     "daily": "Daily",
     "weekly": "Weekly",
     "monthly": "Monthly",
 
     "save_all": "Save All",
-    "saving":"saving..."
+    "saving":"saving...",
+
+
+    "inputs":{
+       "report_generation_time_required": "Report generation time need to be configured !",
+      "default_profit_interest_required": "Default profit interest rate need to be configured !",
+      "grace_period_required": "Grace period need to be configured!",
+      "reminder_message_required": "Reminder message need to be configured !",
+      "overdue_message_required": "Overdue message need to be configured !",
+      "configuration": "Configuration",
+      "no_branch_configured": "No branch has configured office charge",
+      "no_office_chosen": "No office choosen",
+      "startup_amount_required": "Startup amount need to be configured !",
+      "ending_amount_required": "Ending amount need to be configured !",
+      "office_interest": "Office Interest %",
+      "office_interest_required": "Office charge interest needs to be configured!",
+      "branch_name": "Branch Name"
+    },
+
+
+
+      "validation": {
+    "officecharge": {
+      "ending": "Ending cash required!",
+      "office_interest": "Interest ratio required!",
+      "start_up": "Start up cash required!"
+    },
+    "setting": {
+      "grace_period": "Grace period required!",
+      "interest_percentage": "Company profit interest required!",
+      "overdue": "Overdue message required!",
+      "reminder": "Reminder message required!",
+      "report_generetion_time": "Report generation time format is HH:MM:SS ! ",
+      "payment_frequency":"Please choose payment frequency"
+    }
+  
+  
+
+
+  }
 
     
   },
@@ -312,7 +352,20 @@
     "permanent_activation_description": "Upgrade to lifetime activation and eliminate recurring charges. This one-time payment permanently registers your company on our secure network.",
     "permanent_activation_fees": "Permanent Activation Fees",
 
-    "receipt": "Receipt"
+    "receipt": "Receipt",
+
+  "subscription": {
+  "error_occurred": "Error Occurred",
+  "subscription_expired": "Subscription expired",
+  "company_subscription": "Company subscription",
+  "subscription_expired_message": "Your subscription has expired. Activation is required!",
+  "subscription_active_message": "Your company subscription is active now",
+  "count_down": "Count Down",
+  "days": "Days",
+  "hours": "Hours",
+  "minutes": "Min",
+  "seconds": "Sec"
+}
   },
 
 
@@ -362,6 +415,7 @@
     "rptb":{
   "reportedBorrowers": "Reported Borrowers",
   "filter": "Filter",
+  "decisionTitle":"Review this flagged borrower and make the appropriate decision",
   "all": "All",
   "borrowerNames": "Borrower Names",
   "reportedBy": "Reported by (Cashier)",
@@ -431,13 +485,8 @@
   "callUs": "Call Us",
   "location": "Location",
 
-
-  
-
-
-  "adminName": "Alice Mutesi",
+ "prl":{
   "adminRole": "System Administrator",
-  "activated": "Activated",
   "adminId": "Admin ID",
   "memberSince": "Member Since",
   "personalInfo": "Personal Information",
@@ -447,34 +496,34 @@
   "loc": "Location",
   "accountDetails": "Account Details",
   "createdAt": "Created At",
-  "sts": "Status",
+  "sts": "Company Status",
   "contactInfo": "Contact Information",
   "email": "Email",
   "phone": "Phone",
   "adminRoleTitle": "Admin Role",
   "adminRoleDesc": "Responsible for managing system users, monitoring platform activity, handling security permissions, and ensuring smooth operation of company digital services.",
+  "editProfile": "Edit Profile"
+},
+  
+
+ "adp": {
   "editProfile": "Edit Profile",
+  "updateInfo": "Update your personal information",
 
+  "fullName": "Full Name",
+  "email": "Email Address",
+  "phone": "Phone Number",
+  "location": "Location",
+  "company": "Company",
 
-  "adp": {
-    "editProfile": "Edit Profile",
-    "updateInfo": "Mettre à jour vos informations personnelles",
+  "fullNamePlaceholder": "Jane Hanet",
+  "emailPlaceholder": "janeHanet@example.com",
+  "phonePlaceholder": "26 555 000 000",
+  "locationPlaceholder": "Kampala",
+    "cancel": "Cancel",
+  "save": "Save"
+},
 
-    "fullName": "Nom complet",
-    "email": "Adresse email",
-    "phone": "Numéro de téléphone",
-    "location": "Localisation",
-    "company": "Entreprise",
-
-    "fullNamePlaceholder": "Jean Dupont",
-    "emailPlaceholder": "jean@example.com",
-    "phonePlaceholder": "+1 555 000 000",
-    "locationPlaceholder": "New York, USA",
-    "companyPlaceholder": "Acme Corp",
-
-    "cancel": "Annuler",
-    "save": "Enregistrer"
-  },
    "nc": {
     "title": "Add New Cashier",
      "editCashier": "Edit Cashier",
@@ -487,7 +536,7 @@
 
     "fullNamePlaceholder": "John Doe",
     "emailPlaceholder": "Cashier@company.com",
-    "phonePlaceholder": "+1 (555) 000-0000",
+    "phonePlaceholder": "26555 000 0000",
     "locationPlaceholder": "Nyagatare",
     "branchPlaceholder": "Rubavu Tech",
 
@@ -506,25 +555,82 @@
     "confirm": "Confirm"
   },
     "bc": {
-    "title": "Burn Cashier (John Doe)",
+    "title": "Burn Cashier",
     "message": "Are you absolutely sure you want to deny this cashier access to the system?",
     "cancel": "Cancel",
-    "yes": "Yes"
+    "yes": "Yes",
+    "loading":"Loading…"
+
   },
    "rb": {
     "title": "Reactivate Borrower",
     "message": "Are you absolutely sure you want to reactivate this borrower?",
     "cancel": "Cancel",
-    "yes": "Yes"
+    "yes": "Yes",
+    "loading":"Loading…"
+
+
   },
    "rc": {
-    "title": "Reactivate Cashier (John Doe)",
+    "title": "Reactivate Cashier",
     "message": "Are you absolutely sure you want to reactivate this cashier?",
     "cancel": "Cancel",
-    "yes": "Yes"
+    "yes": "Yes",
+    "loading":"Loading…"
+  },
+  
+ 
+  "success":{
+    "cpinfo_saved": "Company information has been saved ",
+   "save_cashier_changes":"Cashier has been  updated",
+   "cashier_del_success":"Cashier has been deleted",
+   "suspend_cashier_complete":"cashier has been suspended",
+   "reactivate_cashier_complete":"cashier has been reactivated"
+    ,"reject_success":"Request rejected",
+    "approval_success":"Request approved",
+    "update_profile_done":"Profile has been updated successfully"
+
+  },
+  
+
+  "errors":{
+  "server_error": "Server error occurred. Please try again",
+  "cashier_phone_exists":"cashier contact already taken, Please try again",
+  "error_desc":"If a server error occurs, please retry. If the error persists, contact support for assistance.",
+  "errorTitle":"Error occurred",
+  "retry":"Retry",
+  "cashiers_not_found":"No cashiers found.",
+  "cashiers_not_found_desc":"There are no cashiers available yet. Add a cashier to start managing your cashier records.",
+  "repayment_not_found":"There is no repayment found",
+  "repayment_not_found_desc":"There are no repayment records to display at the moment . New payments will automatically appear here once recorded.",
+  "repaynt_graph_error_desc":"Repayment trends and visual analytics will appear here as soon as payment transaction are processed when repaymet recorded",
+  "graph_server_error_desc":"Server error occurred. The graph will appear once the issue has been resolved",
+  "loans_error_title":"No branch loans yet",
+   "loans_not_found":"No branch has recorded any loans yet. new loans will appear here once branches start creating records",
+  "borrowers_not_found":"No borrowers found",
+   "borrowers_not_found_desc":"There are currently no borrower accounts to display , new borrowers will appear here once there are registered ",
+   "sms_not_found":"No sms transaction found",
+   "sms_not_sms_transaction_found_desc":"You haven't made any SMS purchases yet. Your transaction history will appear here once you complete your first purchase.",
+   "low_sms_credits": "Low SMS credits",
+  "low_sms_credits_desc": "Add more credits to keep using messaging services without interruption.",
+  "low_sms_credits_warning": "Your remaining credits are running low. Add credits now to ensure you can continue sending important messages without any service disruption.",
+    "no_sms_credits": "No SMS credits",
+    "no_sms_credits_message": "You have no SMS credits remaining. Purchase more SMS to continue using messaging service"  ,
+    "no_flagged_borrowers":"No flagged borrowers",
+    "flaged_borrowers_desc":"There are currently no borrowers requiring review. All borrowers are clear at this time"
+    ,"setting_required_title":"Please configure your company settings",
+    "setting_required_desc":"Settings are not configured yet , configure required settings",
+    "admin_id_exist":"Admin national ID must be unique",
+    "phone_exist":"Phone number already taken",
+    "email_exist":"Email already  taken try again",
+    "profile_server_error":"We can’t Load profile information due to"
+  },
+
+  "search_result":{
+    "NoResult_found":"No matching results found",
+    "Nomatches":"We couldn't find any matches for your search. Check your spelling or try a different keyword."
+    
   }
-
-
   
 
 

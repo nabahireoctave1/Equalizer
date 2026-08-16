@@ -1,21 +1,93 @@
 import { Plus, User } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import api from '../api'
+import HandleTranslatedErrormodel from './HandleTranslatedErrormodel'
 
 function EditProfileModal({ onClose }) {
   const { t } = useTranslation();
-  const [img, setImg] = useState(null);
 
-  const handleImgChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImg(URL.createObjectURL(file));
+  const [profile_photo,setProfilePhoto]= useState(null)
+  const [preview,setPreview]=useState(null)
+  const [loading,setloading]=useState(null)
+  const [messageKey,setmessageKey]= useState(null)
+  const [modelopen,setopenmodel]=useState(null)
+  const [success,setsuccess]=useState(null)
+
+  const closeModel= ()=>{
+    setopenmodel(false);
+  }
+
+
+  const [formdata,setformData]=useState({
+     names:"",
+     email:"",
+     phone:"",
+     nid:"",
+  })
+
+
+   const HandleInputs= (e)=>{
+    const {name,value}= e.target;
+    setformData((prev)=>({...prev,
+      [name]:value
+    })) 
+
+
+   }
+
+
+ 
+
+
+  const HandlePhotoCahnge= (e)=>{
+    const file= e.target.files[0];
+    if(!file) return
+   setProfilePhoto(file)
+   setPreview(URL.createObjectURL(file))
+  }
+
+ const Handlesave=async()=>{
+    setloading(true)
+    setsuccess(null)
+    const data= new FormData();
+   Object.entries(formdata).forEach(([key, value]) => {
+  data.append(key, value);
+});
+   
+if(profile_photo){
+  data.append('profile_photo',profile_photo)
+}
+
+    try{
+      const res= await api.post('/update-profile',data,{
+        headers:{  
+          "Content-Type": "multipart/form-data"
+         }
+      })
+
+
+        setmessageKey(res.data.messagekey)
+        setopenmodel(true)
+        setsuccess(res.data.success)
+
     }
-  };
+    catch(err){
+     setmessageKey(err.response?.data?.messagekey)
+     setopenmodel(true)
+     setsuccess(err.response?.data.success);
+    } finally{
+      setloading(false)
+    }
+ }
+
+
+
 
   return (
-    <div className="fixed inset-0 z-50 flex  justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-      <div className="w-full max-w-5xl  bg-white rounded-md border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex  justify-center items-center bg-slate-900/60 backdrop-blur-sm p-3">
+      <div className="w-full max-w-xl max-h-fit  bg-white rounded-md border border-slate-100 overflow-hidden 
+      transform transition-all animate-in fade-in zoom-in-95 duration-200">
 
         <div className="px-6 py-2 border-b border-slate-50">
           <div>
@@ -34,8 +106,8 @@ function EditProfileModal({ onClose }) {
           <div className="flex justify-center">
             <div className="relative group">
               <div className="w-30 h-30 rounded-full ring-2 ring-slate-100 overflow-hidden bg-slate-50 flex items-center justify-center shadow-inner transition group-hover:ring-blue-100">
-                {img ? (
-                  <img src={img} alt="Profile" className="w-full h-full object-cover" />
+                {profile_photo ? (
+                  <img src={preview} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
                   <User size={40} className="text-slate-400" />
                 )}
@@ -46,14 +118,13 @@ function EditProfileModal({ onClose }) {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={handleImgChange}
+                  onChange={HandlePhotoCahnge}
                   className="hidden"
                 />
               </label>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
             <div className="sm:col-span-2 space-y-1.5">
               <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
@@ -61,6 +132,8 @@ function EditProfileModal({ onClose }) {
               </label>
               <input
                 type="text"
+                name="names"
+                onChange={HandleInputs}
                 placeholder={t("adp.fullNamePlaceholder")}
                 className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
               />
@@ -72,6 +145,8 @@ function EditProfileModal({ onClose }) {
               </label>
               <input
                 type="email"
+                name="email"
+                onChange={HandleInputs}
                 placeholder={t("adp.emailPlaceholder")}
                 className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
               />
@@ -83,36 +158,32 @@ function EditProfileModal({ onClose }) {
               </label>
               <input
                 type="tel"
+                name="phone"
+                onChange={HandleInputs}
                 placeholder={t("adp.phonePlaceholder")}
                 className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
               />
             </div>
 
-            <div className="space-y-1.5">
+             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                {t("adp.location")}
+                {t("admin national id")}
               </label>
               <input
                 type="text"
-                placeholder={t("adp.locationPlaceholder")}
+                name="nid"
+                placeholder="112006788764534"
+                onChange={HandleInputs}
                 className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
               />
             </div>
 
-            <div className="sm:col-span-2 space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                {t("adp.company")}
-              </label>
-              <input
-                type="text"
-                placeholder={t("adp.companyPlaceholder")}
-                className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
-              />
-            </div>
+          
 
-          </div>
+           
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+
+          <div className="flex items-center justify-end gap-3  border-t border-slate-100">
 
             <button
               type="button"
@@ -122,7 +193,7 @@ function EditProfileModal({ onClose }) {
               {t("adp.cancel")}
             </button>
 
-            <button
+            <button onClick={Handlesave}
               type="submit"
               className="px-5 py-2.5 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white rounded-sm text-sm font-medium shadow-sm shadow-blue-500/10 transition"
             >
@@ -133,6 +204,7 @@ function EditProfileModal({ onClose }) {
 
         </form>
       </div>
+      {modelopen && <HandleTranslatedErrormodel issuccess={success} messagekey={messageKey} onClose={closeModel}  />}
     </div>
   );
 }

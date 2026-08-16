@@ -260,6 +260,38 @@
 
     "save_all": "Tout enregistrer",
     "saving":"Enregistrement..."
+    ,
+    "inputs": {
+  "report_generation_time_required": "L'heure de génération du rapport doit être configurée !",
+  "default_profit_interest_required": "Le taux d'intérêt de profit par défaut doit être configuré !",
+  "grace_period_required": "La période de grâce doit être configurée !",
+  "reminder_message_required": "Le message de rappel doit être configuré !",
+  "overdue_message_required": "Le message de retard doit être configuré !",
+  "configuration": "Configuration",
+  "no_branch_configured": "Aucune agence n'a configuré les frais de bureau",
+  "no_office_chosen": "Aucun bureau sélectionné",
+  "startup_amount_required": "Le montant de départ doit être configuré !",
+  "ending_amount_required": "Le montant final doit être configuré !",
+  "office_interest": "Taux d'intérêt du bureau %",
+  "office_interest_required": "L'intérêt des frais de bureau doit être configuré !",
+  "branch_name": "Nom de l'agence"
+},
+
+"validation": {
+  "officecharge": {
+    "ending": "Le montant final est requis !",
+    "office_interest": "Le taux d'intérêt est requis !",
+    "start_up": "Le montant de départ est requis !"
+  },
+  "setting": {
+    "grace_period": "La période de grâce est requise !",
+    "interest_percentage": "Le taux d'intérêt sur le profit de l'entreprise est requis !",
+    "overdue": "Le message de retard est requis !",
+    "reminder": "Le message de rappel est requis !",
+    "report_generetion_time": "Le format de l'heure de génération du rapport doit être HH:MM:SS !",
+    "payment_frequency": "Veuillez choisir la fréquence de paiement"
+  }
+}
 
 
     
@@ -308,7 +340,20 @@
     "permanent_activation_description": "Passez à une activation à vie et éliminez les frais récurrents. Ce paiement unique enregistre définitivement votre entreprise sur notre réseau sécurisé.",
     "permanent_activation_fees": "Frais d’Activation Permanente",
 
-    "receipt": "Reçu"
+    "receipt": "Reçu",
+
+  "subscription": {
+  "error_occurred": "Une erreur s'est produite",
+  "subscription_expired": "Abonnement expiré",
+  "company_subscription": "Abonnement de l'entreprise",
+  "subscription_expired_message": "Votre abonnement a expiré. Une activation est requise !",
+  "subscription_active_message": "L'abonnement de votre entreprise est actuellement actif",
+  "count_down": "Compte à rebours",
+  "days": "Jours",
+  "hours": "Heures",
+  "minutes": "Min",
+  "seconds": "Sec"
+}
   },
    "sms": {
     "title": "Surveiller et Acheter des SMS",
@@ -353,6 +398,7 @@
     "rptb":{
       "reportedBorrowers": "Emprunteurs Signalés",
   "filter": "Filtrer",
+  "decisionTitle":"Examinez cet emprunteur signalé et prenez la décision appropriée.",
   "all": "Tous",
   "borrowerNames": "Noms des Emprunteurs",
   "reportedBy": "Signalé par (Caissier)",
@@ -425,10 +471,8 @@
   "location": "Localisation",
 
 
-
-   "adminName": "Alice Mutesi",
+"prl":{
   "adminRole": "Administrateur système",
-  "activated": "Activé",
   "adminId": "ID Admin",
   "memberSince": "Membre depuis",
   "personalInfo": "Informations personnelles",
@@ -444,8 +488,8 @@
   "phone": "Téléphone",
   "adminRoleTitle": "Rôle administrateur",
   "adminRoleDesc": "Responsable de la gestion des utilisateurs, du suivi de la plateforme, des permissions de sécurité et du bon fonctionnement des services numériques.",
-  "editProfile": "Modifier le profil",
-
+  "editProfile": "Modifier le profil"
+},
 
  "adp": {
     "editProfile": "Modifier le profil",
@@ -469,7 +513,7 @@
   
 "nc":{
    "title": "Ajouter un caissier",
-    "editCashier": "Edit Cashier",
+    "editCashier": "Modifier le caissier",
     "fullName": "Nom complet",
     "email": "Adresse email",
     "phone": "Numéro de téléphone",
@@ -479,7 +523,7 @@
 
     "fullNamePlaceholder": "Jean Dupont",
     "emailPlaceholder": "caissier@entreprise.com",
-    "phonePlaceholder": "+1 555 000 000",
+    "phonePlaceholder": "26 555 000 000",
     "locationPlaceholder": "Nyagatare",
     "branchPlaceholder": "Rubavu Tech",
 
@@ -498,25 +542,80 @@
     "confirm": "Confirmer"
   },
    "bc": {
-    "title": "Désactiver le caissier (John Doe)",
+    "title": "Désactiver le caissier",
     "message": "Êtes-vous absolument sûr de vouloir refuser l'accès de ce caissier au système ?",
     "cancel": "Annuler",
-    "yes": "Oui"
+    "yes": "Oui",
+    "loading":"Chargement…"
+
   },
    "rb": {
     "title": "Réactiver l'emprunteur",
     "message": "Êtes-vous absolument sûr de vouloir réactiver cet emprunteur ?",
     "cancel": "Annuler",
-    "yes": "Oui"
+    "yes": "Oui",
+    "loading":"Chargement…"
+
   }
   ,
    "rc": {
-    "title": "Réactiver le caissier (John Doe)",
+    "title": "Réactiver le caissier",
     "message": "Êtes-vous absolument sûr de vouloir réactiver ce caissier ?",
     "cancel": "Annuler",
-    "yes": "Oui"
+    "yes": "Oui",
+    "loading":"Chargement…"
+
   }
-  
+  ,
+  "success": {
+  "cpinfo_saved": "Les informations de l’entreprise ont été enregistrées",
+  "save_cashier_changes": "Le caissier a été mis à jour",
+  "cashier_del_success": "Le caissier a été supprimé",
+  "suspend_cashier_complete": "Le caissier a été suspendu",
+  "reactivate_cashier_complete": "Le caissier a été réactivé",
+    "reject_success": "Demande rejetée",
+  "approval_success": "Demande approuvée"
+},
+
+"errors": {
+  "server_error": "Une erreur du serveur s’est produite. Veuillez réessayer",
+  "cashier_phone_exists": "Le contact du caissier est déjà utilisé. Veuillez réessayer",
+  "error_desc": "Si une erreur du serveur se produit, veuillez réessayer. Si l’erreur persiste, contactez le support pour obtenir de l’aide.",
+  "errorTitle": "Une erreur s’est produite",
+  "retry":"Réessayer",
+  "cashiers_not_found":"Aucun caissier trouvé.",
+  "repayment_not_found":"Aucun remboursement trouvé",
+  "cashiers_not_found_desc":"Aucun caissier n’est encore disponible. Ajoutez un caissier pour commencer à gérer vos informations de caissier.",
+  "repayment_not_found_desc":"Aucun enregistrement de remboursement à afficher pour le moment . Les nouveaux paiements apparaîtront automatiquement ici une fois enregistrés.",
+  "repaynt_graph_error_desc":"Les tendances des remboursements et les analyses visuelles apparaîtront ici dès que les transactions de paiement seront traitées et que les remboursements seront enregistrés.",
+  "graph_server_error_desc":"Impossible de charger le graphique. Veuillez réessayer plus tard",
+  "loans_error_title":"Aucun prêt d’agence pour le moment",
+
+  "loans_not_found": "Aucune agence n’a encore enregistré de prêt. Les nouveaux prêts apparaîtront ici dès que les agences commenceront à créer des enregistrements.",
+  "borrowers_not_found": "Aucun emprunteur trouvé",
+"borrowers_not_found_desc": "Aucun compte d’emprunteur n’est actuellement disponible. Les nouveaux emprunteurs apparaîtront ici dès qu’ils seront enregistrés.",
+"sms_not_found": "Aucune transaction SMS trouvée",
+"sms_not_sms_transaction_found_desc": "Vous n’avez encore effectué aucun achat de SMS. Votre historique de transactions apparaîtra ici dès que vous aurez effectué votre premier achat",
+  "low_sms_credits": "Crédits SMS faibles",
+  "low_sms_credits_desc": "Ajoutez des crédits pour continuer à utiliser les services de messagerie sans interruption.",
+  "low_sms_credits_warning": "Vos crédits restants sont faibles. Ajoutez des crédits maintenant pour continuer à envoyer des messages importants sans interruption du service.",
+  "no_sms_credits": "Aucun crédit SMS",
+  "no_sms_credits_message": "Vous n’avez plus de crédits SMS. Achetez des crédits SMS supplémentaires pour continuer à utiliser le service de messagerie",
+  "no_flagged_borrowers":"Aucun emprunteur signalé",
+   "flaged_borrowers_desc":"Aucun emprunteur ne nécessite actuellement de vérification. Tous les emprunteurs sont en règle pour le moment",
+    "setting_required_title": "Veuillez configurer les paramètres de votre entreprise",
+  "setting_required_desc": "Les paramètres ne sont pas encore configurés, veuillez configurer les paramètres requis",
+      "admin_id_exist": "Le numéro d’identification nationale de l’administrateur doit être unique",
+    "phone_exist": "Le numéro de téléphone est déjà utilisé",
+    "email_exist": "L’adresse e-mail est déjà utilisée, veuillez réessayer",
+    "profile_server_error": "Nous ne pouvons pas charger les informations du profil en raison de"
+
+},
+
+  "search_result":{
+    "NoResult_found":"Aucun résultat correspondant trouvé.",
+    "Nomatches":"Nous n’avons trouvé aucun résultat correspondant à votre recherche. Vérifiez l’orthographe ou essayez un."
+  }
 
 }
 
