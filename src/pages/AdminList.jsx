@@ -12,14 +12,21 @@ import {
   ChevronLeft,
   ChevronRight,
   List,
-  Loader
+  Loader,
+  Minus,
+  CircleX
 } from 'lucide-react'
 import api from '../api'
+import SkeletonCellLoader from './SkeletonCellLoader'
+import NetworkError from './NetworkError'
 
 function AdminList() {
 const [adminList,setList]=useState([])
 const [error,setError]=useState(null);
+const [size,setsize]=useState(null);
+const [title,settitle]=useState(null);
 const [Loading,setLoading]=useState(false)
+const [networkError,setnetworkError]=useState(null);
 
 const [listpage,setlistpage]=useState(1);
 const adminPerpage=6;
@@ -37,7 +44,6 @@ const HandleNext= ()=>{
 }
 
 const HandlePrevious= ()=>{
-  console.log(currentpage)
   if(listpage >1){
     setlistpage(listpage-1)
   }
@@ -45,6 +51,8 @@ const HandlePrevious= ()=>{
 
 const FetchAdminList= async()=>{
   setLoading(true)
+  setnetworkError(null);
+  setsize(null);
   try{ 
 
 
@@ -54,7 +62,12 @@ const FetchAdminList= async()=>{
 
   }
   catch(err){
-    setError(err.response?.data?.message||err.message);
+    if(!err.response){
+      setnetworkError(true);
+    }
+    setError(err.response?.data?.message);
+    setsize(err.response?.data?.size);
+    settitle(err.response?.data?.title)
   } finally{
     setLoading(false)
   }
@@ -63,6 +76,9 @@ const FetchAdminList= async()=>{
 
 
 
+const Handleretry= ()=>{
+  FetchAdminList();
+}
 
 
 
@@ -72,8 +88,9 @@ useEffect(()=>{
 
 
 
+
   return (
-    <div className='w-full min-h-screen bg-gray-50 font-sans'>
+    <div className='w-full  bg-gray-50 font-sans'>
      
       <div className='w-full bg-white border-b border-gray-200 px-6 py-4'>
 
@@ -102,17 +119,34 @@ useEffect(()=>{
          
         </div>
       </div>
+      {networkError && <div className='m-2'>
+  <NetworkError HandleRetry={Handleretry}/>
 
+      </div>}
+
+      {error && size===0  ?
+      <div>
+
+      </div>
+      :error&&size===1 ? 
+         
+       <div className='bg-red-50 p-4  m-2 border border-red-500 rounded-md '>
+        <span ><CircleX size={45} className='text-red-500'/></span>
+         <h2 className='pt-2 text-2xl text-red-500'>{title}</h2>
+         <p className='italic text-[15px]'>{error}</p>
+         <p className='italic text-[15px] text-slate-800'>system can`t return any admin information due to 
+          server error please try again </p>
+           <div className='flex justify-end'>
+          <button onClick={Handleretry} className='py-1.5 px-6 capitalize text-white 
+          cursor-pointer bg-green-600 italic rounded-sm outline-none' >retry</button>
+           </div>
+       </div>
+      :
       <div className='p-6 w-full'>
-        <div className='flex items-center justify-center'>
-           {
-        Loading ? <span className='flex gap-2 pb-4'><Loader className='animate-spin'/>Loading...</span> :
-        <p className='text-[13px] text-red-500 capitalize'>{error}</p>
-      }
-        </div>
+       
       
-        <div className='bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden w-full'>
-          <div className='overflow-x-auto w-full'>
+        <div className='bg-white rounded-md  border border-gray-200 overflow-hidden w-full'>
+          <div className='overflow-auto w-full'>
             <table className='w-full text-left border-collapse'>
               <thead>
                 <tr className='bg-gray-100 text-gray-800 uppercase text-[12px] font-bold tracking-widest border-b border-gray-200'>
@@ -131,7 +165,22 @@ useEffect(()=>{
                 </tr>
               </thead>
               <tbody className='divide-y divide-gray-100 text-sm'>
-                {paginatedList.map((admin) => (
+                {Loading||networkError ? Array.from({length:7}).map((_,idx)=>{
+                return <tr key={idx}>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+                  <td className='p-2'><SkeletonCellLoader/></td>
+
+                </tr>
+               
+
+                }):paginatedList.map((admin) => (
                   <tr key={admin.admin_sys_Id} className='hover:bg-blue-50/50 transition-colors'>
                      <td className='px-6 py-4 text-xs  font-bold text-black'>
                       {admin.admin_sys_Id}
@@ -143,7 +192,7 @@ useEffect(()=>{
                     <td className='px-6 py-4'>
                       <div className='flex flex-col'>
                         <span className='font-bold text-gray-900 whitespace-nowrap'>{admin.admin_name}</span>
-                        <span className='text-[12px] text-gray-600 whitespace-nowrap'>{admin.email}</span>
+                        <span className='text-[12px] text-gray-600 whitespace-nowrap'>{admin.email ? admin.email :<Minus/>}</span>
                       </div>
                     </td>
 
@@ -201,14 +250,23 @@ useEffect(()=>{
             </table>
           </div>
           
-          <div className='bg-white p-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4'>
+          <div className={`${networkError||Loading ? 'hidden':''} bg-white p-4 border-t border-gray-100 
+          flex flex-col sm:flex-row justify-between items-center gap-4`}>
             <div className='text-xs text-gray-500 font-medium'>
-              Showing <span className='text-gray-800'>{currentpage}</span> to 
+             
+              <div>
+                 Showing <span className='text-gray-800'>
+                {currentpage}</span> to 
               <span className='text-gray-800'>{totalpage}</span> of 
               <span className='text-gray-800'> {adminList.length}</span> results
+              </div>
+              
+             
             </div>
             
             <div className='flex items-center gap-1'>
+           
+              <div>
               <button onClick={HandlePrevious}
               disabled={listpage===1}
               className='p-2 border cursor-pointer border-gray-300
@@ -222,10 +280,13 @@ useEffect(()=>{
                rounded-lg hover:bg-gray-50 text-gray-600 transition-colors'>
                 <ChevronRight size={18} />
               </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      }
+
     </div>
   )
 }

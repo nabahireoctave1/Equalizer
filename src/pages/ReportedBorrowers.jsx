@@ -1,4 +1,4 @@
-import { ChevronDown, CircleX, Funnel, ShieldAlertIcon, ShieldCheck,XIcon } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, CircleX, Funnel, ShieldAlertIcon, ShieldCheck,XIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import api from '../api';
@@ -21,6 +21,8 @@ function ReportedBorrowers() {
         approvemodel:false
     })
    
+
+ 
 
   const FetchBorrowersFlaged =async()=>{
     setnetworkError(null)
@@ -72,6 +74,25 @@ function ReportedBorrowers() {
     });
 
 
+       const BorrowersPerpage=10;
+    const [pages,setpages]=useState(1);
+    const start= (pages-1)*BorrowersPerpage;
+    const end= start+BorrowersPerpage
+    const totalpages=Math.ceil(filteredData?.length/BorrowersPerpage)
+    const peginateddata=filteredData?.slice(start,end); 
+  
+
+    const HandleNext= ()=>{
+      if(pages<totalpages){
+        setpages(pages+1)
+      }
+    }
+
+    const HandlePrevious= ()=>{
+      if(pages>1){
+        setpages(pages-1)
+      }
+    }
 
     const RejectRequest= async (client_name)=>{
      try{
@@ -104,7 +125,6 @@ function ReportedBorrowers() {
     }
 
 
-    console.log(success,size,message)
 
     const HandlerequestApproval= async(client_name)=>{
         try{
@@ -150,12 +170,12 @@ function ReportedBorrowers() {
           </span>
           <span>
              <h2 className={`font-bold text-[14px] uppercase text-red-600 `}>
-              {success ? 'Request has been Rejected':'Error occured'}</h2>
+              {success ?  t('rptb.reject_.success'):t('rptb.reject_.failed')}</h2>
           <p className={`text-[15px] text-gray-800 ${success ? 'italic':'italic'}`}>{t(message)}</p>
           </span>
         
         </div>
-        <button onClick={closemodel} className="flex justify-end"> 
+        <button onClick={closemodel} className="flex justify-end outline-none"> 
           <XIcon size={18}  className="text-red-500 cursor-pointer"/>
           </button>
     
@@ -180,12 +200,12 @@ function ReportedBorrowers() {
           </span>
           <span>
              <h2 className={`font-bold text-[14px] uppercase ${success ? 'text-green-600':'text-red-600'} `}>
-              {success ? 'Request has been Approved':'Error occured'}</h2>
+              {success ? t('rptb.aprove.success'):t('rptb.aprove.failed')}</h2>
           <p className={`text-[15px] text-gray-800 ${success ? 'italic':'italic'}`}>{t(message)}</p>
           </span>
         
         </div>
-        <button  onClick={closemodel} className="flex justify-end"> 
+        <button  onClick={closemodel} className="flex justify-end outline-none"> 
           <XIcon size={18}  className="text-red-500 cursor-pointer"/>
           </button>
     
@@ -203,7 +223,7 @@ function ReportedBorrowers() {
             <div className='flex gap-2 items-center'>
                 <span className='bg-red-100  items-center text-red-600 rounded-md p-2'><ShieldAlertIcon size={40}/></span>
                 <span>
-                <h2 className='text-2xl font-extrabold uppercase text-gray-800'>{t('rptb.reportedBorrowers')}</h2>
+                <h2 className=' text-lg md:text-xl lg:text-2xl font-extrabold uppercase text-gray-800'>{t('rptb.reportedBorrowers')}</h2>
                  <h2 className='text-[15px] text-gray-700 font-semibold'>{t('rptb.decisionTitle')}</h2>
                  </span>
             </div>
@@ -293,7 +313,7 @@ function ReportedBorrowers() {
                         <td className='p-3'><SkeletonCellLoader/></td>
 
                     </tr>
-                )) :filteredData.map((d, idx) => {
+                )) :peginateddata.map((d, idx) => {
                     return <tr key={idx} className="border-t border-gray-100 cursor-pointer hover:bg-gray-50 transition">
                  <td className="p-3 text-gray-700 text-sm">
                     {idx + 1} 
@@ -319,18 +339,34 @@ function ReportedBorrowers() {
                 </td>
                  <td className="p-3 flex items-center gap-2 text-white text-xs">
                    
-                   <button onClick={(client_name)=>HandlerequestApproval(d.client_name)} disabled={d.status==='approved'||d.status==='rejected'} className={`${d.status==='approved'|| d.status==='rejected' ? 'bg-gray-400  outline-none  cursor-not-allowed':'bg-blue-400 cursor-pointer'} p-1 px-2 rounded-sm  capitalize`}>{t('rptb.approve')}</button>
-                   <button onClick={(client_name)=>RejectRequest(d.client_name)}  
+                   <button onClick={(client_name)=>HandlerequestApproval(d.client_name)} 
+                   disabled={d.status==='approved'||d.status==='rejected'}
+                    className={`${d.status==='approved'|| d.status==='rejected' ? 'bg-gray-400  outline-none  cursor-not-allowed':'bg-blue-400 cursor-pointer'} 
+                    p-1 px-2 rounded-sm outline-none  capitalize`}>{t('rptb.approve')}</button>
+                  
+                   <button
+                   disabled={d.status.toLowerCase()==='approved'||d.status.toLowerCase()==='rejected'}
+                   onClick={(client_name)=>RejectRequest(d.client_name)}  
                    className={`${d.status==='approved'
                    ||d.status==='rejected' ? 'bg-gray-400  outline-none cursor-not-allowed':'bg-red-400 cursor-pointer'}
-                    p-1 px-2  rounded-sm  capitalize`}>{t('rptb.reject')}</button>
+                    p-1 px-2  rounded-sm  capitalize outline-none`}>{t('rptb.reject')}</button>
                 </td>
               </tr>
                 })}
             </tbody>
+                    
           </table>
+          
         </div>
          }
+          <div className={`${filteredData?.length!==BorrowersPerpage ? 'hidden':'visible'} p-2 bg-white border border-gray-200 flex justify-between`}>
+               <button
+                disabled={pages===1}
+               onClick={HandlePrevious} className='bg-gray-200 p-1 disabled:cursor-not-allowed rounded-sm text-gray-700 outline-none cursor-pointer border-gray-300 border'><ChevronLeft/></button> 
+               <button disabled={pages===totalpages}
+                onClick={HandleNext} className='bg-gray-200 p-1 disabled:cursor-not-allowed rounded-sm text-gray-700 outline-none cursor-pointer border-gray-300 border'><ChevronRight/></button> 
+
+            </div>
 
     </div>
   )

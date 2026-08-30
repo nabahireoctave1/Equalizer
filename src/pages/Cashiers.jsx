@@ -204,7 +204,6 @@ const ReactivateOnconfirm =async()=>{
 }
 
 
-console.log(messagekey)
 
   const statusbadge=(status)=>{
       switch(status){
@@ -228,7 +227,7 @@ console.log(messagekey)
       </span>
       <span>
          <h2 className={`font-bold text-[14px] uppercase ${success ? 'text-green-600':'text-red-600'} `}>
-          {success ? 'Cashier delete':'Delete failed'}</h2>
+          {success ? t('c.cashier_deleted'):t('c.delete_failed')}</h2>
       <p className={`text-[15px] ${success ? '':'italic'}`}>{t(messagekey)}</p>
       </span>
     
@@ -403,9 +402,19 @@ console.log(messagekey)
              
                  <td className="p-3 flex items-center gap-2 text-gray-500 text-sm">
                    <button onClick={()=>openedit(c.cashier_id)} title={t('c.edit')} className="p-1 rounded-md cursor-pointer"><Pencil size={18} className=" hover:text-blue-400"/></button>
-                   <button onClick={()=>HandleDeletecashier(c.cashier_id)} title={t('c.remove')} className="p-1 bg-red-50 rounded-md cursor-pointer"><Trash size={18} className="text-red-400"/></button>
-                   <button onClick={(e,cashierId)=>openBurncashier(e,c.cashier_id)} title={t('c.burn')} className="cursor-pointer"><Ban size={18} className=" hover:text-red-400 "/></button>
-                   <button onClick={(e,cashierId)=>openreactivate(e,c.cashier_id)} title={t('c.reactivate')} className="cursor-pointer"> <RefreshCcw size={18} className="hover:text-green-500"/></button>
+                   <button onClick={()=>HandleDeletecashier(c.cashier_id)} title={t('c.remove')} 
+                   className="p-1 bg-red-50 rounded-md cursor-pointer"><Trash size={18} className="text-red-400"/></button>
+                   <button
+                   disabled={c.status?.toLocaleLowerCase()==='suspended'}
+                   onClick={(e,cashierId)=>openBurncashier(e,c.cashier_id)}
+                    title={c.status?.toLocaleLowerCase()==='suspended' ? t('c.already_suspended'):t('c.burn')} className="cursor-pointer disabled:cursor-not-allowed">
+                      <Ban size={18} className=" hover:text-red-400 "/></button>
+                   <button 
+                   disabled={c.status?.toLocaleLowerCase()==='active'}
+                   onClick={(e,cashierId)=>openreactivate(e,c.cashier_id)}
+                    title={c.status?.toLocaleLowerCase()==='active' ? t('c.already_activated'):t('c.reactivate')}
+                     className="cursor-pointer disabled:cursor-not-allowed"> 
+                    <RefreshCcw size={18} className="hover:text-green-500"/></button>
                 </td>
               </tr>
               })}

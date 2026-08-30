@@ -96,8 +96,7 @@
       "branch_name": "Nom de l'agence",
       "phone_no": "Téléphone",
       "location": "Localisation",
-      "actions": "Actions",
-      "maker": "Créateur"
+      "actions": "Actions"
     },
 
     "btn": {
@@ -411,7 +410,15 @@
   "reject": "Rejeter",
   "pending": "En attente",
   "approved": "Approuvé",
-  "rejected": "Rejeté"
+  "rejected": "Rejeté",
+   "aprove":{
+    "success": "La demande a été approuvée",
+    "failed": "Une erreur s’est produite"
+  },
+  "reject_":{
+     "success": "La demande a été rejetée",
+    "failed": "Une erreur s’est produite"
+  }
  
 }
  ,
@@ -436,7 +443,11 @@
   "edit": "Modifier",
   "remove": "Supprimer",
   "burn": "Suspendre",
-  "reactivate": "Réactiver"
+  "reactivate": "Réactiver",
+  "already_suspended": "Déjà suspendu",
+"already_activated": "Déjà actif",
+ "cashier_deleted": "Caissier supprimé",
+  "delete_failed": "Échec de la suppression"
 }
 ,
 
@@ -501,14 +512,18 @@
     "location": "Localisation",
     "company": "Entreprise",
 
-    "fullNamePlaceholder": "Jean Dupont",
-    "emailPlaceholder": "jean@example.com",
-    "phonePlaceholder": "+1 555 000 000",
-    "locationPlaceholder": "New York, USA",
-    "companyPlaceholder": "Acme Corp",
-
     "cancel": "Annuler",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "saving":"Enregistrement...",
+    "validationErrorMessage": {
+  "phone_required": "Veuillez saisir le numéro de téléphone !",
+  "name_required": "Veuillez saisir le nom !",
+  "nid_required": "Veuillez saisir le numéro d'identification nationale !",
+  "nid_length_is": "Le numéro d'identification nationale doit contenir 16 chiffres !",
+  "phone_length_is": "Le numéro de téléphone doit contenir 10 chiffres !",
+  "phone_numerical_only": "Le numéro de téléphone doit contenir uniquement des chiffres !",
+  "nid_is_numerical": "Le numéro d'identification nationale doit contenir uniquement des chiffres !"
+}
   },
   
 "nc":{
@@ -532,7 +547,16 @@
 
     "cancel": "Annuler",
     "add": "Ajouter",
-     "save": "Enregistrer les modifications"
+     "save": "Enregistrer les modifications",
+
+     "validationMessage": {
+  "names_require": "Le nom est obligatoire !",
+  "location_required": "Le lieu de travail du caissier est obligatoire !",
+  "phone_number_required": "Veuillez saisir le numéro de téléphone",
+  "branch_required": "Veuillez choisir une agence",
+    "phone_is_numeric": "Le numéro de téléphone doit être un nombre",
+  "phone_length": "Le numéro de téléphone doit comporter 10 chiffres"
+}
   },
 
     "bu": {
@@ -546,7 +570,10 @@
     "message": "Êtes-vous absolument sûr de vouloir refuser l'accès de ce caissier au système ?",
     "cancel": "Annuler",
     "yes": "Oui",
-    "loading":"Chargement…"
+    "loading":"Chargement…",
+     "success": "Caissier suspendu",
+    "failed": "Échec de la suspension du caissier",
+    "ok":"ok"
 
   },
    "rb": {
@@ -563,7 +590,10 @@
     "message": "Êtes-vous absolument sûr de vouloir réactiver ce caissier ?",
     "cancel": "Annuler",
     "yes": "Oui",
-    "loading":"Chargement…"
+    "loading":"Chargement…",
+      "success": "Caissier réactivé",
+    "failed": "Échec de la réactivation du caissier",
+    "ok":"ok"
 
   }
   ,
@@ -574,7 +604,8 @@
   "suspend_cashier_complete": "Le caissier a été suspendu",
   "reactivate_cashier_complete": "Le caissier a été réactivé",
     "reject_success": "Demande rejetée",
-  "approval_success": "Demande approuvée"
+  "approval_success": "Demande approuvée",
+  "cashier_added": "Le caissier a été ajouté avec succès"
 },
 
 "errors": {

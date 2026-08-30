@@ -391,7 +391,7 @@ const HandleRetry=async ()=>{
                         <div className='space-y-4'>
                             <div>
                                 <label className='text-[12px] font-semibold text-gray-700 uppercase block mb-1.5'>{t('ads.default_interest_rate')}</label>
-                                <input type="text" name='interest_percentage' onChange={HandleSettingChange} value={setting.interest_percentage} placeholder="0.00" className={inputStyle('interest_percentage')} />
+                                <input type="number" name='interest_percentage' onChange={HandleSettingChange} value={setting.interest_percentage} placeholder="0.00" className={inputStyle('interest_percentage')} />
                                 {validationError['setting.interest_percentage'] ? 
                                (<p className='text-[13px]  text-red-400'>{getValidationMessage('setting.interest_percentage')}
                                </p>) : (!setting.interest_percentage && <p className='text-[13px] text-red-400'>
@@ -400,7 +400,7 @@ const HandleRetry=async ()=>{
 
                             <div>
                                 <label className='text-[10px] font-black text-gray-700 uppercase block mb-1.5'>{t('ads.grace_period')}</label>
-                                <input type="text" name='grace_period' onChange={HandleSettingChange} value={setting.grace_period} placeholder="5" className={inputStyle('grace_period')} />
+                                <input type="number" name='grace_period' onChange={HandleSettingChange} value={setting.grace_period} placeholder="5" className={inputStyle('grace_period')} />
                                {validationError['setting.grace_period'] ? 
                                (<p className='text-[13px] text-red-400'>{getValidationMessage('setting.grace_period')}
                                </p>) : (!setting.grace_period && <p className='text-[13px] text-red-400'>
@@ -559,7 +559,7 @@ const HandleRetry=async ()=>{
                                 {t('ads.startup_cash')}
                               </label>
                               <input
-                                type="text"
+                                type="number"
                                 placeholder="1000"
                                 name='start_up'
                                 value={item.start_up}
@@ -593,7 +593,7 @@ const HandleRetry=async ()=>{
                           <div className="mt-3">
                             <label className="block text-[12px] text-gray-700 mb-2 uppercase">{t('ads.inputs.office_interest')}</label>
                             <input 
-                              type="text" 
+                              type="number" 
                               placeholder='10%'
                               name='office_interest'
                               value={item.office_interest}
@@ -639,7 +639,10 @@ const HandleRetry=async ()=>{
 
                     <div>
                         <select name='payment_frequency' onChange={HandleSettingChange} 
-                        value={setting.payment_frequency} className={`${!setting.payment_frequency ? 'border-red-400':'border-gray-300'} bg-white w-full md:w-50 text-gray-700 border  p-2 text-xs m-2 rounded-md outline-none cursor-pointer`}>
+                        value={setting.payment_frequency}
+                         className={`${!setting.payment_frequency ? 'border-red-400':'border-gray-300'}
+                           bg-white w-full md:w-50 text-gray-700 border  p-2 text-xs m-2 rounded-md 
+                          outline-none cursor-pointer`}>
                             <option>{t('ads.daily')}</option>
                             <option>{t('ads.weekly')}</option>
                             <option>{t('ads.monthly')}</option>

@@ -35,7 +35,7 @@ function Reactivatecashiermodel({ onClose, onConfirm,loading,success,modelopen,m
       <div className="text-center">
         <h2
           className={`text-xl font-extrabold uppercase ${success ? 'text-blue-600' : 'text-red-600' }`}>
-          {success ? 'Cashier Reactivated' : 'Reactivate cashier failed'}</h2>
+          {success ? t('rc.success'):t('rc.failed') }</h2>
         <p className={`${success ? 'text-[14px]':'italic'} mt-3 text-[15px] leading-6 text-gray-600`}>
           {t(messagekey)}
         </p>
@@ -46,7 +46,7 @@ function Reactivatecashiermodel({ onClose, onConfirm,loading,success,modelopen,m
         font-semibold text-white shadow-sm transition hover:scale-105 focus:outline-none ${
          success ? 'bg-blue-600 hover:bg-blue-700': 'bg-red-600'}`}
         >
-          OK
+          {t('rc.ok')}
         </button>
       </div>
     </div>

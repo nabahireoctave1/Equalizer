@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import api from '../api'
-import HandleErrormodel from './HandleErrormodel'
+import HandleTranslatedErrormodel from './HandleTranslatedErrormodel'
 
 function Newcashiermodel({ onClose }) {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const [loading,setloading]=useState(null)
         const [office,setoffice]=useState([]);
     const [ismodelopen,setismodelopen]=useState(false)
     const closemodel= ()=>{setismodelopen(false)}
-    const [successMessage,setsuccessmessage]=useState(null);
+    const [messagekey,setmessageKey]=useState(null);
     const [success,setsuccess]=useState(null);
     
 
@@ -40,6 +40,8 @@ const [loading,setloading]=useState(null)
       ...prev,
       [name]:value
     }))
+
+    setErrors((prev)=>({...prev,[name]:""}))
   }
 
   const HandleaddNew=async(e)=>{
@@ -50,7 +52,7 @@ const [loading,setloading]=useState(null)
       const res= await api.post('/add-cashier',formdata);
       if(res.data.success===true){
         setismodelopen(true);
-        setsuccessmessage(res.data?.message)
+        setmessageKey(res.data?.messagekey)
         setsuccess(res.data.success);
       }
     setErrors({});
@@ -63,6 +65,7 @@ const [loading,setloading]=useState(null)
         return
       }
       setismodelopen(true);
+      setmessageKey(err.response?.data?.messagekey);
     }
   }
 
@@ -90,6 +93,10 @@ if (response.data.length > 0) {
 
 
   
+    const InputBorderswitcher= (field)=>` ${errors[field] ?
+       "bg-red-50 border-red-500 focus:ring-red-400":" border-gray-200" } 
+    w-full p-2 border rounded-md focus:ring-1
+             outline-none focus:ring-blue-400 text-sm`
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
@@ -126,10 +133,9 @@ if (response.data.length > 0) {
                   name="names"
                   onChange={HandleChange}
                   placeholder={t("nc.fullNamePlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1 outline-none
-                   focus:ring-blue-400 text-sm"
+                  className={InputBorderswitcher('names')}
                 />
-                <span className="text-[13px] text-red-500">{errors.names}</span>
+                <span className="text-[13px] text-red-500">{t(errors.names)}</span>
 
               </div>
 
@@ -145,8 +151,7 @@ if (response.data.length > 0) {
                   name="email"
                   onChange={HandleChange}
                   placeholder={t("nc.emailPlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1
-                  outline-none focus:ring-blue-400 text-sm"
+                  className={InputBorderswitcher('email')}
                 />
 
               </div>
@@ -167,10 +172,9 @@ if (response.data.length > 0) {
                   name="location"
                   onChange={HandleChange}
                   placeholder={t("nc.locationPlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1 outline-none
-                   focus:ring-blue-400 text-sm"
+                  className={InputBorderswitcher('location')}
                 />
-                <span className="text-[13px] text-red-500">{errors.location}</span>
+                <span className="text-[13px] text-red-500">{t(errors.location)}</span>
 
               </div>
 
@@ -185,15 +189,14 @@ if (response.data.length > 0) {
                   name='branch'
                   onChange={HandleChange}
                   placeholder={t("nc.branchPlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1
-                  outline-none focus:ring-blue-400 text-sm"
+                  className={`${InputBorderswitcher('branch')} capitalize`}
                 >
                   {office?.map((off)=>{
                     return <option key={off.branch_id} value={off.branch_id}>{off.branch_name}</option>
                   })}
 
                 </select>
-                <span className="text-[13px] text-red-500">{errors.branch}</span>
+                <span className="text-[13px] text-red-500">{t(errors.branch)}</span>
 
               </div>
 
@@ -212,10 +215,9 @@ if (response.data.length > 0) {
                   name="phoneno"
                   onChange={HandleChange}
                   placeholder={t("nc.phonePlaceholder")}
-                  className="w-full p-2.5 border border-gray-200 rounded-md focus:ring-1
-                  outline-none focus:ring-blue-400 text-sm"
+                  className={InputBorderswitcher('phoneno')}
                 />
-                <span className="text-[13px] text-red-500">{errors.phoneno}</span>
+                <span className="text-[13px] text-red-500">{t(errors.phoneno)}</span>
 
               </div>
           </div>
@@ -242,7 +244,7 @@ if (response.data.length > 0) {
         </form>
       </div>
       {ismodelopen &&
-      <HandleErrormodel onClose={closemodel} message={successMessage} success={success}/>
+      <HandleTranslatedErrormodel onClose={closemodel} messagekey={messagekey} issuccess={success}/>
 
       }
     </div>

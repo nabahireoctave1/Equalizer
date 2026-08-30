@@ -94,8 +94,7 @@
       "branch_name": "Erinnya ly'Ettabi",
       "phone_no": "Namba y'Essimu",
       "location": "Ekifo",
-      "actions": "Ebikolwa",
-      "maker": "Eyakoze"
+      "actions": "Ebikolwa"
     },
     "btn": {
       "suspend": "Yimiriza Omweewola",
@@ -411,7 +410,15 @@
   "reject": "Gaana",
   "pending": "Kikyali mu kulindirirwa",
   "approved": "Kikkiriziddwa",
-  "rejected": "Kigaaniddwa"
+  "rejected": "Kigaaniddwa",
+    "aprove":{
+      "success": "Okusaba kukkiriziddwa",
+    "failed": "Wabaddewo ensobi"
+  },
+  "reject_":{
+     "success": "Okusaba kugaaniddwa",
+    "failed": "Wabaddewo ensobi"
+  }
 
 }
 
@@ -437,7 +444,13 @@
   "edit": "Kyusa",
   "remove": "Ggyawo",
   "burn": "Yimiriza",
-  "reactivate": "Ddamu Okumukola"
+  "reactivate": "Ddamu Okumukola",
+  "already_suspended": "Yasaziddwako dda",
+"already_activated": "Akola dda",
+ "cashier_deleted": "Omukozi wa kasasiro asaziddwamu",
+  "delete_failed": "Okusazaamu kulemye"
+
+  
 },
 
 
@@ -502,15 +515,19 @@
     "phone": "Essimu",
     "location": "Ekifo",
     "company": "Kampuni",
-
-    "fullNamePlaceholder": "John Doe",
-    "emailPlaceholder": "johndoe@gmail.com",
-    "phonePlaceholder": "+1 555 000 000",
-    "locationPlaceholder": "New York, USA",
-    "companyPlaceholder": "Acme Corp",
-
     "cancel": "Sazaamu",
-    "save": "Tereka enkyukakyuka"
+    "save": "Tereka enkyukakyuka",
+    "saving":"Okutereka..."
+    ,
+    "validationErrorMessage": {
+  "phone_required": "Singa namba y’essimu !",
+  "name_required": "Singa amannya !",
+  "nid_required": "Singa nnamba y’endagamuntu !",
+  "nid_length_is": "Nnamba y’endagamuntu erina okubaamu digito 16 !",
+  "phone_length_is": "Namba y’essimu erina okubaamu digito 10 !",
+  "phone_numerical_only": "Namba y’essimu erina okubaamu nnamba zokka !",
+  "nid_is_numerical": "Nnamba y’endagamuntu erina okubaamu nnamba zokka !"
+}
   },
 
   "nc": {
@@ -534,7 +551,15 @@
 
     "cancel": "Sazaamu",
     "add": "Yongerako",
-      "save": "Tereka enkyukakyuka"
+      "save": "Tereka enkyukakyuka",
+      "validationMessage": {
+  "names_require": "Erinnya lyetaagisa!",
+  "location_required": "Ekifo omukozi wa kasasiro w’akolera kyetaagisa!",
+  "phone_number_required": "Nsaba oteekemu ennamba y’essimu",
+  "branch_required": "Nsaba olonde ettabi",
+   "phone_is_numeric": "Ennamba y’essimu erina okuba ennamba",
+  "phone_length": "Ennamba y’essimu erina okuba n’obubonero 10"
+}
   },
 
     "bu": {
@@ -548,7 +573,10 @@
     "message": "Okakasa ddala nti oyagala okuggyako omukunguzi w'ebyensimbi ono obuyinza okukozesa sisitemu?",
     "cancel": "Sazaamu",
     "yes": "Yee",
-    "loading":"Kiteekateeka…"
+    "loading":"Kiteekateeka…",
+    "success": "Omukasi w’ensimbi ayimiriziddwa",
+    "failed": "Okuyimiriza omukasi w’ensimbi kulemedde",
+    "ok":"kale"
 
   },
    "rb": {
@@ -564,7 +592,10 @@
     "message": "Okakasa ddala nti oyagala okuddamu okukiriza omukunguzi w'ebyensimbi ono?",
     "cancel": "Sazaamu",
     "yes": "Yee",
-    "loading":"Kiteekateeka…"
+    "loading":"Kiteekateeka…",
+      "success": "Omukasi w’ensimbi azzeemu okukola",
+    "failed": "Okuzza omukasi w’ensimbi okukola kulemedde",
+    "ok":"kale"
 
   },
 
@@ -576,7 +607,8 @@
   "suspend_cashier_complete": "Omubalirizi ayimiriziddwa",
   "reactivate_cashier_complete": "Omubalirizi addiziddwa okukola",
    "reject_success": "Okusaba kugaaniddwa",
-  "approval_success": "Okusaba kukkiriziddwa"
+  "approval_success": "Okusaba kukkiriziddwa",
+  "cashier_added": "Omukozi wa kasasiro ayongezeddwa bulungi"
 },
 
 "errors": {

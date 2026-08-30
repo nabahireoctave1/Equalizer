@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { User, PhoneCall, MailIcon, MapIcon, Building2, ShieldCheck, Briefcase,X, Loader, Phone, Hand } from 'lucide-react';
+import { User, PhoneCall, MailIcon, MapIcon,
+   Building2, ShieldCheck, Briefcase,X,  Phone, Hand, LoaderCircle } from 'lucide-react';
 import api from '../api';
 
 import HandleFormError from './HandleFormError';
@@ -52,7 +53,7 @@ const Handlesave= async()=>{
    if(data?.errors){setError(data.errors) 
     return
    }
-   setmessage(data?.message)
+   setmessage(data?.message||err.message)
    
    setismodelopen(true)
 
@@ -82,12 +83,13 @@ ${error[field]? 'border border-red-300 focus:ring-1 focus:ring-red-400':'bg-gray
     <div>
 
       
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 focus:border-blue-300 '>
+    <div className='fixed inset-0 z-50 flex  items-center justify-center bg-black/85 backdrop-blur-sm p-4 focus:border-blue-300 '>
  
-        <div className='w-4/5 mt-20 bg-white shadow-sm p-4 rounded-sm '>
-        <div className='flex justify-between m-4 border-b border-gray-200 '>
+        <div className='w-full md:w-4/5 mt-20 bg-white shadow-sm p-4 rounded-sm '>
+        <div className='flex justify-between items-center m-4 border-b border-gray-200 '>
              <h2 className="text-3xl font-extrabold p-2 uppercase text-gray-800 ">Agent portal</h2>
-             <button onClick={onClose} className='text-red-500 cursor-pointer'>
+             <button onClick={onClose} className='text-red-500 cursor-pointer bg-red-50 w-fit 
+              rounded-full h-fit p-1'>
                 <X />
              </button>
 
@@ -137,10 +139,12 @@ ${error[field]? 'border border-red-300 focus:ring-1 focus:ring-red-400':'bg-gray
                   </div>
                   <div className='flex justify-end  '>
 
-                <button onClick={Handlesave} disabled={loading} className={`${loading ? 'bg-gray-300 cursor-not-allowed':' bg-blue-500 cursor-pointer'} p-2 px-8 rounded-sm
+                <button onClick={Handlesave}
+                 disabled={loading} className={`${loading ? 'bg-blue-400 cursor-not-allowed':
+                  ' bg-blue-500 cursor-pointer'} p-2 px-5 rounded-sm
                  text-white text-sm `}>
-                  {loading ?<span className='flex items-center gap-2'><Loader className='
-                 animate-spin'/> saving...</span> :"save"}</button>
+                  {loading ?<span className='flex items-center gap-2'><LoaderCircle className='
+                 animate-spin'/> saving...</span> :"Add"}</button>
 
                   </div>
 

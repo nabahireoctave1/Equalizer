@@ -37,7 +37,7 @@ function Burn_cashier({ onClose, onConfirm ,loading,modelopen,success,messagekey
       <div className="text-center">
         <h2
           className={`text-xl font-extrabold uppercase ${success ? 'text-blue-600' : 'text-red-600' }`}>
-          {success ? 'Cashier burned' : 'Burn cashier failed'}</h2>
+          {success ? t('bc.success') :t('bc.failed')}</h2>
         <p className={`${success ? 'text-[14px]':'italic'} mt-3 text-[15px] leading-6 text-gray-600`}>
           {t(messagekey)}
         </p>
@@ -48,7 +48,7 @@ function Burn_cashier({ onClose, onConfirm ,loading,modelopen,success,messagekey
         font-semibold text-white shadow-sm transition hover:scale-105 focus:outline-none ${
          success ? 'bg-blue-600 hover:bg-blue-700': 'bg-red-600'}`}
         >
-          OK
+          {t('bc.ok')}
         </button>
       </div>
     </div>

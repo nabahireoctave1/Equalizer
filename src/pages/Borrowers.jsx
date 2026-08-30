@@ -18,7 +18,6 @@ function Borrowers() {
   const [clients,setclients]=useState([])
   const [search,setSearchTerm]=useState("")
   const [networkError,setnetworkError]=useState(false);
-  console.log(messagekey)
 
 const {t}= useTranslation()
 
@@ -128,7 +127,7 @@ const HandleRetry=()=>{
                  </div>
          
         
-        : !Loading&&filterborrowers.length===0 ?
+        :!Loading&&filterborrowers.length===0 ?
 
         <div className='p-5 flex justify-center flex-col items-center '>
             <SearchX size={60} className='text-gray-800 flex items-center' />
@@ -149,7 +148,6 @@ const HandleRetry=()=>{
                 <th className='py-4 px-4 whitespace-nowrap'>{t('tb.phone_no')}</th>
                        <th className='py-4 px-4 whitespace-nowrap'>{t('tb.location')}</th>
                 <th className='py-4 px-5 text-center'>{t('tb.actions')}</th>
-                <th>{t('tb.maker')}</th>
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100'>
@@ -157,7 +155,6 @@ const HandleRetry=()=>{
               {Loading||networkError? 
               Array.from({length:5}).map((_,idx)=>{
                  return <tr key={idx}>
-                  <td className='p-2'><SkeletonCellLoader/></td>
                   <td className='p-2'><SkeletonCellLoader/></td>
                   <td className='p-2'><SkeletonCellLoader/></td>
                   <td className='p-2'><SkeletonCellLoader/></td>
@@ -205,13 +202,7 @@ const HandleRetry=()=>{
                       </button>
                     </div>
                   </td>
-                  <td className='flex items-center justify-end p-4'>
-                    <div className={`${b.loan_status==='overdue'? 'bg-red-500':b.loan_status==='paid'? 
-                      'bg-blue-500':b.loan_status===null||!b.loan_status ? 'bg-gray-300':
-                      b.loan_status==='unpaid' ? 'bg-red-400' :''
-                    } p-2 w-fit rounded-full`}>
-                    </div>
-                  </td>
+                
                 </tr>
               ))}
             </tbody>

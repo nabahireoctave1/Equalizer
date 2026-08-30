@@ -8,7 +8,7 @@ function HandleTranslatedErromodel({ issuccess, messagekey, onClose }) {
   return (
     <div className='fixed inset-0 z-100 flex items-center justify-center bg-black/60'>
       
-      <div className='w-sm rounded-sm  bg-gray-50 py-8 px-7 pb-6 shadow-2xl animate-in zoom-in duration-300'>
+      <div className='w-sm rounded-sm   bg-gray-50 py-8 px-7 pb-6 shadow-2xl animate-in zoom-in duration-300'>
         
         <div className='flex flex-col items-center text-center'>
 

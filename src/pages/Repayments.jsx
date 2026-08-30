@@ -145,13 +145,13 @@ const formatDate = (date) => {
                      border-gray-200 bg-white items-center whitespace-nowrap disabled:cursor-not-allowed'
                      ><Download size={16}/>
                       {t('rp.export')}</button>
-                            <div className='relative '>
+                    <div className='relative '>
                    <span className='absolute mt-2 mx-2'>
                     <Search size={20} className='text-gray-500'/></span> 
                     <input type='text'
                     onChange={(e)=>setsearchterm(e.target.value)}
                      placeholder={t('loan.search_placeholder')}
-                    disabled={Loading||messagekey}
+                    disabled={Loading||messagekey||networkError}
                      className='border p-2 px-8 disabled:cursor-not-allowed
                      border-gray-200 text-gray-500 bg-white rounded-sm text-sm
                       focus:ring-1 focus:ring-blue-400 outline-none'></input>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ToggleRight, ToggleLeft, Lock, Unlock, Bell, CreditCard, AlertTriangle, Save, CheckCircle2, Award, Loader } from 'lucide-react';
+import { ToggleRight, ToggleLeft, Lock, Unlock, Bell, CreditCard, AlertTriangle,
+   Save, CheckCircle2, Award, LoaderCircle } from 'lucide-react';
 import api from '../api';
 import socket from '../socket';
 import HandleErrormodel from './HandleErrormodel'
@@ -10,7 +11,10 @@ function Setting() {
   const [lockagent, setLockagent] = useState(false);
   const [lockNotif, setLockNotif] = useState(false);
   const [lockPenalties, setLockPenalties] = useState(false);
-  const [loading,setlaoding]=useState(false)
+  const [loading,setlaoding]=useState({
+    submitLoading:null,
+    fetchLoading:null
+  })
   const [manualynotify,setmanualynotif]=useState(null)
   const [ismodelopen,setismodelopen]= useState(false)
     const [message,setmessage]=useState(null)
@@ -37,6 +41,11 @@ function Setting() {
 
 
   const FetchCurrentSetting= async()=>{
+
+    setlaoding({
+      fetchLoading:true,
+      submitLoading:false
+    })
     try{
       const response= await api.get('/current-setting');
       setsuccess(response.data.success)
@@ -55,9 +64,18 @@ function Setting() {
 
     }
     catch(err){
-      const data= err.response?.data.message
+      const data= err.response?.data.message||err.message
       setmessage(data)
       setismodelopen(true);
+
+    }
+    finally{
+      setlaoding(
+        {
+          fetchLoading:false,
+          submitLoading:false
+        }
+      )
     }
   }
 
@@ -103,7 +121,10 @@ let HandleSendTo = () => {
 
   const handlesaveall= async()=>{
     setErrors({});
-    setlaoding(true)
+    setlaoding({
+      fetchLoading:false,
+      submitLoading:true
+    })
    try{
     const res= await api.post('/save-setting',settingdata)
     if(res.data.success===true){
@@ -117,16 +138,19 @@ let HandleSendTo = () => {
 
    }
    catch(err){
-    const data= err.response?.data||e.message
+    const data= err.response?.data.message||err.message
     if(data.errors){setErrors(data.errors)  
       return
     }
-    setmessage(data?.message)
+    setmessage(data)
     setismodelopen(true)
 
    }
    finally{
-    setlaoding(false)
+    setlaoding({
+      submitLoading:false,
+      fetchLoading:false
+    })
    }
 
   }
@@ -149,27 +173,50 @@ let HandleSendTo = () => {
   `;
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] w-full overflow-auto py-12 px-2 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-6xl mx-auto">
-        
-        <div className="flex justify-between items-center mb-6">
+  
+    <div className="bg-[#F9FAFB] w-full font-sans">
+       
+        <div className="  flex justify-between sticky top-0 
+         bg-gray-100 w-full px-8 rounded-xs border border-gray-200 py-4  items-center mb-6">
           <div>
-            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">{isAutoNotifOpen ?'System Settings':"Manualy notification"}</h2>
-            <p className="text-gray-500 mt-2 font-semibold">{isAutoNotifOpen ? 'Manage application settings.' :<span className='capitalize text-[13px]'>you can send manualy notification to your client </span>}</p>
+            <h2 className=" text-lg md:xl lg:text-2xl font-extrabold text-gray-900 tracking-tight">
+              {isAutoNotifOpen ?'System Settings':"Manualy notification"}</h2>
+            <p className="text-gray-800 mt-2 text-[13px] md:text-[14px] lg:text-[15px] font-semibold">
+              {isAutoNotifOpen ? 'Manage application settings.'
+               :<span className='capitalize text-[13px]'>
+                you can send manualy notification to your client </span>}</p>
           </div>
           <button 
           onClick={handlesaveall}
-          disabled={isAutoNotifOpen===false||loading}
+          disabled={isAutoNotifOpen===false||loading.submitLoading}
           
-          className={`${isAutoNotifOpen  ?' bg-blue-500 shadow-md shadow-blue-200  cursor-pointer':'bg-gray-300 border cursor-not-allowed  border-gray-300' }
-          flex items-center text-sm gap-2  text-white px-6 py-2
+          className={`${isAutoNotifOpen  ?' bg-blue-500 shadow-md shadow-blue-200  cursor-pointer'
+            :'bg-blue-300 border cursor-not-allowed  border-blue-300' }
+          flex items-center text-[15px] gap-2  outline-none text-white px-6 py-2
            rounded-sm font-semibold transition-all  active:scale-95`}>
-            {loading ?  <span  className='flex gap-1 items-center'><Loader className='animate-spin'/> saving... </span>:<span className='flex gap-1 items-center'><Save size={20} />save</span>}
+            {loading.submitLoading ?  <span  className='flex gap-1 items-center'>
+              <LoaderCircle size={20} className='animate-spin'/>
+             saving... </span>:<span className='flex gap-1 items-center'><Save size={20} />save</span>}
           </button>
-        </div>
+            </div>
+        {loading.fetchLoading &&
+         <div className=' flex  z-100 items-center justify-center
+           fixed inset-0 bg-black/20 '>
+            <div className='bg-white flex gap-3 w-35  lg:w-60
+            py-10 rounded-md  border border-gray-200 justify-center '>
 
+          <div className='p-2 bg-gray-200 w-fit rounded-full  animate-pulse'></div>
+          <div className='p-2 bg-gray-200 w-fit rounded-full  animate-pulse'></div>
+          <div className='p-2 bg-gray-200 w-fit rounded-full  animate-pulse'></div>
+          <div className='p-2 bg-gray-200 w-fit rounded-full  animate-pulse'></div>
+            </div>
 
-        <div className={`${cardStyle} ${lockNotif ? 'bg-gray-50 opacity-75' : ''}`}>
+         </div>
+        }
+      
+      <div className="max-w-7xl mx-auto p-3">
+        
+               <div className={`${cardStyle} ${lockNotif ? 'bg-gray-50 opacity-75' : ''}`}>
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-3 text-blue-600">
               <div className="p-2 bg-purple-50 rounded-lg"><Bell size={24}/></div>

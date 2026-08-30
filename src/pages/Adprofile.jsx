@@ -21,6 +21,7 @@ function Adprofile() {
   const [messagekey,setmessageKey]=useState(null)
   const [profileData,setProfileData]=useState({});
   const [networkError,setNetworkError]=useState(null)
+  const [Loading,setLoading]= useState(null)
 
 
 
@@ -33,6 +34,7 @@ function Adprofile() {
    const FetchProfileInformation= async()=>{
     setNetworkError(null);
     setmessageKey(null);
+    setLoading(true)
     try{
       
       const res= await api.get('/profile-information');
@@ -46,6 +48,8 @@ function Adprofile() {
         setNetworkError(true)
       }
      setmessageKey(err.response?.data?.messagekey)
+    } finally{
+      setLoading(false)
     }
  }
 
@@ -59,18 +63,19 @@ function Adprofile() {
    FetchProfileInformation();
  },[])
  
-  const formatDate= (date)=>{
-     if(!date) return null;
-         return date.split('T')[0]
-     .split('-').reverse().join('-')
+  const formatDate = (date) => {
+    if(!date) return '';
+    let d=date instanceof Date? date.toISOString():date;
+  return d.split('T')[0].split('-').reverse().join('-');
+};
 
-  }
+  
 
 
   return (
     <div>   
         {messagekey ?
-    <div className="flex flex-col p-5 m-2 bg-red-50 border-red-500 border rounded-sm mt-5  "> 
+    <div className="flex flex-col items-center sm:items-start  p-5 m-2 bg-red-50 border-red-500 border rounded-sm mt-5  "> 
       <span>
         <CircleX size={45} className="text-red-500 mb-3"/>
       </span>
@@ -90,16 +95,20 @@ function Adprofile() {
      
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
+      
         <div className="bg-white p-6 rounded-xl border border-gray-200 flex flex-col items-center text-center">
-          {profileData.profile_photo ?
+          {Loading||networkError||messagekey  ? 
+          <div className="p-12 rounded-full bg-gray-200 border border-gray-50 animate-pulse">
+           
+
+          </div>
+          :profileData.profile_photo ?
               <img
     src={profileData?.profile_photo &&  `http://localhost:3000/uploads/profile/${profileData.profile_photo}`}
     alt="profile"
     className="w-24 h-24 rounded-full object-cover"
-/>:
-        
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg ring-4 ring-indigo-100">
+/>:       
+   <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg ring-4 ring-indigo-100">
   <h2 className="text-white font-extrabold text-2xl tracking-wide">
     {decoded.name
       .split(" ")
@@ -113,27 +122,48 @@ function Adprofile() {
           }
      
 
-          <h2 className="mt-4 text-2xl font-bold text-gray-800">{profileData.names}</h2>
+          <h2 className="mt-4 text-2xl font-bold text-gray-800">
+            {Loading||networkError||messagekey? <div className=" w-50 p-3 rounded-full animate-pulse bg-gray-200"></div>:
+            <span> {profileData.names} </span> }
+            </h2>
 
           <p className="text-blue-600 font-medium uppercase text-sm">
-            {t("prl.adminRole")}
+            {Loading||networkError||messagekey ? <div className="bg-gray-200  p-2 m-1 w-34 rounded-full animate-pulse "></div>:
+            <span>{t("prl.adminRole")}</span>
+            }
           </p>
 
-          <span className={`${profileData.status==='active' 
-            ? 'bg-green-600':"bg-red-500"} mt-3 first-letter:uppercase  text-white px-7 py-1  rounded-full text-[15px]`}>
+          <span className={`${profileData.status?.toLowerCase()==='active' 
+            ? 'bg-green-600':profileData.status?.toLowerCase()==="suspended"?"bg-red-500":""} mt-3 first-letter:uppercase  text-white px-7 py-1  rounded-full text-[15px]`}>
+            {Loading||networkError||messagekey ? <div className="p-3 bg-gray-200 w-25 rounded-full animate-pulse"></div> :
+            <span>
             {profileData.status}
+
+            </span>
+            }
           </span>
 
           <div className="w-full mt-6 space-y-4 text-sm text-left">
+                {Loading||networkError||messagekey ? <div className="flex gap-2 items-center">
+                <div className="bg-gray-200 p-2.5 w-fit rounded-full animate-pulse"></div>
+                <div className="h-3 bg-gray-200 rounded-full w-full animate-pulse"></div>
 
+                </div> :
             <div className="border-t border-b border-gray-100 py-3">
               <p className="text-gray-800 font-extrabold mb-1">{t("prl.adminId")}</p>
               <p className="uppercase text-[15px] text-gray-800 tracking-tight">
                 {profileData.admin_id}
               </p>
             </div>
+                }
 
-            <div>
+            {Loading||networkError||messagekey ? 
+                 <div className="flex gap-2 items-center">
+                <div className="bg-gray-200 p-2.5 w-fit rounded-full animate-pulse"></div>
+                <div className="h-3 bg-gray-200 rounded-full w-full animate-pulse"></div>
+
+                </div> 
+            :<div>
               <h2 className="text-gray-800 font-extrabold mb-1">
                 {t("prl.memberSince")}
               </h2>
@@ -143,7 +173,8 @@ function Adprofile() {
                 <p>{formatDate(profileData.created_at)}</p>
               </div>
             </div>
-
+            }
+            
           </div>
         </div>
 
@@ -157,25 +188,51 @@ function Adprofile() {
             <div className="space-y-3 text-sm">
 
               <div className="flex justify-between pb-2">
-                <span>{t("prl.fullName")}</span>
+                {Loading||networkError||messagekey ?  <div className=" p-1.5 animate-pulse bg-gray-200 rounded-full w-40"></div>:
+                <span>{t("prl.fullName")}</span>}
+                {Loading||networkError ? <div className="bg-gray-200 rounded-full w-40 animate-pulse"></div> :
                 <span className="font-semibold">{profileData.names}</span>
+
+                }
+
               </div>
 
               <div className="flex justify-between pb-2">
+                {Loading||networkError||messagekey ? <div className="p-1.5 bg-gray-200 w-40 rounded-full animate-pulse"></div>:
                 <span>{t("prl.role")}</span>
-                 {profileData?.role === 'subadmin' &&
-                <span className="font-semibold">{t("prl.adminRole")}</span>
+                 
+                }
+                
+                 { Loading||networkError||messagekey ?
+                  <div className="p-1.5 bg-gray-200 w-55 rounded-full animate-pulse"></div>
+                 :
+                   <div>
+                   {profileData?.role === 'subadmin' &&
+                <span className="font-semibold">{t("prl.adminRole")}</span>}
+                   </div>
+             
                 }
               </div>
 
               <div className="flex justify-between pb-2">
+                {Loading ||networkError||messagekey? <div className="p-1.5 w-30 bg-gray-200 rounded-full animate-pulse"></div>:
                 <span>{t("prl.company")}</span>
+                  
+                }
+                {Loading ||networkError||messagekey? <div className="p-1.5 w-30 bg-gray-200 rounded-full animate-pulse"></div> :
                 <span className="font-semibold">{profileData?.company_name}</span>
+
+                }
               </div>
 
               <div className="flex justify-between">
-                <span>{t("prl.loc")}</span>
+                {Loading||networkError||messagekey ? 
+                <div className="p-1.5 bg-gray-200 w-45 rounded-full animate-pulse "></div>
+                : <span>{t("prl.loc")}</span>
+                }
+                {Loading||networkError||messagekey ? <div className="p-1.5 bg-gray-200 w-45 rounded-full animate-pulse "></div> :
                 <span className="font-semibold">{profileData?.location}</span>
+                }
               </div>
 
             </div>
@@ -190,23 +247,39 @@ function Adprofile() {
                 <h3 className="font-extrabold text-gray-800">
                   {t("prl.accountDetails")}
                 </h3>
-
-                <div className="flex justify-between text-sm">
+                 {Loading||networkError||messagekey ?<div className="flex items-center gap-2">
+                  <div className="p-2.5 bg-gray-200 w-fit rounded-full animate-pulse"></div>
+                  <div className="h-3 rounded-full bg-gray-200 w-25 animate-pulse"></div>
+                 </div> :
+                  <div className="flex justify-between text-sm">
                   <span className="flex items-center gap-1">
                     <Calendar size={14} /> {t("prl.createdAt")}
                   </span>
                   <span className="text-[15px]">{formatDate(profileData?.created_at)}</span>
                 </div>
+                 }
+               
 
                 <div className="flex justify-between text-sm">
-                  <span className="flex items-center gap-1">
+                  {
+                    Loading||networkError ?<div className="flex items-center gap-2">
+                  <div className="p-2.5 bg-gray-200 w-fit rounded-full animate-pulse"></div>
+                  <div className="h-3 rounded-full bg-gray-200 w-25 animate-pulse"></div>
+                 </div>  :
+                     <span className="flex items-center gap-1">
                     <ShieldCheck size={14} /> {t("prl.sts")}
                   </span>
-
-                  <span className={`${profileData?.company_status ==='activated' ? "bg-green-700" :"bg-red-500"}  p-1 uppercase
+                  }
+                 
+                  {Loading||networkError||messagekey ? 
+                  <div className="p-2.5 bg-gray-200 w-20 rounded-full"></div>
+                  :
+                   <span className={`${profileData?.company_status ==='activated' ? "bg-green-700" :"bg-red-500"}  p-1 uppercase
                    px-3 text-[12px] text-white rounded-full`}>
                     {profileData?.company_status}
                   </span>
+                  }
+                 
                 </div>
               </div>
             </div>
@@ -220,20 +293,34 @@ function Adprofile() {
                 </h3>
 
                 <div className="space-y-2 text-sm">
-
+                { Loading||networkError||messagekey  ?
+                <div className="flex items-center gap-2">
+                  <div className="p-2.5 bg-gray-200 w-fit rounded-full animate-pulse"></div>
+                  <div className="h-3 rounded-full bg-gray-200 w-full animate-pulse"></div>
+                 </div>:
                   <div className="flex justify-between">
                     <span className="flex items-center gap-2">
                       <Mail size={14} /> {t("prl.email")}
                     </span>
                     <p>{profileData?.email}</p>
                   </div>
-
+                  }
+                 
+                  {Loading||networkError||messagekey ? 
+                  <div className="flex items-center gap-2">
+                  <div className="p-2.5 bg-gray-200 w-fit rounded-full animate-pulse"></div>
+                  <div className="h-3 rounded-full bg-gray-200 w-full animate-pulse"></div>
+                 </div>
+                  :
                   <div className="flex justify-between">
                     <span className="flex items-center gap-2">
                       <PhoneCall size={14} /> {t("prl.phone")}
                     </span>
                     <p>{profileData?.phone}</p>
                   </div>
+                  
+                  }
+                  
 
                 </div>
 
@@ -248,9 +335,17 @@ function Adprofile() {
         <h2 className="text-lg font-semibold mb-2 capitalize">
           {t("prl.adminRoleTitle")}
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed">
+        {Loading||networkError||messagekey ? 
+        <div>
+           <div className="p-1.5 rounded-full w-full md:w-sm bg-gray-200 m-2 animate-pulse"></div>
+           <div className="p-1.5 rounded-full w-full bg-gray-200 m-2 animate-pulse"></div>
+        </div>
+        :
+       <p className="text-sm text-gray-600 leading-relaxed">
           {t("prl.adminRoleDesc")}
         </p>
+      }
+        
       </div>
 
       <div className="justify-end flex items-center">
@@ -263,7 +358,9 @@ function Adprofile() {
         </button>
       </div>
 
-      {isopened && <EditProfileModal onClose={closeedit} />}
+      {isopened && <EditProfileModal names={profileData?.names} phone={profileData?.phone} 
+        email={profileData?.email}  nid={profileData?.admin_id}  
+      onClose={closeedit} />}
     </div>
 
     </div>

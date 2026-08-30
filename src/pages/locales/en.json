@@ -97,8 +97,7 @@
       "branch_name": "Branch Name",
       "phone_no": "Phone No",
       "location": "Location",
-      "actions": "Actions",
-      "maker": "Maker"
+      "actions": "Actions"
     },
 
     "btn": {
@@ -427,7 +426,16 @@
   "reject": "Reject",
   "pending": "Pending",
   "approved": "Approved",
-  "rejected": "Rejected"
+  "rejected": "Rejected",
+  "aprove":{
+     "success": "Request has been approved",
+     "failed": "An error occurred"
+  },
+
+  "reject_":{
+      "success": "Request has been rejected",
+    "failed": "An error occurred"
+  }
  
 }
 ,
@@ -452,7 +460,11 @@
   "edit": "Edit",
   "remove": "Remove",
   "burn": "Suspend",
-  "reactivate": "Reactivate"
+  "reactivate": "Reactivate",
+  "already_suspended": "Already suspended",
+"already_activated": "Already active",
+ "cashier_deleted": "Cashier deleted",
+  "delete_failed": "Delete failed"
 },
 
   "about": "About",
@@ -515,13 +527,18 @@
   "phone": "Phone Number",
   "location": "Location",
   "company": "Company",
-
-  "fullNamePlaceholder": "Jane Hanet",
-  "emailPlaceholder": "janeHanet@example.com",
-  "phonePlaceholder": "26 555 000 000",
-  "locationPlaceholder": "Kampala",
-    "cancel": "Cancel",
-  "save": "Save"
+      "cancel": "Cancel",
+  "save": "Save",
+  "saving":"saving...",
+  "validationErrorMessage":{
+    "phone_required":"Please enter phone number !",
+    "name_required":"Please enter names !",
+    "nid_required":"Please national id required !",
+    "nid_length_is":"National id must contain 16 digits !",
+    "phone_length_is":"Phone number must contain 10 digits !",
+    "phone_numerical_only":"Phone number must be number only !",
+    "nid_is_numerical":"National id must be number only !"
+  }
 },
 
    "nc": {
@@ -545,7 +562,17 @@
 
     "cancel": "Cancel",
     "add": "Add",
-    "save": "Save Changes"
+    "save": "Save Changes",
+     
+    "validationMessage":{
+      "names_require":"Name is required !",
+      "location_required":"Cashier operating location is required !",
+      "phone_number_required":"Please enter phone number !",
+      "branch_required":"Please choose branch !",
+      "phone_is_numeric": "Phone number must be a number !",
+       "phone_length": "Phone number must be 10 digits !"
+    }
+
   },
 
    "bu": {
@@ -559,7 +586,10 @@
     "message": "Are you absolutely sure you want to deny this cashier access to the system?",
     "cancel": "Cancel",
     "yes": "Yes",
-    "loading":"Loading…"
+    "loading":"Loading…",
+    "success": "Cashier suspended",
+    "failed": "Burn cashier failed",
+    "ok":"ok"
 
   },
    "rb": {
@@ -576,7 +606,10 @@
     "message": "Are you absolutely sure you want to reactivate this cashier?",
     "cancel": "Cancel",
     "yes": "Yes",
-    "loading":"Loading…"
+    "loading":"Loading…",
+       "success": "Cashier reactivated",
+    "failed": "Failed to reactivate cashier",
+  "ok":"ok"
   },
   
  
@@ -588,7 +621,8 @@
    "reactivate_cashier_complete":"cashier has been reactivated"
     ,"reject_success":"Request rejected",
     "approval_success":"Request approved",
-    "update_profile_done":"Profile has been updated successfully"
+    "update_profile_done":"Profile has been updated successfully",
+    "cashier_added": "Cashier has been added successfully"
 
   },
   

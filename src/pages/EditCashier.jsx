@@ -158,7 +158,7 @@ ${errors[field] ?'bg-red-100 border-red-500 focus:ring-red-500'
                   placeholder={t("nc.fullNamePlaceholder")}
                   className={inputBorderswitcher('names')}
                 />
-                <span className="text-[13px] text-red-500">{errors.names}</span>
+                <span className="text-[13px] text-red-500">{t(errors.names)}</span>
               </div>
 
               <div>
@@ -197,7 +197,7 @@ ${errors[field] ?'bg-red-100 border-red-500 focus:ring-red-500'
                   placeholder={t("nc.locationPlaceholder")}
                   className={inputBorderswitcher('location')}
                 />
-                <span className="text-[13px] text-red-500">{errors.location}</span>
+                <span className="text-[13px] text-red-500">{t(errors.location)}</span>
 
               </div>
 
@@ -212,7 +212,7 @@ ${errors[field] ?'bg-red-100 border-red-500 focus:ring-red-500'
                   name='branch'
                   onChange={HandleChanges}
                   placeholder={t("nc.branchPlaceholder")}
-                  className={inputBorderswitcher('branch')}
+                  className={`${inputBorderswitcher('branch')} capitalize`}
                 >
                 {Branch.map((b,idx)=>(
                   <option key={idx} value={b.branch_id}>{b.branch_name}</option>
@@ -221,7 +221,7 @@ ${errors[field] ?'bg-red-100 border-red-500 focus:ring-red-500'
 
                   
                 </select>
-                <span className="text-[13px] text-red-500">{errors.branch}</span>
+                <span className="text-[13px] text-red-500">{t(errors.branch)}</span>
 
               </div>
 
@@ -242,7 +242,7 @@ ${errors[field] ?'bg-red-100 border-red-500 focus:ring-red-500'
                   placeholder={t("nc.phonePlaceholder")}
                   className={inputBorderswitcher('phoneno')}
                 />
-                <span className="text-[13px] text-red-500">{errors.phoneno}</span>
+                <span className="text-[13px] text-red-500">{t(errors.phoneno)}</span>
 
               </div>
 

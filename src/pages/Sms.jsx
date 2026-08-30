@@ -178,7 +178,7 @@ const smsUsedProgress =
   const Smsinputborderswitcher= (field)=>`
   
   ${smsErrors[field] ? 'bg-red-50 border-red-500':'bg-gray-50 border-gray-200'} w-full  border 
-   rounded-md px-4 py-3 text-sm outline-none focus:border-blue-400`
+   rounded-md px-4 py-2.5 text-sm outline-none focus:border-blue-400`
 
   return (
     <div className="min-h-screen">
@@ -195,7 +195,10 @@ const smsUsedProgress =
          
       </div>
      {errors.NetworkError ?
+     <div className="m-1">
       <NetworkError HandleRetry={HandleRetry}/>
+
+     </div>
      :Loading ? 
      <Loader1/>
      
@@ -261,7 +264,7 @@ const smsUsedProgress =
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                <div className="bg-[#f8faff] border border-gray-100 rounded-lg p-4">
+                <div className="bg-gray-50 border border-gray-100 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-800 text-[14px]">
@@ -299,7 +302,8 @@ const smsUsedProgress =
                       </span>
 
                       <span className="text-[12px] font-bold text-gray-700">
-                        {Loading||errors.NetworkError ? <div className="py-2.5 bg-gray-200 rounded-xs px-4 animate-pulse "></div>:
+                        {Loading||errors.NetworkError ?
+                         <div className="py-2.5 bg-gray-200 rounded-xs px-4 animate-pulse "></div>:
                         <span>{smsPercentageProgress}% </span>
                         }
                       </span>
@@ -312,13 +316,14 @@ const smsUsedProgress =
                   </div>
                 </div>
 
-                <div className="bg-[#f8faff] border border-gray-100 rounded-md p-4">
+                <div className="bg-gray-50 border border-gray-100 rounded-md p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-800 text-sm">
                         {t('sms.daily_usage')}
                       </p>                     
-                      {Loading||errors.NetworkError ?<div className="p-3 bg-gray-200 animate-pulse rounded-xs"></div> :
+                      {Loading||errors.NetworkError ?
+                      <div className="p-3 bg-gray-200 animate-pulse rounded-xs"></div> :
 
                         <h3 className="text-xl font-black text-gray-800 mt-1">
                         {smsinfo.DailyUsage ? smsinfo.DailyUsage :0} SMS
@@ -347,7 +352,8 @@ const smsUsedProgress =
                       </span>
 
                       <span className="text-[12px] font-bold text-gray-700">
-                        {Loading||errors.NetworkError ? <div className="bg-gray-200 py-2.5 px-4 animate-pulse">
+                        {Loading||errors.NetworkError ?
+                         <div className="bg-gray-200 py-2.5 px-4 rounded-xs animate-pulse">
 
                         </div>:<span>
                         {smsPercentageProgress}%
@@ -386,7 +392,7 @@ const smsUsedProgress =
                 </div>
               </div>
 
-              <form onSubmit={HandleSubmit} className="space-y-4" >
+              <form onSubmit={HandleSubmit} className="space-y-1" >
                 <div>
                   <label className="text-[13px] font-semibold text-gray-700 block mb-2">
                     {t('sms.sms_package')}
@@ -419,7 +425,12 @@ const smsUsedProgress =
 
                 </div>
 
-                <button className="w-full bg-blue-400 outline-none cursor-pointer text-white py-3 rounded-md text-sm font-bold hover:opacity-90 duration-300 shadow-lg">
+                <button
+                disabled={errors.NetworkError}
+                  
+                className="w-full bg-blue-400 outline-none cursor-pointer
+                 text-white py-3 rounded-md text-sm font-bold hover:opacity-90 duration-300 shadow-lg
+                disabled:cursor-not-allowed disabled:bg-blue-300 ">
                 {t('sms.purchase')}
                 </button>
               </form>

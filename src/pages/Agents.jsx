@@ -11,20 +11,24 @@ import {
   Building2,
   ChevronLeft,
   ChevronRight,
-  Map,
+  Map,XCircle,
   MapPin,Loader
 } from 'lucide-react'
 import Agent_Portal from './Agent_Portal';
 import api from '../api';
 import { useEffect } from 'react';
+import SkeletonCellLoader from './SkeletonCellLoader';
+import NetworkError from './NetworkError';
 
 function Agents() {
 
   const [agentportalopen,setisopen]=useState(false)
   const [loading,setloading]=useState(true);
   const [error,seterror]=useState(null)
+  const [title,settitle]=useState(null);
+  const [size,setsize]=useState(null);
   const [data,setdata]= useState([]);
-  
+  const [networkError,setnetworkError]=useState(null);
   const openmodel= ()=>setisopen(true)
   const closemodel=()=>setisopen(false)
 
@@ -52,18 +56,30 @@ function Agents() {
   const LogAgent= async()=>{
      try{
       setloading(true);
+      setsize(null);
+      settitle(null);
       const res=await api.get('/agent-info');
       setdata(res.data);
 
      }
      catch(err){
+      if(!err.response){
+        setnetworkError(true)
+      }
       seterror(err.response?.data?.message||err.message);
+      setsize(err.response?.data?.size);
+      settitle(err.response?.data.title)
+
      } finally{
       setloading(false)
      }
 
   }
 
+
+  const Handleretry= ()=>{
+    LogAgent();
+  }
 
   useEffect(()=>{
     
@@ -77,12 +93,12 @@ function Agents() {
 
   
   return (
-       <div className='w-full min-h-screen bg-gray-50 font-sans'>
+       <div className='w-full  bg-gray-50 font-sans'>
       <div className='w-full bg-white border-b border-gray-200 px-6 py-4'>
         <div className='flex items-center justify-between w-full gap-8'>
           
           <div className='flex items-center gap-2 min-w-fit'>
-            <div className='bg-blue-600 p-2 rounded-lg'>
+            <div className='bg-blue-400 p-2 rounded-full'>
               <User2Icon className='text-white' size={24} />
             </div>
             <h1 className='uppercase font-black text-xl text-gray-800 tracking-tighter hidden md:block'>
@@ -96,25 +112,59 @@ function Agents() {
             </span>
             <input 
               type='text' 
+              disabled={error||loading}
               placeholder='Search by ID, name, or company...'
-              className='block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md bg-gray-50 focus:ring-1 focus:ring-blue-500 focus:bg-white transition-all outline-none text-sm'
+              className='block w-full pl-10 pr-3 py-2.5
+               border border-gray-300 rounded-md bg-gray-50 focus:ring-1 disabled:cursor-not-allowed
+                focus:ring-blue-500 focus:bg-white transition-all outline-none text-sm'
             />
           </div>
 
-          <button onClick={openmodel} className='bg-blue-400 hover:bg-blue-500 cursor-pointer text-white px-5 py-2.5 rounded-md text-sm font-semibold flex items-center gap-2 transition-all shadow-md min-w-fit active:scale-95'>
+          <button onClick={openmodel} className='bg-blue-400 capitalize
+           hover:bg-blue-500 cursor-pointer text-white px-5 outline-none
+            py-2.5 rounded-md text-sm font-semibold flex items-center 
+            gap-2 transition-all shadow-md min-w-fit active:scale-95'>
             <Plus size={18}/> <span className='hidden sm:inline'>agent</span>
           </button>
         </div>
       </div>
-
-      <div className='p-6 w-full'>
-        <div className='flex items-center justify-center'>
-           {
-        loading ? <span className='flex gap-2 pb-4'><Loader className='animate-spin'/>Loading...</span> :
-        <p className='text-[13px] text-red-500 capitalize'>{error}</p>
+      {networkError &&
+       <div className='p-2'>
+        <NetworkError/>
+       </div>
       }
+
+     {error && size===0  ?
+     
+     <div className='flex flex-col justify-center items-center h-80 p-10 md:p-5 lg:p-2 '>
+      <span className='bg-blue-400 p-4 rounded-full text-white'><User2Icon size={30}/></span>
+      <h2 className='text-2xl first-letter:uppercase text-gray-800'>{title}</h2>
+      <p className='text-[15px] text-gray-800'>{error}</p>
+      <button  onClick={openmodel} className='p-2 px-6 text-[15px] m-3
+       capitalize text-white bg-blue-400 rounded-sm outline-none cursor-pointer'>Add new </button>
+     </div>
+     :
+     
+    error && size===1 ?
+       <div className='bg-red-50 border border-red-500 mx-2 mt-5 p-4 rounded-md'>
+      <span>
+        <XCircle size={45} className='text-red-500'/>
+      </span>
+      <h2 className='text-2xl pt-1 text-red-500'>{title}</h2>
+       <p className='text-[15px] italic'>{error}</p>
+       <p className='text-gray-800 text-[15px] italic' >Due to server error system can`t return any agent information  try again</p>
+       <div className='flex justify-end p-2'>
+        <button onClick={Handleretry}  className='cursor-pointer capitalize text-[15px] italic
+         text-white  bg-green-600 rounded-sm outline-none
+        py-1.5 px-6'>retry</button>
+       </div>
+    </div>
+    :
+          <div className='p-6 w-full overflow-auto'>
+        <div className='flex items-center justify-center'>
+         
         </div>
-        <div className='bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden w-full'>
+        <div className='bg-white rounded-md  border border-gray-200 overflow-hidden w-full'>
           <div className='overflow-x-auto w-full'>
             <table className='w-full text-left border-collapse'>
               <thead>
@@ -129,7 +179,17 @@ function Agents() {
                 </tr>
               </thead>
               <tbody className='divide-y divide-gray-100 text-sm'>
-                {paginateddata.map((agent,index) => (
+                {loading||networkError ?Array.from({length:7}).map((_,idx)=>(
+                  <tr key={idx}>
+                    <td className='p-2'><SkeletonCellLoader/></td>
+                    <td className='p-2'><SkeletonCellLoader/></td>
+                    <td className='p-2'><SkeletonCellLoader/></td>
+                    <td className='p-2'><SkeletonCellLoader/></td>
+                    <td className='p-2'><SkeletonCellLoader/></td>
+                    <td className='p-2'><SkeletonCellLoader/></td>
+
+                  </tr>
+                )) :paginateddata.map((agent,index) => (
                   <tr key={index} className='hover:bg-blue-50/50 transition-colors'>
                     <td className='px-6 py-4 font-sans font-bold text-gray-800'>
                       {agent.permision_id}
@@ -189,8 +249,8 @@ function Agents() {
             </table>
           </div>
           
-          <div className='bg-white p-4 border-t border-gray-100 flex flex-col
-           sm:flex-row justify-end  gap-4'>
+          <div className={`${loading||networkError ? 'hidden':''} bg-white p-5 border-t border-gray-100 flex flex-col
+           sm:flex-row justify-end  gap-4`}>
           
             
             <div className='flex items-center gap-1'>
@@ -206,7 +266,11 @@ function Agents() {
             </div>
           </div>
         </div>
+         
       </div>
+     }  
+
+
       {agentportalopen &&<Agent_Portal onClose={closemodel}/>}
     </div>
   )

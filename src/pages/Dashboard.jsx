@@ -3,7 +3,10 @@ import {
   Users, CircleCheck, BarChart3, Banknote, Building2, Edit2, Trash2, 
   ChevronRight, ChevronLeft, TrendingDown, CreditCard, DollarSign, PieChart, X,
   User2,
-  Search
+  Search,
+  CircleX,
+  ScrollText,
+  WifiOff
 } from "lucide-react";
 
 
@@ -21,6 +24,7 @@ import {io} from 'socket.io-client'
 import socket from "../socket";
 import api from '../api'
 import  {useNavigate} from 'react-router-dom'
+import NetworkError from "./NetworkError";
 
 let Dashboard = () => {
   const [activePage, setactivepage] = useState('overview');
@@ -68,6 +72,23 @@ const totalcashierpage =Math.ceil(cashier.length /cashierperpage);
     cashiererror:null,
     usererror:null
   })
+
+  const [errorsize,seterrorsize]=useState({
+     grobalDasherrorsize:null,
+     transerrorsize:null,
+     csherrorsize:null,
+     cmpadminerrorsize:null
+  })
+
+  
+
+const [networkerror, setnetworkerror] = useState({
+  grobalnetwork: {error: false,reason: null},
+  cshnetworkerror: {error: false,reason: null
+  },
+  transnetworkerror: {error: false,reason: null },
+  cmpinfnetworkerror: { error: false,reason: null}
+});
 
   const transactionmodelopened = (e, trans) => {
   e.preventDefault();
@@ -117,41 +138,107 @@ const totalcashierpage =Math.ceil(cashier.length /cashierperpage);
   })
 
 const FetchDashboard = async () => {
-  try {
     seterrors({ statserror: null, transactionerror: null, cashiererror: null, comperror: null });
-
-    const [statsinfo, trans, cashiers, userinfo] = await Promise.all([
-      api.get('/dash-overview').catch(err => {
-        seterrors((prev) => ({ ...prev, statserror: err.response?.data?.message }));
-        return null; 
-      }),
-      api.get('/transaction').catch(err => {
-        seterrors((prev) => ({ ...prev, transactionerror: err.response?.data?.message }));
-        return null;
-      }),
-      api.get('/cashier').catch(err => {
-        seterrors((prev) => ({ ...prev, cashiererror: err.response?.data?.message  }));
-        return null;
-      }),
-      api.get('/user-info').catch(err => {
-        seterrors((prev) => ({ ...prev, usererror: err.response?.data?.message }));
-        return null; 
-      })
+     seterrorsize({grobalDasherrorsize:null,csherrorsize:null,cmpadminerrorsize:null,transerrorsize:null})
+      setnetworkerror({ grobalnetwork:{error:false,reason:null}, cshnetworkerror:{error:false,reason:null},
+         transnetworkerror:{error:false,reason:null}, cmpinfnetworkerror:{error:null,reason:null}})
+     setnetworkerror(null)
+    let result = await Promise.allSettled([
+      api.get('/dash-overview'),
+      api.get('/transaction'),
+      api.get('/cashier')
+,
+      api.get('/user-info')
     ]);
 
-  
-    if (statsinfo) setstats(statsinfo.data);
-    if (trans) settransaction(trans.data);
-    if (cashiers) setcashier(cashiers.data);
-    if (userinfo) setuserinfo(userinfo.data);
+    const [statsinfo, trans, cashiers, userinfo]=result;
 
-  } catch (err) {
-    console.log(err);
-  }
+  
+    if (statsinfo.status==='fulfilled'){
+     setstats(statsinfo.value.data);
+    } 
+    else{
+      const err=  statsinfo.reason
+      if(err.response){
+        seterrorsize((prev)=>({...prev,grobalDasherrorsize:err.response?.data?.size}))
+        seterrors((prev)=>({...prev,statserror:err.response?.data?.message}))
+      }
+      else{
+        setnetworkerror((prev)=>({...prev,grobalnetwork:{
+          error:true,
+          reason:err.message
+        }}));
+      }
+    }
+    if (trans.status==='fulfilled'){
+    settransaction(trans.value.data);
+    }
+     else{
+     const err= trans.reason;
+     if(err.response){
+      seterrorsize((prev)=>({...prev,transerrorsize:err.response?.data?.size}));
+      seterrors((prev)=>({...prev,transactionerror:err.response?.data?.message}))
+     }
+     else{
+      setnetworkerror((prev)=>({...prev,transnetworkerror:{
+        error:true,reason:err.message
+      }
+
+      }))
+     }
+     
+    } 
+
+    if (cashiers.status==='fulfilled') {
+      setcashier(cashiers.value.data);
+    
+    }
+    else {
+       const err= cashiers.reason;
+       if(err.response){
+        seterrorsize((prev)=>({...prev,csherrorsize:err.response?.data?.size}))
+        seterrors((prev)=>({...prev,cashiererror:err.response?.data?.message}))
+       }
+       else{
+       setnetworkerror((prev)=>({...prev,cshnetworkerror:{
+        error:true,
+        reason:err.message
+       }}))
+       }
+    }
+    if (userinfo.status==='fulfilled')
+    {
+       setuserinfo(userinfo.value.data);
+       
+    }
+    else{
+      const err= userinfo.reason;
+      if(err.response){
+        seterrorsize((prev)=>({...prev,cmpadminerrorsize:err.response?.data?.size}));
+        seterrors((prev)=>({...prev,usererror:err.response?.data?.message}))
+      }
+      else{
+        setnetworkerror((prev)=>({...prev,cmpinfnetworkerror:{
+          error:true,
+          reason:err.message
+        }}))
+      }
+    }
+
+  
 };
+
+
+const handleRetry= ()=>
+{
+  FetchDashboard();
+}
+
+
 useEffect(()=>{
   FetchDashboard();
 },[])
+
 
 
 const Formatamount = (amount) => {
@@ -204,6 +291,8 @@ const handleLogout= ()=>{
           </div>
         </div>
       )}
+
+    
 
       <header className="flex justify-between bg-gradient-to-r from-blue-400 to-blue-600 p-5 sticky top-0 z-50 shrink-0 shadow-md">
         <h2 className="text-white font-extrabold text-2xl tracking-tighter uppercase">Equalizer</h2>
@@ -306,7 +395,7 @@ const handleLogout= ()=>{
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Users</p>
-                        <p className="text-lg font-black text-gray-800">{stats.totalUsers}</p>
+                        <p className="text-lg font-black text-gray-800">{stats.totalUsers ? stats.totalUsers:0}</p>
                       </div>
                     </div>
 
@@ -317,7 +406,7 @@ const handleLogout= ()=>{
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Overdue Rate</p>
-                        <p className="text-lg font-black text-gray-800">{stats.overdueCompanies/stats.totalCompanies*100}%</p>
+                        <p className="text-lg font-black text-gray-800">{stats.overdueCompanies ? stats.overdueCompanies/stats.totalCompanies*100:0}%</p>
                       </div>
                     </div>
 
@@ -328,7 +417,7 @@ const handleLogout= ()=>{
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Online users</p>
-                        <p className="text-lg font-black text-gray-800">{stats.activeUsers}</p>
+                        <p className="text-lg font-black text-gray-800">{stats.activeUsers ? stats.activeUsers:0}</p>
                       </div>
                     </div>
 
@@ -339,7 +428,7 @@ const handleLogout= ()=>{
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Payments</p>
-                        <p className="text-lg font-black text-gray-800">UGX {Formatamount(stats.monthlyPayment)}</p>
+                        <p className="text-lg font-black text-gray-800">UGX {stats.monthlyPayment? Formatamount(stats.monthlyPayment):0}</p>
                       </div>
                     </div>
 
@@ -351,7 +440,7 @@ const handleLogout= ()=>{
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Company</p>
-                        <p className="text-lg font-black text-gray-800">{stats.totalCompanies}</p>
+                        <p className="text-lg font-black text-gray-800">{stats.totalCompanies ? stats.totalCompanies:0}</p>
                       </div>
                     </div>
 
@@ -362,7 +451,7 @@ const handleLogout= ()=>{
                       </div>
                       <div>
                         <p className="text-gray-400 text-[9px] uppercase font-bold tracking-widest">Total Revenue</p>
-                        <p className="text-lg font-black text-gray-800">UGX {Formatamount(stats.totalRevenue)}</p>
+                        <p className="text-lg font-black text-gray-800">UGX {stats.totalRevenue ? Formatamount(stats.totalRevenue):0}</p>
                       </div>
                     </div>
                   </div>
@@ -393,8 +482,41 @@ const handleLogout= ()=>{
                     </div>
                     
                     <div className="overflow-x-auto min-h-70">
-                      {errors.cashiererror ? <div className="flex items-center justify-center uppercase text-sm
-                       text-red-500">{errors.cashiererror}</div>:
+                       
+                      
+                      { networkerror&&networkerror.cshnetworkerror.error ? 
+                      <div className="flex items-center flex-col h-55 justify-center p-6">
+                        <span>
+                          <WifiOff size={50} className="text-red-500"/></span>
+                        <h1 className="text-red-500 text-2xl">{networkerror.cshnetworkerror.reason}</h1>
+                          {networkerror.cshnetworkerror.reason.toLowerCase()==='network error' &&
+                           <p className="text-[15px] italic text-gray-500">
+                           Network error occured 
+                          please check your internet connection and try again</p>
+                          }
+                        
+                      </div>
+                      :                   
+                      errors.cashiererror&&errorsize.csherrorsize===0 ? 
+                       <div className="flex  flex-col items-center p-12 h-55 justify-center">
+                        <span className="bg-blue-400 p-3 rounded-full"><Users size={45} className="text-white"/></span>
+                         <h2 className="text-2xl text-gray-800">Information not found</h2>
+                         <p className="text-[15px] first-letter:uppercase">{errors.cashiererror}</p>
+                       </div>
+                      :
+                      
+                      errors.cashiererror&&errorsize.csherrorsize===1 ?
+                       <div className="flex items-center  justify-center">
+
+                        <div className="w-sm flex items-center flex-col justify-center h-60">
+                        <CircleX size={50} className="text-red-500"/>
+
+                        <h2 className="text-2xl text-red-500">Error occurred</h2>
+                        <p className=" text-[15px]
+                       text-gray-800 italic">
+                          {errors.cashiererror}
+                          </p>
+                          </div></div>:
                       <table className="w-full text-left">
                         <thead className="bg-gray-50/50 text-gray-400 text-[11px] uppercase font-bold">
                           <tr>
@@ -414,9 +536,8 @@ const handleLogout= ()=>{
 
                               <td className="px-6 py-4 text-center">
                                 <div className="flex justify-center gap-2">
-                                  <button className="text-[10px] font-bold text-amber-600 border border-amber-200 px-2 py-1 rounded bg-amber-50">Suspend</button>
-                                  <button className="p-1.5 text-gray-400 hover:text-blue-600"><Edit2 className="w-4 h-4" /></button>
-                                  <button className="p-1.5 text-gray-400 hover:text-red-600"><Trash2 className="w-4 h-4" /></button>
+                                  <button className="text-[12px] font-bold text-amber-600 border border-amber-200 px-2 py-1 rounded bg-amber-50">Suspend</button>
+                                  <button className="text-[12px] font-bold text-white border border-blue-200 px-2 py-1 rounded bg-blue-400">Reactivate</button>
                                 </div>
                               </td>
                             </tr>
@@ -433,23 +554,52 @@ const handleLogout= ()=>{
                   <div className="bg-white shadow-sm rounded-xl  min-h-[320px] border border-gray-100 overflow-hidden">
                     <div className="p-5 border-b border-gray-50 flex justify-between items-center">
                       <h1 className="font-bold text-gray-800 text-sm uppercase tracking-wide">Transaction Logs</h1>
-                      <BarChart3 className="w-4 text-gray-400" />
+                      <ScrollText className="w-4 text-gray-400" />
                     </div>
                   <div className="relative w-full max-w-xs m-2">
               <input
              type="text"
            placeholder="ID..."
-           className="w-full h-10 pl-4 pr-12 text-sm rounded-sm border border-gray-200 bg-white
-             outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+           disabled={errors.transactionerror}
+           className="w-full h-10 pl-4 pr-12 text-sm rounded-sm border border-gray-200 bg-white disabled:bg-gray-50
+             outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed"
           />
 
-          <div className="absolute right-1 top-1 bottom-1 w-10 rounded-sm
+          <button
+          disabled={errors.transactionerror}
+          className="absolute right-1 top-1 bottom-1 w-10 rounded-sm disabled:cursor-not-allowed disabled:bg-blue-300
            bg-blue-500 text-white flex items-center justify-center
             cursor-pointer transition">
+
          <Search size={18}/>
-          </div>
+          </button>
              </div>
-                    <div className="overflow-x-auto">
+                   { networkerror&&networkerror.transnetworkerror.error ?
+                   <div className="flex items-center flex-col h-55 justify-center p-8">
+                        <span><WifiOff size={50} className="text-red-500"/></span>
+                        <h1 className="text-red-500 text-2xl">{networkerror.transnetworkerror.reason}</h1>
+                        {networkerror.transnetworkerror.reason.toLowerCase()==='network error' && 
+                         <p className="text-[15px] italic text-gray-500">Network error occured please check your internet connection and try again</p>
+                        
+                        }
+
+                      </div>
+                   :
+                   errors.transactionerror&&errorsize.transerrorsize===0 ?
+                         <div className="flex items-center flex-col justify-center py-2  w-full px-5">
+                          <span className="bg-blue-400 p-2 rounded-full text-white">
+                            <ScrollText size={45}/>
+                          </span>
+                          <h2 className="text-2xl  text-gray-800">Transaction not found</h2>
+                         <p className="text-[15px]  text-gray-800"> {errors.transactionerror}</p>
+                          </div>:errors.transactionerror&&errorsize.transerrorsize===1 ?
+                          <div className="flex flex-col items-center  p-8 ">
+                            <span><CircleX size={50} className="text-red-500"/></span>
+                            <h2 className="text-2xl text-red-500">Error occurred</h2>
+                            <p className="text-[15px] italic text-gray-800">{errors.transactionerror}</p>
+                          </div>
+                          :
+                           <div className="overflow-x-auto">
                       <table className="w-full text-left">
                         <thead className="bg-gray-50/50 text-gray-400 text-[11px] uppercase font-bold">
                           <tr>
@@ -457,9 +607,7 @@ const handleLogout= ()=>{
                             <th className="px-4 py-3 text-right">Amount</th>
                           </tr>
                         </thead>
-                        {errors.transactionerror ?
-                         <div className="text-center
-                         uppercase text-sm text-red-500 pb-20">{errors.transactionerror}</div>:
+                       
                         <tbody className="divide-y divide-gray-50 text-xs">
                           {paginatedt.map((trans, i) => (
                             
@@ -483,7 +631,7 @@ const handleLogout= ()=>{
                           ))}
 
                         </tbody>
-                         }
+                         
                       </table>
                       <div className="flex justify-between pb-3 px-3 ">
                         <span onClick={()=>{
@@ -501,12 +649,36 @@ const handleLogout= ()=>{
                         className={`${errors.transactionerror ? 'bg-gray-100 text-gray-50 border-red-500 cursor-not-allowed':'bg-gray-200 cursor-pointer'} p-1 rounded-md `}><ChevronRight/></span>
                       </div>
                     </div>
+                           }
+                   
                   </div>
 
                   <div className="bg-white shadow-sm rounded-xl border border-gray-100 p-5 h-72 overflow-auto">
-                    {errors.usererror ? <div className="flex  justify-center items-center text-red-500 uppercase text-sm">
-                      {errors.usererror}
-                    </div>:<div>
+                    {networkerror&&networkerror.cmpinfnetworkerror.error ?
+                    
+                    <div className="flex items-center flex-col h-55 justify-center p-6">
+                        <span><WifiOff size={50} className="text-red-500"/></span>
+                        <p className="text-2xl text-red-500">{networkerror.cmpinfnetworkerror.reason}</p>
+                        {networkerror.cmpinfnetworkerror.reason.toLowerCase()==='network error' && 
+                         <p className="text-[15px] italic text-gray-500">Network error occured please check your internet connection and try again</p>
+                        
+                        }
+                      </div>
+                    :
+                    
+                    errors.usererror&&errorsize.cmpadminerrorsize===0 ?
+                     <div className="flex  justify-center items-center
+                      text-red-500 uppercase text-sm">
+                        <p>empty state here !!!!!!!!!!</p>
+                    </div>:errors.usererror&&errorsize.cmpadminerrorsize==1
+                      ? <div className="flex items-center flex-col h-50 justify-center">
+                        <span><CircleX size={50} className="text-red-500"/></span>
+                        <p className="text-2xl text-red-500">Error occurred</p>
+                      <p className="text-[15px] italic text-gray-800">{errors.usererror}</p>
+
+                      </div>:                     
+                    
+                    <div>
 
                     <h1 className="font-bold text-gray-800 text-sm uppercase tracking-wide mb-6">Company Admins</h1>
                     <div className="space-y-4">
@@ -558,7 +730,10 @@ date={formatDate(selectedTransaction.date)}
          userid={selecteduser.admin_id} phonnumber={selecteduser.phone} companyname={selecteduser.cmpname}
          create_at={formatDate(selecteduser.created_at)}
         onClose={closeusermodel} />}
+
+        
       </div>
+       
     </div>
   );
 };

@@ -1,10 +1,10 @@
-import { Plus, User } from "lucide-react";
+import { LoaderCircle, Plus, User } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import api from '../api'
 import HandleTranslatedErrormodel from './HandleTranslatedErrormodel'
 
-function EditProfileModal({ onClose }) {
+function EditProfileModal({names,phone,email,nid,  onClose }) {
   const { t } = useTranslation();
 
   const [profile_photo,setProfilePhoto]= useState(null)
@@ -13,6 +13,7 @@ function EditProfileModal({ onClose }) {
   const [messageKey,setmessageKey]= useState(null)
   const [modelopen,setopenmodel]=useState(null)
   const [success,setsuccess]=useState(null)
+  const [error,seterrors]=useState({});
 
   const closeModel= ()=>{
     setopenmodel(false);
@@ -20,10 +21,10 @@ function EditProfileModal({ onClose }) {
 
 
   const [formdata,setformData]=useState({
-     names:"",
-     email:"",
-     phone:"",
-     nid:"",
+     names:names,
+     email:email,
+     phone:phone,
+     nid:nid,
   })
 
 
@@ -33,6 +34,7 @@ function EditProfileModal({ onClose }) {
       [name]:value
     })) 
 
+    seterrors((prev)=>({...prev,[name]:""}))
 
    }
 
@@ -73,6 +75,10 @@ if(profile_photo){
 
     }
     catch(err){
+      if(err.response?.data?.errors){
+         seterrors(err.response?.data?.errors);
+         return
+      }
      setmessageKey(err.response?.data?.messagekey)
      setopenmodel(true)
      setsuccess(err.response?.data.success);
@@ -82,7 +88,8 @@ if(profile_photo){
  }
 
 
-
+ const InputBorderwitcher =(field)=>`${error[field] ? 
+  'bg-red-50 border-red-400 focus:ring-1 focus:ring-red-400':' border-gray-200 focus:ring-1 focus:ring-blue-500'}`
 
   return (
     <div className="fixed inset-0 z-50 flex  justify-center items-center bg-slate-900/60 backdrop-blur-sm p-3">
@@ -134,24 +141,13 @@ if(profile_photo){
                 type="text"
                 name="names"
                 onChange={HandleInputs}
-                placeholder={t("adp.fullNamePlaceholder")}
-                className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
+                value={formdata.names}
+                placeholder="Kemirembe Joyce"
+                className={`${InputBorderwitcher('names')} w-full px-3.5 py-2.5 rounded-md border  text-sm
+                 placeholder-slate-400 focus:outline-none text-slate-800 transition`}
               />
+              <span className="text-[14px] text-red-500">{t(error.names)}</span>
             </div>
-
-            <div className="sm:col-span-2 space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                {t("adp.email")}
-              </label>
-              <input
-                type="email"
-                name="email"
-                onChange={HandleInputs}
-                placeholder={t("adp.emailPlaceholder")}
-                className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
-              />
-            </div>
-
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
                 {t("adp.phone")}
@@ -159,10 +155,13 @@ if(profile_photo){
               <input
                 type="tel"
                 name="phone"
+                value={formdata.phone}
                 onChange={HandleInputs}
-                placeholder={t("adp.phonePlaceholder")}
-                className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
+                placeholder="2677638465"
+                className={`${InputBorderwitcher('phone')} w-full px-3.5 py-2.5 rounded-md border focus:outline-none
+                  text-sm placeholder-slate-400 text-slate-800 transition`}
               />
+              <span className="text-[14px] text-red-500">{t(error.phone)}</span>
             </div>
 
              <div className="space-y-1.5">
@@ -172,12 +171,27 @@ if(profile_photo){
               <input
                 type="text"
                 name="nid"
+                value={formdata.nid}
                 placeholder="112006788764534"
                 onChange={HandleInputs}
-                className="w-full px-3.5 py-2.5 rounded-md border border-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 text-slate-800 transition"
+                className={`${InputBorderwitcher('nid')} w-full px-3.5 py-2.5 rounded-md border  text-sm placeholder-slate-400 focus:outline-none text-slate-800 transition`}
+              />
+              <span className="text-[14px] text-red-500">{t(error.nid)}</span>
+            </div>
+            
+            <div className="sm:col-span-2 space-y-1.5">
+              <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                {t("adp.email")}
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formdata.email}
+                onChange={HandleInputs}
+                placeholder="Joyce0013@gmail.com"
+                className={`${ InputBorderwitcher('email')} w-full px-3.5 py-2.5 rounded-md border  text-sm placeholder-slate-400 focus:outline-none text-slate-800 transition`}
               />
             </div>
-
           
 
            
@@ -196,8 +210,8 @@ if(profile_photo){
             <button onClick={Handlesave}
               type="submit"
               className="px-5 py-2.5 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white rounded-sm text-sm font-medium shadow-sm shadow-blue-500/10 transition"
-            >
-              {t("adp.save")}
+            > 
+             {loading ? <spa className="flex items-center justify-center gap-1.5"> <LoaderCircle size={20} className="animate-spin"/> {t('adp.saving') }</spa>:t("adp.save")}
             </button>
 
           </div>
