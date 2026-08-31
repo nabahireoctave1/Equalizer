@@ -71,9 +71,9 @@ const filteredLoans = branchLoans
   
 
   return (
-    <div className='w-full min-h-screen bg-gray-50 pb-10 overflow-y-auto'>
-      <div className='px-4 py-5 border-b border-gray-100 flex flex-col sm:flex-row gap-4 
-      items-start sm:items-center rounded-md justify-between m-4 bg-white'>
+    <div className='w-full min-h-screen  bg-gray-50 pb-10 '>
+      <div className='sticky top-20 px-4 py-5 border-b border-gray-100 flex flex-col sm:flex-row gap-4 
+      items-start sm:items-center rounded-sm justify-between mb-2 bg-white'>
         <div className='flex gap-2 items-center'>
          <span className='bg-blue-400 p-1 rounded-2xl text-white'><Banknote size={25}/></span>
          <h2 className='font-extrabold text-2xl text-gray-700'>{t('loan.title')}</h2>

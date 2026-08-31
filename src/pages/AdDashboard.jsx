@@ -117,7 +117,8 @@ useEffect(() => {
   }
 
   return (
-    <div className='min-h-screen bg-gray-50 flex font-sans antialiased text-gray-900 relative'>
+    <div className='min-h-screen bg-gray-50 flex font-sans
+     antialiased text-gray-900 relative'>
 
       {isSidebarOpen && (
         <div 

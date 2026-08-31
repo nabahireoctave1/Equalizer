@@ -107,11 +107,12 @@ const formatDate = (date) => {
 
 
     return (
-        <div className='min-h-screen p-2 md:p-4'>
-            <div className={` flex flex-col md:flex-row   gap-4 justify-between items-start md:items-center 
-            border-b pb-3 py-2 px-4 border-gray-100`}>
+        <div className=' min-h-screen '>
+            <div className={` sticky z-50 top-20 flex flex-col md:flex-row  bg-gray-100 p-5 
+              gap-4 justify-between items-start md:items-center
+            border-b  px-4 border-gray-200`}>
                 <div className='flex items-center gap-2'>
-                    <span className='bg-blue-400 p-2 rounded-sm text-white shrink-0'><CircleCheck size={30}/></span>
+                    <span className='bg-blue-400 p-2 rounded-sm text-white'><CircleCheck size={30}/></span>
                     <div>
                         <h2 className='text-xl md:text-xl font-extrabold text-gray-800'>{t('rp.title')}</h2>
                         <span className='text-[15px] capitalize block text-gray-700'>{t('rp.subtitle')}</span>

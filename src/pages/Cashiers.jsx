@@ -246,16 +246,14 @@ const ReactivateOnconfirm =async()=>{
  
 
   return (
-    <div className={`${error ? '':'sm:p-4 md:p-6'} p-2   bg-gray-100  min-h-screen`}>
-         
-          {ismodelopen&&
+
+    <div className={`bg-gray-100  min-h-screen`}>
+
+         {ismodelopen&&
           <DeleteToast success={deletionsuccess}/>
           }
-          
-          
-          <div className={`bg-white rounded-md border border-gray-200 p-3 sm:p-5`}>
-         
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+           <div className=" sticky top-20 z-50 flex flex-col lg:flex-row lg:items-center 
+           lg:justify-between gap-4 bg-white p-5 border-b border-gray-100 "> 
           
           <div className="flex items-center gap-3">
             <div className="bg-blue-400 text-white p-2 rounded-full shrink-0">
@@ -298,10 +296,12 @@ const ReactivateOnconfirm =async()=>{
             </button>
           </div>
         </div>
-
+       
+          
+          
+          <div className={`bg-white rounded-md border border-gray-200 p-3 sm:p-5 m-2`}>
         <div className={` ${filtereddata.length===0 ? ' border-t':''} mt-6 overflow-x-auto  border-gray-50 w-full`}>
-           
-           
+            
              {messagekey&&errorlength===0?
              <div className="flex item items-center min-h-65 justify-center  flex-col ">
             <div className="bg-blue-400 p-5 flex items-center rounded-full">

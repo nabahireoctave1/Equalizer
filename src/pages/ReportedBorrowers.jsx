@@ -219,7 +219,8 @@ function ReportedBorrowers() {
 
     return (
     <div className='min-h-screen'>
-        <div className='flex flex-col sm:flex-row p-4 justify-between gap-4 sm:gap-2 items-start sm:items-center bg-white'>
+        <div className='sticky top-20 z-50 flex flex-col sm:flex-row p-4 justify-between
+         gap-4 sm:gap-2 items-start sm:items-center bg-white'>
             <div className='flex gap-2 items-center'>
                 <span className='bg-red-100  items-center text-red-600 rounded-md p-2'><ShieldAlertIcon size={40}/></span>
                 <span>

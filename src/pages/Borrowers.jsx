@@ -66,8 +66,9 @@ const HandleRetry=()=>{
   const openreactivatemodel= ()=>setisreactivateopened(true)
   const closereactivate= ()=>setisreactivateopened(false)
   return (
-    <div className='min-h-screen bg-gray-50 p-6'>
-      <div className='bg-white rounded-md   flex flex-col sm:flex-row justify-between p-5 items-center gap-4 mb-6'>
+    <div className='min-h-screen bg-gray-50'>
+      <div className='bg-white rounded-sm  sticky top-20  flex flex-col
+       sm:flex-row justify-between p-5 items-center gap-4 mb-6'>
         <div className='flex gap-3 items-center'>
           <span className='bg-blue-400 text-white p-2.5 rounded-full shadow-sm shadow-blue-100'>
             <HandCoins size={22} />
@@ -93,12 +94,12 @@ const HandleRetry=()=>{
         </div>
       </div>
 
-      <div className={`w-full  rounded-md
+      <div className={`w-full  rounded-md  p-3
         border border-gray-100 overflow-hidden`}>
         {networkError ? 
         <NetworkError HandleRetry={HandleRetry}/>:
         messagekey&&errorsize===0? 
-         <div className='flex flex-col justify-center items-center bg-white px-6 pt-7 pb-10'>
+         <div className='flex flex-col justify-center items-center bg-white px-6 pt-7 pb-10 border border-gray-100'>
             <span className='flex justify-center flex-col items-center'>
               <nav className='bg-blue-400 w-fit p-5 text-white rounded-full'>
               <HandCoins/>
@@ -109,7 +110,7 @@ const HandleRetry=()=>{
             <p className='text-[15px]'>{t('errors.borrowers_not_found_desc')}</p>
          </div>
         :messagekey&&errorsize!==0 ? 
-         <div className='flex flex-col p-3 h-70 justify-center '>
+         <div className='flex flex-col  h-70 justify-center  '>
                     <div className='bg-red-50 p-5 border border-red-500 rounded-sm'>
 
                  <span className=''><CircleX size={50} 
@@ -137,7 +138,7 @@ const HandleRetry=()=>{
              <h2 className='text-[15px] italic'>{t('search_result.Nomatches')}  </h2>
           </span>
           </div>:         
-        <div className='overflow-x-auto m-1'>
+        <div className='overflow-auto m-1 p-3'>
           <table className='w-full border-collapse text-left text-sm text-gray-600'>
             <thead>
               <tr className='bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-700 uppercase tracking-wider'>
