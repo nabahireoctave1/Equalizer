@@ -6,11 +6,13 @@ import {
   Search,
   CircleX,
   ScrollText,
-  WifiOff
+  WifiOff,
+  TriangleAlert
 } from "lucide-react";
 
 
 import { useEffect, useState } from "react";
+import {jwtDecode} from 'jwt-decode'
 import AdminList from "./AdminList";
 import Companies from "./Companies";
 import Loan from "./Loan";
@@ -25,6 +27,8 @@ import socket from "../socket";
 import api from '../api'
 import  {useNavigate} from 'react-router-dom'
 import NetworkError from "./NetworkError";
+import SkeletonCellLoader from "./SkeletonCellLoader";
+import Loader1 from './Loader1'
 
 let Dashboard = () => {
   const [activePage, setactivepage] = useState('overview');
@@ -83,12 +87,19 @@ const totalcashierpage =Math.ceil(cashier.length /cashierperpage);
   
 
 const [networkerror, setnetworkerror] = useState({
-  grobalnetwork: {error: false,reason: null},
   cshnetworkerror: {error: false,reason: null
   },
   transnetworkerror: {error: false,reason: null },
   cmpinfnetworkerror: { error: false,reason: null}
 });
+
+const [Loading,setLoading]=useState({
+   grobalDashLoading:null,
+   cshLoading:null,
+   cmpinfLoading:null,
+   transLoading:null
+})
+
 
   const transactionmodelopened = (e, trans) => {
   e.preventDefault();
@@ -138,11 +149,17 @@ const [networkerror, setnetworkerror] = useState({
   })
 
 const FetchDashboard = async () => {
-    seterrors({ statserror: null, transactionerror: null, cashiererror: null, comperror: null });
+   seterrors({ statserror: null, transactionerror: null, cashiererror: null, comperror: null });
      seterrorsize({grobalDasherrorsize:null,csherrorsize:null,cmpadminerrorsize:null,transerrorsize:null})
-      setnetworkerror({ grobalnetwork:{error:false,reason:null}, cshnetworkerror:{error:false,reason:null},
+      setnetworkerror({cshnetworkerror:{error:false,reason:null},
          transnetworkerror:{error:false,reason:null}, cmpinfnetworkerror:{error:null,reason:null}})
-     setnetworkerror(null)
+       setLoading({grobalDashLoading:null,cshLoading:null,transLoading:null,cmpinfLoading:null})
+
+  try{
+   
+
+         setLoading({grobalDashLoading:true,cshLoading:true,transLoading:true,cmpinfLoading:true})
+
     let result = await Promise.allSettled([
       api.get('/dash-overview'),
       api.get('/transaction'),
@@ -225,7 +242,16 @@ const FetchDashboard = async () => {
       }
     }
 
-  
+  } catch(err){
+    console.error('ERROR OCCURRED',err)
+  } finally{
+    setLoading({
+      grobalDashLoading:false,
+      cshLoading:false,
+      transLoading:false,
+      cmpinfLoading:false
+    })
+  }
 };
 
 
@@ -270,6 +296,9 @@ const handleLogout= ()=>{
   navigate('/')
 }
 
+let decodedtoken= jwtDecode(localStorage.getItem('token'));
+
+
 
 
   return (
@@ -305,7 +334,10 @@ const handleLogout= ()=>{
             <MenuIcon />
           </span>
           <div className="w-8 h-8 rounded-full bg-blue-400 border
-           border-white/30 flex items-center justify-center text-xs font-bold cursor-pointer">AD</div>
+           border-white/30 flex items-center justify-center text-xs font-bold cursor-pointer">{
+            decodedtoken.name.split(' ').map((w)=>w[0].toUpperCase())
+
+           }</div>
         </div>
       </header>
 { isnotificationopen &&(
@@ -380,8 +412,34 @@ const handleLogout= ()=>{
             </div>
           </div>
         </div>
+       
 
         <div className="flex-1 overflow-y-auto">
+
+          {Loading.grobalDashLoading  && 
+          <div className="sticky top-0 z-50" >
+           <Loader1/>
+           
+          </div>
+          }
+           {errors.statserror&&errorsize.grobalDasherrorsize===1 &&
+         <div className="flex  px-6 items-center justify-center py-4 bg-black/70 border fixed inset-0  border-red-500/50  
+          z-60  rounded-b-md  ">
+            <div className="bg-gray-100 p-5 rounded-md  items-center justify-center flex  flex-col">
+          <span>
+            <TriangleAlert size={50} className="text-red-500"/>
+          </span>
+            <h2 className="text-[14px] font-semibold  text-gray-800 uppercase italic">Error occurred while system load dashboard information</h2>
+           <p className="text-[15px] italic text-gray-800">{errors.statserror}</p>
+             <div>
+              <button onClick={handleRetry} className="bg-green-600 px-10 py-1.5 rounded-sm mt-2 italic text-white
+             cursor-pointer ">Retry</button>
+             </div>
+
+          </div>
+        
+          </div>}
+
           {activePage === 'overview' && (
             <div className="p-6">
               <div className="flex flex-col lg:flex-row gap-6">
@@ -469,7 +527,8 @@ const handleLogout= ()=>{
                           }
                         }}
                         disabled={cashierpage===1}
-                         className={`p-1.5 ${errors.cashiererror ?'bg-gray-300 border-red-500 cursor-not-allowed':"cursor-pointer hover:bg-gray-100 border-gray-200"}  rounded border  transition-colors`}><ChevronLeft className="w-4 h-4 text-gray-500" /></button>
+                         className={`p-1.5 ${errors.cashiererror||Loading.cshLoading ?'bg-gray-300  cursor-not-allowed':"cursor-pointer hover:bg-gray-100 "} 
+                          rounded  transition-colors`}><ChevronLeft className="w-4 h-4 text-gray-500" /></button>
                         <button
                           onClick={()=>{
                             if(cashierpage < totalpage){
@@ -477,11 +536,12 @@ const handleLogout= ()=>{
                             }
                           }}
                           disabled={cashierpage>=totalcashierpage}
-                         className={`p-1.5 ${errors.cashiererror ?'bg-gray-300 border-red-500 cursor-not-allowed':"cursor-pointer hover:bg-gray-100 border-gray-200"}  rounded border  transition-colors`}><ChevronRight className="w-4 h-4 text-gray-500" /></button>
+                         className={`p-1.5 ${errors.cashiererror||Loading.cshLoading ?'bg-gray-300 cursor-not-allowed':"cursor-pointer hover:bg-gray-100 border-gray-200"}  
+                         rounded  transition-colors`}><ChevronRight className="w-4 h-4 text-gray-500" /></button>
                       </div>
                     </div>
                     
-                    <div className="overflow-x-auto min-h-70">
+                    <div className="overflow-x-auto p-5 min-h-70">
                        
                       
                       { networkerror&&networkerror.cshnetworkerror.error ? 
@@ -527,7 +587,14 @@ const handleLogout= ()=>{
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50 text-sm">
-                          {paginetedc.map((c, idx) => (
+                          {Loading.cshLoading ? Array.from({length:6}).map((_,idx)=>(
+                           <tr key={idx}>
+                            <td className="p-2"><SkeletonCellLoader/></td>
+                            <td className="p-2"><SkeletonCellLoader/></td>
+                            <td className="p-2"><SkeletonCellLoader/></td>
+                            <td className="p-2"><SkeletonCellLoader/></td>
+                           </tr>
+                          ))  :paginetedc.map((c, idx) => (
                             <tr key={idx} className="hover:bg-gray-50/80 transition-colors">
                               
                               <td className="px-6 py-4 font-semibold text-blue-600 whitespace-nowrap">{c.cashier_id}</td>
@@ -560,13 +627,13 @@ const handleLogout= ()=>{
               <input
              type="text"
            placeholder="ID..."
-           disabled={errors.transactionerror}
+           disabled={errors.transactionerror||Loading.transLoading||networkerror.transnetworkerror}
            className="w-full h-10 pl-4 pr-12 text-sm rounded-sm border border-gray-200 bg-white disabled:bg-gray-50
              outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed"
           />
 
           <button
-          disabled={errors.transactionerror}
+          disabled={errors.transactionerror||Loading.transLoading||networkerror.transnetworkerror}
           className="absolute right-1 top-1 bottom-1 w-10 rounded-sm disabled:cursor-not-allowed disabled:bg-blue-300
            bg-blue-500 text-white flex items-center justify-center
             cursor-pointer transition">
@@ -575,7 +642,7 @@ const handleLogout= ()=>{
           </button>
              </div>
                    { networkerror&&networkerror.transnetworkerror.error ?
-                   <div className="flex items-center flex-col h-55 justify-center p-8">
+                   <div className="flex items-center flex-col  justify-center p-8">
                         <span><WifiOff size={50} className="text-red-500"/></span>
                         <h1 className="text-red-500 text-2xl">{networkerror.transnetworkerror.reason}</h1>
                         {networkerror.transnetworkerror.reason.toLowerCase()==='network error' && 
@@ -599,22 +666,47 @@ const handleLogout= ()=>{
                             <p className="text-[15px] italic text-gray-800">{errors.transactionerror}</p>
                           </div>
                           :
-                           <div className="overflow-x-auto">
+                           <div className="overflow-x-auto p-3">
                       <table className="w-full text-left">
                         <thead className="bg-gray-50/50 text-gray-400 text-[11px] uppercase font-bold">
+                            {Loading.transLoading ? 
+                            <div>
+                              <div className="bg-gray-200 p-2 w-full rounded-sm m-1 animate-pulse"></div>
+                              <div className="bg-gray-200 p-2 w-full rounded-sm m-1 animate-pulse"></div>
+                            </div>
+                            :
                           <tr>
+                            
                             <th className="px-4 py-3">company</th>
                             <th className="px-4 py-3 text-right">Amount</th>
                           </tr>
+                           
+                            }
+                            
                         </thead>
                        
                         <tbody className="divide-y divide-gray-50 text-xs">
-                          {paginatedt.map((trans, i) => (
+                          {
+                      Loading.transLoading ? Array.from({length:2}).map((_,idx)=>(
+                         <div className="flex justify-between">
+                          <div>
+                          <div className="p-2 bg-gray-200 m-2 w-30 rounded-sm animate-pulse"></div>
+                          <div className="p-2 bg-gray-200 m-2 w-30 rounded-sm animate-pulse"></div>
+                          </div>
+                          <div>
+                          <div className="p-2 bg-gray-200 m-2 w-30 rounded-sm animate-pulse"></div>
+                          <div className="p-2 bg-gray-200 m-2 w-30 rounded-sm animate-pulse"></div>
+                          </div>
+
+                         </div>
+                      )) :
+                          
+                          paginatedt.map((trans, i) => (
                             
                             <tr key={i} onClick={(e)=>transactionmodelopened(e,trans)}
                              className="hover:bg-gray-50
                              transition-all cursor-pointer ">
-                              
+
                               <td className="px-4 py-3">
                                 <p className="font-semibold text-[13px] capitalize text-gray-800">{trans.company_name}</p>
                                 <p className="text-[13px] text-gray-600">{trans.transcation_id}</p>
@@ -640,13 +732,15 @@ const handleLogout= ()=>{
                           }
                         }} 
                         disabled={transactionperpage==1}
-                        className={`${errors.transactionerror ? 'bg-gray-100 text-gray-50 border-red-500 cursor-not-allowed':'bg-gray-200 cursor-pointer'} p-1 rounded-md `}><ChevronLeft/></span>
+                        className={`${errors.transactionerror||Loading.transLoading ? 'bg-gray-100 text-gray-50 hidden border-red-500 cursor-not-allowed':'bg-gray-200 cursor-pointer'} p-1 rounded-md `}><ChevronLeft/></span>
                         <span onClick={()=>{
                           if(transactionpage < totalpage){settransactionpage(transactionpage+1)}
 
                         }} 
                         disabled={transactionpage === totalpage}
-                        className={`${errors.transactionerror ? 'bg-gray-100 text-gray-50 border-red-500 cursor-not-allowed':'bg-gray-200 cursor-pointer'} p-1 rounded-md `}><ChevronRight/></span>
+                        className={`${errors.transactionerror||Loading.transLoading ?
+                         'bg-gray-100 text-gray-50 border-red-500 hidden cursor-not-allowed'
+                         :'bg-gray-200 cursor-pointer'  } p-1 rounded-md  `}><ChevronRight/></span>
                       </div>
                     </div>
                            }
@@ -681,8 +775,17 @@ const handleLogout= ()=>{
                     <div>
 
                     <h1 className="font-bold text-gray-800 text-sm uppercase tracking-wide mb-6">Company Admins</h1>
-                    <div className="space-y-4">
-                      {userinfo.map((comp,i) => (
+                    <div className="space-y-4 w-full">
+                      {Loading.cmpinfLoading ? Array.from({length:3}).map((_,idx)=>(
+                       <div key={idx} className="flex items-center justify-center ">
+                        <div className="bg-gray-200 h-11 w-12 rounded-full animate-pulse"></div>
+                        <div className="w-full"> 
+                          <div className="p-2 bg-gray-200 m-1 rounded-sm animate-pulse w-full"></div>
+                          <div className="p-2 bg-gray-200 m-1 rounded-sm animate-pulse w-full"></div>
+                        </div>
+
+                       </div>
+                      )) :userinfo.map((comp,i) => (
                         <div key={i} className="flex items-center justify-between group cursor-pointe
                         r hover:bg-gray-50 p-2 rounded-xl transition-all">
                           <div className="flex items-center gap-3">

@@ -1,7 +1,8 @@
 import React from 'react'
 function Loader1() {
   return (
-     <div className="border bg-white  flex flex-col sm:flex-row   md:justify-between p-4 rounded-xs border-gray-300 m-2 ">
+     <div className="border bg-white  flex flex-col sm:flex-row
+        md:justify-between p-4 rounded-xs border-gray-100 m-1">
           <div className="flex gap-1 items-center">
             <div>
               <div className='p-3 bg-gray-200 rounded-full w-fit animate-pulse'></div>

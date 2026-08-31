@@ -229,7 +229,7 @@ const filteredData = CompanyData.filter((company) => {
     <span>
       <SearchX size={45}  className='text-gray-800'/>
     </span>
-       <h2 className='font-extrabold text-2xl text-gray-800 '>No result found</h2>
+       <h2 className='font-extrabold text-[18px] text-gray-800  uppercase'>No result found</h2>
        <p className='text-[15px] italic text-gray-800'>We can`t find match search Please check your spelling or try different keyward </p>
 
     </div>

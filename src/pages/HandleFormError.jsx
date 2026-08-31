@@ -14,7 +14,7 @@ function HandleFormError({success,message}) {
           </div>
 
 <div>
-    <h2 className={`${success ? 'text-gray-800':'text-red-400 '} text-sm`}>{message}</h2>
+    <h2 className={`${success ? 'text-gray-800 italic':'text-red-400 italic'} text-[15px]`}>{message}</h2>
 </div>
           
     </div>

@@ -83,7 +83,7 @@ ${error[field]? 'border border-red-300 focus:ring-1 focus:ring-red-400':'bg-gray
     <div>
 
       
-    <div className='fixed inset-0 z-50 flex  items-center justify-center bg-black/85 backdrop-blur-sm p-4 focus:border-blue-300 '>
+    <div className='fixed inset-0 z-50 flex  items-center justify-center bg-black/60 backdrop-blur-sm p-4 focus:border-blue-300 '>
  
         <div className='w-full md:w-4/5 mt-20 bg-white shadow-sm p-4 rounded-sm '>
         <div className='flex justify-between items-center m-4 border-b border-gray-200 '>
@@ -94,7 +94,7 @@ ${error[field]? 'border border-red-300 focus:ring-1 focus:ring-red-400':'bg-gray
              </button>
 
         </div>
-                {ismodelopen && <HandleFormError success={success} message={message}  />}
+
 
                   <div className="w-full  px-3 mb-4">
                     <label className="flex items-center gap-2 text-xs font-bold text-gray-700 uppercase mb-1 ml-1"><User size={14}/> Agent Names</label>
@@ -153,6 +153,19 @@ ${error[field]? 'border border-red-300 focus:ring-1 focus:ring-red-400':'bg-gray
 
 
     </div>
+    
+                {ismodelopen &&
+                <div className='fixed inset-0 z-50 bg-black/50  w-full  flex items-center justify-center'>
+                  <div className='bg-gray-50  flex items-center
+                 w-85 md:w-sm p-4 rounded-sm  justify-center z-50'>
+                 <HandleFormError success={success} message={message} />
+
+
+                  </div>
+
+                  </div>
+                 
+                 }
 
     </div>
 

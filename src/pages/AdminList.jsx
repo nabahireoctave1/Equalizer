@@ -14,7 +14,8 @@ import {
   List,
   Loader,
   Minus,
-  CircleX
+  CircleX,
+  SearchX
 } from 'lucide-react'
 import api from '../api'
 import SkeletonCellLoader from './SkeletonCellLoader'
@@ -22,7 +23,8 @@ import NetworkError from './NetworkError'
 
 function AdminList() {
 const [adminList,setList]=useState([])
-const [error,setError]=useState(null);
+const [error,setError]=useState('');
+const [searchTerm,setSearchValue]=useState(null);
 const [size,setsize]=useState(null);
 const [title,settitle]=useState(null);
 const [Loading,setLoading]=useState(false)
@@ -87,6 +89,15 @@ useEffect(()=>{
 },[])
 
 
+const FilteredList=paginatedList.filter((adm)=>{
+   const search = searchTerm?.toLowerCase() || "";
+  return(
+    adm.admin_name?.toLowerCase().includes(search) ||
+    String(adm.admin_id ?? "").toLowerCase().includes(search)
+   
+  )
+}) 
+
 
 
   return (
@@ -111,6 +122,7 @@ useEffect(()=>{
             </span>
             <input 
               type='text' 
+              onChange={(e)=>setSearchValue(e.target.value)}
               placeholder='Search by ID, name, or company...'
               className='block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md bg-gray-50 focus:ring-1 focus:ring-blue-500 focus:bg-white transition-all outline-none text-sm'
             />
@@ -126,7 +138,7 @@ useEffect(()=>{
 
       {error && size===0  ?
       <div>
-
+        Empty state here
       </div>
       :error&&size===1 ? 
          
@@ -141,6 +153,17 @@ useEffect(()=>{
           cursor-pointer bg-green-600 italic rounded-sm outline-none' >retry</button>
            </div>
        </div>
+      : FilteredList.length===0 ? 
+           <div className=' flex flex-col items-center justify-center h-60'>
+        <span>
+          <SearchX size={50} className='text-gray-800'/>
+          
+        </span>
+        <h2 className='text-[18px] uppercase font-extrabold text-gray-800'>No result found</h2>
+        <p className='text-gray-800 italic'>We can`t find match search Please check your spelling or try different keyward </p>
+
+      </div>
+
       :
       <div className='p-6 w-full'>
        
@@ -180,7 +203,7 @@ useEffect(()=>{
                 </tr>
                
 
-                }):paginatedList.map((admin) => (
+                }):FilteredList.map((admin) => (
                   <tr key={admin.admin_sys_Id} className='hover:bg-blue-50/50 transition-colors'>
                      <td className='px-6 py-4 text-xs  font-bold text-black'>
                       {admin.admin_sys_Id}
@@ -250,7 +273,7 @@ useEffect(()=>{
             </table>
           </div>
           
-          <div className={`${networkError||Loading ? 'hidden':''} bg-white p-4 border-t border-gray-100 
+          <div className={`${networkError||Loading||FilteredList.length<=adminPerpage ? 'hidden':''} bg-white p-4 border-t border-gray-100 
           flex flex-col sm:flex-row justify-between items-center gap-4`}>
             <div className='text-xs text-gray-500 font-medium'>
              
@@ -258,7 +281,7 @@ useEffect(()=>{
                  Showing <span className='text-gray-800'>
                 {currentpage}</span> to 
               <span className='text-gray-800'>{totalpage}</span> of 
-              <span className='text-gray-800'> {adminList.length}</span> results
+              <span className='text-gray-800'> {FilteredList.length}</span> results
               </div>
               
              

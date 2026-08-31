@@ -12,7 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Map,XCircle,
-  MapPin,Loader
+  MapPin,Loader,SearchX
 } from 'lucide-react'
 import Agent_Portal from './Agent_Portal';
 import api from '../api';
@@ -28,6 +28,7 @@ function Agents() {
   const [title,settitle]=useState(null);
   const [size,setsize]=useState(null);
   const [data,setdata]= useState([]);
+  const [searchTerm,setSearchValue]=useState('');
   const [networkError,setnetworkError]=useState(null);
   const openmodel= ()=>setisopen(true)
   const closemodel=()=>setisopen(false)
@@ -88,6 +89,14 @@ function Agents() {
 
   },[])
 
+  const filteredAgent= paginateddata.filter((ag)=>{
+   const search= searchTerm.toLowerCase();
+
+   return (
+    ag.name?.toLowerCase().includes(search)||
+    String(ag.permision_id ?? "").includes(search)
+   )
+  })
   
 
 
@@ -113,6 +122,7 @@ function Agents() {
             <input 
               type='text' 
               disabled={error||loading}
+               onChange={(e)=>setSearchValue(e.target.value)}
               placeholder='Search by ID, name, or company...'
               className='block w-full pl-10 pr-3 py-2.5
                border border-gray-300 rounded-md bg-gray-50 focus:ring-1 disabled:cursor-not-allowed
@@ -159,7 +169,18 @@ function Agents() {
         py-1.5 px-6'>retry</button>
        </div>
     </div>
+    :filteredAgent.length===0  ? 
+        <div className=' flex flex-col items-center justify-center h-60'>
+        <span>
+          <SearchX size={50} className='text-gray-800'/>
+          
+        </span>
+        <h2 className='text-[18px] uppercase font-extrabold text-gray-800'>No result found</h2>
+        <p className='text-gray-800 italic'>We can`t find match search Please check your spelling or try different keyward </p>
+
+      </div>
     :
+
           <div className='p-6 w-full overflow-auto'>
         <div className='flex items-center justify-center'>
          
@@ -189,7 +210,7 @@ function Agents() {
                     <td className='p-2'><SkeletonCellLoader/></td>
 
                   </tr>
-                )) :paginateddata.map((agent,index) => (
+                )) :filteredAgent.map((agent,index) => (
                   <tr key={index} className='hover:bg-blue-50/50 transition-colors'>
                     <td className='px-6 py-4 font-sans font-bold text-gray-800'>
                       {agent.permision_id}
@@ -249,7 +270,7 @@ function Agents() {
             </table>
           </div>
           
-          <div className={`${loading||networkError ? 'hidden':''} bg-white p-5 border-t border-gray-100 flex flex-col
+          <div className={`${loading||networkError||filteredAgent.length<=userperpage ? 'hidden':''} bg-white p-5 border-t border-gray-100 flex flex-col
            sm:flex-row justify-end  gap-4`}>
           
             

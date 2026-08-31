@@ -243,7 +243,7 @@ function CompanyLoader() {
        !Loading&&filteredCompanies.length===0 &&
        <div className='justify-center flex items-center flex-col p-12 h-80'>
            <SearchX size={50} className='text-gray-800'/>
-           <p className='text-2xl font-bold text-gray-800'> No result found</p>
+           <p className='text-[18px] uppercase font-extrabold text-gray-800'> No result found</p>
            <p className='text-[15px] italic text-gray-800'>We can`t find match search Please check your spelling or try different keyward</p>
        </div>
       
