@@ -54,12 +54,10 @@ export default function Login() {
             switch(role){
           case 'superadmin' :navigate('/sp-Dashboard');break;
           case 'subadmin' : navigate('/sb-Dashboard');break;
-          case 'cashier' :navigate('/Client-managent');break;
+          case 'cashier' :navigate('/Csh-dashboard');break;
+          case 'field':navigate('/Field-officer-Dash')
+          case 'client':navigate('/borrowerDash')
           default:navigate('/');
-
-
-
-
 
          }
          return ()=> clearTimeout(timeout)
@@ -67,8 +65,6 @@ export default function Login() {
           
          }, 4000);
 
-
-       
 
         setsuccess(res.data.success)
       setmessage(res.data.message)

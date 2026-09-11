@@ -649,6 +649,554 @@
     "Nomatches":"Tetuzudde kintu kikwatagana n’okunoonya kwo. Kebera empandiika oba ogezeeko ekigambo ekirala."
   }
 
+  ,
+  
+  "Dashboard": "Awasookerwako",
+  "Client": "Abakozesa",
+  "Unpaid": "Abatasasudde",
+  "Paid Details": "Ebikwata ku Bisasuddwako",
+  "Field Payment": "Okusasula mu field",
+  "Profile": "Ebikwata ku Nze",
+  "Notification": "Obubaka",
+  "Report": "Lipooti",
+  "Logout": "Fuluma",
+  "Company Title": "Empeereza z'Ensibe eza Akea",
+  "Toggle Theme": "Kyusa Enkula",
+  
+  "logo": "Cashier Hub",
+  "live": "Amawulire Agaliwo",
+  "overview": "Okulaba Emirimu",
+  "payables": "Yongera Ebyokusasula",
+  "receivables": "Yongera Ebyokufuna",
+  "demand": "Ebwetaavu",
+  "overLoaned": "Abawola Ebisusse",
+  "support": "Obuyambi",
+  "stock": "Sitooko",
+  "searchUser": "Noonya Omukozesa",
+
+  "registeredUsers": "Abakozesa Abawandiikiddwa",
+  "paidUsers": "Abasasudde",
+  "unpaidUsers": "Abatanasasula",
+  "defaulters": "Abalemeddwa Okusasula",
+
+  "demandSummary": "Okufunza Ebwetaavu",
+  "totalDemand": "Obwetaavu Bwonna",
+  "approvedDemand": "Obwetaavu Obukkiriziddwa",
+  "pendingDemand": "Obwetaavu Obulindiriddwa",
+
+  "loanPerformance": "Enkola y'Emisolo",
+  "loaned": "Ebyawolebwa",
+  "collected": "Ebyakusanyizibwa",
+  "outstanding": "Ebisigadde",
+
+  "paymentDueToday": "Okusasula Olwaleero",
+  "clientsDueToday": "Bakasitoma Abalina Okusasula",
+  "expectedCollection": "Ebisuubirwa Okukunganyizibwa",
+  "paidToday": "Abasasudde Leero",
+
+  "collectionTarget": "Ekigendererwa ky'Okukunganya",
+
+  "viewUnpaid": "Laba Abatanasasula",
+  "viewDefaulters": "Laba Abalemeddwa",
+
+  "loanMatrix": "Olukalala lw'Abawola Awalala",
+  "loanSub": "Bakasitoma abalina amabanja awalala",
+  "totalCrossLoaned": "Omuwendo Gwonna",
+
+  "hideLedger": "Kweka Olukalala",
+  "viewMore": "Laga Ebisingawo",
+
+  "loanedUsers": "Olukalala lw'Abawole",
+  "no": "No",
+  "clients": "Bakasitoma",
+  "action": "Ekikolwa",
+  "viewRecord": "Laba Ebikwata Ku Muntu",
+
+  "analytics": "Okwekenneenya",
+  "loanAnalysis": "Okwekenneenya Amabanja",
+  "repaidAmount": "Eyasasuddwa",
+
+
+  "smsSystem": "Enkola ya SMS",
+  "usedMessages": "SMS Ezikozeseddwa",
+  "leftMessages": "SMS Ezisigadde",
+
+  "equalizerAnalysis": "Okwekenneenya kwa Equalizer",
+
+  "copyright": "Equalizer IT Problem Solvers",
+  "callUs": "Tukubire Essimu",
+  "rights": "Eddembe Lyonna Likuumiddwa",
+  "clickView": "Nyiga Olabe Equalizer",
+   "dashboard": "Daasiboodi y'Omukungaanya ssente",
+  "dailyFinancialReport": "Lipoota y'ensimbi eya buli lunaku",
+
+  "openingStock": "Ssente ezasookawo",
+  "cashReceived": "Ssente eziyingidde",
+  "cashIn": "Ssente Ezifunye",
+  "totalCash": "Ssente Zonna",
+  "closingBalance": "Ssente Ezisigadde",
+
+  "cashOutDetails": "Ebikwata ku Ssente Ezifulumye",
+  "cashOut": "Ssente Ezifulumye",
+
+  "expenseDetails": "Ebikozesebwa",
+  "addExpense": "Yongera Ekikozesebwa",
+  "expenses": "Ebikozesebwa",
+  "amount": "Omuwendo",
+  "editExpense": "Kyusa Ekikozesebwa",
+  "deleteExpense": "Gyawo Ekikozesebwa",
+  "cancelEdit": "Sazaamu"
+
+,
+  "noExpenses": "Tewali bikozesebwa. Nyiga ku 'Yongera Ekikozesebwa'.",
+  "totalExpenses": "Omugatte gw'Ebikozesebwa",
+
+  "summaryOverview": "Okufunza",
+  "numberClients": "Omuwendo gwa Bakasitoma",
+  "paid": "Basasudde",
+  "unpaid": "Tebannasasula",
+  "advance": "Advance",
+  "new": "Abapya",
+  "total": "Omugatte",
+
+  "addNewExpense": "Yongera Ekikozesebwa Ekipya",
+  "expenseDescription": "Ennyonyola y'Ekikozesebwa",
+  "fillExpenseDetails": "Jjuza ebikwata ku kikozesebwa.",
+  "expensePlaceholder": "Okugeza: Emmere y'Ofiisi",
+  "valueAmount": "Omuwendo",
+  "cancel": "Sazaamu",
+  "saveEntry": "Tereka",
+    "portalName": "Akea Financial Portal",
+
+  "titleP": "Ekifo ky'Okufuga Ebimanyisibwa",
+  "subtitle": "Londoola ebimanyisibwa bya sisitemu, ebiragiro by'ensimbi n'ebintu bya bakasitoma ebiri mu sitoowa.",
+
+  "systemNotifications": "Ebimanyisibwa bya Sisitemu ne Akawunti",
+  "branchOperations": "Ensimbi n'Emirimu gy'Amatabi",
+
+  "securityMonitor": "Okulondoola Ebintu eby'Obukuumi",
+  "securityMonitorDescription": "Londoola ebintu bya bakasitoma ebiyingira oba okuva mu sitoowa.",
+
+  "searchPlaceholder": "Noonya eby'obukuumi bya kasitoma...",
+  "noLogsFound": "Tewali byafuniddwa ebifaanana",
+
+  "schedule": "Enteekateeka",
+  "actionRequired": "Kikole mangu",
+
+  "systemMaintenance": "Okuddaabiriza Sisitemu",
+  "systemMaintenanceDescription": "Sisitemu ejja kuddaabirizibwa ekiro kino.",
+
+  "lowMessageBalance": "Obubaka Buweddeko",
+  "lowMessageBalanceDescription": "Obubaka bwo bunaatera okuggwaako. Yogera n'omuddukanya.",
+  "remainingMessages": "Obubaka Obusigadde",
+
+  "officeReportDeadline": "Lipoota y'Ofiisi",
+  "officeReportDescription": "Lipoota eyetegefu okusunsulwa.",
+
+  "cashoutDirective": "Tewajja kuba Cashout enkya",
+  "cashoutDirectiveDescription": "Cashout yonna egiddwawo enkya.",
+
+  "cashTransfer": "Tambuza Ensimbi e Kampala",
+  "cashTransferDescription": "Ensimbi zonna zitwalibwe e Kampala.",
+
+  "released": "Kyatwaliddwa",
+  "received": "Kyafuniddwa",
+  "outOfStock": "Tekiri mu Sitoowa",
+  "inStock": "Kiri mu Sitoowa",
+
+  "nationalId": "Endagamuntu",
+  "assetDeed": "Ebbaluwa y'Obwannannyini",
+
+  "high": "Kya Maanyi",
+  "medium": "Ekya Wakati",
+  "critical": "Kikulu Nnyo",
+
+  "id": "Namba",
+  "creditBookTitle": "Ekitabo kya Loan n'Ebyokusaasula bya Kasitoma",
+  "supportBusinesses": "Yamba Bizinensi Endala",
+  "applyNewLoan": "Saba Loan Empya",
+  "logout": "Fuluma",
+
+  "guarantor": "Omweyimirizi",
+
+  "totalLoanPrincipal": "Loan Yonna",
+  "dailyInstallment": "Ensasula eya Buli Lunaku",
+  "finesPenalties": "Engasi",
+
+ 
+
+
+  "pdf": "PDF",
+  "print": "Pulainta",
+
+  "applyLoanTitle": "Saba Loan Empya",
+  "supportBusinessTitle": "Yamba Bizinensi Endala",
+
+  "preparingPdf": "PDF etegekebwa. Londa 'Save as PDF'.",
+  "loggedOut": "Ofulumye bulungi.",
+    "welcomeTitle": "Tukwanirizza ku Daasiboodi y'Abakasitoma",
+    "welcomeDescription": "Kozesa ekiwandiiko kino okuwandiisa bakasitoma abapya, okusasula amabanja n'okukyusa ebikwata ku bakasitoma.",
+
+    "activeClients": "Bakasitoma Abakola",
+    "totalRecords": "Omuwendo Gwonna",
+    "newClient": "Kasitoma Omupya",
+
+    "amountGiven": "Ssente Ezaweereddwa",
+    "phone": "Essimu",
+    "payLoan": "Sasula Loan",
+    "creditBook": "Ekitabo kya Loan",
+    "addPicture": "Yongera Ekifaananyi",
+    "addPics": "Yongera Ebifaananyi",
+
+    "showing": "Kulaga",
+    "of": "ku",
+    "clientsWord": "bakasitoma",
+
+    "previous": "Emabega",
+    "next": "Munda",
+    "page": "Lupapula",
+
+    "loanPaymentProcessing": "Okusasula Loan",
+    "creditHistoryRecord": "Ebyafaayo bya Loan",
+    "companyName": "Akea Financial",
+  "reportTitle": "Lipoota y'okusasula mu field",
+  
+  "fieldOfficer": "Omukozi wa field",
+  "allOfficers": "Abakozi Bonna",
+
+  "totalAmountEarned": "Ssente zonna Ezifuniddwa",
+
+  "clientFieldCollections": "Okukunganya Ssente okuva eri Bakasitoma",
+
+  "entries": " Ebiwandiiko",
+
+  "number": "No",
+  "names": "Amannya",
+  "payments": "Ensasula", "loanApplicationPortal": "Okusaba Ssente z'Ensimbi",
+  "step": "Omutendera",
+
+  "nextStep": "Omutendera Oguddako",
+  "submitForm": "Weereza Foomu",
+  "formSubmitted": "Foomu Eweerezeddwa Bulungi!",
+
+  "particularApplicants": "Ebikwata ku Musaba",
+
+  "name": "Erinnya",
+  "contact": "Essimu",
+  "idNumber": "Namba y'Endagamuntu",
+
+  "placeholderName": "John Doe",
+  "placeholderContact": "07835456132",
+  "placeholderAddress": "Kampala",
+  "placeholderID": "XXXXXXXXXXX",
+
+  "businessDetails": "Ebikwata ku Busuubuzi",
+  "businessLocation": "Ekifo ky'Obusuubuzi",
+
+  "placeholderBusinessType": "Omusuubuzi",
+  "placeholderBusinessLocation": "Kampala",
+
+  "loanDetails": "Ebikwata ku Ssente Ezisabiddwa",
+
+  "amountApplied": "Omuwendo mu Namba",
+  "amountWords": "Omuwendo mu Bigambo",
+
+  "convertedWords": "Bigenda kulabika wano...",
+  "placeholderAmount": "150000",
+
+  "placeholderAmountWords": "Emitwalo kikumi mu nkumi amakumi ataano za Uganda zokka",
+
+  "duration": "Obudde",
+  "duration0": "Buli Lunaku mu Mwezi",
+  "duration1": "Buli Mwezi",
+  "duration2": "Buli mwezi mu myezi esatu",
+  "duration3": "Buli Mwaka",
+
+  "interest": "Amagoba",
+
+  "securityDetails": "Ebikwata ku Bweyamo",
+  "securityName": "Erinnya ly'Obweyamo",
+  "securityNumber": "Obungi",
+  "securityPicture": "Ekifaananyi",
+
+  "guarantorDetails": "Ebikwata ku Mweyimirizi",
+  "guarantorName": "Erinnya ly'Omweyimirizi",
+
+  "terms": "Amateeka n'Obukwakkulizo",
+
+  "term1": "Okusasula kuba kwa buli lunaku okumala ennaku 30.",
+  "term2": "Ssente z'ofiisi zisasulwa ku buli loan.",
+  "term3": "Bw'olemererwa okusasula ennaku bbiri, amateeka gatandika okukola.",
+  "term4": "Omweyimirizi avunaanyizibwa singa omusaba alemererwa.",
+  "term5": "Ekibonerezo kya UGX 5,000 buli lunaku.",
+
+  "agreeTerms": "Nsomye era ntegedde amateeka gano.",
+
+  "loanApproval": "Okukkiriza Loan",
+
+  "approvedBy": "Akkiriziddwa",
+  "effectiveDate": "Olunaku Olutandika",
+      "titleUnpaid": "Ekitabo ky'Amabanja Agatasasuddwa",
+    "subtitleUnpaid": "Okulondoola mu kiseera ekituufu amabanja n'ebikwata ku bakasitoma.",
+    "date": "Olunaku",
+    "searchPlaceholderUnpaid": "Noonya erinnya oba essimu ya kasitoma...",
+
+    "balance": "Ezibanjibwa",
+    "unpaidDays": "Ennaku Ezitasasuddwa",
+
+    "days": "Ennaku",
+    "daysShort": "ennaku ezisigadde",
+    "daysRemaining": "ennaku ezisigadde",
+
+    "risk": "Akabi",
+    "overdue": "Yayisizza Ekiseera",
+    "remaining": "Ezisigadde",
+
+    "paying": "Sasula",
+    "records": "Ebiwandiiko",
+
+    "ledgerHistory": "Ebyafaayo by'Amabanja",
+    "closeWindow": "Galawo",
+
+
+      "contactDetails": "Ebikwata ku Nkwatagana",
+      "unpaidWindow": "Ennaku Ezitasasuddwa",
+      "deadlineSafety": "Obukuumi bw'Ekiseera",
+      "outstandingBalance": "Ssente Ezibanjibwa",
+      "actions": "Ebikolebwa",
+       "loanApplication": "Okusaba Loan",
+  "completeLoanForm": "Jjuza foomu okusaba loan",
+  "requestLoan": "Loan Gy'osaba (UGX)",
+  "amountInWords": "Omuwendo mu Bigambo",
+  "guarantorContact": "Essimu ya Guarantor",
+  "submitApplication": "Weereza Okusaba",
+
+  "clientProfile": "Ebikwata ku Kasitoma",
+  "overviewInformation": "Okulaba ebikwata ku kasitoma n'ensimbi.",
+
+  "personalInfo": "Ebikwata ku Kasitoma",
+  "address": "Endagiriro",
+  "businessType": "Bizinensi",
+
+  "guarantorInformation": "Ebikwata ku Guarantor",
+
+  "financialStatus": "Embeera y'Ensimbi",
+  "amountEarned": "Ssente Ezifuniddwa",
+  "loanBalance": "Ssente Ezikyabanja",
+  "timeRemaining": "Ebiseera Ebisigadde",
+  "daysLeft": "Ennaku Ezisigadde",
+
+  "compliance": "Enkola n'Obuvunaanyizibwa",
+  "penalties": "Ebibonerezo",
+  "none": "Tewali",
+  "officerSigned": "Omukozi Yassa Omukono",
+
+  "clientInformation": "Ebikwata ku Kasitoma",
+  "clientName": "Erinnya lya Kasitoma",
+  "from": "Okuva",
+  "to": "Okutuuka",
+  "loanStructure": "Entegeka ya Loan",
+  "remainingBalance": "Ssente Ezisigadde",
+  "status": "Embeera",
+  "paymentCollectionHistory": "Ebyafaayo by'Okusasula",
+
+  "paymentDate": "Olunaku lw'Okusasula",
+  "amountPaid": "Ssente Ezisasuddwa",
+  "resultingBalance": "Balance Esigadde",
+  "accountOfficer": "Omukozi",
+
+  "excel": "Excel",
+  "downloadExport": "Wanula",
+  "downloadExcel": "Wanula Excel",
+  "downloadPDF": "Wanula PDF",
+  "downloadRawData": "Wanula Data",
+  "printDocument": "Fulumya",
+
+  "defaultersDescription": "Olukalala lw'abakasitoma abalimu akabi",
+  "security": "Obukuumi",
+  "gContact": "Essimu ya Guarantor",
+  "endDate": "Olunaku Olusembayo",
+  "credit": "Credit",
+
+  "oldClients": "Abakasitoma Abaafuna Loan Edda",
+  "oldClientsDescription": "Olukalala lw'abafuna loan emabega",
+  "search": "Noonya",
+  "loansTaken": "Loan Ezatwalibwa",
+  "lastPaymentDate": "Olunaku lw'Okusasula Olusembayo",
+  "lastLoanAmount": "Loan Essembayo",
+  "reasoned": "Yannyonnyola",
+  "operations": "Ebikorwa",
+  "applyLoan": "Saba Loan",
+  "newLoanApplication": "Okusaba Loan Empya",
+
+  "otherLoans": "Loan Endala",
+  "officeNumber": "Namba y'Ofiisi",
+  "loanAmount": "Omuwendo gwa Loan",
+  "lastPayingDate": "Olunaku lw'Okusasula",
+  "reject": "Gaana",
+  "confirm": "Kakasa",
+  "submit": "Weereza",
+
+  "paymentPortal": "Ekifo ky'Okusasulira",
+  "clientsName": "Erinnya lya Kasitoma",
+  "paymentNow": "Sasula Kati",
+   "officePaymentDetails": "Ebisasulo by'Olunaku ku Ofiisi nga:",
+  "todayClients": "Bano be bakasitoma abaasasudde leero ku ofiisi ne mu nnimiro.",
+  "modifyPayments": "Osobola okutereeza oba okukyusa okusasula okutali kutuufu nga lipoota tennasindikibwa.",
+  "noModification": "Lipoota bw'emala okusindikibwa, okukyusa tekikyakkirizibwa.",
+
+
+  
+    "dayPayments": "Ensasula ya Leero",
+    "closingDate": "Olunaku lw'Okuggwaako",
+    "location": "Ekifo",
+  
+    "title": "Ebitabo bya Loan",
+    "closeRecords": "Ggalawo Ebitabo",
+     "managementPortal": "Olukiiko lw'Abaddukanya",
+
+  "teams": "Ttiimu",
+  "agents": "Ba Agent",
+
+  "credentialsAssignment": "Ebikwata ku Muntu n'Obuvunaanyizibwa",
+
+  "fullName": "Erinnya Lijjuvu",
+  "phoneNumber": "Namba y'Essimu",
+  "officeLocation": "Ekifo ky'Ofiisi",
+  "startedDate": "Olunaku lwe Yatandika",
+
+  "totalSalary": "Omusaala Gwonna",
+  "remainingSalary": "Omusaala Ogusigadde",
+
+  "lastUpdated": "Kyasembyeyo Okulongoosebwa",
+  "saveChanges": "Tereka Enkyukakyuka",
+  
+    "moneyReceivedFromAnotherBranch": "Ssente Ezifuniddwa okuva ku Ttabi Lya Buwala",
+    "moneySentToAnotherBranch": "Ssente Ziweerezeddwa ku Ttabi Lya Buwala",
+    "branch": "Ttabi",
+    "from": "Okuva",
+    "to": "Okugenda eri",
+    "kyenjojo": "Kyenjojo",
+    "gassani": "Gassani",
+    "amount": "Omuwendo",
+    "shs": "Shs",
+    "amountInWords": "Omuwendo mu Bigambo",
+    "twelveMillionShillingsOnly": "Obukadde Ikumi na Bubiri obwa Shillingi Bokka",
+    "submitReceivable": "Weereza Ebifuniddwa",
+    "submitPayable": "Weereza Ssente",
+    "storedSecurities": "Obukuumi Obuterekeddwa",
+    "searchByClientName": "Noonya erinnya lya kasitoma...",
+    "clientName": "Erinnya lya Kasitoma",
+    "date": "Olunaku",
+    "security": "Obukuumi",
+    "number": "Namba",
+    "picture": "Ekifaananyi",
+    "release": "Mulule",
+    "previous": "Ekya Mumaaso",
+    "next": "Ekiddako",
+    "page": "Omuko",
+    "of": "ku",
+    "securityPicture": "Ekifaananyi ky'Obukuumi",
+    "names": "Amannya",
+    "contact": "Essimu",
+    "business": "Bizinensi",
+    "type": "Ekika",
+    "existingLoan": "Loan Eriwo",
+    "existingLoans": "Loan Eziriwo",
+    "loanAccount": "Akawunti ya Loan",
+    "loanAccounts": "Amawunti ga Loan",
+    "location": "Ekifo",
+    "newClient": "Kasitoma Omupya",
+    "status": "Embeera",
+    "operation": "Ekikolwa",
+    "records": "Ebiwandiiko",
+    "approve": "Kakasa",
+    "reject": "Gaana",
+    "pending": "Kyalindiriddwa",
+    "approved": "Kikakasiddwa",
+    "rejected": "Kigaanyiddwa",
+    "yes": "Yee",
+    "no": "Nedda",
+    "dateRegistered": "Olunaku lwewandiikiddwa",
+    "demandAmount": "Omuwendo Ogusabiddwa",
+    "sortBy": "Tegeka Okusinziira ku",
+    "demandListForClients": "Olukalala lw'Ebisabiddwa n'Abakasitoma",
+    "allOfficeAndFieldDemands": "Ebisabiddwa by'Ofiisi n'eby'omu Field byonna bigattiddwa.",
+    "sortRiskMetrics": "Tegeka okusinziira ku lunaku, omuwendo ogusabiddwa, oba obulabe bw'okusasula.",
+    "demandAmountHighToLow": "Omuwendo Ogusabiddwa (Omungi okudda ku Mutono)",
+    "demandAmountLowToHigh": "Omuwendo Ogusabiddwa (Omuto okudda ku Mungi)",
+    "goodPayingLowUnpaidDays": "Abasasula Bulungi (Ennaku Ezitalisasulwa Entono)",
+    "existingLoansCounter": "Omuwendo gwa Loan Eziriwo",
+    "showingTotalLoanRequests": "Olaga {{count}} ezisabiddwa loan zonna.",
+    "demandApprovedAlert": "Demand ID {{id}} ekakasiddwa!",
+    "demandRejectedAlert": "Demand ID {{id}} egaanyiddwa.",
+    "openingFinancialRecords": "Eggulawo ebiwandiiko by'ensimbi n'eby'emabega ebya: {{name}}",
+    "clientPicture": "Ekifaananyi kya Kasitoma",
+    "guarantorPicture": "Ekifaananyi ky'Omuwolereza",
+    "save": "Tereka",
+    "supportHub": "Ekifo ky'Obuyambi bwa Equalizer",
+    "howCanWeHelp": "Tuyinza tutya okukuyamba leero?",
+    "supportDescription": "Funa obuyambi amangu, laba engeri y'okukozesaamu enkola, oba tuukirira abatwala enkola ya Akea Financial.",
+    "searchGuides": "Noonya obuyambi, ensobi, oba ebigambo...",
+    "clear": "Gyawo",
+    "howEqualizerWorks": "Equalizer Ekola Etya",
+    "equalizerSystem": "Enkola ya Equalizer",
+    "payables": "Ssente Ezisindikiddwa",
+    "receivables": "Ssente Ezifuniddwa",
+    "anotherBranch": "Ttabi Lya Buwala",
+    "systemParts": "Ebitundu by'Enkola",
+    "systemPartsDescription": "Enkola erina menu bbiri: menu y'oku mabbali ekwatagana n'okusasula, ne menu ey'okungulu ekwatagana n'emitendera gy'emirimu, obuyambi, n'ebisabiddwa.",
+    "reports": "Lipoota",
+    "reportsDescription": "Lipoota ziweerezebwa enkola mu ngeri ey'otoma ku kiseera ekyateekebwawo. Tewali kikyusibwa lipoota nga emaze okuweerezebwa.",
+    "notifications": "Obubaka bw'Okutegeeza",
+    "notificationsDescription": "Obubaka bw'Okutegeeza bugabanyizibwa mu bitundu bisatu: Enkola, Obukulembeze, n'Obubaka bw'Ofiisi.",
+    "frequentlyAskedQuestions": "Ebibuuzo Ebibuuzibwa Ennyo",
+    "faqDescription": "Kola ku bibuzo by'emirimu amangu oba laba enkyukakyuka mu biwandiiko by'enkola.",
+    "noMatchesFound": "Tewali kikwatagana na \"{{query}}\"",
+    "directAssistance": "Obuyambi obw'Amangu",
+    "assistanceDescription": "Bw'otafuna ky'olina, tuukirira abatuyamba okuyita ku nnamba z'ekitongole.",
+    "itDeskHelplines": "Ennamba z'Obuyambi bwa IT",
+    "mondayToFriday": "Mubalde okutuuka ku Lwokutaano • 8:00 AM - 5:00 PM",
+    "systemEmailLogs": "Obubaka bwa Email bw'Enkola",
+    "twentyFourHourResponse": "Okuddamu mu ssaawa 24",
+    "hqHubLocation": "Ekifo kya HQ",
+    "mainAdministrationOffice": "Ofiisi Enkulu ey'Obukulembeze",
+    "kampalaHubCompound": "Kampala Hub Compound, Level 2",
+    "systemNotice": "Okutegeeza kw'Enkola",
+    "dailySettlementNotice": "Ebiwandiiko by'okukakasa ensimbi za buli lunaku bimalirizibwa mu ngeri ey'otoma ku ssaawa {{time}}. Kakasa nti ebikwata ku matabi gonna biteekeddwa mu Equalizer nga enkola tennaggalawo.",
+    "crossCheckClientRecords": "Kebera Ebiwandiiko bya Kasitoma",
+    "searchExistingLoansDescription": "Noonya oba omukozesa ali mu ma portfolio ga loan agakyaliwo oba agaaliwo edda ng'okozesa NIN, essimu, oba amannya n'onyiga Enter.",
+    "enterNinPhoneNames": "Yingiza NIN / Essimu / Amannya n'onyiga Enter...",
+    "searchRecord": "Noonya Ebiwandiiko",
+    "searchResults": "Ebivudde mu Kunoonyereza ({{count}} bifuniddwa)",
+    "userFoundInSystemRecord": "Omukozesa Asangiddwa mu Biwandiiko",
+    "appearsTimes": "Alabise emirundi {{count}}",
+    "phoneContact": "Essimu",
+    "locationBranch": "Ekifo / Ttabi",
+    "activeLoanAccounts": "Amawunti ga Loan Agakola",
+    "account": "Akawunti",
+    "totalBorrowedPortfolio": "Loan Zonna Ezaakolebwa",
+    "lastTransactionDate": "Olunaku lw'Enkolagana Olusembayo",
+    "noExistingRecordFound": "Tewali Biwandiiko Bisangiddwa",
+    "noMatchingClient": "Tewali kasitoma akwatagana na ",
+     "inOtherDatabase":" mu biwandiiko bya loan endala. Kasitoma ono alinga mupya ddala.",
+    "safeToProceed": "Kikka okukola okuwandiika fayiro empya.",
+    "activeBorrower": "Omuwolombi Akola",
+    "completedClosed": "Kiwedde / Kiggaliddwa",
+    "pendingClearance": "Kyalindiridde Okukakasibwa",
+    "completedEligible": "Kiwedde / Kikkirizibwa",
+    "lowRisk": "Obulabe Butono",
+    "mediumRisk": "Obulabe obw'akati",
+    "goodStanding": "Embeera Nnungi",
+    "office": "Ofiisi",
+    "field": "Field",
+    "softwareDeveloper": "Omukugu wa Software",
+    "retailShop": "Dduuka lya Retail",
+    "hardwareStore": "Dduuka ly'ebikozesebwa",
+    "loanApplication": "Okusaba Loan"
+  
+
+
 
 
 }

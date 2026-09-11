@@ -7,17 +7,18 @@ import {
 } from "react-router-dom";
 
 import { jwtDecode } from "jwt-decode";
-
 import Dashboard from "./pages/Dashboard";
 import AdDashboard from "./pages/AdDashboard";
 import Login from "./pages/login";
 import Company_portal from "./pages/Company_portal";
 import SetPassword from "./pages/SetPassword";
-
+import  Client_Management from './cashiers/Client_Managment.jsx'
+import Credit_Book from "./client/Credit_book.jsx";
 import "./App.css";
 import "./pages/i18n";
 
 import socket,{connectsocket} from "./socket";
+import Field_officer from "./fields/Field_officer.jsx";
 
 function RedirectIfLoggedIn() {
   const token = localStorage.getItem("token");
@@ -131,7 +132,12 @@ function App() {
       <Route path="/company-reg-portal" element={<Company_portal />} />
 
       <Route  path="/security-setting/:tkn" element={<SetPassword />}/>
-
+      <Route element={<ProtectedRoutes allowedRole={['cashier']}/>}>
+      <Route path="/Csh-dashboard" element={<Client_Management/>}></Route>
+      
+      </Route>
+      <Route path="/Field-officer-Dash" element ={<Field_officer/>}></Route>
+      <Route path="/borrowerDash" element={<Credit_Book/>} ></Route>
       <Route path="*"  element={<Navigate to="/" replace />}
       />
 

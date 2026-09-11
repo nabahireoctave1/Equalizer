@@ -92,8 +92,10 @@ if(profile_photo){
   'bg-red-50 border-red-400 focus:ring-1 focus:ring-red-400':' border-gray-200 focus:ring-1 focus:ring-blue-500'}`
 
   return (
-    <div className="fixed inset-0 z-50 flex  justify-center items-center bg-slate-900/60 backdrop-blur-sm p-3">
-      <div className="w-full max-w-xl max-h-fit  bg-white rounded-md border border-slate-100 overflow-hidden 
+    <div className="fixed inset-0 z-50 flex  justify-center 
+     items-center bg-slate-900/60 backdrop-blur-sm p-3">
+      <div className="w-full max-w-5xl  bg-white rounded-xs 
+      border border-slate-100 overflow-hidden 
       transform transition-all animate-in fade-in zoom-in-95 duration-200">
 
         <div className="px-6 py-2 border-b border-slate-50">

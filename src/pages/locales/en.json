@@ -664,12 +664,546 @@
     "NoResult_found":"No matching results found",
     "Nomatches":"We couldn't find any matches for your search. Check your spelling or try a different keyword."
     
-  }
+  },
   
+
+  "Equalizer": "Equalizer",
+  "Dashboard": "Dashboard",
+  "Client": "Client",
+  "Unpaid": "Unpaid",
+  "Paid Details": "Paid Details",
+  "Field Payment": "Field Payment",
+  "Profile": "Profile",
+  "Notification": "Notification",
+  "Report": "Report",
+  "Logout": "Logout",
+  "Company Title": "Akea Financial Service",
+  "Toggle Theme": "Toggle Theme Mode",
+  
+  "logo": "Cashier Hub",
+  "live": "Live Data",
+  "overview": "Office Overview",
+  "payables": "Add Payables",
+  "receivables": "Add Receivable",
+  "demand": "Demand",
+  "overLoaned": "Over Loaned",
+  "support": "Support",
+  "stock": "Stock",
+  "searchUser": "Search User",
+
+  "registeredUsers": "Registered Users",
+  "paidUsers": "Paid Users",
+  "unpaidUsers": "Unpaid Users",
+
+  "demandSummary": "Demand Summary",
+  "totalDemand": "Total Demand",
+  "approvedDemand": "Approved Demand",
+  "pendingDemand": "Pending Demand",
+
+  "loanPerformance": "Loan Performance",
+  "loaned": "Loaned",
+  "collected": "Collected",
+  "outstanding": "Outstanding",
+
+  "paymentDueToday": "Payment Due Today",
+  "clientsDueToday": "Clients Due Today",
+  "expectedCollection": "Expected Collection",
+  "paidToday": "Paid Today",
+
+  "collectionTarget": "Collection Target",
+  "remaining": "Remaining",
+
+  "viewUnpaid": "View Unpaid",
+  "viewDefaulters": "View Defaulters",
+
+  "loanMatrix": "External Loan Matrix",
+  "loanSub": "Active profiles cross-borrowed elsewhere",
+  "totalCrossLoaned": "Total Cross-Loaned Users",
+
+  "hideLedger": "Hide Extended Ledger",
+  "viewMore": "Toggle to View More",
+
+  "loanedUsers": "Loaned Users List",
+  "no": "No",
+  "clients": "Clients",
+  "dayPayments": "Day Payments",
+  "balance": "Balance",
+  "action": "Action",
+  "viewRecord": "View Record",
+
+  "analytics": "Analytics Section",
+  "loanAnalysis": "Loans Analysis",
+  "repaidAmount": "Repaid Amount",
+
+  "payments": "Payments",
+  "overdue": "Overdue",
+
+  "smsSystem": "Total SMS System",
+  "usedMessages": "Used Up Messages",
+  "leftMessages": "Remaining Messages",
+
+  "equalizerAnalysis": "Equalizer Analysis",
+
+  "copyright": "Equalizer IT Problem Solvers",
+  "call": "Call Us",
+  "rights": "All Rights Reserved",
+  "clickView": "Click to View Equalizer",
+  "dailyFinancialReport": "Daily Financial Report",
+
+  "openingStock": "Opening Stock",
+  "cashReceived": "Cash Received",
+  "cashIn": "Cash In",
+  "totalCash": "Total Cash",
+  "closingBalance": "Closing Balance",
+
+  "cashOutDetails": "Cash Out Details",
+  "cashOut": "Cash Out",
+
+  "expenseDetails": "Expense Details",
+  "addExpense": "Add Expense",
+  "expenses": "Expenses",
+  "amount": "Amount",
+  "actions": "Actions",
+  "editExpense": "Edit Expense",
+  "deleteExpense": "Delete Expense",
+  "cancelEdit": "Cancel Edit",
+
+  "noExpenses": "No expenses recorded. Click \"Add Expense\" to add entries.",
+  "totalExpenses": "Total Expenses",
+
+  "summaryOverview": "Summary Overview",
+  "numberClients": "No CLTs", 
+  "advance": "ADV",
+  "new": "New",
+  "total": "Total",
+
+  "addNewExpense": "Add New Expense",
+  "expenseDescription": "Expense Description",
+  "fillExpenseDetails": "Fill in the details to append directly to the list.",
+  "expensePlaceholder": "e.g., Office Catering, Travel Allowances",
+  "valueAmount": "Value Amount",
+  "cancel": "Cancel",
+  "saveEntry": "Save Entry",
+  "portalName": "Akea Financial Portal",
+
+  "title": "Notification Control Center",
+  "subtitle": "Monitor system infrastructure alerts, branch cash directives, and client security stock operations.",
+
+  "systemNotifications": "System & Account Notifications",
+  "branchOperations": "Branch Cash Payables & Operations",
+
+  "securityMonitor": "Security Stock Monitor",
+  "securityMonitorDescription": "Track client physical assets entering or leaving vault storage.",
+
+  "searchPlaceholder": "Search client security profile...",
+  "noLogsFound": "No security logs found matching",
+
+  "schedule": "Schedule",
+  "actionRequired": "Action Required",
+
+  "systemMaintenance": "System Scheduled Maintenance",
+  "systemMaintenanceDescription": "The Equalizer Balancing System will undergo a major core update tonight. Expect brief offline windows.",
+
+  "lowMessageBalance": "Low Message Balance Alert",
+  "lowMessageBalanceDescription": "Your SMS/Message allocation is about to run out. Please contact your administrator or manager immediately to purchase additional units.",
+  "remainingMessages": "Remaining Balance",
+
+  "officeReportDeadline": "Office Performance Report Deadline",
+  "officeReportDescription": "The end-of-period Office Report is ready for final verification and is about to be auto-submitted.",
+
+  "cashoutDirective": "No Cashout Operations Tomorrow",
+  "cashoutDirectiveDescription": "Strict directive: No manual cashout transactions will be authorized tomorrow. All branch cash-in volume must be instantly routed and banked into either the corporate Bank Account or designated Mobile Money wallets.",
+
+  "cashTransfer": "Mandatory Cash Transfer to Kampala Branch",
+  "cashTransferDescription": "Cash Payables Directive: All physical cash-in collected during tomorrow's shift must be securely bundled and processed for immediate transfer to the Kampala Branch office.",
+
+  "released": "Released",
+  "received": "Received",
+  "outOfStock": "Out of Stock",
+  "inStock": "In Stock",
+
+  "nationalId": "National ID / Security Collateral",
+  "assetDeed": "Asset Deed / Security Entry",
+
+  "high": "High",
+  "medium": "Medium",
+  "critical": "Critical",
+  "selectlanguage" : "change language",
+
+  "id": "ID",
+  "companyName": "Akea Service",
+  "creditBookTitle": "Credit Book & Client Payment Ledger",
+  "supportBusinesses": "Support Other Businesses",
+  "applyNewLoan": "Apply New Loan",
+  "logout": "Logout",
+
+  "clientInformation": "Client Information",
+  "guarantor": "Guarantor",
+  "from": "From",
+  
+  "loanStructure": "Loan Structure",
+  "finesPenalties": "Fines / Penalties",
+
+  "paid": "Paid",
+
+
+
+  "pdf": "PDF",
+
+  "applyLoanTitle": "Apply For New Loan",
+  "supportBusinessTitle": "Support Other Businesses",
+
+  "preparingPdf": "Preparing PDF download... Please select 'Save as PDF' in the print dialog.",
+  "loggedOut": "Logged out successfully.",
+   "dashboard": "Cashier Dashboard",
+    "welcomeTitle": "Welcome to the Client Management Dashboard",
+    "welcomeDescription": "Use this panel to register new customers, process payments, and modify customer profile details seamlessly.",
+
+    "activeClients": "Active Clients",
+    "newClient": "New Client",
+
+    "number": "No",
+    "amountGiven": "Amount Given",
+    "closingDate": "Closing Date",
+    "phone": "Phone",
+    "payLoan": "Pay Loan",
+    "addPicture": "Add Picture",
+    "addPics": "Add Pics",
+
+    "showing": "Showing",
+    "to": "to",
+    "clientsWord": "clients",
+
+
+    "loanPaymentProcessing": "Loan Payment Processing",
+    "creditHistoryRecord": "Credit History Record",
+  "reportTitle": "Field Payment Report",
+
+  "fieldOfficer": "Field Officer",
+  "allOfficers": "All Officers",
+
+  "date": "Date",
+  "totalAmountEarned": "Total Amount Earned",
+
+  "clientFieldCollections": "Client Field Collections",
+
+  "entries": "Entries",
+   "loanApplicationPortal": "Loan Application Portal",
+  "step": "Step",
+
+  "nextStep": "Next Step",
+  "submitForm": "Submit Form",
+  "formSubmitted": "Form Submitted Successfully!",
+
+  "particularApplicants": "Particular of Applicants",
+
+  "idNumber": "ID Number",
+
+  "placeholderName": "John Doe",
+  "placeholderContact": "07835456132",
+  "placeholderAddress": "Kampala",
+  "placeholderID": "XXXXXXXXXXX",
+
+  "businessDetails": "Type of Business Details",
+  "businessType": "Business Type",
+  "businessLocation": "Business Location",
+  "placeholderBusinessType": "Business Man",
+  "placeholderBusinessLocation": "Kampala",
+
+  "loanDetails": "Particular of the Loan",
+  "amountApplied": "Amount Applied (Digits)",
+  "amountWords": "UGX in Words",
+  "convertedWords": "Converted words will appear here...",
+  "placeholderAmount": "150000",
+  "placeholderAmountWords": "One Hundred Fifty Thousand Uganda Shillings Only",
+
+  "duration": "Duration",
+  "duration0": "Month / Daily",
+  "duration1": "Monthly ",
+  "duration2": "Season / Three Months ",
+  "duration3": "Year / Per Month",
+
+  "interest": "Interest",
+  "placeholderInterest": "20%",
+
+  "securityDetails": "Security Details",
+  "securityName": "Security Name",
+  "securityNumber": "Number of Security",
+
+  "placeholderSecurity": "Television",
+
+  "guarantorDetails": "Guarantor Details",
+  "guarantorName": "Guarantor's Name",
+
+  "terms": "Terms and Conditions",
+
+  "term1": "Loan payment shall be made daily for a period of 30 days.",
+  "term2": "Office service charges apply to every loan.",
+  "term3": "Failure to pay for two consecutive days activates default procedures.",
+  "term4": "The guarantor becomes liable if the borrower defaults.",
+  "term5": "Late payment penalty: UGX 5,000 per day.",
+
+  "agreeTerms": "I have carefully read and understood the terms and conditions.",
+
+  "loanApproval": "Loan Approval",
+
+  "approvedBy": "Approved By",
+  "effectiveDate": "Effective Date",
+
+  "cashierName": "Cashier's Name",
+  "titleUnpaid": "Unpaid Accounts Ledger",
+    "subtitleunpaid": "Real-time tracking of outstanding balances and client metrics.",
+    "searchPlaceholderUnpaid": "Search by customer name or phone...",
+
+ 
+    "days": "Days",
+    "daysShort": "d left",
+    "daysRemaining": "days remaining",
+
+    "risk": "Risk",
+
+    "paying": "Paying",
+
+    "ledgerHistory": "Ledger History",
+
+      "contactDetails": "Contact Details",
+      "unpaidWindow": "Unpaid Window",
+      "deadlineSafety": "Deadline Safety",
+      "outstandingBalance": "Outstanding Balance",
+      "completeLoanForm": "Complete the form to request your new loan",
+      "requestLoan": "Requesting Loan (UGX)",
+      "guarantorContact": "Guarantor's Contact",
+      "submitApplication": "Submit Application",
+
+  "clientProfile": "Client Details Profile",
+  "overviewInformation": "Overview of personal, financial and loan information.",
+
+  "personalInfo": "Personal & Contact Information",
+  "name": "Name",
+  "address": "Address",
+
+  "guarantorInformation": "Guarantor Details",
+
+  "financialStatus": "Financial Status",
+  "amountEarned": "Amount Earned",
+  "loanBalance": "Loan Balance",
+  "timeRemaining": "Time Remaining",
+  "daysLeft": "Days Left",
+
+  "compliance": "Compliance & Administration",
+  "penalties": "Penalties",
+  "none": "None",
+  "officerSigned": "Officer Signed",
+
+  "totalLoanPrincipal": "Total Loan Principal",
+  "dailyInstallment": "Daily Installment",
+  "remainingBalance": "Remaining Balance",
+  "unpaid": "Unpaid",
+  "paymentCollectionHistory": "Payment Collection History",
+
+  "paymentDate": "Payment Date",
+  "amountPaid": "Amount Paid",
+  "resultingBalance": "Resulting Balance",
+  "accountOfficer": "Account Officer",
+
+  "excel": "Excel",
+  "downloadExport": "Download & Export",
+  "downloadExcel": "Download Excel",
+  "downloadPDF": "Download PDF",
+  "downloadRawData": "Download Raw Data",
+  "printDocument": "Print Document",
+  "print": "Print",
+
+  "defaulters": "Defaulters",
+  "defaultersDescription": "This is the list of clients at risk",
+  "totalRecords": "Total Records",
+  "security": "Security",
+  "gContact": "Guarantor Contact",
+  "endDate": "End Date",
+  "creditBook": "Credit Book",
+  "credit": "Credit",
+  "closeWindow": "Close Window",
+
+  "oldClients": "Over Loaned Clients",
+  "oldClientsDescription": "List of users who previously took loans",
+  "search": "Search",
+  "loansTaken": "Loans Taken",
+  "lastPaymentDate": "Last Payment Date",
+  "lastLoanAmount": "Last Loan Amount",
+  "unpaidDays": "Unpaid Days",
+  "reasoned": "Reasoned",
+  "applyLoan": "Apply Loan",
+  "newLoanApplication": "New Loan Application",
+
+  "otherLoans": "Other Loans",
+  "officeNumber": "Office Number",
+  "loanAmount": "Loan Amount",
+  "lastPayingDate": "Last Paying Date",
+  "confirm": "Confirm",
+  "submit": "Submit",
+
+  "paymentPortal": "Payment Portal",
+  "clientsName": "Client's Name",
+  "paymentNow": "Payment Now",
+  "officePaymentDetails": "Office Payment Details On:",
+  "todayClients": "These are the clients who have paid today at the office and in the field.",
+  "modifyPayments": "You can modify and correct incorrect payments before the reporting window closes.",
+  "noModification": "After reports are sent, no modification access will be allowed.",
+
+  "searchPlaceholderP": "Enter the client name",
+
+  
+
+    "titleP": "Credit Book Details",
+    "closeRecords": "Close Records",
+     "managementPortal": "Management Portal",
+
+  "teams": "Teams",
+  "agents": "Agents",
+
+  "credentialsAssignment": "Credentials & Assignment",
+
+  "fullName": "Full Name",
+  "phoneNumber": "Phone Number",
+  "officeLocation": "Office Location",
+  "startedDate": "Started Date",
+
+  "totalSalary": "Total Salary",
+  "remainingSalary": "Remaining Salary",
+
+  "lastUpdated": "Last Updated",
+  "saveChanges": "Save Changes",
+   " branch": "Gassani Branch",
+   " toLabel": "To:",
+    "selectBranch": "Select the Branch",
+    "amountLabel": "Amount",
+    "amountPlaceholder": "12,000,000",
+    "wordsLabel": "Amount In Words",
+    "wordsPlaceholder": "Twelve Million Shillings Only",
+    "submitBtn": "Submit Receivable",
+    
+    "moneyReceivedFromAnotherBranch": "Money Received from Another Branch",
+    "moneySentToAnotherBranch": "Money Sent to Another Branch",
+    "branch": "Branch",
+    "kyenjojo": "Kyenjojo",
+    "gassani": "Gassani",
+    "shs": "Shs",
+    "amountInWords": "Amount in Words",
+    "twelveMillionShillingsOnly": "Twelve Million Shillings Only",
+    "submitReceivable": "Submit Receivable",
+    "submitPayable": "Submit Payable",
+    "storedSecurities": "Stored Securities",
+    "searchByClientName": "Search by client name...",
+    "clientName": "Client Name",
+    "picture": "Picture",
+    "operations": "Operations",
+    "release": "Release",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of",
+    "securityPicture": "Security Picture",
+    "names": "Names",
+    "contact": "Contact",
+    "business": "Business",
+    "type": "Type",
+    "existingLoan": "Existing Loan",
+    "existingLoans": "Existing Loans",
+    "loanAccount": "Loan Account",
+    "loanAccounts": "Loan Accounts",
+    "location": "Location",
+    "status": "Status",
+    "operation": "Operation",
+    "records": "Records",
+    "approve": "Approve",
+    "reject": "Reject",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "yes": "Yes",
+    "dateRegistered": "Date Registered",
+    "demandAmount": "Demand Amount",
+    "sortBy": "Sort By",
+    "demandListForClients": "Demand List for Clients",
+    "allOfficeAndFieldDemands": "All Office Demands and Field Demand Lists combined.",
+    "sortRiskMetrics": "Sort by date, demand amount, or track historical risk metrics instantly.",
+    "demandAmountHighToLow": "Demand Amount (High to Low)",
+    "demandAmountLowToHigh": "Demand Amount (Low to High)",
+    "goodPayingLowUnpaidDays": "Good Paying (Low Unpaid Days)",
+    "existingLoansCounter": "Existing Loans Counter",
+    "showingTotalLoanRequests": "Showing {{count}} total loan application request entries.",
+    "demandApprovedAlert": "Demand ID {{id}} has been Approved!",
+    "demandRejectedAlert": "Demand ID {{id}} has been Rejected.",
+    "openingFinancialRecords": "Opening financial and background logs for: {{name}}",
+    "clientPicture": "Client Picture",
+    "guarantorPicture": "Guarantor Picture",
+    "save": "Save",
+    "supportHub": "Equalizer Support Hub",
+    "howCanWeHelp": "How can we help you today?",
+    "supportDescription": "Get instant guidance, explore intuitive workflows, or reach out directly to the Akea Financial system administrators.",
+    "searchGuides": "Search guides, errors, or keywords...",
+    "clear": "Clear",
+    "howEqualizerWorks": "How the Equalizer Works",
+    "equalizerSystem": "Equalizer System",
+    "anotherBranch": "another Branch",
+    "systemParts": "System Parts",
+    "systemPartsDescription": "The system consists of two menu bars: the side bar menu related to payments and the top menu related to transactions, support, and demands.",
+    "reports": "Reports",
+    "reportsDescription": "Reports are automatically sent by the system at the set time. Nothing can be modified after the report is sent.",
+    "notifications": "Notifications",
+    "notificationsDescription": "Notifications are categorized into three ways: System, Administration, and Office notification messages.",
+    "frequentlyAskedQuestions": "Frequently Asked Questions",
+    "faqDescription": "Quickly resolve operational queries or view pipeline documentation updates.",
+    "noMatchesFound": "No matches found for \"{{query}}\"",
+    "directAssistance": "Direct Assistance",
+    "assistanceDescription": "Can't find what you need? Reach out directly via localized corporate lines.",
+    "itDeskHelplines": "IT Desk Helplines",
+    "mondayToFriday": "Mon - Fri • 8:00 AM - 5:00 PM",
+    "systemEmailLogs": "System Email Logs",
+    "twentyFourHourResponse": "24-hour response turnaround time",
+    "hqHubLocation": "HQ Hub Location",
+    "mainAdministrationOffice": "Main Administration Office",
+    "kampalaHubCompound": "Kampala Hub Compound, Level 2",
+    "systemNotice": "System Notice",
+    "dailySettlementNotice": "Daily settlement reconciliation logs are finalized automatically at exactly {{time}}. Make sure all branch entries are pushed into the Equalizer queue before the system lock sequence triggers.",
+    "crossCheckClientRecords": "Cross-Check Client Records",
+    "searchExistingLoansDescription": "Search if the user exists in other active or past loan portfolios by entering their NIN, Phone Number, or Names and pressing Enter.",
+    "enterNinPhoneNames": "Enter NIN / Phone / Names and press Enter...",
+    "searchRecord": "Search Record",
+    "searchResults": "Search Results  entries found)",
+    "userFoundInSystemRecord": "User Found in System Record",
+    "appearsTimes": "Appears  time(s)",
+    "phoneContact": "Phone Contact",
+    "locationBranch": "Location / Branch",
+    "activeLoanAccounts": "Active Loan Accounts",
+    "account": "Account",
+    "totalBorrowedPortfolio": "Total Borrowed Portfolio",
+    "lastTransactionDate": "Last transaction date",
+    "noExistingRecordFound": "No Existing Record Found",
+    "noMatchingClient": "No matching client was found with ",
+    "inOtherDatabase":"in other loan databases. This client appears to be completely new.",
+    "safeToProceed": "Safe to proceed with new file registration.",
+    "activeBorrower": "Active Borrower",
+    "completedClosed": "Completed / Closed",
+    "pendingClearance": "Pending Clearance",
+    "completedEligible": "Completed / Eligible",
+    "lowRisk": "Low Risk",
+    "mediumRisk": "Medium Risk",
+    "goodStanding": "Good Standing",
+    "office": "Office",
+    "field": "Field",
+    "softwareDeveloper": "Software Developer",
+    "retailShop": "Retail Shop",
+    "hardwareStore": "Hardware Store",
+    "loanApplication": "Loan Application"
+
+
 
 
 
 }
+
+
 
 
 
