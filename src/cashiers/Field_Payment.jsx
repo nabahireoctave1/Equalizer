@@ -31,12 +31,12 @@ const Field = () => {
               value: "UGX 50,000", highlight: true },
           ].map((item, idx) => (
             <div key={idx} className="flex flex-col gap-2">
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">
+              <label className="text-[13px] font-semibold text-gray-600 uppercase tracking-wider ml-1">
                 {item.label}
               </label>
               {item.type === "select" ? (
-                <select className="w-full text-sm bg-gray-50 border border-gray-200 rounded-sm
-                px-4 py-2 text-gray-700 font-medium focus:ring-1 focus:ring-blue-500
+                <select className="w-full text-[15px] bg-gray-50 border border-gray-200 rounded-sm
+                px-4 py-2 text-gray-700  focus:ring-1 focus:ring-blue-500
                  outline-none transition-all cursor-pointer">
                   {item.options.map((opt) => <option key={opt}>{opt}</option>)}
                 </select>
@@ -47,9 +47,9 @@ const Field = () => {
                   readOnly 
                   value={item.value} 
                   className={`w-full border rounded-sm px-4 py-2
-                      outline-none  text-sm
-                     transition-all ${item.highlight ? 'bg-blue-400 text-white border-none font-bold'
-                       : 'bg-gray-50 border-gray-200 font-semibold  text-slate-700'}`} 
+                      outline-none  text-[15px]
+                     transition-all ${item.highlight ? 'bg-blue-400 text-white border-none font-semibold'
+                       : 'bg-gray-50 border-gray-200   text-gray-700'}`} 
                 />
               )}
             </div>
@@ -76,11 +76,11 @@ const Field = () => {
               <tbody className="divide-y divide-slate-100">
                 {[1, 2, 3, 4, 5, 6].map((item) => (
                   <tr key={item} className="hover:bg-gray-50 cursor-pointer transition-colors group">
-                    <td className="px-6 py-4 text-gray-700 font-mono text-sm">{item}</td>
-                    <td className="px-6 py-4 font-semibold text-slate-700">Webale Precious</td>
-                    <td className="px-6 py-4 text-[18px] text-emerald-600 font-semibold">10,000</td>
-                    <td className="px-6 py-4 text-[18px] text-rose-500 font-semibold">80,000</td>
-                    <td className="px-6 py-4 text-gray-700  text-[15px]">5-23-2026</td>
+                    <td className="px-6 py-3 text-gray-700 font-mono text-sm">{item}</td>
+                    <td className="px-6 py-3  text-slate-700">Webale Precious</td>
+                    <td className="px-6 py-3 text-[17px] text-emerald-600 font-semibold">10,000</td>
+                    <td className="px-6 py-3 text-[17px] text-rose-500 font-semibold">80,000</td>
+                    <td className="px-6 py-3 text-gray-700  text-[15px]">23-05-2026</td>
                   </tr>
                 ))}
               </tbody>

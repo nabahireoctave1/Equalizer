@@ -9,9 +9,7 @@ const Expenses =()=>{
 
                 </div>
                 <div className="">
-                    {/* click On Add New To record Expese*/}
                     <span>Click on Add New To Record New Expenses</span>
-                    {/* Add By looping when Clicked */}
                     <button>Add New</button>
                     <div className="">
                        <table>

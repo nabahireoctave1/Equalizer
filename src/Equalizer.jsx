@@ -1,7 +1,6 @@
 
 
 
-// import React from 'react';
 
 const Equalizer = () => {
   const services = [

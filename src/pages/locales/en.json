@@ -917,11 +917,7 @@
   "placeholderAmount": "150000",
   "placeholderAmountWords": "One Hundred Fifty Thousand Uganda Shillings Only",
 
-  "duration": "Duration",
-  "duration0": "Month / Daily",
-  "duration1": "Monthly ",
-  "duration2": "Season / Three Months ",
-  "duration3": "Year / Per Month",
+
 
   "interest": "Interest",
   "placeholderInterest": "20%",
@@ -948,7 +944,7 @@
   "loanApproval": "Loan Approval",
 
   "approvedBy": "Approved By",
-  "effectiveDate": "Effective Date",
+  "installment": "Client daily installment",
 
   "cashierName": "Cashier's Name",
   "titleUnpaid": "Unpaid Accounts Ledger",

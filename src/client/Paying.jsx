@@ -1,8 +1,55 @@
-// import React from 'react';
-// Importing icons from lucide-react (Make sure to install it: npm install lucide-react)
-import { CreditCard, User, DollarSign } from 'lucide-react';
+import React, { useState } from 'react';
+import { CreditCard, User, DollarSign, LoaderCircle } from 'lucide-react';
+import api from '../api';
+import { useTranslation } from 'react-i18next';
 
-const Paying = () => {
+const Paying = ({client_name}) => {
+    const [formData,setFormData]=useState({
+        client_name:client_name,
+        paymentAmount:null
+    })
+
+    const [loading,setLoading]=useState(false);
+    const [errors,setErrors]=useState({});
+    const {t}=useTranslation();
+
+
+
+    const HandleInputchanges= (e)=>{
+        const {name,value}=e.target;
+         
+        setFormData((prev)=>({...prev,[name]:value}))
+
+    }
+
+
+    const HandlePay= async()=>{
+        setLoading(true)
+        try{ 
+           
+            const res=await api.post('/PayLoan',formData);
+            console.log(res)
+
+
+
+        }
+        catch(err){
+            const data= err.response?.data
+             if(data?.errors){
+                 setErrors(data.errors);
+                 return;
+             }
+        }finally{
+            setLoading(false);
+        }
+    }
+
+   const InputStyle=(field)=>`${errors[field] ? 'bg-red-100  focus:ring-red-500 border-red-500' 
+    :' focus:ring-blue-500 focus:border-blue-500  border-gray-300'} 
+    block w-full pl-10 pr-3 py-2.5 border
+    rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 
+    text-sm transition-all`
+
     return (
         <div className="  flex  justify-center p-4 sm:p-6 lg:p-8">
             <div className="w-full max-w-md bg-white rounded-md shadow-xl
@@ -32,12 +79,16 @@ const Paying = () => {
                             </div>
                             <input 
                                 type="text" 
-                                name="clientName" 
-                                id="clientName" 
+                                name="client_name" 
+                                onChange={HandleInputchanges}
+                                value={formData.client_name?? ''}
+                                
                                 placeholder="Webale Precious"
-                                className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all"
+                                className={InputStyle('client_name')}
                             />
                         </div>
+                            <span className='text-[14px] text-red-500'>{t(errors.client_name)}</span>
+
                     </div>
 
                     <div className="space-y-2">
@@ -50,17 +101,20 @@ const Paying = () => {
                             </div>
                             <input 
                                 type="number" 
-                                name="amount" 
-                                id="amount" 
+                                onChange={HandleInputchanges}
+                                name="paymentAmount" 
                                 placeholder="12000"
-                                className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all"
+                                className={InputStyle('paymentAmount')}
                             />
                         </div>
+                            <span className='text-[14px] text-red-500'>{t(errors.paymentAmount)}</span>
+
                     </div>
 
                     <div className="pt-2">
-                        <button 
+                        <button  onClick={HandlePay}
                             type="submit" 
+                            disabled={loading}
                             className="w-full flex capitalize text-sm items-center justify-center gap-2
                              bg-blue-500 to-blue-400 hover:from-blue-700
                               hover:to-indigo-700 text-white font-medium py-3 
@@ -68,7 +122,11 @@ const Paying = () => {
                               focus:ring-1 focus:ring-indigo-500  disabled:opacity-50 
                               disabled:cursor-not-allowed transition-all cursor-pointer"
                         >
-                            <span>pay now</span>
+                            
+                            {loading ? <span className='flex items-center justify-center gap-1'>
+                                <LoaderCircle size={20} className='animate-spin'/>
+                                <p>paying...</p>
+                            </span>:'Pay now'}
                         </button>
                     </div>
 

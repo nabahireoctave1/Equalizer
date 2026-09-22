@@ -143,7 +143,7 @@ useEffect(() => {
             </button>
           </div>
           
-          <div className='p-4 space-y-1'>
+          <div className='px-1 py-2 space-y-1 h-full'>
             {[
               { id: 'Dashboard', label: `${t('nav.dashboard')}`, icon: <LayoutDashboardIcon size={18} /> },
               { id: 'borrowers', label: `${t('nav.borrowers')}`, icon: <HandCoins size={18} /> },
@@ -173,22 +173,19 @@ useEffect(() => {
                 <span>{item.label}</span>
               </button>
             ))}
-            <button onClick={HandleLogout} className='flex justify-center text-sm p-8 gap-1 hover:cursor-pointer bg-red-400 mx-3  py-2  rounded-sm text-white'>
+            <div className='flex px-2  w-50'>
+              <button onClick={HandleLogout}
+               className='flex  px-12
+              text-sm p-3 gap-1 hover:cursor-pointer bg-red-400 py-2 
+               mt-8 rounded-sm text-white'>
               <span><LogOut size={18}/></span>{t('nav.logout')}</button>
-          </div>
+            </div>
         </div>
+         
+          </div>
+          
 
-        <div className='p-2 m-1 border border-gray-100 rounded-xl text-center hidden md:block'>
-          <div className='h-fit w-fit p-2 bg-blue-600/10 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-3 shadow-inner'>
-            <HelpCircle size={20} />
-          </div>
-          <h3 className='text-gray-700 font-semibold text-sm'>{t('help.need_help')}</h3>
-          <p className='text-xs text-slate-500  px-2 leading-relaxed'>{t('help.help_text')}</p>
-          <button className='w-full flex justify-center items-center gap-2 text-xs font-semibold text-white
-           bg-blue-400 py-2.5 px-4 rounded-sm transition-colors cursor-pointer'>
-            <MessageCircle size={14}/> {t('help.contact_support')}
-          </button>
-        </div>
+       
       </div>
 
       <div className='flex-1 ml-0 md:ml-64 flex flex-col min-h-screen w-full min-w-0 relative'>

@@ -44,7 +44,9 @@ function RedirectIfLoggedIn() {
         return <Navigate to="/sb-Dashboard" replace />;
 
       case "cashier":
-        return <Navigate to="/Client-managent" replace />;
+        return <Navigate to="/Csh-dashboard" replace />;
+      case "field" :
+          return <Navigate to='/Field-officer-Dash' />
 
       default:
         localStorage.removeItem("token");
@@ -87,11 +89,11 @@ function ProtectedRoutes({ allowedRole }) {
           return <Navigate to="/sb-Dashboard" replace />;
 
         case "cashier":
-          return <Navigate to="/Client-managent" replace />;
-
+          return <Navigate to="/Csh-dashboard" replace />;
+         case 'field':
+          return <Navigate to='/Field-officer-Dash' />              
         default:
           localStorage.removeItem("token");
-
           return <Navigate to="/" replace />;
       }
     }

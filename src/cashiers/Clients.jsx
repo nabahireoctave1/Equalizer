@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { act, useState } from 'react';
 import Paying from '../client/Paying';
 import Credit_Record from '../client/Client_record';
 import New_client from './New_Client';
-import { XIcon } from 'lucide-react';
+import { XIcon,Smartphone,Image } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import QRCode from 'react-qr-code';
 
 
 const Client = () => {
@@ -17,7 +18,6 @@ const Client = () => {
     closingDate: "6/23/2026",
     phone: "0783124352",
     location: i % 3 === 0 ? "Kampala" : i % 3 === 1 ? 'Gasani' : 'Kigali',
-    // image : {coat}
   }));
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,7 +25,8 @@ const Client = () => {
 
   const [selectedClient, setSelectedClient] = useState(null);
   const [activeModal, setActiveModal] = useState(null); 
-
+const [preview,setpreview]=useState(null);
+const [uploadwithPhone,setuploadwithphone]=useState(false)
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentClients = allClients.slice(indexOfFirstItem, indexOfLastItem);
@@ -47,29 +48,135 @@ const Client = () => {
   const openModal = (client, type) => {
     setSelectedClient(client);
     setActiveModal(type);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setSelectedClient(null);
     setActiveModal(null);
-    document.body.style.overflow = 'unset';
   };
 
   const [openClientmodel, setopenclientmodel] = useState(false);
+
   
   const openmodel = () => {
     setopenclientmodel(true);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeclientmodel = () => {
     setopenclientmodel(false);
-    document.body.style.overflow = 'unset';
   };
+
+
+  const AddPictureModel= ()=>{
+    return (
+      <div>
+        <div className='fixed inset-0 z-70  flex items-center  justify-center p-5 bg-black/70  '>
+                    <div className='bg-white  w-100 md:w-200 animate-bounce-once
+                     lg:w-210 h-130 rounded-sm px-6 py-3'>
+                      
+                      
+            <div className='mb-5'>
+            <div className='flex  items-center gap-2'>
+              <span className='bg-violet-100 rounded-md text-blue-600 p-1'><Image size={45}/></span>
+              <div>
+                 <h2 className='text-[15px] font-bold uppercase text-gray-800'>Add collateral picture</h2>
+              <p className='text-[15px]'>Upload client collateral picture </p>
+                </div>
+             
+            </div>
+
+            </div>
+
+
+            <div className='flex  justify-between gap-3 mb-5'>
+               <div className='flex  items-center justify-center border px-6 gap-2
+                rounded-sm border-gray-300 bg-gray-100/50 py-4'>
+                <span className='bg-gray-200 p-2 rounded-sm text-gray-800'>
+                  <Smartphone size={40}/>
+                </span>
+                <div>
+                  <h2 onClick={()=>setuploadwithphone(true)} className='font-semibold text-gray-800 text-[14px] hover:text-blue-600
+                   cursor-pointer'>Upload with Phone</h2>
+                  <p className='text-[14px]'>Upload picture with your phone</p>
+                </div>
+
+               </div>
+
+               <div className='flex  items-center justify-center border px-6 gap-2
+                rounded-sm border-blue-600 bg-gray-100/50 py-4  '>
+                <span className='bg-gray-200/50 rounded-sm  p-2 text-blue-600 '>
+                <Image size={40}/>
+                 
+                </span>
+                
+                <div>
+                  <label  className='text-[14px] 
+                   font-semibold cursor-pointer  hover:underline  text-blue-700'>
+                  Choose from this device
+                      <input type="file"   className='hidden'/>
+                  </label>
+                  <p className='text-[14px]'>Upload photo from this device </p>
+                    
+                </div>
+               </div>
+
+            </div>
+
+             <div className='bg-gray-100 w-full h-65 mb-2 border border-gray-200 rounded-sm' >
+              {preview ? 
+               <img src= {preview }  className='w-full object-cover  h-full rounded-sm ' />
+
+              :''
+              
+            }
+             </div>
+                {uploadwithPhone &&
+         <div className='flex justify-center fixed inset-0 items-center z-100 bg-black/90 rounded-sm'>   
+         <div className='bg-gray-50 rounded-xl w-md'>
+          <div className='px-3 py-2 flex justify-between items-center'>
+            <span>
+          <h2 className='text-[20px] uppercase font-extrabold  text-gray-800'>upload Collateral picture</h2> 
+            </span>
+            <span>
+              <XIcon size={20} onClick={()=>setuploadwithphone(false)} className='text-red-500 cursor-pointer'/>
+            </span>
+
+
+          </div>
+          <div className='flex justify-center flex-col items-center   p-6'> 
+          <p className='py-2 text-[15px] text-gray-800'>
+           Scan Qrcode  with your phone to upload a collateral picture
+          </p>
+             <QRCode value='http/localhost/upload-collateral-picture/ibf67k3' size={180}/>
+          </div>
+          </div> 
+         
+          
+
+          </div> 
+
+        }
+
+             <div className='flex justify-end p-2 gap-2'>
+              <button onClick={closeModal}  className='text-[15px] bg-gray-300 px-6 py-1.5 text-gray-700 rounded-sm cursor-pointer '>Cancel</button>
+              <button  className='text-[15px] bg-blue-500 px-6 py-1.5 text-white rounded-sm  cursor-pointer'>Confirm</button>
+             </div>
+
+        
+                
+          </div>
+          
+        </div>
+         
+       
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen w-full bg-gray-50 font-sans antialiased text-slate-800 ">
+
+      
       
      <div className="mb-4 sticky top-0 z-50 bg-white px-6 py-4 rounded-md  border border-gray-100">
           <h2 className="text-2xl font-bold uppercase text-blue-600 mb-2 sm:text-3xl">
@@ -161,7 +268,7 @@ const Client = () => {
                     </td>
                     <td className="p-4 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(client, 'record')}
+                        onClick={() => openModal(client, 'addPic')}
                         className="px-3 py-1 text-md font-medium bg-blue-500
                          text-white rounded-md border cursor-pointer outline-none"
                       >
@@ -240,10 +347,12 @@ const Client = () => {
             <div className="max-w-6xl mx-auto  min-h-full">
               <div className="p-6 md:p-12">
                 {activeModal === 'pay' ? (
-                  <Paying clientData={selectedClient} onSuccess={closeModal} />
-                ) : (
-                  <Credit_Record clientData={selectedClient} />
-                )}
+                  <Paying client_name={selectedClient.name} onSuccess={closeModal} />
+                ) :activeModal==='record' ? (
+                  <Credit_Record  />
+                ):activeModal==='addPic' ? (
+                   <AddPictureModel/>
+                ):''}
               </div>
             </div>
           </div>

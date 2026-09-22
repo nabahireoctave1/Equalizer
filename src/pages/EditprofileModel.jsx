@@ -42,7 +42,7 @@ function EditProfileModal({names,phone,email,nid,  onClose }) {
  
 
 
-  const HandlePhotoCahnge= (e)=>{
+  const HandlePhotoChange= (e)=>{
     const file= e.target.files[0];
     if(!file) return
    setProfilePhoto(file)
@@ -53,7 +53,7 @@ function EditProfileModal({names,phone,email,nid,  onClose }) {
     setloading(true)
     setsuccess(null)
     const data= new FormData();
-   Object.entries(formdata).forEach(([key, value]) => {
+     Object.entries(formdata).forEach(([key, value]) => {
   data.append(key, value);
 });
    
@@ -127,7 +127,7 @@ if(profile_photo){
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={HandlePhotoCahnge}
+                  onChange={HandlePhotoChange}
                   className="hidden"
                 />
               </label>

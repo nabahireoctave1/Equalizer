@@ -898,11 +898,7 @@
  "placeholderAmount": "150000",
  "placeholderAmountWords": "Cent cinquante mille shillings ougandais seulement",
 
- "duration": "Durée",
- "duration0": "Mois / Quotidien",
- "duration1": "Mensuel",
- "duration2": "Saison / Trois mois",
- "duration3": "Année / Par mois",
+
 
  "interest": "Intérêt",
  "placeholderInterest": "20%",
