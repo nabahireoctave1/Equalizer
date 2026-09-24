@@ -837,12 +837,13 @@
 
  "preparingPdf": "Préparation du téléchargement PDF... Veuillez sélectionner  Enregistrer au format PDF dans la boîte de dialogue d'impression.",
  "loggedOut": "Déconnexion réussie.",
- "dashboard": "Tableau de bord du caissier",
- "welcomeTitle": "Bienvenue sur le tableau de bord de gestion des clients",
- "welcomeDescription": "Utilisez ce panneau pour enregistrer de nouveaux clients, traiter les paiements et modifier facilement les informations des profils clients.",
+"panel": "Panneau de gestion des prêts",
+"loanpanelDesc": "Utilisez ce panneau pour gérer les prêts, consulter les détails des prêts et vérifier les soldes des prêts impayés.",
 
- "activeClients": "Clients actifs",
- "newClient": "Nouveau client",
+ "CurrentLoans": "Prêts actifs en cours",
+"newLoan": "Ajouter un nouveau prêt",
+ "captureBorrowerLocation": "Enregistrer la localisation de l’emprunteur",
+  
 
  "number": "N°",
  "amountGiven": "Montant accordé",
@@ -913,12 +914,11 @@
  "guarantorName": "Nom du garant",
 
  "terms": "Conditions générales",
-
- "term1": "Le remboursement du prêt doit être effectué quotidiennement pendant une période de 30 jours.",
- "term2": "Des frais de service de bureau s'appliquent à chaque prêt.",
- "term3": "Le non-paiement pendant deux jours consécutifs déclenche les procédures de défaut.",
- "term4": "Le garant devient responsable en cas de défaut de paiement de l'emprunteur.",
- "term5": "Pénalité de retard : 5 000 UGX par jour.",
+   "term1": "Les remboursements du prêt doivent être effectués selon la fréquence de paiement de l’entreprise.",
+    "term2": "Des frais de bureau peuvent être appliqués au prêt selon les exigences de l’entreprise.",
+    "term3": "Le non-paiement pendant deux jours consécutifs entraînera l’activation de la procédure de défaut de paiement.",
+    "term4": "Le garant devient responsable si l’emprunteur est en défaut de paiement.",
+    "term5": "Les pénalités de retard dépendent du taux d’intérêt sur les bénéfices de l’entreprise.",
 
  "agreeTerms": "J'ai attentivement lu et compris les conditions générales.",
 

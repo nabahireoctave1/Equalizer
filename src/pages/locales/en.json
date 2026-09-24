@@ -855,12 +855,11 @@
 
   "preparingPdf": "Preparing PDF download... Please select 'Save as PDF' in the print dialog.",
   "loggedOut": "Logged out successfully.",
-   "dashboard": "Cashier Dashboard",
-    "welcomeTitle": "Welcome to the Client Management Dashboard",
-    "welcomeDescription": "Use this panel to register new customers, process payments, and modify customer profile details seamlessly.",
-
-    "activeClients": "Active Clients",
-    "newClient": "New Client",
+      "panel": "Loan Management Panel",
+    "loanpanelDesc": "Use this panel to manage loans, view loan details, and check outstanding loan balances.",
+    "CurrentLoans": "Current active Loans",
+    "newLoan": "addNew Loan",
+      "captureBorrowerLocation": "Capture Borrower Location",
 
     "number": "No",
     "amountGiven": "Amount Given",
@@ -931,13 +930,13 @@
   "guarantorDetails": "Guarantor Details",
   "guarantorName": "Guarantor's Name",
 
-  "terms": "Terms and Conditions",
+    "terms": "Terms and Conditions",
+     "term1": "Loan payments shall be made according to the company’s payment frequency.",
+    "term2": "Office charges may be applied to the loan according to the company’s requirements.",
+    "term3": "Failure to make payment for two consecutive days will activate the default procedures.",
+    "term4": "The guarantor becomes liable if the borrower defaults.",
+    "term5": "Late payment penalties depend on the company’s profit interest rate.",
 
-  "term1": "Loan payment shall be made daily for a period of 30 days.",
-  "term2": "Office service charges apply to every loan.",
-  "term3": "Failure to pay for two consecutive days activates default procedures.",
-  "term4": "The guarantor becomes liable if the borrower defaults.",
-  "term5": "Late payment penalty: UGX 5,000 per day.",
 
   "agreeTerms": "I have carefully read and understood the terms and conditions.",
 

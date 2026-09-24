@@ -834,12 +834,16 @@
 
   "preparingPdf": "PDF etegekebwa. Londa 'Save as PDF'.",
   "loggedOut": "Ofulumye bulungi.",
-    "welcomeTitle": "Tukwanirizza ku Daasiboodi y'Abakasitoma",
-    "welcomeDescription": "Kozesa ekiwandiiko kino okuwandiisa bakasitoma abapya, okusasula amabanja n'okukyusa ebikwata ku bakasitoma.",
 
-    "activeClients": "Bakasitoma Abakola",
+
+    
+   "panel": "Paani y’Okuddukanya Loani",
+    "loanpanelDesc": "Kozesa paani eno okuddukanya loani, okulaba ebikwata ku loani, n’okukebera ssente za loani ezikyasigadde okusasulwa.",
+   "CurrentLoans": "Looni Eziri Mu Kaseera",
+    "newLoan": "Oteekemu Looni Empya",
+  "captureBorrowerLocation": "Kwata Ekifo ky’Omukwata Loani",
+
     "totalRecords": "Omuwendo Gwonna",
-    "newClient": "Kasitoma Omupya",
 
     "amountGiven": "Ssente Ezaweereddwa",
     "phone": "Essimu",
@@ -923,12 +927,11 @@
   "guarantorName": "Erinnya ly'Omweyimirizi",
 
   "terms": "Amateeka n'Obukwakkulizo",
-
-  "term1": "Okusasula kuba kwa buli lunaku okumala ennaku 30.",
-  "term2": "Ssente z'ofiisi zisasulwa ku buli loan.",
-  "term3": "Bw'olemererwa okusasula ennaku bbiri, amateeka gatandika okukola.",
-  "term4": "Omweyimirizi avunaanyizibwa singa omusaba alemererwa.",
-  "term5": "Ekibonerezo kya UGX 5,000 buli lunaku.",
+    "term1": "Okusasula looni kukolebwa okusinziira ku ngeri kampuni gy’etegekamu okusasula.",
+    "term2": "Ensasula z’ofiisi ziyinza okwongerwa ku looni okusinziira ku byetaago bya kampuni.",
+    "term3": "Obutasaasula okumala ennaku bbiri ez’omuddiring’anwa kijja kutandikawo enkola y’obutasaasula.",
+    "term4": "Omukakasa aba avunaanyizibwa singa omukwata looni alemererwa okusasula.",
+    "term5": "Ekibonerezo olw’okulwisa okusasula kisinziira ku magoba ga kampuni.",
 
   "agreeTerms": "Nsomye era ntegedde amateeka gano.",
 

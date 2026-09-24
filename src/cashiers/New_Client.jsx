@@ -1,4 +1,4 @@
-import { Plus,  XIcon,Image,Smartphone, Trash, ImagePlus, CircleX, Banknote } from 'lucide-react';
+import { Plus,  XIcon,Image,Smartphone, Trash, ImagePlus, CircleX, Banknote, WalletCards, User, ShieldCheck, History, DatabaseIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import  QRCode  from 'react-qr-code';
@@ -92,6 +92,7 @@ const New_client = ({onClose}) => {
    TotalLoan:null,
    TotalUnpaidLoanAmount:null ,
    CrossPaymentRate:null,
+   TotalOffice:null
 
   })
 
@@ -329,7 +330,8 @@ const HandleSubmitForm= async()=>{
       TotalExpectedTopay:res.data.clientRecord.TotalExpectedTopay,
       TotalUnpaidLoanAmount:res.data.clientRecord.TotalUnpaidLoanAmount,
       CrossPaymentRate:res.data.clientRecord.paymentRate,
-      TotalLoan:res.data.clientRecord.TotalLoan
+      TotalLoan:res.data.clientRecord.TotalLoan,
+      TotalOffice:res.data.clientRecord.TotalOffice
       })
       setClientLoan(res.data.clientRecord.loanInfo);
     }
@@ -375,153 +377,152 @@ const closeopenRecordModel= ()=>{
         
      {OpenHasRecord && (
   <div
-    onClick={closeopenRecordModel}
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 md:p-8"
+    className="fixed inset-0 z-50 flex   justify-center overflow-auto bg-black/70 p-4 md:p-4 "
   >
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className="flex h-full w-full max-w-6xl flex-col 
-      overflow-y-auto rounded-none bg-white shadow-sm"
-    >
-      <div className="border-b border-gray-100 px-6 py-3 sticky top-0 z-20 bg-gray-50">
-        <h2 className="text-2xl font-extrabold uppercase text-gray-800">
-          Review Client Profile
-        </h2>
-        <p className="mt-1 text-[15px] text-gray-800 italic">
-          Previous client loan  information
-        </p>
-      </div>
 
-      <div className="flex items-center justify-between border-b border-gray-100 mb-5 px-6 py-7">
-        <h2 className="font-semibold text-[15px] text-gray-800">
-          {clientLoanSummary.clientName}
-        </h2>
+    <div onClick={(e)=>{e.stopPropagation()}} className='bg-white h-[60vh] animate-bounce-once w-full max-w-7xl rounded-sm shadow'> 
+      <div className='flex justify-between bg-blue-500 rounded-t-sm p-2 mb-6'>
+        <div className='flex gap-2 items-center'>
+          <span className='bg-blue-400 animate-pulse p-3 rounded-full text-white'>
+            <User size={25}/>
 
-        <p className="text-[12px] font-semibold uppercase text-gray-700 ">
-          Total Loans:{" "}
-          <span className="font-bold text-gray-900">
-            {clientLoanSummary.TotalLoan}
           </span>
-        </p>
-      </div>
+              <span>
+                <h2 className='font-semibold text-2xl text-white capitalize'>
+              {clientLoanSummary.clientName}
+              </h2>
+                           </span>           
+        </div>
+        <div className='flex text-white  rounded-full px-4 gap-1 text-[14px] 
+        border border-gray-100 items-center justify-center'>
+           <ShieldCheck/>
+            <h2>Borrower Profile</h2>
+        </div>
 
-    
-      <div className="mx-3 rounded-sm border border-gray-100 bg-gray-50 p-8">
-        <div className='flex  justify-between items-center'>
-           <h3 className="text-gray-800  font-extrabold text-[15px] uppercase">
-          Client Loan Overview
-        </h3>
+      </div>
+      <div className='p-3'>
+        <div className='flex items-center  gap-2 mt-2 mb-5'>
+      <span className='bg-blue-500 p-2 rounded-full text-white'><History size={30}/></span>
         <span>
-          <h2 className='uppercase font-semibold text-[14px] text-gray-800'>Payment Decision</h2>
-          <span className={clientLoanSummary.TotalExpectedTopay>0 && clientLoanSummary.TotalUnpaidLoanAmount>0 && 
-            clientLoanSummary.TotalAmountPaid===0 ? 'bg-red-500 px-5 rounded-full  text-[13px] uppercase text-white py-1 w-full':''}>
-             {clientLoanSummary.TotalExpectedTopay>0 && clientLoanSummary.TotalUnpaidLoanAmount>0 && 
-            clientLoanSummary.TotalAmountPaid===0 ? 'Poor payment':''}
-            </span>
+        <h2 className='text-[17px] font-semibold uppercase'>Previous loans / repayment statistics</h2>
+         <h2 className='text-[15px] text-gray-800'>Here you can check how borrower has been repaying there previous loans</h2>
         </span>
         </div>
-     
-
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          <div className='p-4'>
-            <h2 className="text-[12px] font-semibold uppercase text-gray-700">
-              Total Expected To Pay
-            </h2>
-            <p className="mt-2 text-[18px]  font-semibold text-blue-600 uppercase">
-              UG {clientLoanSummary.TotalExpectedTopay}
-            </p>
-          </div>
-
-          <div className=" p-4">
-            <h2 className="text-[12px] font-semibold uppercase text-gray-700">
-              Total Unpaid
-            </h2>
-            <p className="mt-2 text-[18px] font-semibold text-red-600 uppercase">
-            UG   {clientLoanSummary.TotalUnpaidLoanAmount}
-            </p>
-          </div>
-
-          <div className="p-4 ">
-            <h2 className="text-[12px] font-semibold uppercase text-gray-700">
-              Total Paid
-            </h2>
-            <p className="mt-2 text-[18px] font-semibold text-green-600">
-             UG {clientLoanSummary.TotalAmountPaid}
-            </p>
-          </div>
           
-        </div>
-        <div>
-          <div className='flex justify-between items-center '>
-          <h2 className='text-[15px] p-1 italic'>Repayment Progress </h2>
-          <p className='text-[16px] italic'>{clientLoanSummary.CrossPaymentRate}%</p>
-          </div>
-        <div className='bg-gray-200 h-2 rounded-sm'>
-          <div style={{width:clientLoanSummary.CrossPaymentRate ?
-             clientLoanSummary.CrossPaymentRate:0}}
-              className={`${clientLoanSummary.CrossPaymentRate>=60 
-                &&clientLoanSummary.CrossPaymentRate<=70?
-               'bg-yellow-400':
-               clientLoanSummary.CrossPaymentRate<50 ?
-                 'bg-red-500' :'bg-green-400'  } 
-                h-2 rounded-sm`}></div>
-        </div>
-        </div>
-       
-      </div>
-      <div className='px-5 mt-4 border m-3 border-gray-200 rounded-md py-3'>
-        <div className='flex gap-2 items-center'>
-         <span className='bg-blue-500 p-1 rounded-full text-white'>
-          <Banknote/>
-           </span>
-         <h2 className='text-gray-800  font-extrabold text-[15px] uppercase'>Loan details</h2>
-      </div>
-      {ClientLoan.length>0 ?
-        ClientLoan.map((loan,idx)=>{
-        return <div className={`grid grid-cols-1 `}>
-          <div  className='border mt-2  border-gray-300 rounded-md '>
+          <div className='overflow-auto h-full'>
+          {ClientLoan.map((loan,_idx)=>{
+            let loanprogress=Math.min((loan.TotalPaid/loan.TotalExpected)*100,100)
+            return <div key={_idx} className='flex items-center justify-center'>
+    
+              <table>
+                <thead>
+                  <tr>
+                    <th className='text-[13px] border-r border-gray-300 border-l border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>No</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>Loan ID</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>client name</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>office name</th>
 
-         <div className='bg-gray-50 p-2 border-b border-gray-200'>
-          <h2 className='text-[18px] font-semibold '>{loan.LoanId}</h2>
-         </div>
-         <div className='px-4'>
-         <div className='flex  justify-between'>
-          <div>
-            <p className='text-[15px] capitalize'>Loan</p>
-            <p className='text-[15px] capitalize'>paid</p>
-            <p className='text-[15px] capitalize'>unpaid</p>
-            <p className='text-[15px] capitalize '>unpaid days</p>
-            <p className='text-[15px] capitalize'>overdue count</p>
-            <p className='text-[15px] capitalize'>Partial payment count</p>
-            
-          </div>
-          <div>
-            <p className='text-[15px] '>{loan.LoanAmount}</p>
-            <p className='text-[15px] '>{loan.TotalPaid}</p>
-            <p className='text-[15px] '>{loan.TotalUnpaid}</p>
-            <p className='text-[15px] '>{loan.unpaidDays}</p>
-            <p className='text-[15px] '>{loan.TotalOverdueCount}</p>
-            <p className='text-[15px] '>{loan.PartialPaymentCount}</p>
-          </div>
-         </div>
-         </div>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>Loan</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>total repay</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>paid</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>Unpaid</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>unpaid days</th>
+                    <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>partial payment count</th>
+                     <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>repayment progress</th>
+                     <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>payment desicion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px]'>{_idx+1}</td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>{loan.LoanId}</td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap capitalize'>{loan.clientname}</td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap capitalize'>{loan.branch_name}</td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>{Number(loan.LoanAmount).toFixed(2)}</td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap '>{Number(loan.TotalExpected).toFixed(2)}</td>
+
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>{Number(loan.TotalPaid).toFixed(2)}</td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>{Number(loan.TotalUnpaid).toFixed(2)}</td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>
+                      <span className='flex gap-1 items-center'>
+                      {loan.unpaidDays} <p className=' text-red-500 font-semibold text-[14px]' >Days</p>
+                     
+                      </span>
+                       
+                    </td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>
+                      <span className='flex  gap-1 items-center'>
+                         {loan.PartialPaymentCount}
+                      <p className=' text-yellow-500 font-semibold text-[14px]'>Times</p>
+                      </span>
+                    
+                    </td>
+                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>
+                      <span>
+                        {loanprogress}%
+                      </span>
+                    </td>
+                    <td className='px-6 border border-gray-200 py-1.5 text-[15px]'>
+                      <span className={`${loanprogress<=45&&loan.unpaidDays>=1 ? 'bg-red-500 text-white'
+                      :loanprogress>45&&loanprogress<=70 ? 'bg-yellow-400 text-white' 
+                      :loanprogress>=70 ? 'bg-green-600 text-white':
+                      'bg-blue-500 text-white'} rounded-sm 
+                       text-[14px] py-1.5 px-8 capitalize`}>
+                       {loanprogress<=45&&loan.unpaidDays>=1  ? 
+                       'bad':loanprogress>45&&loanprogress<=70 ?
+                         'need attention':loanprogress>=70 ? 'good': loanprogress===0 
+                         &&loan.PartialPaymentCount==0 &&loan.unpaidDays===0? 'Pending':''}
+                      </span>
+                        
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tfoot>
+                 <tr>
+                   <td colSpan={5} className='px-2 font-semibold uppercase py-2
+                    text-gray-800 border border-gray-200'>
+                      Total
+                   </td>
+                  <td className='border border-gray-200 px-2 text-[18px] font-semibold'>
+
+                    {Number(clientLoanSummary.TotalExpectedTopay).toFixed(2)}
+                  </td>
+                  <td className='border border-gray-200 px-2 text-[18px] font-semibold'>
+                    
+                    {Number(clientLoanSummary.TotalAmountPaid).toFixed(2)}
+                  </td>
+                  <td className='border border-gray-200 px-2 text-[18px] font-semibold'>
+                    {Number(clientLoanSummary.TotalUnpaidLoanAmount).toFixed(2)}</td>
+                  <td  colSpan={4} className='border border-gray-200'>  </td>
+
+                 </tr>
+                </tfoot>
+
+              </table>
+            </div>
+})}
+
 
           </div>
-      </div>
-        }):''
      
-      
-    }
-      
-         
+   
+            
+        
       </div>
+  <div className='flex  justify-end p-6 px-8 gap-6'>
+      <button onClick={closeopenRecordModel} className='py-1.5 px-4 rounded-xs text-[14px] text-gray-600 outline-none bg-gray-200 cursor-pointer hover:bg-gray-300  '>Cancel</button>
+      <button className='py-1.5 px-4 rounded-xs text-[14px] text-white outline-none bg-red-400 cursor-pointer hover:bg-red-600  '>Report</button>
+      <button className='py-1.5 px-4 rounded-xs text-[14px] text-white outline-none bg-blue-500 cursor-pointer hover:bg-blue-600  '>Confirm</button>
+     </div>
     </div>
+   
   </div>
 )}
 
      {
       MessageKey.fethErrorMessagekey &&
-       <div className='fixed inset-0 z-50 flex  items-center  justify-center bg-black/50'>
+       <div className='fixed inset-0 z-50 flex    justify-center bg-black/50'>
         <div className=' bg-red-100 h-fit m-2 py-3 px-8 rounded-sm 
          flex items-center flex-col animate-bounce-once'>
         <span className='flex  items-center flex-col'>
@@ -708,13 +709,16 @@ const closeopenRecordModel= ()=>{
                   <div>
                     <label className={labelStyle}>{t("securityName")}:</label>
                     <input type="text" name='security_name' onChange={HandleChanges}
+                    value={formData.security_name??''}
                      className={inputStyle('security_name')} placeholder={t("placeholderSecurity")}/>
                     <span className='text-[14px] text-red-500'>{t(errors.security_name)}</span>
 
                   </div>
                   <div>
                     <label className={labelStyle}>{t("securityNumber")}:</label>
-                    <input type="number" name='secNumber' onChange={HandleChanges} 
+                    <input type="number" name='secNumber'
+                     value={formData.secNumber?? ''}
+                  onChange={HandleChanges} 
                     className={inputStyle('secNumber')} placeholder='1'/>
                     <span className='text-[14px] text-red-500'>{t(errors.secNumber)}</span>
 
@@ -753,14 +757,15 @@ const closeopenRecordModel= ()=>{
                   <div>
                     <label className={labelStyle}>{t("guarantorName")}:</label>
                     <input type="text"  name='guarantor_name' onChange={HandleChanges} 
+                    value={formData.guarantor_name??''}
                     className={inputStyle('guarantor_name')} placeholder='Jane Doe'/>
                     <span className='text-[14px] text-red-500'>{t(errors.guarantor_name)}</span>
 
                   </div>
                   <div>
                     <label className={labelStyle}>Contact:</label>
-                    <input type="text"
-                     name='guarantor_contact' 
+                    <input type="text"  name='guarantor_contact' 
+                     value={formData.guarantor_contact?? ''}
                     onChange={HandleChanges} className={inputStyle('guarantor_contact')} 
                     placeholder='07865432546'/>
                     <span className='text-[14px] text-red-500'>{t(errors.guarantor_contact)}</span>
@@ -773,6 +778,7 @@ const closeopenRecordModel= ()=>{
                     <label className={labelStyle}>Guarantor Location</label>
                     <input type="text"
                      name='guarantor_address' 
+                     value={formData.guarantor_address}
                     onChange={HandleChanges} className={inputStyle('guarantor_address')} 
                     placeholder='Hoima'/>
                     <span className='text-[14px] text-red-500'>{t(errors.guarantor_address)}</span>
@@ -793,7 +799,7 @@ const closeopenRecordModel= ()=>{
                 <p><strong>4. </strong>{t("term4")} </p>
                 <p><strong>5. </strong>{t("term5")} </p>
               </div>
-              <div className="pt-4 mt-4">
+              <div className="pt-4 mt-4 space-y-2">
                 <label className="flex items-start space-x-3 cursor-pointer">
                   <input type="checkbox"
                    checked={acceptterms}
@@ -803,9 +809,18 @@ const closeopenRecordModel= ()=>{
                    {t("agreeTerms")}
                   </span>
                 </label>
-                {acceptTermsMessage && 
+                 {acceptTermsMessage && 
                  <div className='px-6 text-[15px] text-red-500'>{acceptTermsMessage}</div>
                 }
+
+                <label className='flex items-start space-x-3 cursor-pointer'>
+                  <input   type='checkbox' className='mt-1 h-4 w-4 rounded text-blue-600 border-gray-300'></input>
+                  <span className='text-sm text-gray-600 font-medium'>
+                  {t('captureBorrowerLocation')}
+                  </span>
+                </label>
+
+               
                
               </div>
             </div>

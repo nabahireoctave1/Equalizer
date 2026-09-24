@@ -2,12 +2,13 @@
 import { useState } from 'react';
 import Dashboard from './Overview/Dashboard';
 import Report from './Report';
-import Client from './Clients';
+import Loans from './Loans';
 import Paid from './Paid_details';
 import Unpaid from './Unpaid';
 import Field from './Field_Payment'
 import Profile from './Profile';
 import Notification from './Notification';
+import Borrowers from './Borrowers';
 
 import { useTranslation } from 'react-i18next';
 import i18n from '../pages/i18n';
@@ -17,7 +18,6 @@ import logo from '../assets/image.jpeg'
 
 import { 
   LayoutDashboard, 
-  Users, 
   FileX, 
    CreditCard, 
   HandCoins, 
@@ -29,7 +29,8 @@ import {
   X, 
   User2Icon,
   Languages,
-  UserX2
+  UserX2,
+  Banknote
 } from 'lucide-react';
 
 const Client_Management = () => {
@@ -71,23 +72,25 @@ const {t} = useTranslation();
 
   const renderPageContent = () => {
     switch(activePage) {
-      case t('Dashboard'):
+      case 'Dashboard':
         return <Dashboard />;
-      case t('Client'):
-        return <Client />;
+      case 'Loans':
+        return <Loans />;
       case t('Unpaid'):
         return <Unpaid />;
      
-      case t('Paid Details'):
+      case 'Paid Details':
         return <Paid />;
-      case t('Field Payment'):
+      case 'Field Payment':
         return <Field />;
-      case t('Profile'):
+      case 'Profile':
         return <Profile />;
-      case t('Notification'):
+      case 'Notification':
         return <Notification />;
-      case t('Report'):
+      case 'Report':
         return <Report />;
+        case 'Borrowers':
+          return <Borrowers/>
       default:
         return <Dashboard />;
     }
@@ -118,7 +121,9 @@ const {t} = useTranslation();
         <div className="flex-1 overflow-y-auto 
         px-4 py-6 space-y-1 capitalize">
           <NavLink icon={LayoutDashboard} label={t("Dashboard")} />
-          <NavLink icon={Users} label={t("Client")} />
+          <NavLink icon={ HandCoins}  label={'Borrowers'}/>
+
+          <NavLink icon={Banknote} label={t("Loans")} />
           <NavLink icon={UserX2} label={t("Unpaid")} />
           <NavLink icon={CreditCard} label={t("Paid Details")} />
           <NavLink icon={HandCoins} label={t("Field Payment")} />
