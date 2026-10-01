@@ -1,52 +1,49 @@
-import { act, useState } from 'react';
+import { act, useEffect, useState } from 'react';
 import Paying from '../client/Paying';
 import Credit_Record from '../client/Client_record';
-import New_client from './New_Client';
+import LoanApplicationPortal from './LoanApplicationPortal';
 import { XIcon,Smartphone,Image, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
+import api from '../api';
+import SkeletonCellLoader from '../pages/SkeletonCellLoader';
+import NetworkError from '../pages/NetworkError'
 
 
 const Loans = () => {
   const {t} = useTranslation();
-  const allClients = Array.from({ length: 25 }, (_, i) => ({
-    id: i + 1,
-    name: i % 3 === 0 ? "Webale Precious" : i % 3 === 1 ? "John Doe" : "Sarah Smith",
-    dayPayment: "10,000",
-    amountGiven: "250,000",
-    balance: "200,000",
-    closingDate: "06-23-2026",
-    phone: "0783124352",
-    location: i % 3 === 0 ? "Kampala" : i % 3 === 1 ? 'Gasani' : 'Kigali',
-  }));
+  
+  const[LoanInfo,setLoaninfo]=useState([]);
+  const [Loading,setLoading]=useState(null);
+  const [errorsize,setErrorsize]=useState(null);
+  const [messagekey,setmessageKey]=useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
+  const LoanPerPage = 6;
   const [selectedClient, setSelectedClient] = useState(null);
   const [activeModal, setActiveModal] = useState(null); 
 const [preview,setpreview]=useState(null);
 const [uploadwithPhone,setuploadwithphone]=useState(false)
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentClients = allClients.slice(indexOfFirstItem, indexOfLastItem);
+
   
-  const totalPages = Math.ceil(allClients.length / itemsPerPage);
+ const startIndex= (currentPage-1)*LoanPerPage;
+ const lastIndex=startIndex+LoanPerPage;
 
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-    }
-  };
+ const totalPages=Math.ceil(LoanInfo.length/LoanPerPage);
 
-  const handlePrev = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    }
-  };
+ const paginatedLoan=LoanInfo.slice(startIndex,lastIndex);
 
-  const openModal = (client, type) => {
-    setSelectedClient(client);
+
+ const HandleNext= ()=>{
+    if(currentPage<totalPages) setCurrentPage(currentPage+1);
+       }
+
+       const HandlePrevious= ()=>{
+         if(currentPage>1) setCurrentPage(currentPage-1)
+       }
+
+  const openModal = (loan, type) => {
+    setSelectedClient(loan);
     setActiveModal(type);
   };
 
@@ -56,6 +53,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
   };
 
   const [openClientmodel, setopenclientmodel] = useState(false);
+  const [networkError,setNetworkError]=useState(null);
 
   
   const openmodel = () => {
@@ -66,6 +64,43 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
     setopenclientmodel(false);
   };
 
+  
+  const FindCUrrentBranchLoan=async()=>{
+    setLoading(true);
+    setNetworkError(null);
+     try{
+     const res= await api.get('/branch-current-loans');
+     setLoaninfo(res?.data);
+
+     }
+     catch(err){
+      if(!err.response){
+        setNetworkError(true);
+      }
+     
+     }finally{
+      setLoading(false);
+     }
+  }
+
+
+  useEffect(()=>{
+   FindCUrrentBranchLoan();
+  },[])
+
+
+  const Retry=()=>{
+    FindCUrrentBranchLoan();
+  }
+
+    const Formatdate= (date)=>{
+        if(!date) return null;
+
+        return date.split('T')[0].split('-').reverse().join('-')
+
+    }
+
+  
 
   const AddPictureModel= ()=>{
     return (
@@ -174,11 +209,14 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
   }
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 font-sans antialiased text-slate-800 ">
-
-      
-      
-     <div className="mb-4 sticky top-0 z-50 bg-white px-6 py-4 rounded-md  border border-gray-100">
+    <div className="min-h-screen w-full bg-gray-50 font-sans antialiased text-slate-800 "> 
+                      {networkError && <div className='fixed inset-0 z-100 flex justify-center
+                       items-center bg-black/30'>
+           <NetworkError HandleRetry={Retry}/>
+          </div>}
+          
+    
+     <div className={`${networkError ? 'mb-2':'mb-4'} sticky top-0 z-50 bg-white px-6 py-4 rounded-md  border border-gray-100`}>
           <h2 className="text-2xl font-bold uppercase text-blue-600 mb-2 sm:text-3xl">
             {t("panel")}
           </h2>
@@ -187,7 +225,9 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
              {t("loanpanelDesc")}
             </p>
           </div>
+       
         </div>
+         
 
       <div className="max-w-7xl p-2">
            
@@ -197,17 +237,22 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
           <div className="px-3 py-4 border-b border-slate-100 flex flex-col   sm:flex-row space-y-3 justify-between">
             <h3 className="font-extrabold uppercase text-slate-700 text-2xl">{t("CurrentLoans")}</h3>
             <div className="flex items-center gap-4">
+              {Loading||networkError ? <div className='w-35'><SkeletonCellLoader/></div> :
               <span className="hidden sm:flex  items-center 
                text-[13px] font-semibold uppercase gap-2 bg-gray-100
                text-gray-800 px-2.5 py-1 rounded-full">
-                <span>{t("totalRecords")}:</span> <p className='text-[15px] 
-                font-semibold'>{allClients.length}</p> 
+                <span>{t("totalRecords")}:</span>
+                 <p className='text-[15px] 
+                font-semibold'>{LoanInfo.length}</p> 
               </span>
+              }
+
               <button 
                 onClick={openmodel} 
-                className='capitalize bg-blue-500 px-4 py-2 rounded-sm
-                 text-sm font-semibold text-white cursor-pointer
-                  hover:bg-blue-600 transition-colors shadow-sm'
+                disabled={Loading||networkError}
+                className='capitalize bg-blue-500 px-4 py-2 rounded-sm disabled:cursor-not-allowed
+                 text-sm font-semibold text-white cursor-pointer 
+                  hover:bg-blue-600 transition-colors shadow-sm  disabled:opacity-60' 
               >
                {t("newLoan")} 
               </button>
@@ -224,29 +269,81 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                   <th className="p-4 whitespace-nowrap">{t("dayPayments")}</th>
                   <th className="p-4 whitespace-nowrap">{t("amountGiven")}</th>
                   <th className="p-4 whitespace-nowrap">{t("balance")}</th>
+                  <th className="p-4 whitespace-nowrap">{t("Loan-Charge")}</th>
+                  <th className="p-4 whitespace-nowrap">{t("Chargeamount")}</th>
+                  <th className="p-4 whitespace-nowrap">{t("totalrepay")}</th>
                   <th className="p-4 whitespace-nowrap">{t("closingDate")}</th>
-                  <th className="p-2 whitespace-nowrap">{t("phone")}</th>
-                  <th className="p-2 whitespace-nowrap">{t("location")}</th>
+                  <th className="p-2 whitespace-nowrap">{t("paymentFrequency")}</th>
+
+                  <th className="p-2 whitespace-nowrap">{t("Borrowercontacts")}</th>
+                  <th className="p-2 whitespace-nowrap">{t("Borrowerlocation")}</th>
+                  <th className="p-2 whitespace-nowrap">{t("guarantor")}</th>
+                  <th className="p-2 whitespace-nowrap">{t("guarantorPhone")}</th>
+                  <th className="p-2 whitespace-nowrap">{t("guarantorLocation")}</th>
+                  <th className="p-2 whitespace-nowrap">{t("CollateralName")}</th>
+                  <th className="p-2 whitespace-nowrap">{t("Loanstatus")}</th>
                   <th className="p-2 whitespace-nowrap text-center">{t("payLoan")}</th>
                   <th className="p-2 whitespace-nowrap text-center">{t("creditBook")}</th>
                   <th className="p-2 whitespace-nowrap text-center">{t("addPicture")}</th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-slate-100 text-gray-800">
-                {currentClients.map((client) => (
-                  <tr key={client.id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="p-4 font-medium text-gray-800">{client.id}</td>
-                    <td className="p-4 font-semibold text-gray-800 whitespace-nowrap">{client.name}</td>
-                    <td className="p-4 whitespace-nowrap font-semibold">{client.dayPayment}</td>
-                    <td className="p-4 whitespace-nowrap font-semibold">{client.amountGiven}</td>
-                    <td className="p-4 whitespace-nowrap font-medium text-emerald-600">{client.balance}</td>
-                    <td className="p-4 whitespace-nowrap text-gray-800">{client.closingDate}</td>
-                    <td className="p-4 whitespace-nowrap text-gray-800">{client.phone}</td>
-                    <td className="p-4 whitespace-nowrap">{client.location}</td>
-                    <td className="p-4 text-center whitespace-nowrap">
+              <tbody className="divide-y divide-gray-100 text-gray-800">
+                {Loading||networkError ? Array.from({length:5}).map((_,idx)=>(
+                 <tr>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                  <td className='p-3'><SkeletonCellLoader/></td>
+                 </tr>
+                )):paginatedLoan.map((loan,idx) => (
+                  <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="px-3 py-2 font-medium text-gray-800">{startIndex+idx+1}</td>
+                    <td className="px-3 py-2 font-semibold text-gray-800 text-[15px] whitespace-nowrap">{loan.client_name}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-semibold text-[18px] tracking-tighter text-gray-800">{Number(loan.DailyInstallment).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-semibold text-[18px] tracking-tighter text-gray-800">{Number(loan.amount_given).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-medium text-green-700 text-[18px] tracking-tighter">
+                      {Number(loan.Balance).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-800 text-[18px] tracking-tighter">{Number(loan.amountAfterOfficeCharge).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-800 text-[18px] tracking-tighter">{Number(loan.chargeAmount).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-medium text-blue-700 text-[18px] tracking-tighter">{Number(loan.totalpay).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px]">{Formatdate(loan.loan_closingDate)}</td>                 
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px] capitalize">{loan.pay_frequency
+}</td>
+                    
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px]">{loan.client_contact}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-[15px]">{loan.client_address}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px] capitalize">{loan.guarantor_name}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px] capitalize">{loan.guarantor_contacts}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px]">{loan.guarantor_address}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px]">{loan.security_name}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[12px] capitalize">
+                      <span className={`${loan.status.toLowerCase()==='active' ?'bg-green-600 px-5 py-1.5 font-semibold uppercase rounded-sm text-white' 
+                        :'bg-blue-600 px-5 py-1.5 uppercase font-semibold rounded-sm text-white'}`}>
+                        {loan.status}
+
+                      </span>
+                      </td>
+                    
+                    <td className="px-3 py-2 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(client, 'pay')}
+                        onClick={() => openModal(loan, 'pay')}
                         className="px-3 py-1.5 text-[13px]  bg-blue-500
                          text-white rounded-sm border border-blue-200 cursor-pointer"
                       >
@@ -255,7 +352,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                     </td>
                     <td className="p-4 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(client, 'record')}
+                        onClick={() => openModal(loan, 'record')}
                         className="px-3 py-1.5 text-[13px]  bg-green-600
                          text-white rounded-sm
                           border cursor-pointer border-none 
@@ -266,7 +363,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                     </td>
                     <td className="p-4 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(client, 'addPic')}
+                        onClick={() => openModal(loan, 'addPic')}
                         className="px-3 py-1 text-md font-medium bg-blue-500
                          text-white rounded-md border cursor-pointer outline-none"
                       >
@@ -281,46 +378,56 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
 
           <div className="px-6 py-4 border-t border-slate-100 flex flex-col sm:flex-row
            items-center justify-between gap-4">
+           {Loading||networkError ? 
+            <div className='w-45'>
+              <SkeletonCellLoader/>
+              </div>
+           :
             <div className="text-[14px] italic sm:text-[14px]  text-gray-800 order-2
              sm:order-1">
              {t("showing")} <span className="text-[15px] text-gray-800">
-              {indexOfFirstItem + 1}</span> {t("to")}{' '}
+              {startIndex+1}
+            </span> {t("to")}{' '}
               <span className="text-[15px] text-gray-800">
-                {indexOfLastItem > allClients.length ? allClients.length : indexOfLastItem}
+               {Math.min(lastIndex,LoanInfo.length)}
               </span>{' '}
               {t("of")} <span className="font-[15px] text-gray-800">
-                {allClients.length}</span> {t("clients")}
+               {LoanInfo.length}
+              </span> {t("clients")}
             </div>
+           }
 
-            <div className="inline-flex items-center space-x-2 order-1 sm:order-2 w-full sm:w-auto justify-between sm:justify-end">
+              {
+                Loading||networkError ? <div className='w-45'>
+                  <SkeletonCellLoader/>
+                </div>
+                 :
+                  <div className="inline-flex items-center space-x-2 order-1 sm:order-2 w-full sm:w-auto justify-between sm:justify-end">
               <button
-                onClick={handlePrev}
-                disabled={currentPage === 1}
-                className={`flex-1 sm:flex-initial px-4 py-1.5 text-xs sm:text-sm 
-                  font-medium rounded-sm border transition-all duration-200 ${
-                  currentPage === 1
-                    ? 'bg-slate-50 text-slate-300 border-slate-200 cursor-not-allowed'
-                    : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 cursor-pointer active:scale-95'
-                }`}
+              disabled={currentPage===1}
+                onClick={HandlePrevious}
+                className={`flex-1 sm:flex-initial px-2 py-1 text-xs sm:text-sm 
+                 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50
+                   rounded-sm border border-gray-200 transition-all duration-200 `}
               >
                 <ChevronLeft/>
               </button>
               <div className="text-xs font-medium italic text-gray-700 px-3">
-               {t("page")}  {currentPage} of {totalPages}
+
               </div>
               <button
-                onClick={handleNext}
+                onClick={HandleNext}
                 disabled={currentPage === totalPages}
-                className={`flex-1 sm:flex-initial px-4 py-1.5 text-xs sm:text-sm 
-                  font-medium rounded-sm border transition-all duration-200 ${
-                  currentPage === totalPages
-                    ? 'bg-slate-50 text-gray-300 border-gray-200 cursor-not-allowed'
-                    : 'bg-white text-gray-800 border-gray-200 hover:bg-slate-50 cursor-pointer active:scale-95'
-                }`}
+                className={`flex-1 sm:flex-initial px-2 p-1 text-xs sm:text-sm 
+                  disabled:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50
+                  rounded-sm border border-gray-200 transition-all duration-200 `}
               >
                 <ChevronRight/>
+                {console.log(currentPage)}
               </button>
             </div>
+              }
+           
           </div>
         </div>
       </div>
@@ -367,7 +474,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
         <div className="fixed inset-0 z-110 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={closeclientmodel} />
           <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in duration-200">
-            <New_client onClose={closeclientmodel} />
+            <LoanApplicationPortal onClose={closeclientmodel} />
           </div>
         </div>
       )}

@@ -133,7 +133,7 @@
     },
     "status": {
       "paid": "Paid",
-      "unpaid": "Unpaid"
+      "active": "Active"
     }
   },
 
@@ -859,9 +859,9 @@
     "loanpanelDesc": "Use this panel to manage loans, view loan details, and check outstanding loan balances.",
     "CurrentLoans": "Current active Loans",
     "newLoan": "addNew Loan",
-      "captureBorrowerLocation": "Capture Borrower Location",
+    "captureBorrowerLocation": "Capture Borrower Location",
 
-    "number": "No",
+      "number": "No",
     "amountGiven": "Amount Given",
     "closingDate": "Closing Date",
     "phone": "Phone",
@@ -906,9 +906,8 @@
   "businessDetails": "Type of Business Details",
   "businessType": "Business Type",
   "businessLocation": "Business Location",
-  "placeholderBusinessType": "Business Man",
-  "placeholderBusinessLocation": "Kampala",
-
+  "businessName":"Business Name",
+   
   "loanDetails": "Particular of the Loan",
   "amountApplied": "Amount Applied (Digits)",
   "amountWords": "UGX in Words",
@@ -923,7 +922,7 @@
 
   "securityDetails": "Security Details",
   "securityName": "Security Name",
-  "securityNumber": "Number of Security",
+
 
   "placeholderSecurity": "Television",
 
@@ -1106,7 +1105,6 @@
     "existingLoans": "Existing Loans",
     "loanAccount": "Loan Account",
     "loanAccounts": "Loan Accounts",
-    "location": "Location",
     "status": "Status",
     "operation": "Operation",
     "records": "Records",
@@ -1154,7 +1152,7 @@
     "assistanceDescription": "Can't find what you need? Reach out directly via localized corporate lines.",
     "itDeskHelplines": "IT Desk Helplines",
     "mondayToFriday": "Mon - Fri • 8:00 AM - 5:00 PM",
-    "systemEmailLogs": "System Email Logs",
+      "systemEmailLogs": "System Email Logs",
     "twentyFourHourResponse": "24-hour response turnaround time",
     "hqHubLocation": "HQ Hub Location",
     "mainAdministrationOffice": "Main Administration Office",

@@ -233,17 +233,17 @@ const CompaniesLoanTable = ({ branch}) => {
               <tr key={index} className="cursor-pointer transition-colors border-b border-gray-100 last:border-0 hover:bg-gray-50/50">
                 <td className="p-4">{loan.clientId}</td>
                 <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">{loan.client_names}</td>
-                <td className="p-4 font-bold text-[14px] tracking-wide">{loan.amount_given} </td>
+                <td className="p-4 font-bold text-[18px] tracking-wide">{Number(loan.amount_given).toFixed(2)} </td>
                 <td className="p-4">
                   <span className={`px-2 py-1 rounded-xs text-[11px] font-bold uppercase ${
-                    loan.status === 'paid' ? 'bg-blue-500 text-white' : 'bg-red-600 text-white'
+                    loan.status === 'paid' ? 'bg-blue-500 text-white' : 'bg-green-600 text-white'
                   }`}>
-
                 {t(`loan.status.${loan.status.toLowerCase()}`)}
                   </span>
+                  
                 </td>
-                <td className="p-4 font-bold tracking-wide text-[14px]">{loan.totalpay}</td>
-                <td className="p-4 text-xs font-bold">{loan.fees+' %'}</td>
+                <td className="p-4 font-bold tracking-wide text-[18px]">{loan.totalpay}</td>
+                <td className="p-4 text-[15px]">{loan.fees+'%'}</td>
                 <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">{loan.guarantorname}</td>
                 <td className="p-4 font-semibold text-[13px] text-gray-700">{loan.guarantorcontacts}</td>
                 <td className="p-4 font-semibold text-[13px] text-gray-700 capitalize">

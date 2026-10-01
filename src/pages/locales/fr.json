@@ -137,7 +137,7 @@
     },
     "status": {
       "paid": "Payé",
-      "unpaid": "Impayé"
+      "active": "Active"
     }
   },
 
@@ -889,8 +889,6 @@
  "businessDetails": "Détails de l'activité commerciale",
  "businessType": "Type d'activité",
  "businessLocation": "Lieu de l'activité",
- "placeholderBusinessType": "Commerçant",
- "placeholderBusinessLocation": "Kampala",
 
  "loanDetails": "Informations sur le prêt",
  "amountApplied": "Montant demandé (chiffres)",
@@ -906,7 +904,6 @@
 
  "securityDetails": "Détails de la garantie",
  "securityName": "Nom de la garantie",
- "securityNumber": "Numéro de la garantie",
 
  "placeholderSecurity": "Téléviseur",
 

@@ -32,7 +32,7 @@ const FetchBorrowers= async()=>{
    }catch(err){
          if(!err.response){
           setnetworkError(true)
-          seterrors(err.message)
+          
          }
         setmessageKey(err.response?.data?.messagekey);
         seterrorsize(err.response?.data?.size)

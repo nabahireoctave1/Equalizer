@@ -1,8 +1,9 @@
-import { Plus,  XIcon,Image,Smartphone, Trash, ImagePlus, CircleX, Banknote, WalletCards, User, ShieldCheck, History, DatabaseIcon } from 'lucide-react';
+import { Plus,  XIcon,Image,Smartphone, Trash, ImagePlus, CircleX, Banknote, WalletCards, User, ShieldCheck, History, DatabaseIcon, LoaderCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import  QRCode  from 'react-qr-code';
 import api from '../api';
+import ReportBorrower from '../client/ReportBorrower';
 
 
 const convertToWords = (numStr) => {
@@ -48,7 +49,7 @@ const convertToWords = (numStr) => {
 
 
 
-const New_client = ({onClose}) => {
+const LoanApplicationPortal = ({onClose}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 6;
   
@@ -57,6 +58,13 @@ const New_client = ({onClose}) => {
  const [acceptTermsMessage,setacceptTermsmessage]=useState(null)
  const [OpenHasRecord,setHasRecordModel]=useState(null);
  const [clientRecord,setClientrecord]=useState([]);
+ const [reportBorrower,setreportBorrower]=useState(false);
+
+ const [loading,setloading]=useState({
+  submitLoaninfo:false,
+  confirmLoan:false,
+  reportborrower:false
+ });
 
   const [MessageKey,setMessageKey]=useState({
     fethErrorMessagekey:null,
@@ -72,11 +80,11 @@ const New_client = ({onClose}) => {
    IdNumber:null,
    client_B_type:null,
    client_B_location:null,
+   client_B_Name:null,
    amount:null,
    payment_frequency:'Daily',
    intrest:0,
    security_name:null,
-   secNumber:null,
     guarantor_name:null,
    guarantor_contact:null,
    cashier_name:null,
@@ -132,6 +140,9 @@ const New_client = ({onClose}) => {
   if(!formData.client_B_location?.trim()){
     newError.client_B_location='client.bussiness_location_required'
   }
+   if(!formData.client_B_Name?.trim()){
+    newError.client_B_Name='client.bussiness_name_required'
+  }
     }
 
 
@@ -156,9 +167,7 @@ if(!formData.security_name?.trim()){
   newError.security_name='client.collateral_name_required'
 }
 
-if(!formData.secNumber){
- newError.secNumber='client.secNumber_required'
-}
+
 
 if(!formData.guarantor_name?.trim()){
   newError.guarantor_name='client.guarantor_names_required'
@@ -242,6 +251,7 @@ if(!formData.guarantor_address){
     IdNumber:borrower.national_id ?? '',
     client_B_type:borrower.bussiness_type ?? '',
       client_B_location:borrower.bussiness_location ?? '', 
+      client_B_Name:borrower.client_bussinessName,
       payment_frequency:borrower.payment_frequency ?? 'Daily',
     intrest:borrower.interest_percentage ?? 0,
     clientId:borrower.client_id
@@ -298,6 +308,10 @@ const Handleretry= ()=>{
 
 const HandleSubmitForm= async()=>{
     seterrors({})
+    setloading({
+      submitLoaninfo:true
+      })
+
     const data= new FormData();
     
     Object.entries(formData).forEach(([key,value])=>{
@@ -311,11 +325,9 @@ const HandleSubmitForm= async()=>{
     if(SecPicture){
       data.append('secPicture',SecPicture)
     }
-
-    
-
   try{
-   const res=await api.post('/save_client_info',data,{
+
+   const res=await api.post('/Save-Loan-info',data,{
     headers:{
       "Content-Type":"multipart/form-data"
     }
@@ -338,21 +350,61 @@ const HandleSubmitForm= async()=>{
    
 
   }
-  catch(err){
+    catch(err){
     const data= err.response?.data
     if(data?.errors){ 
       seterrors(data?.errors)
       return
     }
+  }finally{
+    setloading({
+      submitLoaninfo:false
+    })
   }
-
 
 
 }
 
+ const HandleLoanOnConfirm= async()=>{
+
+  setloading({confirmLoan:true})
+   try{
+
+    const data=new FormData();
+    Object.entries(formData).forEach(([key,value])=>{
+      if(value!==''||value!==undefined){
+          data.append(key,value);
+
+      }
+    })
+  if(SecPicture){
+      data.append('secPicture',SecPicture)
+    }
+
+
+    const res=await api.post('/loan-confirm',data,{
+      headers:{
+        'Content-Type':'multipart/form-data'
+      }
+    });
+    console.log(res);
+
+   }
+   catch(err){
+
+   }  finally{
+    setloading({confirmLoan:false})
+   }
+
+ }
+
 
 const closeopenRecordModel= ()=>{
   setHasRecordModel(false);
+}
+
+const closereportModel= ()=>{
+  setreportBorrower(false);
 }
 
 
@@ -377,10 +429,16 @@ const closeopenRecordModel= ()=>{
         
      {OpenHasRecord && (
   <div
-    className="fixed inset-0 z-50 flex   justify-center overflow-auto bg-black/70 p-4 md:p-4 "
+    className="fixed inset-0 z-50 flex   justify-center  bg-black/70 p-4 md:p-4 "
   >
 
-    <div onClick={(e)=>{e.stopPropagation()}} className='bg-white h-[60vh] animate-bounce-once w-full max-w-7xl rounded-sm shadow'> 
+    {reportBorrower && <div  className='fixed z-20 flex  justify-center top-5
+     bg-white shadow-sm p-4 rounded-xs' >
+      <ReportBorrower onClose={closereportModel}/>
+      </div>}
+
+
+    <div onClick={(e)=>{e.stopPropagation()}} className='bg-white h-fit pb-4  animate-bounce-once w-full max-w-7xl rounded-sm shadow'> 
       <div className='flex justify-between bg-blue-500 rounded-t-sm p-2 mb-6'>
         <div className='flex gap-2 items-center'>
           <span className='bg-blue-400 animate-pulse p-3 rounded-full text-white'>
@@ -409,10 +467,10 @@ const closeopenRecordModel= ()=>{
         </span>
         </div>
           
-          <div className='overflow-auto h-full'>
+          <div>
           {ClientLoan.map((loan,_idx)=>{
             let loanprogress=Math.min((loan.TotalPaid/loan.TotalExpected)*100,100)
-            return <div key={_idx} className='flex items-center justify-center'>
+            return <div key={_idx} className='flex items-center justify-center mb-5'>
     
               <table>
                 <thead>
@@ -463,11 +521,11 @@ const closeopenRecordModel= ()=>{
                       </span>
                     </td>
                     <td className='px-6 border border-gray-200 py-1.5 text-[15px]'>
-                      <span className={`${loanprogress<=45&&loan.unpaidDays>=1 ? 'bg-red-500 text-white'
-                      :loanprogress>45&&loanprogress<=70 ? 'bg-yellow-400 text-white' 
-                      :loanprogress>=70 ? 'bg-green-600 text-white':
-                      'bg-blue-500 text-white'} rounded-sm 
-                       text-[14px] py-1.5 px-8 capitalize`}>
+                      <span className={`${loanprogress<=45&&loan.unpaidDays>=1 ? 'text-red-500'
+                      :loanprogress>45&&loanprogress<=70 ? 'text-yellow-400' 
+                      :loanprogress>=70 ? 'text-green-600':
+                      'text-blue-500'} rounded-sm 
+                       text-[15px]  capitalize`}>
                        {loanprogress<=45&&loan.unpaidDays>=1  ? 
                        'bad':loanprogress>45&&loanprogress<=70 ?
                          'need attention':loanprogress>=70 ? 'good': loanprogress===0 
@@ -494,7 +552,12 @@ const closeopenRecordModel= ()=>{
                   </td>
                   <td className='border border-gray-200 px-2 text-[18px] font-semibold'>
                     {Number(clientLoanSummary.TotalUnpaidLoanAmount).toFixed(2)}</td>
-                  <td  colSpan={4} className='border border-gray-200'>  </td>
+                  <td  colSpan={2} className='border border-gray-200'>  </td>
+
+                  <td className='px-3 text-gray-800 text-[18px] font-semibold border border-gray-200'>
+                    {clientLoanSummary.CrossPaymentRate}%
+                  </td>
+                  <td className='border border-gray-200 '></td>
 
                  </tr>
                 </tfoot>
@@ -512,8 +575,13 @@ const closeopenRecordModel= ()=>{
       </div>
   <div className='flex  justify-end p-6 px-8 gap-6'>
       <button onClick={closeopenRecordModel} className='py-1.5 px-4 rounded-xs text-[14px] text-gray-600 outline-none bg-gray-200 cursor-pointer hover:bg-gray-300  '>Cancel</button>
-      <button className='py-1.5 px-4 rounded-xs text-[14px] text-white outline-none bg-red-400 cursor-pointer hover:bg-red-600  '>Report</button>
-      <button className='py-1.5 px-4 rounded-xs text-[14px] text-white outline-none bg-blue-500 cursor-pointer hover:bg-blue-600  '>Confirm</button>
+      <button onClick={()=>setreportBorrower(true)} className='py-1.5 px-4 rounded-xs text-[14px] text-white outline-none bg-red-400 cursor-pointer hover:bg-red-600  '>Report</button>
+      <button onClick={HandleLoanOnConfirm} className='py-1.5 px-4 rounded-xs text-[14px]
+       text-white outline-none bg-blue-500 cursor-pointer hover:bg-blue-600'>
+        {loading.confirmLoan ?<span className='flex gap-1 items-center'>
+        <LoaderCircle className='animate-spin' size={17}/>
+        <p >Confirming...</p>
+       </span>:'Confirm'}</button>
      </div>
     </div>
    
@@ -537,9 +605,8 @@ const closeopenRecordModel= ()=>{
       </div>
      }
       
-      <div className="bg-white   rounded-lg  w-full max-w-4xl max-h-[95vh] overflow-y-auto shadow-2xl animate-fadeIn">
-
-        <div className="bg-blue-400 p-6 text-white text-center">
+      <div className="bg-white  rounded-lg    w-full max-w-5xl max-h-fit  shadow-2xl animate-fadeIn">
+        <div className="bg-blue-400 p-4 rounded-t-lg text-white text-center">
          <div onClick={onClose} className='flex justify-end cursor-pointer'>
         <XIcon/>
 
@@ -560,7 +627,7 @@ const closeopenRecordModel= ()=>{
 
         </div>
 
-        <div className="p-6 sm:p-10">
+        <div className="p-2 sm:p-6">
           
           {currentStep === 1 && (
             <div className="space-y-4 ">
@@ -572,13 +639,13 @@ const closeopenRecordModel= ()=>{
                    name='client_name' onChange={HandleChanges} className={inputStyle('client_name')} placeholder='John Doe'/>
                     <span className='text-[14px] text-red-500'>{t(errors.client_name)}</span>
 
-                    {formData.client_name &&filterdborrowers.length>0 &&
-                     <div className='bg-gray-50 mt-1 py-3 px-5 w-full rounded-xs border border-gray-100
+                    {formData.client_name &&filterdborrowers.length>0 && 
+                     <div className='bg-white mt-2   w-full rounded-xs border border-gray-100
                       z-50 absolute  left-0 right-0  max-h-60 overflow-auto'>
                       
                         {filterdborrowers.map((b,idx)=>{
                       return <div key={idx}> 
-                     <button className='text-[15px] text-gray-700 cursor-pointer'
+                     <button className='text-[15px] text-gray-700 cursor-pointer hover:bg-blue-300 capitalize border-b w-full flex items-start p-2 border-gray-200'
                       onClick={()=>HandleSelectedBorrowers(b)}
                      >
                       <p>{b.client_name}</p>
@@ -598,7 +665,7 @@ const closeopenRecordModel= ()=>{
 
                 <div>
                   <label className={labelStyle}>{t("contact")}:</label>
-                  <input type="text" value={formData.client_contact?? ''}  name='client_contact' onChange={HandleChanges}
+                  <input type="text" readOnly value={formData.client_contact?? ''}  name='client_contact' onChange={HandleChanges}
                    className={inputStyle('client_contact')} placeholder='07835456132'/>
                    <span className='text-[14px] text-red-500'>{t(errors.client_contact)}</span>
 
@@ -608,14 +675,14 @@ const closeopenRecordModel= ()=>{
               <div className={sectionGrid}>
                 <div>
                   <label className={labelStyle}>{t("address")}:</label>
-                  <input type="text" value={formData.client_address?? ''} name='client_address'
+                  <input type="text" readOnly value={formData.client_address?? ''} name='client_address'
                    onChange={HandleChanges} className={inputStyle('client_address')} placeholder='Kampala'/>
                     <span className='text-[14px] text-red-500'>{t(errors.client_address)}</span>
 
                 </div>
                 <div>
                   <label className={labelStyle}>{t("idNumber")}:</label>
-                  <input type="text" value={formData.IdNumber?? ''} name='IdNumber' onChange={HandleChanges}
+                  <input type="text" readOnly value={formData.IdNumber?? ''} name='IdNumber' onChange={HandleChanges}
                    className={inputStyle('IdNumber')} placeholder='xxxxxxxxxxx'/>
                     <span className='text-[14px] text-red-500'>{t(errors.IdNumber)}</span>
 
@@ -631,21 +698,30 @@ const closeopenRecordModel= ()=>{
                 
                 <div>
                   <label className={labelStyle}>{t("businessType")}:</label>
-                  <input type="text" value={formData.client_B_type?? ''} name='client_B_type'
+                  <input type="text" readOnly value={formData.client_B_type?? ''} name='client_B_type'
                    onChange={HandleChanges} className={inputStyle('client_B_type')}
-                    placeholder={t("placeholderBusinessType")}/>
+                  >
+                      </input>
                     <span className='text-[14px] text-red-500'>{t(errors.client_B_type)}</span>
 
                 </div>
                 <div>
                   <label className={labelStyle}>{t("businessLocation")}:</label>
-                  <input type="text" value={formData.client_B_location?? ''} name='client_B_location'
+                  <input type="text" readOnly value={formData.client_B_location?? ''} name='client_B_location'
                    onChange={HandleChanges} className={inputStyle('client_B_location')}  
-                   placeholder='Kampala'/>
+                   placeholder='Hoima'/>
                     <span className='text-[14px] text-red-500'>{t(errors.client_B_location)}</span>
 
                 </div>
               </div>
+                 <div>
+                  <label className={labelStyle}>{t("businessName")}:</label>
+                  <input type="text" readOnly value={formData.client_B_Name?? ''} name='client_B_Name'
+                   onChange={HandleChanges} className={inputStyle('client_B_Name')}  
+                   placeholder='Coffe shop'/>
+                    <span className='text-[14px] text-red-500'>{t(errors.client_B_Name)}</span>
+
+                </div>
             </div>
           )}
 
@@ -705,7 +781,7 @@ const closeopenRecordModel= ()=>{
             <div className="space-y-6 animate-fadeIn">
               <div>
                 <h3 className="text-xl font-bold text-gray-800 border-b border-gray-200 pb-2 mb-3">{t("securityDetails")}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 space-x-8">
                   <div>
                     <label className={labelStyle}>{t("securityName")}:</label>
                     <input type="text" name='security_name' onChange={HandleChanges}
@@ -714,15 +790,7 @@ const closeopenRecordModel= ()=>{
                     <span className='text-[14px] text-red-500'>{t(errors.security_name)}</span>
 
                   </div>
-                  <div>
-                    <label className={labelStyle}>{t("securityNumber")}:</label>
-                    <input type="number" name='secNumber'
-                     value={formData.secNumber?? ''}
-                  onChange={HandleChanges} 
-                    className={inputStyle('secNumber')} placeholder='1'/>
-                    <span className='text-[14px] text-red-500'>{t(errors.secNumber)}</span>
-
-                  </div>
+                  
                   <div>
                     <label className={`${labelStyle}`}>
                       {t("securityPicture")}:
@@ -877,9 +945,16 @@ const closeopenRecordModel= ()=>{
               onClick={HandleSubmitForm}
                 type="submit"
                 className="px-6 py-2 bg-green-600 hover:bg-green-700 cursor-pointer
-                 text-white rounded-sm text-sm font-semibold transition-all shadow-md"
+                 text-white rounded-sm text-sm font-semibold transition-all shadow-md outline-none"
               >
-                {t("submitForm")}
+                {
+                  loading.submitLoaninfo ? <span className='flex gap-1 items-center'> <LoaderCircle 
+                  className='animate-spin' size={18}/>
+                    <p>Submitting... </p>
+                  </span>:
+                t("submitForm")
+
+                }
               </button>
             )}
           </div>
@@ -890,7 +965,7 @@ const closeopenRecordModel= ()=>{
   );
 };
 
-export default New_client;
+export default LoanApplicationPortal;
 
 
 

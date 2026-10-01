@@ -5,7 +5,7 @@
 
 
 import { Search } from "lucide-react";
-import New_client from "../cashiers/New_Client";
+import LoanApplicationPortal from "../cashiers/LoanApplicationPortal";
 import  { useState } from "react";
 
 const Old_client = () => {
@@ -132,7 +132,7 @@ const Old_client = () => {
             </div>
             
             <div>
-              <New_client onClose={closemodel} />
+              <LoanApplicationPortal onClose={closemodel} />
             </div>
           </div>
         </div>

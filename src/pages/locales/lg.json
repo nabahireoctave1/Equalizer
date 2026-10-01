@@ -138,7 +138,7 @@
     
     "status": {
       "paid": "Yasasuddwa",
-      "unpaid": "Tannasasulwa"
+      "active": "Akola"
     }
   },
 
@@ -897,9 +897,6 @@
   "businessDetails": "Ebikwata ku Busuubuzi",
   "businessLocation": "Ekifo ky'Obusuubuzi",
 
-  "placeholderBusinessType": "Omusuubuzi",
-  "placeholderBusinessLocation": "Kampala",
-
   "loanDetails": "Ebikwata ku Ssente Ezisabiddwa",
 
   "amountApplied": "Omuwendo mu Namba",
@@ -920,7 +917,6 @@
 
   "securityDetails": "Ebikwata ku Bweyamo",
   "securityName": "Erinnya ly'Obweyamo",
-  "securityNumber": "Obungi",
   "securityPicture": "Ekifaananyi",
 
   "guarantorDetails": "Ebikwata ku Mweyimirizi",
