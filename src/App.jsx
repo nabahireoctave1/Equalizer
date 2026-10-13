@@ -9,22 +9,21 @@ import {
 import { jwtDecode } from "jwt-decode";
 import Dashboard from "./pages/Dashboard";
 import AdDashboard from "./pages/AdDashboard";
-import Login from "./pages/login";
 import Company_portal from "./pages/Company_portal";
 import SetPassword from "./pages/SetPassword";
 import  Client_Management from './cashiers/Client_Managment.jsx'
-import Credit_Book from "./client/Credit_book.jsx";
 import "./App.css";
 import "./pages/i18n";
 
 import socket,{connectsocket} from "./socket";
 import Field_officer from "./fields/Field_officer.jsx";
+import StartUP from "./pages/startUP.jsx";
 
 function RedirectIfLoggedIn() {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    return <Login />;
+    return <StartUP />;
   }
 
   try {
@@ -33,7 +32,7 @@ function RedirectIfLoggedIn() {
     if (decoded.exp * 1000 < Date.now()) {
       localStorage.removeItem("token");
 
-      return <Login />;
+      return <TopNav />;
     }
 
     switch (decoded.role) {
@@ -51,15 +50,14 @@ function RedirectIfLoggedIn() {
       default:
         localStorage.removeItem("token");
 
-        return <Login />;
+        return <StartUP />;
     }
   } catch {
     localStorage.removeItem("token");
 
-    return <Login />;
+    return <StartUP />;
   }
 }
-
 
 function ProtectedRoutes({ allowedRole }) {
   const token = localStorage.getItem("token");
@@ -101,7 +99,6 @@ function ProtectedRoutes({ allowedRole }) {
     return <Outlet />;
 
   } catch (err) {
-    console.log(err);
 
     localStorage.removeItem("token");
 
@@ -120,7 +117,11 @@ function App() {
     }
   },[])
   return (
-    <Routes>
+
+  <div> 
+    
+     
+       <Routes>
 
       <Route path="/" element={<RedirectIfLoggedIn/>}/>
 
@@ -139,11 +140,13 @@ function App() {
       
       </Route>
       <Route path="/Field-officer-Dash" element ={<Field_officer/>}></Route>
-      <Route path="/borrowerDash" element={<Credit_Book/>} ></Route>
       <Route path="*"  element={<Navigate to="/" replace />}
       />
 
     </Routes>
+    </div>
+
+
   );
 }
 

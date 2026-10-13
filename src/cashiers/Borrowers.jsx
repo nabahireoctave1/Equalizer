@@ -13,27 +13,14 @@ import NetworkError from '../pages/NetworkError';
    const [errorSize,setErrorSize]=useState(null);
    const [Loading,setLoading]=useState(null);
    const [SeachTerm,setSearchTerm]=useState("");
+   const [Debouncesearch,setDebounceSearch]=useState(null);
    const [openRegisternewBorrower,setopenRegisterNewBorrower ]=useState(null);
-   
-
-
-   const [currentPage,setCurrentPage]=useState(1);
+      const [currentPage,setCurrentPage]=useState(1);
+   const [totalPage,setTotalPage]=useState(0);
  
-   const ClientPerPage=6;
+   const ClientPerPage=20;
 
-   const start= (currentPage-1)*ClientPerPage;
-   const end= start+ClientPerPage;
-   let totalPage=Math.ceil(Borrowers.length/ClientPerPage)
-  
-   const paginatedborrower= Borrowers.slice(start,end);
-
-   const filteredBorrowers= paginatedborrower.filter((borrowers)=>{
-    return (
-     borrowers.client_name?.toLowerCase().includes(SeachTerm?.toLowerCase())||
-     borrowers.phone?.toLowerCase().includes(SeachTerm?.toLowerCase())
-        
-    )
- })||[]
+   
     
    const Next= ()=>{
     if(currentPage<totalPage) setCurrentPage(currentPage+1);
@@ -53,8 +40,9 @@ import NetworkError from '../pages/NetworkError';
     setErrorSize(null);
     setNetworkError(null);
         try{
-           const res= await api.get('/fetchBorrowers');
-          if(res?.data){setBorrowers(res.data)};
+           const res= await api.get(`/fetchBorrowers?limit=${ClientPerPage}&page=${currentPage}&search=${encodeURIComponent(Debouncesearch)}`);
+          if(res?.data){setBorrowers(res.data.borrowersInfo)};
+          setTotalPage(res.data?.totalpage)
 
   }
   catch(err){
@@ -69,10 +57,28 @@ import NetworkError from '../pages/NetworkError';
    }
 
 
+   
+
+
    useEffect(()=>{
+
+
     HandleFetchCurrentBorrowers()
 
-   },[])
+   },[currentPage,Debouncesearch])
+
+   useEffect(()=>{    
+    const timer= setTimeout(() => {
+        setDebounceSearch(SeachTerm);
+    }, 1000);
+
+    return ()=>clearTimeout(timer);
+
+
+   },[SeachTerm])
+
+
+
 
    const OpenAddNewBorrowerModel=()=>{
     setopenRegisterNewBorrower(true);
@@ -89,8 +95,8 @@ import NetworkError from '../pages/NetworkError';
    return (
      <div className='bg-gray-50'>
 
-        <div className=' flex flex-col lg:flex-row justify-between border-b border-gray-200 bg-white
-         top-0 sticky items-center z-20 rounded-xs p-4 space-y-1'>
+        <div className=' flex flex-col space-y-3 border-b border-gray-200 bg-white
+         top-0 sticky  z-20 rounded-xs p-4 space-y-1'>
             <div className='flex items-center gap-1 flex-col sm:flex-row'>
                 <span className='bg-blue-400 p-2 rounded-full text-white'>
                 <HandCoins size={40}/>
@@ -102,28 +108,29 @@ import NetworkError from '../pages/NetworkError';
             </span>
             </div>
 
-            <div  className='relative w-full lg:w-md'>
-            <span  className='absolute top-3 px-2 text-gray-700'>
-                <Search size={18}/>
+            <div  className='relative w-full'>
+            <span  className='absolute top-2.5 px-2 text-gray-700'>
+                <Search size={20}/>
                 </span>  
                 <input 
                  onChange={(e)=>setSearchTerm(e.target.value)}
-                type="text" className='pl-8 py-2.5 text-[14px] pr-2 first-letter:uppercase w-full
-                 border-gray-200 border bg-gray-50 outline-none rounded-sm placeholder:focus:ring-1
-                 focus:border-blue-400
+                type="text" className='pl-8 py-2 text-[15px] pr-2  w-full
+                 border-gray-200 border bg-gray-50 outline-none rounded-sm
+                  placeholder:text-gray-400 focus:ring-2
+                 focus:ring-blue-400
                   text-gray-800 ' placeholder='Search by Name, Client Id , Phone' />   
             </div>
            
 
         </div>
         
-         <div className='flex flex-col  sm:flex-row  justify-between space-y-2  items-center  border-b mb-3 border-gray-200  p-3  bg-gray-100'>
+         <div className='flex flex-col  sm:flex-row justify-between space-y-2  items-center  border-b mb-3 border-gray-200  p-3  bg-gray-100'>
             <h2 className='font-extrabold uppercase text-2xl text-gray-800'>borrowers detail</h2>
             <button  onClick={OpenAddNewBorrowerModel} className='flex  items-center gap-1 capitalize
-             text-white bg-blue-500 py-1.5 px-4 cursor-pointer
-              rounded-xs text-[15px] font-semibold'>
+             text-white bg-blue-500 py-2 px-4 cursor-pointer
+              rounded-sm text-[15px] font-semibold'>
                 <UserPlus size={18}/>
-                new client</button>
+                new borrower</button>
                 
 
          </div>
@@ -135,16 +142,7 @@ import NetworkError from '../pages/NetworkError';
        </div>
       }      
 
-         {filteredBorrowers.length===0 ?
-           <div className='flex  flex-col justify-center items-center h-50 bg-gray-50'>
-              <SearchX size={60} strokeOpacity={0.9} strokeWidth={1.7} className='text-gray-800'/>
-              <h2 className='text-[20px] text-gray-800 font-extrabold uppercase'>No Match result </h2>
-              <p className='text-[15px] italic m-1'>We can`t find any match search please try again or try different key ward </p>
-
-
-           </div>
-
-         :
+     
           <div className='bg-white  border border-gray-100 m-1 rounded-sm overflow-y-auto'>
             <div className='overflow-x-auto'>
              <table>
@@ -152,11 +150,11 @@ import NetworkError from '../pages/NetworkError';
                <tr className=' bg-gray-100'>
                 <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>No</th>
                 <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2 whitespace-nowrap  '>borrower names</th>
-                <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>client id</th>
+                <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>borrower id</th>
 
                 <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>nin id</th>
                 <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>phone</th>
-                <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>client address</th>
+                <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>borrower address</th>
                 <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2 whitespace-nowrap  '>bussiness type</th>
                 <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2 whitespace-nowrap  '>bussiness Name</th>
                 <th className='px-4 text-[14px] font-semibold uppercase text-gray-800 py-2  whitespace-nowrap '>bussiness location</th>
@@ -180,9 +178,9 @@ import NetworkError from '../pages/NetworkError';
                     <td className='p-3'><SkeletonCellLoader/></td>
                     <td className='p-3'><SkeletonCellLoader/></td>
                   </tr>
-                )) : filteredBorrowers.map((data,idx)=>(
+                )) : Borrowers.map((data,idx)=>(
                     <tr key={idx}>
-                        <td className='px-4 text-[15px]  uppercase text-gray-800 py-2 border-b border-gray-200'>{start+idx+1}</td>
+                        <td className='px-4 text-[15px]  uppercase text-gray-800 py-2 border-b border-gray-200'>{(currentPage-1)+idx+1}</td>
                          <td className='px-4 text-[15px] font-semibold   text-gray-800 py-2 border-b border-gray-200 capitalize whitespace-nowrap'>{data.client_name}</td>
                          <td className='px-4 text-[15px]   text-gray-800 py-3  border-b border-gray-200 whitespace-nowrap'>{data.client_id}</td>
                          <td className='px-4 text-[15px]   text-gray-800 py-3  border-b border-gray-200 whitespace-nowrap'>{data.national_id}</td>
@@ -226,13 +224,14 @@ import NetworkError from '../pages/NetworkError';
                 <button
                  disabled={currentPage===totalPage}
                 onClick={Next} className='text-gray-800 outline-none hover:bg-gray-200 
+        
                 border border-gray-300 transition-all  px-2  py-1 rounded-sm cursor-pointer
                 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-30'><ChevronRight size={25}/></button> 
 
         </div>
         </div>
          
-         }
+         
 
       {openRegisternewBorrower && (
         <NewBorrowerModel Onclose={closeModal}/>

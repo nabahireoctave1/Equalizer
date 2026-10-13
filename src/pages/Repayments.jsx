@@ -275,12 +275,12 @@ const formatDate = (date) => {
                     capitalize font-extrabold text-xl md:text-2xl
                      text-gray-800 pb-2`}>{t('rp.trends_title')}</h2>
                     <div className='flex gap-2 items-center'>
-                        <div className={`${messagekey||chartData.length==1 ? 'hidden':''}p-2 h-fit w-fit rounded-full bg-blue-400`}></div>
+                        <div className={`${messagekey||chartData.length==1 ? 'hidden':''} p-2 h-fit w-fit rounded-full bg-blue-400`}></div>
                         <p className={`${messagekey||chartData.length==1 ? 'hidden':''} text-sm capitalize font-semibold text-gray-600`}>
                             {t('rp.repaid_currency')}</p>
                     </div>
                 </div>
-                <div className={`${Loading ? 'animate-pulse':''}h-64 md:h-75 w-full text-xs`}>
+                <div className={`${Loading ? 'animate-pulse':''} h-64 md:h-75 w-full text-[13px]`}>
                     {messagekey&&Errorsize===0 ? 
                     <div className='text-[15px] flex flex-col justify-center h-34 md:h-45 items-center'>
                       <span className='bg-blue-400 text-white p-4 rounded-full '>
@@ -318,10 +318,10 @@ const formatDate = (date) => {
                             {!Loading &&<Tooltip/> }
                             <Tooltip/>
                             <Area type="monotone" dataKey="Paid"
-                                stroke="#E5E7EB"
+                                stroke="#60A5FA"
                                 fill={Loading ? "#E5E7EB":"#60A5FA"}
                                strokeWidth={2}
-                              dot={{r:Loading ? 2:4}}
+                              dot={{r:Loading ? 2:5}}
                               activeDot={!Loading}
                               fillOpacity={Loading ? 0.5:1}
                               isAnimationActive={!Loading}

@@ -783,21 +783,12 @@
   "schedule": "Enteekateeka",
   "actionRequired": "Kikole mangu",
 
-  "systemMaintenance": "Okuddaabiriza Sisitemu",
-  "systemMaintenanceDescription": "Sisitemu ejja kuddaabirizibwa ekiro kino.",
-
   "lowMessageBalance": "Obubaka Buweddeko",
   "lowMessageBalanceDescription": "Obubaka bwo bunaatera okuggwaako. Yogera n'omuddukanya.",
   "remainingMessages": "Obubaka Obusigadde",
 
   "officeReportDeadline": "Lipoota y'Ofiisi",
   "officeReportDescription": "Lipoota eyetegefu okusunsulwa.",
-
-  "cashoutDirective": "Tewajja kuba Cashout enkya",
-  "cashoutDirectiveDescription": "Cashout yonna egiddwawo enkya.",
-
-  "cashTransfer": "Tambuza Ensimbi e Kampala",
-  "cashTransferDescription": "Ensimbi zonna zitwalibwe e Kampala.",
 
   "released": "Kyatwaliddwa",
   "received": "Kyafuniddwa",
@@ -889,10 +880,7 @@
   "contact": "Essimu",
   "idNumber": "Namba y'Endagamuntu",
 
-  "placeholderName": "John Doe",
-  "placeholderContact": "07835456132",
-  "placeholderAddress": "Kampala",
-  "placeholderID": "XXXXXXXXXXX",
+
 
   "businessDetails": "Ebikwata ku Busuubuzi",
   "businessLocation": "Ekifo ky'Obusuubuzi",
@@ -943,13 +931,7 @@
     "balance": "Ezibanjibwa",
     "unpaidDays": "Ennaku Ezitasasuddwa",
 
-    "days": "Ennaku",
-    "daysShort": "ennaku ezisigadde",
-    "daysRemaining": "ennaku ezisigadde",
-
-    "risk": "Akabi",
-    "overdue": "Yayisizza Ekiseera",
-    "remaining": "Ezisigadde",
+  
 
     "paying": "Sasula",
     "records": "Ebiwandiiko",
@@ -1062,29 +1044,22 @@
   "fullName": "Erinnya Lijjuvu",
   "phoneNumber": "Namba y'Essimu",
   "officeLocation": "Ekifo ky'Ofiisi",
-  "startedDate": "Olunaku lwe Yatandika",
-
-  "totalSalary": "Omusaala Gwonna",
-  "remainingSalary": "Omusaala Ogusigadde",
-
   "lastUpdated": "Kyasembyeyo Okulongoosebwa",
   "saveChanges": "Tereka Enkyukakyuka",
   
     "moneyReceivedFromAnotherBranch": "Ssente Ezifuniddwa okuva ku Ttabi Lya Buwala",
     "moneySentToAnotherBranch": "Ssente Ziweerezeddwa ku Ttabi Lya Buwala",
-    "branch": "Ttabi",
-    "from": "Okuva",
-    "to": "Okugenda eri",
-    "kyenjojo": "Kyenjojo",
-    "gassani": "Gassani",
-    "amount": "Omuwendo",
-    "shs": "Shs",
-    "amountInWords": "Omuwendo mu Bigambo",
+  
     "twelveMillionShillingsOnly": "Obukadde Ikumi na Bubiri obwa Shillingi Bokka",
     "submitReceivable": "Weereza Ebifuniddwa",
     "submitPayable": "Weereza Ssente",
     "storedSecurities": "Obukuumi Obuterekeddwa",
     "searchByClientName": "Noonya erinnya lya kasitoma...",
+
+     
+
+
+
     "clientName": "Erinnya lya Kasitoma",
     "date": "Olunaku",
     "security": "Obukuumi",
@@ -1116,6 +1091,7 @@
     "rejected": "Kigaanyiddwa",
     "yes": "Yee",
     "no": "Nedda",
+
     "dateRegistered": "Olunaku lwewandiikiddwa",
     "demandAmount": "Omuwendo Ogusabiddwa",
     "sortBy": "Tegeka Okusinziira ku",
@@ -1124,11 +1100,8 @@
     "sortRiskMetrics": "Tegeka okusinziira ku lunaku, omuwendo ogusabiddwa, oba obulabe bw'okusasula.",
     "demandAmountHighToLow": "Omuwendo Ogusabiddwa (Omungi okudda ku Mutono)",
     "demandAmountLowToHigh": "Omuwendo Ogusabiddwa (Omuto okudda ku Mungi)",
-    "goodPayingLowUnpaidDays": "Abasasula Bulungi (Ennaku Ezitalisasulwa Entono)",
     "existingLoansCounter": "Omuwendo gwa Loan Eziriwo",
-    "showingTotalLoanRequests": "Olaga {{count}} ezisabiddwa loan zonna.",
-    "demandApprovedAlert": "Demand ID {{id}} ekakasiddwa!",
-    "demandRejectedAlert": "Demand ID {{id}} egaanyiddwa.",
+   
     "openingFinancialRecords": "Eggulawo ebiwandiiko by'ensimbi n'eby'emabega ebya: {{name}}",
     "clientPicture": "Ekifaananyi kya Kasitoma",
     "guarantorPicture": "Ekifaananyi ky'Omuwolereza",

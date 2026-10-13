@@ -39,39 +39,9 @@ const Credit_Record = () => {
   ];
 
 
-  const sanitizeFileName = (suffix) => {
-    return `Ledger_${clientInfo.name.replace(/\s+/g, '_')}_${suffix}`;
-  };
-
-  const exportToExcel = () => {
-    const headers = ['Payment Date', 'Amount Paid (UGX)', 'Resulting Balance (UGX)', 'Account Officer'];
-    const rows = paymentRecords.map(record => [
-      record.date,
-      record.amount,
-      record.balance,
-      record.officer
-    ]);
-
-    const csvContent = "data:text/csv;charset=utf-8," 
-      + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
-    
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${sanitizeFileName('Statement')}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setIsMenuOpen(false);
-  };
 
 
-  const handlePrint = () => {
-    setIsMenuOpen(false);
-    setTimeout(() => {
-      window.print();
-    }, 100);
-  };
+
   const {t} = useTranslation();
 
   return (
@@ -137,35 +107,12 @@ const Credit_Record = () => {
                   {paymentRecords.length} Entries
                 </span>
               </div>
-
-              <div className="print:hidden relative" ref={dropdownRef}>
-                
-                <div className="flex justify-between items-center space-x-2">
-                  <button 
-                    onClick={exportToExcel}
-                    className="flex items-center space-x-1.5 px-3 bg-green-500
-                     py-2  border border-gray-200 text-sm
-                      font-medium text-white rounded-sm cursor-pointer "
-                  >
-                    <FileSpreadsheet  />
-                    <span>Excel</span>
-                  </button>
-                  
-                 
-                  <button 
-                    onClick={handlePrint}
-                    className="flex items-center space-x-1.5 px-3 py-2 cursor-pointer
-                     bg-blue-600 text-sm font-medium text-white rounded-sm
-                      hover:bg-blue-700 transition shadow-sm"
-                  >
-                    <Printer  />
-                    <span>{t("print")}</span>
-                  </button>
-                </div>
-
-              
-
-              </div>
+               <div>
+                <button className='bg-gray-200 p-1.5 rounded-full'>
+                  <Download size={16} className='text-blue-400 cursor-pointer'/>
+                </button>
+               </div>
+         
             </div>
           </div>
 

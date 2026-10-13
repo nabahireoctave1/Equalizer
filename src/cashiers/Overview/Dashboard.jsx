@@ -1,6 +1,4 @@
 import  { useState } from "react";
-import AddPayable from "./Add_Payables";
-import AddReceivable from "./Add_recievable";
 import Demand from "./Demand";
 import Support from "./Support";
 import Defaulters from "../../client/Defaulter";
@@ -16,9 +14,8 @@ import { useTranslation } from 'react-i18next';
 const l = {
   logo: "Cashier Hub",
   overview: "Office Overview",
-  payables: "Sent",
+  oparations:'oparations',
   Stock : "Stock",
-  receivables: "Received",
   cash: "Demand",
   Old_client: "Over Loaned",
   support: "Support",
@@ -142,8 +139,7 @@ const {t} = useTranslation();
 
   const navItems = [
     { id: "Office Overview", label: l.overview },
-    { id: "Add Payables", label: l.payables },
-    { id: "Add Receivable", label: l.receivables },
+    { id: "oparations", label: l.oparations},
     { id: "Cash on Hand", label: l.cash },
     { id: "Old_client", label: l.Old_client },
     { id: "Support", label: l.support },
@@ -571,7 +567,8 @@ const {t} = useTranslation();
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`px-5 cursor-pointer py-2 rounded-sm outline-none text-[11px] uppercase font-bold transition-all ${
+                className={`px-5 cursor-pointer py-2 rounded-sm outline-none text-[11px] tracking-wide
+                   uppercase font-bold transition-all ${
                   activeTab === item.id ? "bg-sky-500 text-white shadow-md shadow-sky-100" :
                    "text-slate-600 hover:bg-slate-100"
                 }`}

@@ -4,13 +4,33 @@
 
 
 
-import { Search } from "lucide-react";
+import { Eye, Search } from "lucide-react";
 import LoanApplicationPortal from "../cashiers/LoanApplicationPortal";
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
+import api from "../api";
 
 const Old_client = () => {
   const [isNewClientModalOpen, setIsNewClientModalOpen] = useState(false);
   const closemodel=()=>setIsNewClientModalOpen(false)
+
+  
+  const FetchOverLoanHistory= async()=>{
+    try{
+
+     const res= await api.get('/Current-OverLoaned/History')
+
+    }
+
+    catch(err){
+
+    }
+  }
+
+
+  useEffect(()=>{
+    FetchOverLoanHistory()
+  },[]);
+
 
   const clients = [
     { id: 1, name: "John Doe", loans: 5, date: "12/5/2026", amount: "6,000,000", days: 7, reasoned: "YES" },
@@ -68,7 +88,7 @@ const Old_client = () => {
                   <th className="py-4 px-6 whitespace-nowrap">Last Loaned Amount</th>
                   <th className="py-4 px-6 whitespace-nowrap">Unpaid Days Consisted</th>
                   <th className="py-4 px-6 whitespace-nowrap">Reasoned</th>
-                  <th className="py-4 px-6 whitespace-nowrap text-center">Operations</th>
+                  <th colSpan={2} className="py-4 px-6 whitespace-nowrap text-center">Operations</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-sm">
@@ -91,7 +111,11 @@ const Old_client = () => {
                         {client.reasoned}
                       </span>
                     </td>
+                    <td>
+                      
+                    </td>
                     <td className="py-4 px-6 text-center">
+                    
                       <div className="flex items-center justify-center">
                         <button 
                           onClick={() => setIsNewClientModalOpen(true)}

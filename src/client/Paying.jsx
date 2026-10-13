@@ -3,10 +3,12 @@ import { CreditCard, User, DollarSign, LoaderCircle } from 'lucide-react';
 import api from '../api';
 import { useTranslation } from 'react-i18next';
 
-const Paying = ({client_name}) => {
+const Paying = ({client_name,clientId,LoanId}) => {
     const [formData,setFormData]=useState({
         client_name:client_name,
-        paymentAmount:null
+        clientId:clientId,
+        paymentAmount:null,
+        LoanId:LoanId
     })
 
     const [loading,setLoading]=useState(false);

@@ -468,12 +468,8 @@ const closereportModel= ()=>{
         </div>
           
           <div>
-          {ClientLoan.map((loan,_idx)=>{
-            let loanprogress=Math.min((loan.TotalPaid/loan.TotalExpected)*100,100)
-            return <div key={_idx} className='flex items-center justify-center mb-5'>
-    
-              <table>
-                <thead>
+         <table>
+            <thead>
                   <tr>
                     <th className='text-[13px] border-r border-gray-300 border-l border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>No</th>
                     <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>Loan ID</th>
@@ -490,8 +486,13 @@ const closereportModel= ()=>{
                      <th className='text-[13px] border-r border-gray-300 border-b py-2  border-t font-semibold capitalize px-2 whitespace-nowrap'>payment desicion</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
+
+               
+                 <tbody>
+                  
+                {ClientLoan.map((loan,_idx)=>{
+                  const loanprogress =Math.ceil(loan.TotalExpected >0 ? (loan.TotalPaid/loan.TotalExpected)*100 :0)
+                   return <tr key={_idx}>
                     <td className='px-3 border border-gray-200 py-1.5 text-[15px]'>{_idx+1}</td>
                     <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>{loan.LoanId}</td>
                     <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap capitalize'>{loan.clientname}</td>
@@ -529,12 +530,16 @@ const closereportModel= ()=>{
                        {loanprogress<=45&&loan.unpaidDays>=1  ? 
                        'bad':loanprogress>45&&loanprogress<=70 ?
                          'need attention':loanprogress>=70 ? 'good': loanprogress===0 
-                         &&loan.PartialPaymentCount==0 &&loan.unpaidDays===0? 'Pending':''}
+                         &&loan.PartialPaymentCount==0 &&loan.unpaidDays===0? 'new loan':''}
                       </span>
                         
                     </td>
                   </tr>
+})}
+
                 </tbody>
+
+                   
 
                 <tfoot>
                  <tr>
@@ -554,17 +559,23 @@ const closereportModel= ()=>{
                     {Number(clientLoanSummary.TotalUnpaidLoanAmount).toFixed(2)}</td>
                   <td  colSpan={2} className='border border-gray-200'>  </td>
 
-                  <td className='px-3 text-gray-800 text-[18px] font-semibold border border-gray-200'>
+                  <td className='px-3 text-gray-800 text-[16px] font-semibold border border-gray-200'>
                     {clientLoanSummary.CrossPaymentRate}%
                   </td>
-                  <td className='border border-gray-200 '></td>
+                  <td className='border border-gray-200 '>
+                  
+                  </td>
 
                  </tr>
                 </tfoot>
 
-              </table>
-            </div>
-})}
+
+
+
+
+                
+         </table>
+
 
 
           </div>

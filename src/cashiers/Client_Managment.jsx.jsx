@@ -32,6 +32,8 @@ import {
   UserX2,
   Banknote
 } from 'lucide-react';
+import socket from '../socket';
+import { useNavigate } from 'react-router-dom';
 
 const Client_Management = () => {
 
@@ -41,9 +43,8 @@ function changeLanguage(lang){
 
 const {t} = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
- 
-  const [activePage, setActivePage] = useState(t(`Dashboard`));
+    const [activePage, setActivePage] = useState(t(`Dashboard`));
+    const Navigate= useNavigate();
 
   const NavLink = ({ icon: Icon, label }) => {
     const isActive = activePage === label;
@@ -97,6 +98,13 @@ const {t} = useTranslation();
   };
 
  
+  const HandleLogout= ()=>{
+   localStorage.removeItem('token');
+   socket.disconnect();
+   Navigate('/')
+
+  }
+
 
   return (
     <div className="w-full flex h-screen overflow-hidden bg-gray-100 font-sans antialiased">
@@ -133,11 +141,11 @@ const {t} = useTranslation();
         </div>
 
         <div className="p-4 border-t border-gray-100">
-          <div className="flex items-center gap-3 px-4 py-2 uppercase
+          <button onClick={HandleLogout} className="flex items-center gap-3 px-4 py-2 uppercase
            text-red-500  rounded-sm  cursor-pointer font-medium">
             <LogOut className="w-5 h-5" />
             <span>{t('Logout')}</span>
-          </div>
+          </button>
         </div>
       </div>
 

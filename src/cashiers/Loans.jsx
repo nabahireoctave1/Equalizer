@@ -2,7 +2,7 @@ import { act, useEffect, useState } from 'react';
 import Paying from '../client/Paying';
 import Credit_Record from '../client/Client_record';
 import LoanApplicationPortal from './LoanApplicationPortal';
-import { XIcon,Smartphone,Image, ChevronLeft, ChevronRight } from 'lucide-react';
+import { XIcon,Smartphone,Image, ChevronLeft, ChevronRight, Search, SearchX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 import api from '../api';
@@ -17,33 +17,26 @@ const Loans = () => {
   const [Loading,setLoading]=useState(null);
   const [errorsize,setErrorsize]=useState(null);
   const [messagekey,setmessageKey]=useState(null);
-
+  const [searchTerm,setSearchTerm]=useState("");
+  const [debounceSearch,setDebounceSearch]=useState("")
   const [currentPage, setCurrentPage] = useState(1);
-  const LoanPerPage = 6;
-  const [selectedClient, setSelectedClient] = useState(null);
+  const LoanPerPage = 15;
+  const [selectedClient, setSelectedClient] = useState({
+    client_id:null,
+    client_name:null,
+    LoanId:null
+  });
   const [activeModal, setActiveModal] = useState(null); 
 const [preview,setpreview]=useState(null);
 const [uploadwithPhone,setuploadwithphone]=useState(false)
-
-  
- const startIndex= (currentPage-1)*LoanPerPage;
- const lastIndex=startIndex+LoanPerPage;
-
- const totalPages=Math.ceil(LoanInfo.length/LoanPerPage);
-
- const paginatedLoan=LoanInfo.slice(startIndex,lastIndex);
-
-
- const HandleNext= ()=>{
-    if(currentPage<totalPages) setCurrentPage(currentPage+1);
-       }
-
-       const HandlePrevious= ()=>{
-         if(currentPage>1) setCurrentPage(currentPage-1)
-       }
-
-  const openModal = (loan, type) => {
-    setSelectedClient(loan);
+const [TotalPage,setTotalPage]=useState(0);
+const [totalLoan,settotalLoan]=useState(null)
+  const openModal = (LoanId,clientId,client_name, type) => {
+    setSelectedClient({
+      client_id:clientId,
+      client_name:client_name,
+      LoanId:LoanId
+    });
     setActiveModal(type);
   };
 
@@ -54,6 +47,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
 
   const [openClientmodel, setopenclientmodel] = useState(false);
   const [networkError,setNetworkError]=useState(null);
+
 
   
   const openmodel = () => {
@@ -68,9 +62,13 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
   const FindCUrrentBranchLoan=async()=>{
     setLoading(true);
     setNetworkError(null);
+    
      try{
-     const res= await api.get('/branch-current-loans');
-     setLoaninfo(res?.data);
+     const res= await api.get(`/branch-current-loans?Limit=${LoanPerPage}&page=${currentPage}&search=${encodeURIComponent(debounceSearch)}`);
+     setLoaninfo(res?.data?.loan);
+     setTotalPage(res?.data?.totalpage)
+     settotalLoan(res?.data?.totalLoan)
+     
 
      }
      catch(err){
@@ -83,10 +81,21 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
      }
   }
 
+  
+   useEffect(()=>{
+    let timer= setTimeout(() => {
+       setDebounceSearch(searchTerm);
+    }, 1000);
+ 
+    return ()=> clearTimeout(timer)
+
+  },[searchTerm])
+
 
   useEffect(()=>{
    FindCUrrentBranchLoan();
-  },[])
+  },[currentPage,debounceSearch])
+
 
 
   const Retry=()=>{
@@ -99,6 +108,18 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
         return date.split('T')[0].split('-').reverse().join('-')
 
     }
+
+     const Next=()=>{
+    if(currentPage<TotalPage){
+      setCurrentPage(currentPage+1)
+    }
+  }
+
+  const Previous= ()=>{
+    if(currentPage>1){
+      setCurrentPage(currentPage-1);
+    }
+  }
 
   
 
@@ -194,7 +215,8 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
 
              <div className='flex justify-end p-2 gap-2'>
               <button onClick={closeModal}  className='text-[15px] bg-gray-300 px-6 py-1.5 text-gray-700 rounded-sm cursor-pointer '>Cancel</button>
-              <button  className='text-[15px] bg-blue-500 px-6 py-1.5 text-white rounded-sm  cursor-pointer'>Confirm</button>
+              <button 
+              className='text-[15px] bg-blue-500 px-6 py-1.5 text-white rounded-sm  cursor-pointer'>Confirm</button>
              </div>
 
         
@@ -210,13 +232,13 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
 
   return (
     <div className="min-h-screen w-full bg-gray-50 font-sans antialiased text-slate-800 "> 
-                      {networkError && <div className='fixed inset-0 z-100 flex justify-center
+                {networkError && <div className='fixed inset-0 z-100 flex justify-center
                        items-center bg-black/30'>
            <NetworkError HandleRetry={Retry}/>
           </div>}
           
     
-     <div className={`${networkError ? 'mb-2':'mb-4'} sticky top-0 z-50 bg-white px-6 py-4 rounded-md  border border-gray-100`}>
+     <div className={`${networkError ? 'mb-2':'mb-4'} sticky top-0 z-50 bg-white px-4 py-2 rounded-md  border border-gray-100`}>
           <h2 className="text-2xl font-bold uppercase text-blue-600 mb-2 sm:text-3xl">
             {t("panel")}
           </h2>
@@ -225,6 +247,15 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
              {t("loanpanelDesc")}
             </p>
           </div>
+          <div className='relative mt-1 mb-2'>
+            <span className='absolute top-2.5 text-gray-700 left-2'><Search size={20}/></span>
+            <input  onChange={(e)=>{setSearchTerm(e.target.value)}} type="text" 
+            placeholder='Search' className='w-full border border-gray-300/50 bg-gray-50
+            rounded-sm p-2 pl-8 text-[15px]  text-gray-800 placeholder:text-gray-400 
+            focus:ring-2 outline-none focus:ring-blue-400
+            ' />
+          </div>
+
        
         </div>
          
@@ -243,7 +274,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                text-gray-800 px-2.5 py-1 rounded-full">
                 <span>{t("totalRecords")}:</span>
                  <p className='text-[15px] 
-                font-semibold'>{LoanInfo.length}</p> 
+                font-semibold'>{totalLoan}</p> 
               </span>
               }
 
@@ -251,26 +282,28 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                 onClick={openmodel} 
                 disabled={Loading||networkError}
                 className='capitalize bg-blue-500 px-4 py-2 rounded-sm disabled:cursor-not-allowed
-                 text-sm font-semibold text-white cursor-pointer 
-                  hover:bg-blue-600 transition-colors shadow-sm  disabled:opacity-60' 
+                 text-sm font-semibold text-white cursor-pointer                   hover:bg-blue-600 transition-colors shadow-sm  disabled:opacity-60' 
               >
                {t("newLoan")} 
               </button>
             </div>
           </div>
 
-          <div className="overflow-auto w-full">
+          {LoanInfo.length===0?
+           <div> hhhhhhhhhhhhhhhhhhh </div>
+          :
+           <div className="overflow-auto w-full">
             <table className="w-full text-sm text-left border-collapse">
-              <thead className="bg-slate-50 border-b border-slate-100 text-xs font-semibold
-               uppercase tracking-wider text-gray-700">
+              <thead className="bg-gray-100 border-b border-gray-100 text-[12px] font-semibold
+               uppercase tracking-normal text-gray-700">
                 <tr>
                   <th className="p-2 whitespace-nowrap">{t("number")}</th>
                   <th className="p-4 whitespace-nowrap">{t("clients")}</th>
                   <th className="p-4 whitespace-nowrap">{t("dayPayments")}</th>
                   <th className="p-4 whitespace-nowrap">{t("amountGiven")}</th>
                   <th className="p-4 whitespace-nowrap">{t("balance")}</th>
-                  <th className="p-4 whitespace-nowrap">{t("Loan-Charge")}</th>
-                  <th className="p-4 whitespace-nowrap">{t("Chargeamount")}</th>
+                  <th className="p-4 whitespace-nowrap">{t("amount given-Fees")}</th>
+                  <th className="p-4 whitespace-nowrap">{t("fees")}</th>
                   <th className="p-4 whitespace-nowrap">{t("totalrepay")}</th>
                   <th className="p-4 whitespace-nowrap">{t("closingDate")}</th>
                   <th className="p-2 whitespace-nowrap">{t("paymentFrequency")}</th>
@@ -312,20 +345,19 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                   <td className='p-3'><SkeletonCellLoader/></td>
                   <td className='p-3'><SkeletonCellLoader/></td>
                  </tr>
-                )):paginatedLoan.map((loan,idx) => (
+                )):LoanInfo.map((loan,idx) => (
                   <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="px-3 py-2 font-medium text-gray-800">{startIndex+idx+1}</td>
-                    <td className="px-3 py-2 font-semibold text-gray-800 text-[15px] whitespace-nowrap">{loan.client_name}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-semibold text-[18px] tracking-tighter text-gray-800">{Number(loan.DailyInstallment).toFixed(2)}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-semibold text-[18px] tracking-tighter text-gray-800">{Number(loan.amount_given).toFixed(2)}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-medium text-green-700 text-[18px] tracking-tighter">
+                    <td className="px-3 py-2 font-medium text-gray-800">{(currentPage-1)*LoanPerPage+idx+1}</td>
+                    <td className="px-3 py-2  capitalize text-gray-800 text-[15px] whitespace-nowrap">{loan.client_name}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-semibold text-[18px] tracking-wide text-gray-800">{Number(loan.DailyInstallment).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-semibold text-[18px] tracking-wide text-gray-800">{Number(loan.amount_given).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-semibold text-red-600 text-[18px] tracking-wide">
                       {Number(loan.Balance).toFixed(2)}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-800 text-[18px] tracking-tighter">{Number(loan.amountAfterOfficeCharge).toFixed(2)}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-800 text-[18px] tracking-tighter">{Number(loan.chargeAmount).toFixed(2)}</td>
-                    <td className="px-3 py-2 whitespace-nowrap font-medium text-blue-700 text-[18px] tracking-tighter">{Number(loan.totalpay).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-800 text-[18px] tracking-wide">{Number(loan.amountAfterOfficeCharge).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-800 text-[18px] tracking-wide">{Number(loan.chargeAmount).toFixed(2)}</td>
+                    <td className="px-3 py-2 whitespace-nowrap font-medium text-green-700 text-[18px] tracking-wide">{Number(loan.totalpay).toFixed(2)}</td>
                     <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px]">{Formatdate(loan.loan_closingDate)}</td>                 
-                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px] capitalize">{loan.pay_frequency
-}</td>
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px] capitalize">{loan.pay_frequency}</td>
                     
                     <td className="px-3 py-2 whitespace-nowrap text-gray-800 text-[15px]">{loan.client_contact}</td>
                     <td className="px-3 py-2 whitespace-nowrap text-[15px]">{loan.client_address}</td>
@@ -343,7 +375,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                     
                     <td className="px-3 py-2 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(loan, 'pay')}
+                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name, 'pay')}
                         className="px-3 py-1.5 text-[13px]  bg-blue-500
                          text-white rounded-sm border border-blue-200 cursor-pointer"
                       >
@@ -352,7 +384,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                     </td>
                     <td className="p-4 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(loan, 'record')}
+                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name, 'record')}
                         className="px-3 py-1.5 text-[13px]  bg-green-600
                          text-white rounded-sm
                           border cursor-pointer border-none 
@@ -363,7 +395,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                     </td>
                     <td className="p-4 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(loan, 'addPic')}
+                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name, 'addPic')}
                         className="px-3 py-1 text-md font-medium bg-blue-500
                          text-white rounded-md border cursor-pointer outline-none"
                       >
@@ -374,9 +406,13 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                 ))}
               </tbody>
             </table>
+            
+         
           </div>
+         
+          }
 
-          <div className="px-6 py-4 border-t border-slate-100 flex flex-col sm:flex-row
+           <div className="px-6 py-4 border-t border-slate-100 flex flex-col sm:flex-row
            items-center justify-between gap-4">
            {Loading||networkError ? 
             <div className='w-45'>
@@ -386,13 +422,13 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
             <div className="text-[14px] italic sm:text-[14px]  text-gray-800 order-2
              sm:order-1">
              {t("showing")} <span className="text-[15px] text-gray-800">
-              {startIndex+1}
+              {(currentPage-1)*LoanPerPage+1}
             </span> {t("to")}{' '}
               <span className="text-[15px] text-gray-800">
-               {Math.min(lastIndex,LoanInfo.length)}
+               {Math.min(currentPage*LoanPerPage,totalLoan)}
               </span>{' '}
               {t("of")} <span className="font-[15px] text-gray-800">
-               {LoanInfo.length}
+               {totalLoan}
               </span> {t("clients")}
             </div>
            }
@@ -404,31 +440,33 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
                  :
                   <div className="inline-flex items-center space-x-2 order-1 sm:order-2 w-full sm:w-auto justify-between sm:justify-end">
               <button
+              onClick={Previous}
               disabled={currentPage===1}
-                onClick={HandlePrevious}
                 className={`flex-1 sm:flex-initial px-2 py-1 text-xs sm:text-sm 
                  disabled:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50
-                   rounded-sm border border-gray-200 transition-all duration-200 `}
+                   rounded-sm border border-gray-200 transition-all duration-200 cursor-pointer `}
               >
                 <ChevronLeft/>
               </button>
-              <div className="text-xs font-medium italic text-gray-700 px-3">
+                            <div className="text-xs font-medium italic text-gray-700 px-3">
 
               </div>
               <button
-                onClick={HandleNext}
-                disabled={currentPage === totalPages}
+               disabled={currentPage===TotalPage}
+               onClick={Next}
                 className={`flex-1 sm:flex-initial px-2 p-1 text-xs sm:text-sm 
                   disabled:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50
-                  rounded-sm border border-gray-200 transition-all duration-200 `}
+                  rounded-sm border border-gray-200 transition-all duration-200 cursor-pointer `}
               >
                 <ChevronRight/>
-                {console.log(currentPage)}
               </button>
             </div>
               }
            
           </div>
+
+        
+
         </div>
       </div>
 
@@ -439,7 +477,7 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
           <div className="w-full flex items-center justify-between px-6 py-4 border-b  border-gray-200">
               
             <div>
-              <h3 className="text-xl sm:text-2xl capitalize font-bold text-slate-900">{selectedClient.name}</h3>
+              <h3 className="text-xl sm:text-2xl capitalize font-bold text-slate-900">{selectedClient.client_name}</h3>
               <p className="text-[12px] sm:text-xs text-blue-600 uppercase tracking-widest font-extrabold">
                 {activeModal === 'pay' ? 'Loan Payment Processing' : 'Credit History Record'}
               </p>
@@ -458,7 +496,10 @@ const [uploadwithPhone,setuploadwithphone]=useState(false)
             <div className="max-w-6xl mx-auto  min-h-full">
               <div className="p-6 md:p-12">
                 {activeModal === 'pay' ? (
-                  <Paying client_name={selectedClient.name} onSuccess={closeModal} />
+                  <Paying client_name={selectedClient.client_name}
+                    clientId={selectedClient.client_id} 
+                    LoanId={selectedClient.LoanId}
+                    onSuccess={closeModal} />
                 ) :activeModal==='record' ? (
                   <Credit_Record  />
                 ):activeModal==='addPic' ? (

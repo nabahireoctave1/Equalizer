@@ -9,14 +9,7 @@ const Notification = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const systemAlerts = [
-    {
-      id: 1,
-      title: t("systemMaintenance"),
-      description: t("systemMaintenanceDescription"),
-      time: "12:00 AM Tonight",
-      type: "system",
-      urgency: t("high")
-    },
+
     {
       id: 2,
       title: t("lowMessageBalance"),
@@ -35,20 +28,7 @@ const Notification = () => {
     }
   ];
 
-  const financialDirectives = [
-    {
-      id: 1,
-      title: t("officeReportDeadline"),
-      description: t("officeReportDescription"),
-      urgency: t("critical")
-    },
-    {
-      id: 2,
-      title: t("cashoutDirective"),
-      description: t("cashoutDirectiveDescription"),
-      urgency: t("high")
-    }
-  ];
+
 
   const stockSecurityLogs = [
     { id: "S1", client: "Webale Precious", type: t("released"), item: t("nationalId"), status: t("outOfStock") },
@@ -57,6 +37,13 @@ const Notification = () => {
     { id: "S4", client: "Ayembazibwe Abert", type: t("received"), item:  t("assetDeed"), status: t("inStock") },
   
   ];
+
+
+  const FetchCurrentNotification=()=>{
+         
+ 
+
+  }
 
   const filteredStock = stockSecurityLogs.filter(log =>
     log.client.toLowerCase().includes(searchQuery.toLowerCase())
@@ -127,29 +114,14 @@ const Notification = () => {
               </div>
             </div>
 
-            <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-gray-700 mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-                {t("branchOperations")}
-              </h2>
-              <div className="space-y-3">
-                {financialDirectives.map((directive) => (
-                  <div key={directive.id} className="bg-linear-to-br
-                   from-white to-slate-50/50 border-l-4 border-l-blue-600 
-                   border-y border-r border-gray-200 p-4 rounded-r-md">
-                    <div className="flex justify-between items-start gap-4">
-                      <div>
-                        <h4 className="font-semibold uppercase text-gray-800 text-base">{directive.title}</h4>
-                        <p className="text-[14px] text-gray-700 mt-1">{directive.description}</p>
-                      </div>
-                      <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded uppercase tracking-wider">
-                       {t("actionRequired")}
-                      </span>
-                    </div>
+               <div>
+                <span className='flex items-center gap-2'>
+                  <div className='p-1 bg-green-500 w-2 rounded-full'>
                   </div>
-                ))}
+                   <h2 className='text-md uppercase font-semibold'>Admin notification center</h2>
+
+                </span>
               </div>
-            </div>
 
           </div>
 

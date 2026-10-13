@@ -785,9 +785,7 @@
  "schedule": "Planification",
  "actionRequired": "Action requise",
 
- "systemMaintenance": "Maintenance système planifiée",
- "systemMaintenanceDescription": "Le système d'équilibrage Equalizer fera l'objet d'une mise à jour majeure du noyau ce soir. Prévoyez de brèves périodes d'indisponibilité.",
-
+ 
  "lowMessageBalance": "Alerte de solde de messages faible",
  "lowMessageBalanceDescription": "Votre allocation de SMS/messages est presque épuisée. Veuillez contacter immédiatement votre administrateur ou votre responsable pour acheter des unités supplémentaires.",
  "remainingMessages": "Solde restant",
@@ -795,11 +793,6 @@
  "officeReportDeadline": "Date limite du rapport de performance du bureau",
  "officeReportDescription": "Le rapport de fin de période du bureau est prêt pour la vérification finale et sera bientôt soumis automatiquement.",
 
- "cashoutDirective": "Aucune opération de retrait d'espèces demain",
- "cashoutDirectiveDescription": "Directive stricte : aucune opération manuelle de retrait d'espèces ne sera autorisée demain. Tous les encaissements de l'agence doivent être immédiatement acheminés et déposés sur le compte bancaire de l'entreprise ou dans les portefeuilles Mobile Money désignés.",
-
- "cashTransfer": "Transfert obligatoire d'espèces vers l'agence de Kampala",
- "cashTransferDescription": "Directive concernant les paiements en espèces : toutes les espèces encaissées pendant le service de demain doivent être sécurisées, regroupées et traitées pour un transfert immédiat vers l'agence de Kampala.",
 
  "released": "Libéré",
  "received": "Reçu",
@@ -881,10 +874,6 @@
 
  "idNumber": "Numéro d'identification",
 
- "placeholderName": "Jean Dupont",
- "placeholderContact": "07835456132",
- "placeholderAddress": "Kampala",
- "placeholderID": "XXXXXXXXXXX",
 
  "businessDetails": "Détails de l'activité commerciale",
  "businessType": "Type d'activité",
@@ -929,13 +918,6 @@
  "subtitleunpaid": "Suivi en temps réel des soldes impayés et des indicateurs clients.",
  "searchPlaceholderUnpaid": "Rechercher par nom du client ou téléphone...",
 
- "days": "Jours",
- "daysShort": "j restants",
- "daysRemaining": "jours restants",
-
- "risk": "Risque",
-
- "paying": "Paiement",
 
  "ledgerHistory": "Historique du registre",
 
@@ -1037,10 +1019,8 @@
  "fullName": "Nom complet",
  "phoneNumber": "Numéro de téléphone",
  "officeLocation": "Emplacement du bureau",
- "startedDate": "Date de début",
 
- "totalSalary": "Salaire total",
- "remainingSalary": "Salaire restant",
+
 
  "lastUpdated": "Dernière mise à jour",
  "saveChanges": "Enregistrer les modifications",
@@ -1091,24 +1071,22 @@
  "pending": "En attente",
  "approved": "Approuvé",
  "rejected": "Rejeté",
- "yes": "Oui",
  "dateRegistered": "Date d'enregistrement",
  "demandAmount": "Montant demandé",
+
  "sortBy": "Trier par",
  "demandListForClients": "Liste des demandes des clients",
  "allOfficeAndFieldDemands": "Toutes les demandes du bureau et du terrain combinées.",
  "sortRiskMetrics": "Triez instantanément par date, montant demandé ou indicateurs de risque historiques.",
  "demandAmountHighToLow": "Montant demandé (du plus élevé au plus faible)",
  "demandAmountLowToHigh": "Montant demandé (du plus faible au plus élevé)",
- "goodPayingLowUnpaidDays": "Bon payeur (peu de jours d'impayé)",
  "existingLoansCounter": "Compteur des prêts existants",
- "showingTotalLoanRequests": "Affichage de {{count}} demandes de prêt au total.",
- "demandApprovedAlert": "La demande ID {{id}} a été approuvée !",
- "demandRejectedAlert": "La demande ID {{id}} a été rejetée.",
+
  "openingFinancialRecords": "Ouverture des dossiers financiers et historiques pour : {{name}}",
  "clientPicture": "Photo du client",
  "guarantorPicture": "Photo du garant",
  "save": "Enregistrer",
+
  "supportHub": "Centre de support Equalizer",
  "howCanWeHelp": "Comment pouvons-nous vous aider aujourd'hui ?",
  "supportDescription": "Obtenez des conseils instantanés, explorez des procédures intuitives ou contactez directement les administrateurs du système financier Akea.",

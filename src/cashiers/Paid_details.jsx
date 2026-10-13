@@ -1,16 +1,27 @@
 
 
 
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import Credit_Record from '../client/Client_record';
-import { Search, BookOpen, X, Info } from 'lucide-react';
+import { Search, BookOpen, X, Info, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import api from '../api';
 
 const Paid = () => {
   const {t} = useTranslation();
   const [activeModal, setActiveModal] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [Loading,setLoading]=useState(null);
+  const [Payments,setPayments]=useState([])
+  const [messagekey,setmessageKey]=useState(null)
+  const [size,setsize]=useState(null);
+  const  [searchTerm,setSearchTerm]=useState("")
+  const [CurrentPage,setCurrentPage]=useState(1);
+  const [selectedPeriod,setSelectedPeriod]=useState({
+    period:'today'
+  });
 
+ const  [period,setperiod]=useState(null);
   const openModal = (type, clientName) => {
     setSelectedClient(clientName);
     setActiveModal(type);
@@ -21,14 +32,97 @@ const Paid = () => {
     setSelectedClient(null);
   };
 
-  const clientData = [
-    { id: 1, name: "Webale Precious", daily: "10,000", total: "250,000", balance: "200,000", date: "06-23-2026", phone: "0783124352", loc: "Gasani" },
-    { id: 2, name: "Kalangira Faizo", daily: "10,000", total: "250,000", balance: "200,000", date: "06-23-2026", phone: "0783124352", loc: "Gasani" },
-    { id: 3, name: "John Doe", daily: "10,000", total: "250,000", balance: "200,000", date: "06-23-2026", phone: "0783124352", loc: "Gasani" },
-    { id: 4, name: "Baguma Willy", daily: "10,000", total: "250,000", balance: "200,000", date: "06-23-2026", phone: "0783124352", loc: "Gasani" },
-    { id: 5, name: "Mugisha Dan", daily: "10,000", total: "250,000", balance: "200,000", date: "06-23-2026", phone: "0783124352", loc: "Gasani" },
-    { id: 6, name: "Ahisibwe Byamukana", daily: "10,000", total: "250,000", balance: "200,000", date: "06-23-2026", phone: "0783124352", loc: "Gasani" }
-  ];
+
+  const FetchTodayPayment= async()=>{
+    setLoading(true)
+    setmessageKey(null);
+    setsize(null);
+    setPayments([]);
+
+    try{
+
+      const res= await api.get(`/Today-payments?period=${selectedPeriod.period==='customDate' ? 'today':selectedPeriod.period }`);
+      setPayments(res?.data);
+
+    }
+    catch(err){
+      const error= err.response?.data;
+      setmessageKey(error?.messagekey);
+      setsize(error?.size);
+      setperiod(error?.period);
+    }
+  }
+   
+  const filteredpayments= Payments.filter((payment)=>(
+    payment.client_name?.toLowerCase().includes(searchTerm?.toLowerCase())
+  ))
+
+
+  const paymentPerPage=6;
+  const startIndex= (CurrentPage-1)*paymentPerPage
+  const end= startIndex+paymentPerPage
+  const TotalPage=Math.ceil(Payments.length/paymentPerPage);
+  const paginatedPayment= filteredpayments.slice(startIndex,end);
+
+  const HandlePeriodChanges= (e)=>{
+    const {name,value}=e.target;
+
+    setSelectedPeriod((prev)=>({
+      ...prev,[name]:value
+    }))
+
+  }
+
+
+
+  const Next=()=>{
+   if(CurrentPage<TotalPage)setCurrentPage(CurrentPage+1)
+  }
+
+  const Previous= ()=>{
+    if(CurrentPage >1)setCurrentPage(CurrentPage-1);
+  }
+
+
+  useEffect(()=>{
+   FetchTodayPayment();
+  },[selectedPeriod])
+
+   const FormatedDate= (date)=>{
+    if(!date) return null;
+    return date.split('T')[0].split('-').reverse().join('-')
+   }
+
+
+   const StatusBadge=(status)=>{
+    switch (status) {
+      case 'paid': return 'bg-blue-500 text-white py-1 px-8 rounded-sm'
+      case 'partial_paid': return 'bg-yellow-500 text-white py-1 px-3 rounded-sm'
+     case 'advance': return 'bg-green-600 text-white py-1 px-5 rounded-sm' 
+      default:break;
+    }
+
+   }
+
+   const periodMaker=(period)=>{
+    switch (period) {
+      case 'today': return 'today payment'
+      break;
+
+      case'yesterday':return 'payments on yestereday'
+       break;
+       case'last7days':return 'payment on last 7 days'
+       case 'lastweek': return 'last week payments'
+       break;
+       case 'lastmonth': return 'last month payment detail'
+      default: return''
+       break;
+    }
+   }
+
+
+   
+
 
   return (
     <div className="relative min-h-screen bg-gray-50 rounded-md text-gray-800">
@@ -40,14 +134,17 @@ const Paid = () => {
               {t("officePaymentDetails")} 
             </h2>
             
-            <select className='capitalize text-[13px] border border-gray-300 w-full
+            <select  name='period'
+              onChange={HandlePeriodChanges}
+            className='capitalize text-[13px] border border-gray-300 w-full
             md:w-full sm:w-43 p-2 outline-none focus:ring-2 focus:ring-blue-400 
-             rounded-sm cursor-pointer' type="date" >
+             rounded-sm cursor-pointer'>
               <option value="today">to day</option>
               <option value="yesterday">yester day</option>
-              <option value="last7week">last 7 days </option>
-              <option value="lastweek">last week </option>
-              <option value="monthly">Last Month</option>
+              <option value="last7days">last 7 days </option>
+              <option value="lastmonth">Last Month</option>
+              <option value="customDate">custom date</option>
+
                      </select>
 
 
@@ -60,6 +157,7 @@ const Paid = () => {
                   <Search size={18} />
                 </span>
                 <input 
+                onChange={(e)=>{setSearchTerm(e.target.value)}}
                   className="w-full text-[13px] text-gray-700 bg-white border border-gray-200  pl-10 pr-4 py-2.5
                    rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 " 
                   type="text" 
@@ -86,37 +184,75 @@ const Paid = () => {
             
           </div>
 
-          <div className="w-full overflow-x-auto px-3">
-            <div className="inline-block min-w-full align-middle border border-gray-200 rounded-lg shadow">
+          {messagekey&&size===0 ? 
+          <div>
+              <span>
+
+              </span>
+                <span>
+                  <h2>{periodMaker(period)}</h2>
+                   {messagekey}
+                </span>
+
+
+            </div> :
+            messagekey&&size==1 ? 
+            <div>
+              hhhhh
+
+            
+            </div>
+            :filteredpayments.length ===0 ?
+            <div>
+
+
+            </div> 
+               :
+               <div>
+              
+                  <div className="w-full overflow-x-auto px-3">
+            <div className="inline-block min-w-full align-middle border border-gray-200 rounded-md ">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-100">
+                <thead className="bg-gray-100 text-gray-700">
                   <tr>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("no")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-left">{t("clients")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("dayPayments")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("amountGiven")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("balance")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("closingDate")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("phone")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("location")}</th>
-                    <th className="p-3 text-sm font-semibold tracking-wider text-center">{t("creditBook")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("no")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-left uppercase text-[14px] whitespace-nowrap">{t("clients")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("dayPayments")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("amountPaid")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("balance")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("paymentdate")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("field")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("paymentstatus")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("status")}</th>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-center uppercase text-[14px] whitespace-nowrap">{t("creditBook")}</th>
+                     
                   </tr>
                 </thead>
 
-                <tbody className="bg-white divide-y divide-gray-200 text-center text-sm">
-                  {clientData.map((client, index) => (
+                <tbody className="bg-white divide-y divide-gray-200 text-center text-[15px]">
+                  {paginatedPayment.map((payment, index) => (
                     <tr key={index} className="hover:bg-gray-50 transition-colors">
-                      <td className="p-3 font-medium text-gray-500">{client.id}</td>
-                      <td className="p-3 text-left font-semibold text-gray-900 whitespace-nowrap">{client.name}</td>
-                      <td className="p-3 text-green-600 font-medium">{client.daily}</td>
-                      <td className="p-3 font-medium">{client.total}</td>
-                      <td className="p-3 text-red-500 font-medium">{client.balance}</td>
-                      <td className="p-3 whitespace-nowrap">{client.date}</td>
-                      <td className="p-3 whitespace-nowrap">{client.phone}</td>
-                      <td className="p-3">{client.loc}</td>
+                      <td className="p-3 font-semibold text-gray-700">{startIndex+index+1}</td>
+                      <td className="p-3 text-left  text-gray-800 whitespace-nowrap">{payment.client_name}</td>
+                      <td className="p-3 text-green-600 font-medium text-[18px] whitespace-nowrap">{Number(payment.DailyInstallment).toFixed(2)}</td>
+                      <td className="p-3 font-medium text-[18px] whitespace-nowrap">{Number(payment.client_amount).toFixed(2)}</td>
+                      <td className="p-3 text-red-500 font-medium text-[18px] whitespace-nowrap">{Number(payment.Balance).toFixed(2)}</td>
+                      <td className="p-3 whitespace-nowrap text-gray-800">{FormatedDate(payment.date)}</td>
+                      <td className="p-3 whitespace-nowrap text-gray-800 capitalize">
+                        <span className={payment.payment_field?.toLowerCase()==='office'?
+                           'bg-gray-200 py-1 px-5 text-gray-700 rounded-sm'
+                           :'bg-green-100 text-gray-700 py-1 px-5 rounded-sm'
+                           }>{payment.payment_field}</span></td>
+                      <td className="p-3 whitespace-nowrap text-gray-800 capitalize">
+                        <span className={`${StatusBadge(payment.payment_status)}`}>{payment.payment_status?.toLowerCase()==='partial_paid' ? 'partial paid'
+                        :payment.payment_status}</span></td>
+                      <td className="p-3 text-gray-800 whitespace-nowrap capitalize">
+                        <span className={payment.status?.toLowerCase()==='done'? 'bg-green-600 py-1 px-5 rounded-sm text-white':''}>
+                          {payment.status}
+                          </span></td>
                       <td className="p-3">
                         <button 
-                          onClick={() => openModal('record', client.name)}
+                          onClick={() => openModal('record', payment.client_name)}
                           className="inline-flex items-center cursor-pointer gap-1 whitespace-nowrap
                            bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-xs font-medium transition shadow-sm"
                         >
@@ -128,7 +264,40 @@ const Paid = () => {
                 </tbody>
               </table>
             </div>
+
+          
           </div>
+                <div className='flex  justify-between px-3 py-5'>
+             <div className='flex gap-1 text-[15px]  text-gray-700 italic'>
+              <p>Showing: {startIndex+1} </p>
+              <p> to: {TotalPage}</p>
+              <p> of: {Payments.length}</p> 
+             </div>
+
+             <div className='flex gap-3 items-center '>
+              <button 
+               disabled={CurrentPage===1}
+              onClick={Previous} className='bg-gray-300 p-1 rounded-sm text-gray-700 cursor-pointer
+               disabled:cursor-not-allowed disabled:opacity-50'>
+                <ChevronLeft/>
+              </button>
+              <button disabled={CurrentPage===TotalPage} onClick={Next} className='bg-gray-300 p-1 rounded-sm text-gray-700 cursor-pointer 
+              disabled:cursor-not-allowed disabled:opacity-50'>
+                <ChevronRight/>
+              </button>
+             </div>
+
+
+           </div>
+               </div>
+
+
+          }
+
+
+       
+       
+
         </div>
       </div>
 
@@ -179,6 +348,8 @@ const Paid = () => {
           </div>
         </div>
       )}
+
+  
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import Paying from '../client/Paying';
 import Credit_Record from '../client/Client_record';
 import {useTranslation} from 'react-i18next';
@@ -11,95 +11,108 @@ import {
   CreditCard, 
   BookOpen, 
   X,
-  AlertCircle
+  AlertCircle,
+  Clock,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
+import api from '../api';
 
-const INITIAL_USERS = [
-  {
-    id: 1,
-    name: "Alex Morgan",
-    email: "alex@example.com",
-    phone: "1 555 019-2834",
-    missedPaymentDate: "2026-05-01",
-    dueDate: "2026-06-15",
-    balance: 450.00,
-    location: "New York, USA",
-    creditBook: "Book_A_2026"
-  },
-  {
-    id: 2,
-    name: "Sarah Jenkins",
-    email: "sarah.j@example.com",
-    phone: "1 555 014-9921",
-    missedPaymentDate: "2026-04-15",
-    dueDate: "2026-05-20",
-    balance: 1200.50,
-    location: "London, UK",
-    creditBook: "Premium_Ledger"
-  },
-  {
-    id: 3,
-    name: "David Kim",
-    email: "kim.d@example.com",
-    phone: "1 555 017-8833",
-    missedPaymentDate: "2026-05-20",
-    dueDate: "2026-07-10",
-    balance: 85.00,
-    location: "Seoul, South Korea",
-    creditBook: "Retail_Small"
-  }
-];
+
 
 export default function Unpaid() {
   const {t} = useTranslation();
-  const [users, setUsers] = useState(INITIAL_USERS);
   const [searchTerm, setSearchTerm] = useState("");
-  
-  const [selectedUser, setSelectedUser] = useState(null);
+   const [debounceSearch,setDebounceSearch]=useState(null);
+    const [selectedUser, setSelectedUser] = useState({
+      clientId:null,
+      clientName:null,
+      LoanId:null
+    });
   const [isPayingModalOpen, setIsPayingModalOpen] = useState(false);
   const [isCreditModalOpen, setIsCreditModalOpen] = useState(false); 
+  const [loading,setLoading]=useState(null);
+  const [messageKey,setmessageKey]=useState(null);
+  const [size,setsize]=useState(null);
+  const [Data,setData]=useState([]);
+  const HistoryPerpage=20;
+  const [currentPage,setCurrentPage]=useState(1);
+  const [Totalpage,setTotalPage]=useState(0);
+  const [totalRecord,setTotalRecord]=useState(null);
+ 
+  const FetchUnpaidHistory= async()=>{
+    setData([]);
+    try{
+      const  res= await api.get(`/unpaid-history?limit=${HistoryPerpage}&page=${currentPage}&search=${encodeURIComponent(searchTerm)}`);
+      setData(res?.data?.response)
+      setTotalPage(res?.data?.totalPages);
+      setTotalRecord(res?.data?.TotalRecord)
+   
 
-  const today = new Date();
+    }
+    catch(err){
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'UGX' }).format(amount);
-  };
+    }
+  }
 
-  const calculateDays = (missedDateStr, dueDateStr) => {
-    const missedDate = new Date(missedDateStr);
-    const dueDate = new Date(dueDateStr);
 
-    const unpaidTimeDiff = today.getTime() - missedDate.getTime();
-    const unpaidDays = Math.max(0, Math.floor(unpaidTimeDiff / (1000 * 3600 * 24)));
 
-    const remainingTimeDiff = dueDate.getTime() - today.getTime();
-    const daysRemaining = Math.floor(remainingTimeDiff / (1000 * 3600 * 24));
 
-    return { unpaidDays, daysRemaining };
-  };
 
-  const openPayingModal = (user) => {
-    setSelectedUser(user);
+  useEffect(()=>{
+ FetchUnpaidHistory();
+
+  },[currentPage,debounceSearch])
+
+  useEffect(()=>{
+  
+     const Timer= setTimeout(() => {
+       setDebounceSearch(searchTerm)
+     }, 1000);
+
+     return ()=>clearTimeout(Timer)
+
+  },[searchTerm])
+
+
+
+
+
+  const openPayingModal = (clientId,client_name,LoanId) => {
+       setSelectedUser({
+      clientId:clientId,
+      clientName:client_name,
+      LoanId:LoanId
+    })
     setIsPayingModalOpen(true);
-    document.body.style.overflow = 'hidden';
   };
 
-  const openCreditModal = (user) => {
-    setSelectedUser(user);
+  const openCreditModal = (clientId,client_name,LoanId) => {
+    setSelectedUser({
+      clientId:clientId,
+      clientName:client_name,
+      LoanId:LoanId
+    })
     setIsCreditModalOpen(true);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeModals = () => {
     setIsPayingModalOpen(false);
     setIsCreditModalOpen(false);
-    document.body.style.overflow = 'unset';
   };
 
-  const filteredUsers = users.filter((user) => {
-    const normalizedSearch = searchTerm.toLowerCase();
-    return user.name.toLowerCase().includes(normalizedSearch) || user.phone.includes(normalizedSearch);
-  });
+
+  const HandleNext= ()=>{
+    if(currentPage<Totalpage) setCurrentPage(currentPage+1);
+  }
+
+  const HandlePrevious= ()=>{
+  if(currentPage>1) setCurrentPage(currentPage-1);
+
+  }
+
+
+
 
   return (
     <div className="bg-gray-50  min-h-screen font-sans antialiased">
@@ -133,134 +146,87 @@ export default function Unpaid() {
 
       
 
-        <div className="grid grid-cols-1 gap-4 md:hidden">
-          {filteredUsers.map((user) => {
-            const { unpaidDays, daysRemaining } = calculateDays(user.missedPaymentDate, user.dueDate);
-            return (
-              <div key={user.id} className="bg-white rounded-2xl p-5  border border-slate-100 space-y-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-bold text-gray-800 text-base">{user.name}</h3>
-                    <span className="flex items-center gap-1 text-sm text-gray-800 mt-1">
-                      <MapPin size={12} /> {user.location}
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[13px] text-gray-800 uppercase tracking-wider font-bold">Balance</p>
-                    <p className="font-mono font-semibold text-[17px] text-red-500 ">{formatCurrency(user.balance)}</p>
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-sm border border-slate-100 text-center">
-                  <div>
-                    <p className="text-[13px] text-gray-800 font-medium uppercase">Unpaid Days</p>
-                    <p className="font-mono font-bold text-red-600 mt-0.5">{unpaidDays} Days</p>
-                  </div>
-                  <div>
-                    <p className="text-[13px] text-gray-800 font-medium uppercase">Status</p>
-                    <div className="mt-1">
-                      {daysRemaining < 0 ? (
-                        <span className="px-2 py-2 text-[13px]  
-                         font-semibold bg-red-50 text-red-500 
-                         rounded-md flex items-center justify-center gap-1">
-                          <AlertCircle size={16} /> Risk {Math.abs(daysRemaining)}
-                        </span>
-                      ) : (
-                        <span className="text-slate-700 font-semibold bg-slate-200/80 px-2 py-0.5 rounded-full text-[10px]">
-                          {daysRemaining}{t("daysShort")}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  <button onClick={() => openPayingModal(user)} className="flex items-center
-                   justify-center gap-2 bg-green-600 text-white 
-                   font-semibold py-2.5 rounded-sm text-xs active:scale-95 transition-all">
-                    <CreditCard size={14} /> {t("paying")}
-                  </button>
-                  <button onClick={() => openCreditModal(user)} className="flex items-center bg-blue-50
-                  justify-center gap-2  text-blue-700 border border-slate-200
-                   font-semibold py-2.5 rounded-sm text-xs active:scale-95 transition-all">
-                    <BookOpen size={14} /> {("records")}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="hidden md:block w-full overflow-x-auto 
+        <div className="w-full overflow-x-auto 
         rounded-sm border border-gray-100  bg-white p-4 ">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider">
+                <th className="py-4 px-6 whitespace-nowrap">{t("clientId")}</th>
+                <th className="py-4 px-6 whitespace-nowrap">{t("LoanId")}</th>
+               
                 <th className="py-4 px-6 whitespace-nowrap">{t("names")}</th>
                 <th className="py-4 px-6 whitespace-nowrap">{t("contactDetails")}</th>
                 <th className="py-4 px-6 text-center whitespace-nowrap">{t("unpaidWindow")}</th>
-                <th className="py-4 px-6 text-center whitespace-nowrap">{t("deadlineSafety")}</th>
+                <th className="py-4 px-6 text-center whitespace-nowrap">{t("Partial paid window")}</th>
                 <th className="py-4 px-6 text-right whitespace-nowrap">{t("outstandingBalance")}</th>
                 <th className="py-4 px-6 whitespace-nowrap">{t("location")}</th>
                 <th className="py-4 px-6 text-center whitespace-nowrap">{t("actions")}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
-              {filteredUsers.map((user) => {
-                const { unpaidDays, daysRemaining } = calculateDays(user.missedPaymentDate, user.dueDate);
-                return (
-                  <tr key={user.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-4 px-6 font-semibold text-slate-900 whitespace-nowrap">
-                      {user.name}
+            <tbody className="divide-y divide-slate-100 text-[15px]">
+              {Data?.map((user,_idx)=>(
+                <tr key={user.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-4 px-6  text-gray-800 whitespace-nowrap">
+                      {user.client_id}
+                    </td>    
+                    <td className="py-4 px-6 text-gray-800 whitespace-nowrap">
+                      {user.loan_id}
+                    </td>
+                    <td className="py-4 px-6 font-semibold text-gray-800 whitespace-nowrap">
+                      {user.client_name}
                     </td>
                     <td className="py-4 px-6 whitespace-nowrap">
                       <div className="flex flex-col text-[15px] space-y-1">
                         <span className="text-gray-800  flex items-center gap-2">
                           <Phone size={12} className="text-slate-800" />{user.phone}
                         </span>
-                        <span className="text-gray-800 flex items-center gap-2">
-                          <Mail size={12} className="text-gray-800" />{user.email}
-                        </span>
+                     
                       </div>
                     </td>
-                    <td className="py-4 px-6 flex  gap-1 justify-center items-center  font-semibold
-                     text-red-600
+                    <td className="py-4 px-3 flex  gap-1 justify-center items-center 
+                    text-[15px]
                      text-base whitespace-nowrap">
-                      {unpaidDays} 
-                      <span className="text-sm text-gray-700 font-sans 
-                      font-normal">{t("days")}</span>
-                    </td>
-                    <td className="py-4 px-6 text-center whitespace-nowrap">
-                      {daysRemaining < 0 ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[13px] 
-                          bg-red-50 text-red-600 rounded-full
-                          border border-red-100 animate-pulse">
-                          <AlertCircle size={15} /> {t("overdue")} {Math.abs(daysRemaining)} {t("days")}
+                      <span className='bg-red-50 px-5 py-1  text-red-500 
+                       border border-red-200 rounded-full animate-pulse flex gap-1 items-center justify-center'>
+                        <span>
+                          <AlertCircle size={15}/>
                         </span>
-                      ) : (
-                        <span className="text-slate-700 font-medium bg-slate-100 px-3 py-1 rounded-full text-xs border border-slate-200">
-                          {daysRemaining} {t("daysRemaining")}
+                        <span> 
+                          Overdue  {user.unPaidwindowCount} 
+                      {''} {t("days")}
+
                         </span>
-                      )}
+                   
+                      </span>
+                   
                     </td>
+                      <td className="py-4 px-6 text-gray-700 whitespace-nowrap">
+                       <span className='flex  gap-1 items-center capitalize bg-yellow-50  p-1
+                        border rounded-full px-3 border-yellow-500 text-yellow-500 animate-pulse'>
+                        <Clock size={14}/>
+                        {user.partialPaymentCount} Partial paid
+                       </span>
+                    </td>
+                
                     <td className="py-4 px-6 text-right text-[18px]  font-semibold text-rose-600
                      text-base whitespace-nowrap">
-                      {formatCurrency(user.balance)}
-                    </td>
-                    <td className="py-4 px-6 text-gray-800 whitespace-nowrap">
+                      UG {Number(user.Balance).toFixed(2)}
+                                        </td>
+                    <td className="py-4 px-6 text-gray-700 whitespace-nowrap">
                       <span className="inline-flex items-center gap-1.5 font-medium text-sm">
-                        <MapPin size={14} className="text-slate-400" /> {user.location}
+                        <MapPin size={14} className="text-slate-400" /> {user.client_address}
                       </span>
                     </td>
                     <td className="py-4 px-6 whitespace-nowrap text-center">
                       <div className="flex items-center justify-center gap-2">
-                        <button onClick={() => openPayingModal(user)} className="bg-green-600 
+                        <button onClick={() => openPayingModal(user.clientId,user.client_name,user.LoanId)} className="bg-green-600 
                         cursor-pointer text-white font-semibold
                          px-4 py-2 rounded-sm text-xs transition-all 
                          shadow-sm flex items-center gap-2 active:scale-95">
                           <CreditCard size={14} /> {t("paying")}
                         </button>
-                        <button onClick={() => openCreditModal(user)} className="text-gray-700 
+                        <button onClick={() => openCreditModal(user.clientId,user.client_name,user.LoanId)} className="text-gray-700 
                         cursor-pointer hover:text-blue-600 px-3 py-2 rounded-sm
                          hover:bg-slate-100 transition flex items-center
                           gap-1.5 font-semibold text-xs border border-slate-200 active:scale-95">
@@ -269,8 +235,9 @@ export default function Unpaid() {
                       </div>
                     </td>
                   </tr>
-                );
-              })}
+
+              ))}
+                  
             </tbody>
           </table>
         </div>
@@ -290,7 +257,7 @@ export default function Unpaid() {
             <div className="relative w-full max-w-lg rounded-md overflow-visible">
            
               
-                 <Paying clientName={selectedUser.name} amount={selectedUser.balance} currency="UGX" />
+                 <Paying client_name={selectedUser?.clientName} clientId={selectedUser.clientId} LoanId={selectedUser.LoanId} />
             </div>
           </div>
         )}
@@ -301,14 +268,14 @@ export default function Unpaid() {
               <div className="flex justify-between items-center p-6 border-b border-slate-100 bg-white sticky top-0 z-10">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 uppercase">{t("ledgerHistory")}</h2>
-                  <p className="text-lg font-bold capitalize text-gray-800">{selectedUser?.name}</p>
+                  <p className="text-lg font-bold capitalize text-gray-800">{selectedUser?.clientName}</p>
                 </div>
                 <button onClick={closeModals} className="p-2 bg-red-500 rounded-full transition-colors">
                   <X size={20} className="text-white cursor-pointer" />
                 </button>
               </div>
               <div className="p-6 overflow-y-auto">
-                <Credit_Record selectedUser={selectedUser} />
+                <Credit_Record selectedUser={selectedUser.clientId}/>
               </div>
               <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
                 <button onClick={closeModals} className="px-6 py-2 cursor-pointer
@@ -320,215 +287,25 @@ export default function Unpaid() {
           </div>
         )}
 
+        <div className='flex justify-between py-2 px-3 bg-white'>
+          <div>
+        <button 
+         disabled={currentPage===1}
+        onClick={HandlePrevious} className='bg-gray-200 p-1.5 rounded-sm text-gray-700 disabled:cursor-not-allowed cursor-pointer disabled:opacity-50'><ChevronLeft/></button>
+          </div>
+           <div>
+             <p className='text-[15px] text-gray-700 italic'>showing : {(currentPage-1)*HistoryPerpage+1} 
+              {""} to: {Math.min(currentPage*HistoryPerpage,totalRecord)} of {totalRecord} account{totalRecord>1&&'s'}</p>
+              </div> 
+          <div>
+             <button
+              disabled={currentPage===Totalpage}
+             onClick={HandleNext} className='bg-gray-200 p-1.5 rounded-sm text-gray-700 disabled:cursor-not-allowed cursor-pointer disabled:opacity-50'><ChevronRight/></button>
+          </div>
       </div>
+      </div>
+     
     </div>
   );
 }
 
-
-
-// english
-
-// {
-//   "unpaid": {
-    // "title": "Unpaid Accounts Ledger",
-    // "subtitle": "Real-time tracking of outstanding balances and client metrics.",
-    // "date": "Date",
-    // "searchPlaceholder": "Search by customer name or phone...",
-
-    // "balance": "Balance",
-    // "unpaidDays": "Unpaid Days",
-    // "status": "Status",
-
-    // "days": "Days",
-    // "daysShort": "d left",
-    // "daysRemaining": "days remaining",
-
-    // "risk": "Risk",
-    // "overdue": "Overdue",
-    // "remaining": "Remaining",
-
-    // "paying": "Paying",
-    // "records": "Records",
-
-    // "ledgerHistory": "Ledger History",
-    // "closeWindow": "Close Window",
-
-    // "table": {
-    //   "names": "Names",
-    //   "contactDetails": "Contact Details",
-    //   "unpaidWindow": "Unpaid Window",
-    //   "deadlineSafety": "Deadline Safety",
-    //   "outstandingBalance": "Outstanding Balance",
-    //   "location": "Location",
-    //   "actions": "Actions"
-//     }
-//   }
-// }
-
-
-// luganda
-
-
-// {
-//   "unpaid": {
-//     "title": "Ekitabo ky'Amabanja Agatasasuddwa",
-//     "subtitle": "Okulondoola mu kiseera ekituufu amabanja n'ebikwata ku bakasitoma.",
-//     "date": "Olunaku",
-//     "searchPlaceholder": "Noonya erinnya oba essimu ya kasitoma...",
-
-//     "balance": "Ssente Ezibanjibwa",
-//     "unpaidDays": "Ennaku Ezitasasuddwa",
-//     "status": "Embeera",
-
-//     "days": "Ennaku",
-//     "daysShort": "ennaku ezisigadde",
-//     "daysRemaining": "ennaku ezisigadde",
-
-//     "risk": "Akabi",
-//     "overdue": "Yayisizza Ekiseera",
-//     "remaining": "Ezisigadde",
-
-//     "paying": "Sasula",
-//     "records": "Ebiwandiiko",
-
-//     "ledgerHistory": "Ebyafaayo by'Amabanja",
-//     "closeWindow": "Ggalawo"
-
-// ,
-//     "table": {
-//       "names": "Amannya",
-//       "contactDetails": "Ebikwata ku Nkwatagana",
-//       "unpaidWindow": "Ennaku Ezitasasuddwa",
-//       "deadlineSafety": "Obukuumi bw'Ekiseera",
-//       "outstandingBalance": "Ssente Ezibanjibwa",
-//       "location": "Ekifo",
-//       "actions": "Ebikolebwa"
-//     }
-//   }
-// }
-
-// kinyarwanda
-
-
-
-// {
-//   "unpaid": {
-//     "title": "Igitabo cy'Imyenda Itarishyuwe",
-//     "subtitle": "Gukurikirana imyenda n'amakuru y'abakiriya mu gihe nyacyo.",
-//     "date": "Itariki",
-//     "searchPlaceholder": "Shakisha umukiriya ukoresheje izina cyangwa telefoni...",
-
-//     "balance": "Umwenda",
-//     "unpaidDays": "Iminsi Itarishyuwe",
-//     "status": "Imiterere",
-
-//     "days": "Iminsi",
-//     "daysShort": "isigaye",
-//     "daysRemaining": "iminsi isigaye",
-
-//     "risk": "Ibyago",
-//     "overdue": "Yarengeje Igihe",
-//     "remaining": "Bisigaye",
-
-//     "paying": "Kwishyura",
-//     "records": "Amakuru",
-
-//     "ledgerHistory": "Amateka y'Umwenda",
-//     "closeWindow": "Funga"
-
-// ,
-//     "table": {
-//       "names": "Amazina",
-//       "contactDetails": "Amakuru y'Itumanaho",
-//       "unpaidWindow": "Iminsi Itarishyuwe",
-//       "deadlineSafety": "Igihe Gisigaye",
-//       "outstandingBalance": "Umwenda Usigaye",
-//       "location": "Aho Aherereye",
-//       "actions": "Ibikorwa"
-//     }
-//   }
-// }
-
-// runyankore
-
-
-// {
-//   "unpaid": {
-//     "title": "Ekitabo ky'Amabanja Agatakasaswirwe",
-//     "subtitle": "Okukurata amabanja n'amakuru ga bakasitoma omu bwire nyabwo.",
-//     "date": "Eizooba",
-//     "searchPlaceholder": "Shakisha omukasitoma n'eiziina rwe nari esimu...",
-
-//     "balance": "Eibanja",
-//     "unpaidDays": "Ebiro Bitakasaswirwe",
-//     "status": "Embeera",
-
-//     "days": "Ebiro",
-//     "daysShort": "ebiro bisigaire",
-//     "daysRemaining": "ebiro bisigaire",
-
-//     "risk": "Akabi",
-//     "overdue": "Akahingura Obwire",
-//     "remaining": "Bisigaire",
-
-//     "paying": "Shashura",
-//     "records": "Ebyahandiikirwe",
-
-//     "ledgerHistory": "Ebyafaayo by'Amabanja",
-//     "closeWindow": "Gara"
-
-// ,
-//     "table": {
-//       "names": "Amabara",
-//       "contactDetails": "Amakuru g'Okutunga",
-//       "unpaidWindow": "Ebiro Bitakasaswirwe",
-//       "deadlineSafety": "Obwire Obusigaire",
-//       "outstandingBalance": "Eibanja Erisigaire",
-//       "location": "Ahantu",
-//       "actions": "Ebikorwa"
-//     }
-//   }
-// }
-
-// swahili
-
-
-
-// {
-//   "unpaid": {
-//     "title": "Daftari la Madeni Yasiyolipwa",
-//     "subtitle": "Ufuatiliaji wa muda halisi wa madeni na taarifa za wateja.",
-//     "date": "Tarehe",
-//     "searchPlaceholder": "Tafuta kwa jina la mteja au namba ya simu...",
-
-//     "balance": "Salio la Deni",
-//     "unpaidDays": "Siku Bila Malipo",
-//     "status": "Hali",
-
-//     "days": "Siku",
-//     "daysShort": "zimebaki",
-//     "daysRemaining": "siku zimebaki",
-
-//     "risk": "Hatari",
-//     "overdue": "Umechelewa",
-//     "remaining": "Zimebaki",
-
-//     "paying": "Lipa",
-//     "records": "Rekodi",
-
-//     "ledgerHistory": "Historia ya Deni",
-//     "closeWindow": "Funga"
-
-// ,
-//     "table": {
-//       "names": "Majina",
-//       "contactDetails": "Maelezo ya Mawasiliano",
-//       "unpaidWindow": "Siku Bila Malipo",
-//       "deadlineSafety": "Muda Uliobaki",
-//       "outstandingBalance": "Deni Lililobaki",
-//       "location": "Mahali",
-//       "actions": "Vitendo"
-//     }
-//   }
-// }

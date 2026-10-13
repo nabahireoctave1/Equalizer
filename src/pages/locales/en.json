@@ -801,9 +801,6 @@
   "schedule": "Schedule",
   "actionRequired": "Action Required",
 
-  "systemMaintenance": "System Scheduled Maintenance",
-  "systemMaintenanceDescription": "The Equalizer Balancing System will undergo a major core update tonight. Expect brief offline windows.",
-
   "lowMessageBalance": "Low Message Balance Alert",
   "lowMessageBalanceDescription": "Your SMS/Message allocation is about to run out. Please contact your administrator or manager immediately to purchase additional units.",
   "remainingMessages": "Remaining Balance",
@@ -811,11 +808,6 @@
   "officeReportDeadline": "Office Performance Report Deadline",
   "officeReportDescription": "The end-of-period Office Report is ready for final verification and is about to be auto-submitted.",
 
-  "cashoutDirective": "No Cashout Operations Tomorrow",
-  "cashoutDirectiveDescription": "Strict directive: No manual cashout transactions will be authorized tomorrow. All branch cash-in volume must be instantly routed and banked into either the corporate Bank Account or designated Mobile Money wallets.",
-
-  "cashTransfer": "Mandatory Cash Transfer to Kampala Branch",
-  "cashTransferDescription": "Cash Payables Directive: All physical cash-in collected during tomorrow's shift must be securely bundled and processed for immediate transfer to the Kampala Branch office.",
 
   "released": "Released",
   "received": "Received",
@@ -876,15 +868,7 @@
 
     "loanPaymentProcessing": "Loan Payment Processing",
     "creditHistoryRecord": "Credit History Record",
-  "reportTitle": "Field Payment Report",
-
-  "fieldOfficer": "Field Officer",
-  "allOfficers": "All Officers",
-
-  "date": "Date",
-  "totalAmountEarned": "Total Amount Earned",
-
-  "clientFieldCollections": "Client Field Collections",
+  "reportTitle": "Field Payment Report",  "clientFieldCollections": "Client Field Collections",
 
   "entries": "Entries",
    "loanApplicationPortal": "Loan Application Portal",
@@ -895,15 +879,9 @@
   "formSubmitted": "Form Submitted Successfully!",
 
   "particularApplicants": "Particular of Applicants",
-
   "idNumber": "ID Number",
 
-  "placeholderName": "John Doe",
-  "placeholderContact": "07835456132",
-  "placeholderAddress": "Kampala",
-  "placeholderID": "XXXXXXXXXXX",
-
-  "businessDetails": "Type of Business Details",
+   "businessDetails": "Type of Business Details",
   "businessType": "Business Type",
   "businessLocation": "Business Location",
   "businessName":"Business Name",
@@ -950,19 +928,10 @@
     "searchPlaceholderUnpaid": "Search by customer name or phone...",
 
  
-    "days": "Days",
-    "daysShort": "d left",
-    "daysRemaining": "days remaining",
-
-    "risk": "Risk",
-
-    "paying": "Paying",
-
-    "ledgerHistory": "Ledger History",
+  
 
       "contactDetails": "Contact Details",
       "unpaidWindow": "Unpaid Window",
-      "deadlineSafety": "Deadline Safety",
       "outstandingBalance": "Outstanding Balance",
       "completeLoanForm": "Complete the form to request your new loan",
       "requestLoan": "Requesting Loan (UGX)",
@@ -1050,23 +1019,18 @@
 
     "titleP": "Credit Book Details",
     "closeRecords": "Close Records",
-     "managementPortal": "Management Portal",
 
-  "teams": "Teams",
-  "agents": "Agents",
+
+ 
 
   "credentialsAssignment": "Credentials & Assignment",
-
   "fullName": "Full Name",
   "phoneNumber": "Phone Number",
   "officeLocation": "Office Location",
-  "startedDate": "Started Date",
-
-  "totalSalary": "Total Salary",
-  "remainingSalary": "Remaining Salary",
-
   "lastUpdated": "Last Updated",
   "saveChanges": "Save Changes",
+
+
    " branch": "Gassani Branch",
    " toLabel": "To:",
     "selectBranch": "Select the Branch",
@@ -1097,10 +1061,10 @@
     "page": "Page",
     "of": "of",
     "securityPicture": "Security Picture",
+
     "names": "Names",
     "contact": "Contact",
     "business": "Business",
-    "type": "Type",
     "existingLoan": "Existing Loan",
     "existingLoans": "Existing Loans",
     "loanAccount": "Loan Account",
@@ -1124,12 +1088,12 @@
     "demandAmountLowToHigh": "Demand Amount (Low to High)",
     "goodPayingLowUnpaidDays": "Good Paying (Low Unpaid Days)",
     "existingLoansCounter": "Existing Loans Counter",
-    "showingTotalLoanRequests": "Showing {{count}} total loan application request entries.",
-    "demandApprovedAlert": "Demand ID {{id}} has been Approved!",
-    "demandRejectedAlert": "Demand ID {{id}} has been Rejected.",
+
+
     "openingFinancialRecords": "Opening financial and background logs for: {{name}}",
     "clientPicture": "Client Picture",
     "guarantorPicture": "Guarantor Picture",
+
     "save": "Save",
     "supportHub": "Equalizer Support Hub",
     "howCanWeHelp": "How can we help you today?",

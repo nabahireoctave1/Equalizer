@@ -7,7 +7,6 @@ import {jwtDecode} from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import socket, { connectsocket } from '../socket.js'
 
-
 export default function Login() {
 
   const [loading, setlaoding] = useState(false)
@@ -63,7 +62,7 @@ export default function Login() {
          return ()=> clearTimeout(timeout)
 
           
-         }, 4000);
+         }, 2000);
 
 
         setsuccess(res.data.success)
@@ -107,7 +106,10 @@ export default function Login() {
     }`
 
   return (
-    <div className='flex flex-col justify-center items-center h-screen bg-blue-50/20'>
+
+    <div>
+    <div className='flex flex-col justify-center items-center bg-blue-50/20'>
+
       <div className='w-sm bg-white shadow-lg font-semibold cursor-pointer '>      {
         openmodel &&<HandleFormError success={success} message={message}/>
       }
@@ -200,6 +202,7 @@ export default function Login() {
 
       </div>
 
+    </div>
     </div>
   )
 }
