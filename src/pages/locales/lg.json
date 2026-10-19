@@ -926,7 +926,6 @@
       "titleUnpaid": "Ekitabo ky'Amabanja Agatasasuddwa",
     "subtitleUnpaid": "Okulondoola mu kiseera ekituufu amabanja n'ebikwata ku bakasitoma.",
     "date": "Olunaku",
-    "searchPlaceholderUnpaid": "Noonya erinnya oba essimu ya kasitoma...",
 
     "balance": "Ezibanjibwa",
     "unpaidDays": "Ennaku Ezitasasuddwa",
@@ -1138,7 +1137,7 @@
     "dailySettlementNotice": "Ebiwandiiko by'okukakasa ensimbi za buli lunaku bimalirizibwa mu ngeri ey'otoma ku ssaawa {{time}}. Kakasa nti ebikwata ku matabi gonna biteekeddwa mu Equalizer nga enkola tennaggalawo.",
     "crossCheckClientRecords": "Kebera Ebiwandiiko bya Kasitoma",
     "searchExistingLoansDescription": "Noonya oba omukozesa ali mu ma portfolio ga loan agakyaliwo oba agaaliwo edda ng'okozesa NIN, essimu, oba amannya n'onyiga Enter.",
-    "enterNinPhoneNames": "Yingiza NIN / Essimu / Amannya n'onyiga Enter...",
+    "enterNinPhoneNames": "Yingiza NIN / Essimu",
     "searchRecord": "Noonya Ebiwandiiko",
     "searchResults": "Ebivudde mu Kunoonyereza ({{count}} bifuniddwa)",
     "userFoundInSystemRecord": "Omukozesa Asangiddwa mu Biwandiiko",

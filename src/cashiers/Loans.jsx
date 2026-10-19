@@ -2,7 +2,7 @@ import { act, useEffect, useState } from 'react';
 import Paying from '../client/Paying';
 import Credit_Record from '../client/Client_record';
 import LoanApplicationPortal from './LoanApplicationPortal';
-import { XIcon,Smartphone,Image, ChevronLeft, ChevronRight, Search, SearchX } from 'lucide-react';
+import { XIcon,Smartphone,Image, ChevronLeft, ChevronRight, Search, SearchX, ImagePlus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 import api from '../api';
@@ -28,6 +28,7 @@ const Loans = () => {
   });
   const [activeModal, setActiveModal] = useState(null); 
 const [preview,setpreview]=useState(null);
+const [selectedImg,setselectedImg]=useState(null);
 const [uploadwithPhone,setuploadwithphone]=useState(false)
 const [TotalPage,setTotalPage]=useState(0);
 const [totalLoan,settotalLoan]=useState(null)
@@ -55,7 +56,7 @@ const [totalLoan,settotalLoan]=useState(null)
   };
 
   const closeclientmodel = () => {
-    setopenclientmodel(false);
+    setopenclientmodel(false); 
   };
 
   
@@ -121,12 +122,19 @@ const [totalLoan,settotalLoan]=useState(null)
     }
   }
 
+
+  const HandleSelectImg= (e)=>{
+    const file= e.target.files[0];
+    if(!file) return 
+    setselectedImg(file);
+    setpreview(URL.createObjectURL(file))
+  }
   
 
   const AddPictureModel= ()=>{
     return (
       <div>
-        <div className='fixed inset-0 z-70  flex items-center  justify-center p-5 bg-black/70  '>
+        <div className='fixed inset-0 z-70  flex   justify-center p-5 bg-black/70  '>
                     <div className='bg-white  w-100 md:w-200 animate-bounce-once
                      lg:w-210 h-130 rounded-sm px-6 py-3'>
                       
@@ -152,7 +160,7 @@ const [totalLoan,settotalLoan]=useState(null)
                 </span>
                 <div>
                   <h2 onClick={()=>setuploadwithphone(true)} className='font-semibold text-gray-800 text-[14px] hover:text-blue-600
-                   cursor-pointer'>Upload with Phone</h2>
+                   cursor-pointer'>Phone Upload</h2>
                   <p className='text-[14px]'>Upload picture with your phone</p>
                 </div>
 
@@ -169,7 +177,7 @@ const [totalLoan,settotalLoan]=useState(null)
                   <label  className='text-[14px] 
                    font-semibold cursor-pointer  hover:underline  text-blue-700'>
                   Choose from this device
-                      <input type="file"   className='hidden'/>
+                      <input type="file"  onChange={HandleSelectImg}  className='hidden'/>
                   </label>
                   <p className='text-[14px]'>Upload photo from this device </p>
                     
@@ -178,11 +186,24 @@ const [totalLoan,settotalLoan]=useState(null)
 
             </div>
 
-             <div className='bg-gray-100 w-full h-65 mb-2 border border-gray-200 rounded-sm' >
+             <div className='bg-gray-100 w-full  mb-2 border border-gray-200 rounded-sm' >
               {preview ? 
-               <img src= {preview }  className='w-full object-cover  h-full rounded-sm ' />
+              <div className='flex justify-between'>
+                <div className='w-md'>
+                   <img src={preview} className='w-full h-65  object-cover' alt="" />
+                </div>
 
-              :''
+                <div>
+                    hhhhhhhh
+                </div>
+                </div>
+
+              : <div className='flex justify-center items-center h-full'>
+                <span className='bg-blue-500 p-3 rounded-full text-white m-2'>
+               <ImagePlus size={60} strokeWidth={1.5}/>
+                  </span>
+
+              </div>
               
             }
              </div>

@@ -137,8 +137,8 @@ export default function Unpaid() {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="block w-full rounded-md border border-slate-200 bg-white 
               py-3 pl-11 pr-4 text-sm placeholder-slate-400 focus:border-blue-500 
-              focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-900 transition-all "
-              placeholder={t("searchPlaceholderUnpaid")}
+              focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-900 transition-all placeholder:capitalize "
+              placeholder='Search by Loan Id OR borrower names'
             />
           </div>
         
@@ -152,7 +152,7 @@ export default function Unpaid() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider">
-                <th className="py-4 px-6 whitespace-nowrap">{t("clientId")}</th>
+                <th className="py-4 px-6 whitespace-nowrap">{t("No")}</th>
                 <th className="py-4 px-6 whitespace-nowrap">{t("LoanId")}</th>
                
                 <th className="py-4 px-6 whitespace-nowrap">{t("names")}</th>
@@ -166,9 +166,9 @@ export default function Unpaid() {
             </thead>
             <tbody className="divide-y divide-slate-100 text-[15px]">
               {Data?.map((user,_idx)=>(
-                <tr key={user.id} className="hover:bg-slate-50/80 transition-colors">
+                <tr key={_idx} className="hover:bg-slate-50/80 transition-colors">
                       <td className="py-4 px-6  text-gray-800 whitespace-nowrap">
-                      {user.client_id}
+                      {(currentPage-1)*HistoryPerpage+_idx+1}
                     </td>    
                     <td className="py-4 px-6 text-gray-800 whitespace-nowrap">
                       {user.loan_id}

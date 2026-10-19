@@ -60,7 +60,6 @@ const Field = () => {
       }, 1000);
     
     return ()=>clearTimeout(Timer)
-
     },[SearchTerms])
 
   const FormatDate= (date)=>{

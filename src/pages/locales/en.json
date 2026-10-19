@@ -925,7 +925,6 @@
   "cashierName": "Cashier's Name",
   "titleUnpaid": "Unpaid Accounts Ledger",
     "subtitleunpaid": "Real-time tracking of outstanding balances and client metrics.",
-    "searchPlaceholderUnpaid": "Search by customer name or phone...",
 
  
   
@@ -1125,7 +1124,7 @@
     "dailySettlementNotice": "Daily settlement reconciliation logs are finalized automatically at exactly {{time}}. Make sure all branch entries are pushed into the Equalizer queue before the system lock sequence triggers.",
     "crossCheckClientRecords": "Cross-Check Client Records",
     "searchExistingLoansDescription": "Search if the user exists in other active or past loan portfolios by entering their NIN, Phone Number, or Names and pressing Enter.",
-    "enterNinPhoneNames": "Enter NIN / Phone / Names and press Enter...",
+    "enterNinPhoneNames": "Enter NIN /Names",
     "searchRecord": "Search Record",
     "searchResults": "Search Results  entries found)",
     "userFoundInSystemRecord": "User Found in System Record",

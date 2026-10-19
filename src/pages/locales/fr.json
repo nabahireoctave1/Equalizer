@@ -916,7 +916,6 @@
  "cashierName": "Nom du caissier",
  "titleUnpaid": "Registre des comptes impayés",
  "subtitleunpaid": "Suivi en temps réel des soldes impayés et des indicateurs clients.",
- "searchPlaceholderUnpaid": "Rechercher par nom du client ou téléphone...",
 
 
  "ledgerHistory": "Historique du registre",
@@ -1117,7 +1116,7 @@
  "dailySettlementNotice": "Les journaux de rapprochement quotidien sont finalisés  automatiquement à exactement {{time}}. Assurez-vous que toutes les entrées des agences sont transmises dans la file Equalizer avant le déclenchement de la procédure de verrouillage du système.",
  "crossCheckClientRecords": "Vérifier les dossiers clients",
  "searchExistingLoansDescription": "Vérifiez si l'utilisateur existe dans d'autres portefeuilles de prêts actifs ou anciens en saisissant son NIN, son numéro de téléphone ou son nom, puis en appuyant sur Entrée.",
- "enterNinPhoneNames": "Entrez le NIN / téléphone / noms et appuyez sur Entrée...",
+ "enterNinPhoneNames": "Entrez le NIN / noms",
  "searchRecord": "Rechercher le dossier",
  "searchResults": "Résultats de recherche (entrées trouvées)",
  "userFoundInSystemRecord": "Utilisateur trouvé dans le système",
