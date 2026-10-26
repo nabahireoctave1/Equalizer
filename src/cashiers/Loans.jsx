@@ -2,7 +2,7 @@ import { act, useEffect, useState } from 'react';
 import Paying from '../client/Paying';
 import Credit_Record from '../client/Client_record';
 import LoanApplicationPortal from './LoanApplicationPortal';
-import { XIcon,Smartphone,Image, ChevronLeft, ChevronRight, Search, SearchX, ImagePlus } from 'lucide-react';
+import { XIcon,Smartphone,Image, ChevronLeft, ChevronRight, Search, SearchX, ImagePlus, Trash, Form, LoaderCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 import api from '../api';
@@ -32,11 +32,12 @@ const [selectedImg,setselectedImg]=useState(null);
 const [uploadwithPhone,setuploadwithphone]=useState(false)
 const [TotalPage,setTotalPage]=useState(0);
 const [totalLoan,settotalLoan]=useState(null)
-  const openModal = (LoanId,clientId,client_name, type) => {
+  const openModal = (LoanId,clientId,client_name,collateral_name, type) => {
     setSelectedClient({
       client_id:clientId,
       client_name:client_name,
-      LoanId:LoanId
+      LoanId:LoanId,
+      collateral_name:collateral_name
     });
     setActiveModal(type);
   };
@@ -129,14 +130,47 @@ const [totalLoan,settotalLoan]=useState(null)
     setselectedImg(file);
     setpreview(URL.createObjectURL(file))
   }
+
+
+
+
+  const AddPictureModel= ({loanId,clientId,collateral_name,client_name})=>{
+
+   let [uploadLoading,setuploadingLoading]=useState(null)
+  const HandleUploadCollateralPicture= async()=>{
+    setuploadingLoading(true);
+    const data= new FormData();
+     
+    data.append('LoanId',loanId);
+    data.append('clientId',clientId);
+    data.append('secPicture',selectedImg);
+    data.append('collateral_name',collateral_name)
+    data.append('client_name',client_name)
+
+
+
+    try{
+      const res=await api.post('/Upload-collateral-picture',data,{
+       headers:{
+        'Content-Type':'multipart/form-data'
+       }
+      });
+
+    }
+
+    catch(err){
+
+    }finally{
+      setuploadingLoading(false);
+    }
+  }
   
 
-  const AddPictureModel= ()=>{
     return (
       <div>
         <div className='fixed inset-0 z-70  flex   justify-center p-5 bg-black/70  '>
                     <div className='bg-white  w-100 md:w-200 animate-bounce-once
-                     lg:w-210 h-130 rounded-sm px-6 py-3'>
+                     lg:w-210 h-fit rounded-sm px-6 py-3 overflow-auto'>
                       
                       
             <div className='mb-5'>
@@ -144,7 +178,7 @@ const [totalLoan,settotalLoan]=useState(null)
               <span className='bg-violet-100 rounded-md text-blue-600 p-1'><Image size={45}/></span>
               <div>
                  <h2 className='text-[15px] font-bold uppercase text-gray-800'>Add collateral picture</h2>
-              <p className='text-[15px]'>Upload client collateral picture </p>
+              <p className='text-[15px] capitalize'>Upload Borrower collateral picture </p>
                 </div>
              
             </div>
@@ -152,8 +186,8 @@ const [totalLoan,settotalLoan]=useState(null)
             </div>
 
 
-            <div className='flex  justify-between gap-3 mb-5'>
-               <div className='flex  items-center justify-center border px-6 gap-2
+            <div className='flex  justify-between flex-col sm:flex-row gap-3 mb-2'>
+               <div className='flex  items-center  justify-center border px-6 gap-2
                 rounded-sm border-gray-300 bg-gray-100/50 py-4'>
                 <span className='bg-gray-200 p-2 rounded-sm text-gray-800'>
                   <Smartphone size={40}/>
@@ -186,26 +220,58 @@ const [totalLoan,settotalLoan]=useState(null)
 
             </div>
 
-             <div className='bg-gray-100 w-full  mb-2 border border-gray-200 rounded-sm' >
+             <div className='bg-gray-100 w-full  mb-2 border h-73 px-3 py-2 overflow-auto border-gray-200 rounded-sm' >
               {preview ? 
-              <div className='flex justify-between'>
-                <div className='w-md'>
-                   <img src={preview} className='w-full h-65  object-cover' alt="" />
+              <div>
+
+                   
+              <div className='flex flex-col sm:flex-row  sm:justify-between gap-3'>
+                <div className='w-full sm:w-1/2'>
+                   <img src={preview} className='w-full h-65  object-cover rounded-sm' alt="" />
                 </div>
 
+                <div className='w-1/2'>
+                  <span>
+                    <h2 className='text-[14px] capitalize font-medium  text-gray-800 py-2 px-2'>Picture name</h2>
+                     <p className='px-2 capitalize text-[13px] text-gray-700'>{selectedImg?.name}</p> 
+
+                  </span>
+
+                    <span>
+                      <h2 className='text-[14px] capitalize font-medium  text-gray-800 py-2 px-2'>Picture type</h2>
+                      <p className='px-2 capitalize text-[13px] text-gray-700'>{selectedImg?.type}</p> 
+                  </span>
+
+                  <span>
+                    <h2 className='text-[14px] capitalize font-medium  text-gray-800 py-2 px-2'> Picture Size</h2>
+                     <p className='px-2 capitalize text-[13px] text-gray-700'> {selectedImg?.size}</p>
+                  </span>
+
+                </div>
                 <div>
-                    hhhhhhhh
                 </div>
+              
+                      
                 </div>
+                <div className='flex justify-end'>
+                 <button
+                   onClick={()=>{setselectedImg(null), setpreview(null)}}
+                  title='Remove' className='text-red-400 cursor-pointer flex'><Trash size={18}/></button>
+              </div>
+              </div>
 
-              : <div className='flex justify-center items-center h-full'>
+              :
+               <div className='flex justify-center items-center h-full'>
                 <span className='bg-blue-500 p-3 rounded-full text-white m-2'>
                <ImagePlus size={60} strokeWidth={1.5}/>
                   </span>
 
               </div>
               
+              
             }
+
+
              </div>
                 {uploadwithPhone &&
          <div className='flex justify-center fixed inset-0 items-center z-100 bg-black/90 rounded-sm'>   
@@ -237,7 +303,15 @@ const [totalLoan,settotalLoan]=useState(null)
              <div className='flex justify-end p-2 gap-2'>
               <button onClick={closeModal}  className='text-[15px] bg-gray-300 px-6 py-1.5 text-gray-700 rounded-sm cursor-pointer '>Cancel</button>
               <button 
-              className='text-[15px] bg-blue-500 px-6 py-1.5 text-white rounded-sm  cursor-pointer'>Confirm</button>
+              disabled={!selectedImg}
+              onClick={HandleUploadCollateralPicture}
+              className='text-[15px] bg-blue-500 px-6 py-1.5 text-white rounded-sm
+              disabled:cursor-not-allowed disabled:opacity-70  cursor-pointer'>
+                {uploadLoading ? <span className='flex justify-center items-center 
+                gap-1'><LoaderCircle size={18} className='animate-spin'/>
+                <p className='capitalize'>uploading...</p></span>:'Upload'}
+                
+                </button>
              </div>
 
         
@@ -396,7 +470,7 @@ const [totalLoan,settotalLoan]=useState(null)
                     
                     <td className="px-3 py-2 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name, 'pay')}
+                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name,loan.security_name, 'pay')}
                         className="px-3 py-1.5 text-[13px]  bg-blue-500
                          text-white rounded-sm border border-blue-200 cursor-pointer"
                       >
@@ -405,7 +479,7 @@ const [totalLoan,settotalLoan]=useState(null)
                     </td>
                     <td className="p-4 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name, 'record')}
+                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name,loan.security_name, 'record')}
                         className="px-3 py-1.5 text-[13px]  bg-green-600
                          text-white rounded-sm
                           border cursor-pointer border-none 
@@ -416,7 +490,7 @@ const [totalLoan,settotalLoan]=useState(null)
                     </td>
                     <td className="p-4 text-center whitespace-nowrap">
                       <button 
-                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name, 'addPic')}
+                        onClick={() => openModal(loan.loan_id,loan.client_id,loan.client_name,loan.security_name, 'addPic')}
                         className="px-3 py-1 text-md font-medium bg-blue-500
                          text-white rounded-md border cursor-pointer outline-none"
                       >
@@ -524,7 +598,10 @@ const [totalLoan,settotalLoan]=useState(null)
                 ) :activeModal==='record' ? (
                   <Credit_Record  />
                 ):activeModal==='addPic' ? (
-                   <AddPictureModel/>
+                   <AddPictureModel loanId={selectedClient.LoanId}
+                     client_name={selectedClient.client_name}
+                     collateral_name={selectedClient.collateral_name}
+                    clientId={selectedClient.client_id}/>
                 ):''}
               </div>
             </div>

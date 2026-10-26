@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search as SearchIcon, UserCheck, UserX, ShieldAlert, Phone, MapPin, CreditCard, Calendar, Repeat, LoaderCircle } from 'lucide-react';
 import {useTranslation} from 'react-i18next'
 import api from '../../api';
+import SearchResult from './SearchResult';
 
 const Search = () => {
 
@@ -9,7 +10,9 @@ const Search = () => {
   const [query, setQuery] = useState('');
   
   const [searchedUsers, setSearchedUsers] = useState([]);
-  const [hasRecord,setHasRecord]=useState([])
+  const [hasRecord,setHasRecord]=useState([]);
+ const [OpenHasRecordModel,setHasRecordModel]=useState(null);
+  const CloseModel=()=>setHasRecordModel(false);
 
 
   const [Error,setError]=useState({});
@@ -20,12 +23,13 @@ const Search = () => {
 
 
 
-  const HandleSearch= async ()=>{
+  const HandleSearch= async (e)=>{
+    e.preventDefault();
     try{
        setLoading(true);
-      const res= await api.post(`/search-borrower-Record?searchQuery=${ encodeURIComponent(query)}`);
-      console.log(res);
-
+      const res= await api.post(`/search-borrower-Record?searchQuery=${encodeURIComponent(query)}`);
+      setHasRecord(res.data);
+       setHasRecordModel(true);
     }
     catch(err){
       const data= err.response.data;
@@ -94,9 +98,14 @@ const Search = () => {
         
         </div>
 
+      {hasRecord&&OpenHasRecordModel && 
 
+        <SearchResult data={hasRecord} OnClose={CloseModel}/>
+
+      
+      }
         
-              <div className="bg-white rounded-md shadow-sm border border-gray-200 p-8 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
+              {/* <div className="bg-white rounded-md shadow-sm border border-gray-200 p-8 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-50 text-red-500 mx-auto">
                   <UserX size={24} />
                 </div>
@@ -105,7 +114,7 @@ const Search = () => {
                   {t("noMatchingClient")} <span className="font-semibold text-gray-700">"{query}"</span> {t("inOtherDatabase")}
                 </p>
                
-              </div>
+              </div> */}
             
           </div>
         

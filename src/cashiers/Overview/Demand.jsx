@@ -11,7 +11,7 @@ const [size,setsize]=useState(null);
 const [currentDemand,setCurrentDemand]=useState([]);
 const [totalRecord,setTotalRecord]=useState(null);
 
-const DemandPerPage=20;
+const DemandPerPage=15;
 const [sortBy, setSortBy] = useState("");
 
   const handleSortChange = (e) => {

@@ -460,6 +460,9 @@ const closereportModel= ()=>{
       </div>
       <div className='p-3'>
         <div className='flex items-center  gap-2 mt-2 mb-5'>
+          <div>
+            
+          </div>
       <span className='bg-blue-500 p-2 rounded-full text-white'><History size={30}/></span>
         <span>
         <h2 className='text-[17px] font-semibold uppercase'>Previous loans / repayment statistics</h2>
@@ -516,21 +519,18 @@ const closereportModel= ()=>{
                       </span>
                     
                     </td>
-                    <td className='px-3 border border-gray-200 py-1.5 text-[15px] whitespace-nowrap'>
+                    <td className='px-3 border border-gray-200 py-1.5 text-center text-[15px] whitespace-nowrap'>
                       <span>
                         {loanprogress}%
                       </span>
                     </td>
-                    <td className='px-6 border border-gray-200 py-1.5 text-[15px]'>
+                    <td className='px-6 border border-gray-200 py-1.5 text-[15px] text-center uppercase' >
                       <span className={`${loanprogress<=45&&loan.unpaidDays>=1 ? 'text-red-500'
                       :loanprogress>45&&loanprogress<=70 ? 'text-yellow-400' 
                       :loanprogress>=70 ? 'text-green-600':
                       'text-blue-500'} rounded-sm 
-                       text-[15px]  capitalize`}>
-                       {loanprogress<=45&&loan.unpaidDays>=1  ? 
-                       'bad':loanprogress>45&&loanprogress<=70 ?
-                         'need attention':loanprogress>=70 ? 'good': loanprogress===0 
-                         &&loan.PartialPaymentCount==0 &&loan.unpaidDays===0? 'new loan':''}
+                       text-[15px] `}>
+                       {loanprogress <=45 ? 'Poor':''}
                       </span>
                         
                     </td>
@@ -558,12 +558,10 @@ const closereportModel= ()=>{
                   <td className='border border-gray-200 px-2 text-[18px] font-semibold'>
                     {Number(clientLoanSummary.TotalUnpaidLoanAmount).toFixed(2)}</td>
                   <td  colSpan={2} className='border border-gray-200'>  </td>
-
-                  <td className='px-3 text-gray-800 text-[16px] font-semibold border border-gray-200'>
-                    {clientLoanSummary.CrossPaymentRate}%
-                  </td>
-                  <td className='border border-gray-200 '>
-                  
+ 
+                  <td className='border border-gray-200 px-2 text-[18px] font-semibold'></td>
+                  <td className={`${clientLoanSummary.CrossPaymentRate<=45 ? 'text-red-500 uppercase':''} border border-gray-200 text-center`  }>
+                    {clientLoanSummary.CrossPaymentRate<=45 ? 'Poor':''}
                   </td>
 
                  </tr>
@@ -585,6 +583,7 @@ const closereportModel= ()=>{
         
       </div>
   <div className='flex  justify-end p-6 px-8 gap-6'>
+      
       <button onClick={closeopenRecordModel} className='py-1.5 px-4 rounded-xs text-[14px] text-gray-600 outline-none bg-gray-200 cursor-pointer hover:bg-gray-300  '>Cancel</button>
       <button onClick={()=>setreportBorrower(true)} className='py-1.5 px-4 rounded-xs text-[14px] text-white outline-none bg-red-400 cursor-pointer hover:bg-red-600  '>Report</button>
       <button onClick={HandleLoanOnConfirm} className='py-1.5 px-4 rounded-xs text-[14px]
@@ -593,8 +592,8 @@ const closereportModel= ()=>{
         <LoaderCircle className='animate-spin' size={17}/>
         <p >Confirming...</p>
        </span>:'Confirm'}</button>
+       </div>
      </div>
-    </div>
    
   </div>
 )}

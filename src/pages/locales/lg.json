@@ -1052,12 +1052,10 @@
     "twelveMillionShillingsOnly": "Obukadde Ikumi na Bubiri obwa Shillingi Bokka",
     "submitReceivable": "Weereza Ebifuniddwa",
     "submitPayable": "Weereza Ssente",
-    "storedSecurities": "Obukuumi Obuterekeddwa",
+    "storedSecurities": "",
     "searchByClientName": "Noonya erinnya lya kasitoma...",
 
-     
-
-
+    
 
     "clientName": "Erinnya lya Kasitoma",
     "date": "Olunaku",
@@ -1065,11 +1063,9 @@
     "number": "Namba",
     "picture": "Ekifaananyi",
     "release": "Mulule",
-    "previous": "Ekya Mumaaso",
-    "next": "Ekiddako",
     "page": "Omuko",
     "of": "ku",
-    "securityPicture": "Ekifaananyi ky'Obukuumi",
+    "securityPicture": "",
     "names": "Amannya",
     "contact": "Essimu",
     "business": "Bizinensi",

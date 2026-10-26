@@ -1,33 +1,79 @@
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import img from '../../assets/image.jpeg'
-import { Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import api from '../../api';
 
 const Stock = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
+  const [debounceSearch,setDebounceSearch]=useState(null);
+  const rowsPerPage = 2;
 
-  const allData = [
-    { id: 1, name: 'Webale Precious', date: '2026-06-05', security: 'ID', number: 2 },
-    { id: 2, name: 'John Doe', date: '2026-07-01', security: 'Passport', number: 1 },
-    { id: 3, name: 'Alice Namu', date: '2026-07-05', security: 'Land Title', number: 1 },
-    { id: 4, name: 'Robert Bakari', date: '2026-07-06', security: 'Logbook', number: 1 },
-    { id: 5, name: 'Sarah Kesi', date: '2026-07-07', security: 'ID', number: 1 },
-    { id: 6, name: 'Tom Lwanga', date: '2026-07-08', security: 'Land Title', number: 3 },
-  ];
-
-  const filteredData = allData.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+  const [totalPage,settotalPage]=useState(0);
+  const [TotalRecord,settotalRecord]=useState(null);
+ const [Data,setData]=useState([]);
  
+  const FetchCurrentStockInfo= async()=>{
+   try{
+    const res= await api.get(`/stock-info?limit=${rowsPerPage}&page=${currentPage}&searchQuery=${encodeURIComponent(debounceSearch)}`);
+     setData(res?.data?.response);
+      settotalPage(res?.data?.totalPage)
+      settotalRecord(res?.data?.totalRecord)
+
+      console.log(res);
+   }
+
+   catch(err){
+
+   }
+
+  }
+
+  useEffect(()=>{
+ 
+    const timer=setTimeout(() => {
+       setDebounceSearch(searchTerm); 
+    }, 1000);
+   
+    return ()=>clearTimeout(timer);
+  },[searchTerm])
+
+
+  useEffect(()=>{
+    FetchCurrentStockInfo();
+  },[currentPage,debounceSearch])
+
+  const FormDate= (date)=>{
+    if(!date) return
+
+    return date.split('T')[0].split('-').reverse().join('-');
+  }
+ 
+
+  const StatusBadge=(status)=>{
+   switch(status){
+    case'instock': return 'bg-green-50 border py-2 border-green-600 text-green-600 px-5 rounded-sm capitalize animate-pulse';
+     break
+     default : return 'bg-red-50 border border-red-500 text-red-600 px-5 rounded-sm capitalize'
+  }
+  }
+
+ const HandleRealseCollateral= async(LoanId,collateralname,clientId)=>{
+  try{
+    
+   const res= await api.post(`/Release-collateral/${LoanId}/${collateralname}/${clientId}`);
+   console.log(res);
+  }
+
+  catch(err){
+
+  }
+ }
+
+
   const {t} = useTranslation();
   return (
     <div className="min-h-screen bg-gray-50 p-2">
@@ -53,29 +99,38 @@ const Stock = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-gray-700  uppercase text-xs font-semibold">
+                <th className="p-4">{t("No")}</th>
+                <th className="p-4">{t("LoanID")}</th>
+
                 <th className="p-4">{t("clientName")}</th>
-                <th className="p-4">{t("date")}</th>
-                <th className="p-4">{t("security")}</th>
-                <th className="p-4">{t("number")}</th>
+                <th className="p-4">{t("stored at")}</th>
+                <th className="p-4">{t("Collateral")}</th>
                 <th className="p-4">{t("picture")}</th>
+                <th className="p-4">{t("collateralstatus")}</th>
+
                 <th  className="p-4">{t("operations")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {currentRows.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-100/50 cursor-pointer ">
-                  <td className="px-3 py-1.5 text-[15px]  text-gray-800 whitespace-nowrap">{item.name}</td>
-                  <td className="px-3 py-1.5 text-[15px] text-gray-700 capitalize">{item.date}</td>
-                  <td className="px-3 py-1.5 text-[15px] text-gray-700 capitalize ">{item.security}</td>
-                  <td className="px-3 py-1.5 text-[15px] text-gray-700 capitalize">{item.number}</td>
+              {Data.map((item,idx) => (
+                <tr key={idx} className="hover:bg-gray-100/50 cursor-pointer ">
+                  <td className="px-3 py-1.5 text-[15px]  text-gray-800 whitespace-nowrap">{(currentPage-1)*rowsPerPage+idx+1}</td>
+                  <td className="px-3 py-1.5 text-[15px]  text-gray-800 whitespace-nowrap">{item.loan_id}</td>
+
+                  <td className="px-3 py-1.5 text-[15px]  text-gray-800 whitespace-nowrap">{item.client_name}</td>
+                  <td className="px-3 py-1.5 text-[15px] text-gray-700 capitalize">{FormDate(item.collateral_registered_at)}</td>
+                  <td className="px-3 py-1.5 text-[15px] text-gray-700 capitalize ">{item.security_name}</td>
                   <td className="px-3 py-1.5 text-[15px] text-gray-700 capitalize">
-                    <img src={img} alt="Security" className="w-16 h-12 object-cover rounded-md" />
+                    <img src={`http://localhost:3000/uploads/collateral_uploads/${item.picture}`} alt="Picture" className="w-16 h-12 object-cover rounded-md" />
                   </td>
-                  <td className="p-4 flex gap-2">
-                    <button className="bg-blue-600 text-white px-3  cursor-pointer
-                     py-1.5 rounded text-[15px] hover:bg-blue-600">{t("released")}</button>
-                    <input type="date" className="border border-gray-300 rounded px-3 uppercase 
-                     outline-0  focus:ring-1 focus:ring-blue-100 text-[15px]" />
+                  <td className={`px-3 py-1.5 text-[15px]  text-gray-800 whitespace-nowrap text-center`}>
+                    <span className={StatusBadge(item.status)}>{item.status}</span></td>
+
+                  <td className="p-4">
+                    <button onClick={()=>HandleRealseCollateral(item.loan_id,item.security_name,item.client_id)} 
+                    className="bg-red-50 border border-red-500 text-red-600  px-3  cursor-pointer
+                     py-1.5 rounded text-[15px] outline-none hover:bg-red-200 ">{t("release")}</button>
+                   
                   </td>
                 </tr>
               ))}
@@ -83,22 +138,23 @@ const Stock = () => {
           </table>
         </div>
 
-        <div className="flex justify-between items-center mt-3 pt-6 border-t border-gray-50">
+        <div className="flex justify-between items-center mt-3 py-4 px-2 border-t border-gray-100">
           <button 
             disabled={currentPage === 1}
             onClick={() => setCurrentPage(prev => prev - 1)}
-            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 text-sm"
+            className="px-2 py-1.5 bg-gray-200 text-gray-700 cursor-pointer disabled:cursor-not-allowed rounded disabled:opacity-50 text-sm"
           >
-            {t("previous")}
+            <ChevronLeft/>
           </button>
-          <span className="text-sm text-gray-700">{t("page")}
-             {currentPage} {t("of")} {totalPages || 1}</span>
+          <span className="text-sm text-gray-700">
+           {""} {t("page")}
+            {currentPage} {t("of")} {totalPage || 1}</span>
           <button 
-            disabled={currentPage >= totalPages}
+            disabled={currentPage >= totalPage}
             onClick={() => setCurrentPage(prev => prev + 1)}
-            className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50 text-sm"
+            className="px-2 py-1.5 bg-gray-200 text-gray-700 disabled:cursor-not-allowed rounded disabled:opacity-50 text-sm"
           >
-            {t("next")}
+            <ChevronRight/>
           </button>
         </div>
       </div>

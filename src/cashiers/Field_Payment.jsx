@@ -49,18 +49,21 @@ const Field = () => {
   }
 
   
+
+    useEffect(()=>{
+      const timer= setTimeout(() => {
+         setDebounceSearch(Search);
+      }, 1000);
+      
+      return ()=>clearTimeout(timer);
+
+    },[SearchTerms])
    
   useEffect(()=>{
    FetchborrowersPayinField();
-  },[currentPage,debounceSearch])
+  },[debounceSearch,currentPage])
 
-    useEffect(()=>{
-    const Timer=  setTimeout(() => {
-         setDebounceSearch(SearchTerms);
-      }, 1000);
-    
-    return ()=>clearTimeout(Timer)
-    },[SearchTerms])
+  
 
   const FormatDate= (date)=>{
     if(!date) return;
@@ -103,16 +106,27 @@ const Field = () => {
          </div>
 
           
-          <div className="px-4 w-full sm:w-sm" >
+          <div className="px-4 w-full  flex items-center gap-8 sm:w-lg" >
+            <div>
             <span className="flex items-center gap-1 ">
               <Funnel size={20}/>
-            <h2 className="text-gray-800 first-letter:uppercase text-[15px] font-medium">filter by officer names</h2>
+            <h2 className="text-gray-800 first-letter:uppercase text-[15px] uppercase">filter by officer names</h2>
             </span>
             <div>
               <input type="text" placeholder="musimenta annet" 
               className="w-full p-1.5 border border-gray-200 rounded-sm outline-0 
               placeholder:capitalize placeholder:text-[15px] text-[15px] text-gray-700 mt-1 pl-2 focus:ring-1 focus:ring-blue-500" 
               name="officer" />
+            </div>
+            </div>
+            <div>
+              <span className="text-[15px] uppercase text-gray-800">Sort by</span><br></br>
+              <select name="" id="" className="w-full p-1.5 border border-gray-200 rounded-sm outline-0 capitalize cursor-pointer
+              placeholder:capitalize placeholder:text-[15px] text-[15px] text-gray-700 mt-1 pl-2 focus:ring-1 focus:ring-blue-500">
+                <option value="">date</option>
+                <option value="">amount high - Low</option>
+                <option value="">amount Low - high</option>
+              </select>
             </div>
           </div>
         </div>
@@ -126,7 +140,7 @@ const Field = () => {
           <div className="py-1 mb-2 ">
             <div className="relative">
               <span className="absolute top-2 px-1"><Search size={20}/></span>
-              <input type="text" onChange={(e)=>{setSearch(e.target.value)}} placeholder="Search by Borrower Name or Borrower Id" className="py-1.5 pl-7 text-[15px]  w-full border focus:ring-2
+              <input type="text" onChange={(e)=>setSearch(e.target.value)} placeholder="Search by Borrower Name or Borrower Id" className="py-1.5 pl-7 text-[15px]  w-full border focus:ring-2
                 text-gray-700 rounded-sm border-gray-200 bg-gray-50 
               outline-0 focus:ring-blue-400" />
             </div>
